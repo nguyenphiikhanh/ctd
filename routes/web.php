@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/dang-nhap','AuthController@index')->name('login.index');
 Route::post('/dang-nhap','AuthController@login')->name('login.login');
+Route::get('/logout','AuthController@logout')->name('logout');
 
 Route::middleware(['auth.check'])->group(function(){
     Route::get('/','Auth\DashBoardController@index')->name('dashboard');

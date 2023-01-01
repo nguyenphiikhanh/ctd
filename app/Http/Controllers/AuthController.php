@@ -32,4 +32,9 @@ class AuthController extends AppBaseController
             return back()->with('error','Có lỗi xảy ra');
         }
     }
+
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('login.index');
+    }
 }
