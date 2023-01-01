@@ -1,1481 +1,1531 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zxx" class="js">
+
 <head>
+    <base href="../">
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>CORK Admin - Multipurpose Bootstrap Dashboard Template </title>
-    <link rel="icon" type="image/x-icon" href="../src/assets/img/favicon.ico"/>
-    <link href="../layouts/vertical-light-menu/css/light/loader.css" rel="stylesheet" type="text/css" />
-    <link href="../layouts/vertical-light-menu/css/dark/loader.css" rel="stylesheet" type="text/css" />
-    <script src="../layouts/vertical-light-menu/loader.js"></script>
-
-    <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link href="../src/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="../layouts/vertical-light-menu/css/light/plugins.css" rel="stylesheet" type="text/css" />
-    <link href="../layouts/vertical-light-menu/css/dark/plugins.css" rel="stylesheet" type="text/css" />
-    <!-- END GLOBAL MANDATORY STYLES -->
-
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-    <link href="../src/plugins/src/apex/apexcharts.css" rel="stylesheet" type="text/css">
-    <link href="../src/assets/css/light/dashboard/dash_1.css" rel="stylesheet" type="text/css" />
-    <link href="../src/assets/css/dark/dashboard/dash_1.css" rel="stylesheet" type="text/css" />
-    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="./images/favicon.png">
+    <!-- Page Title  -->
+    <title>Default Dashboard | DashLite Admin Template</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="./assets/css/dashlite.css?ver=3.1.1">
+    <link id="skin-default" rel="stylesheet" href="./assets/css/theme.css?ver=3.1.1">
 </head>
-<body class="layout-boxed">
-    <!-- BEGIN LOADER -->
-    <div id="load_screen"> <div class="loader"> <div class="loader-content">
-        <div class="spinner-grow align-self-center"></div>
-    </div></div></div>
-    <!--  END LOADER -->
 
-    <!--  BEGIN NAVBAR  -->
-    <div class="header-container container-xxl">
-        <header class="header navbar navbar-expand-sm expand-header">
-
-            <a href="javascript:void(0);" class="sidebarCollapse">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            </a>
-
-            <div class="search-animated toggle-search">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <form class="form-inline search-full form-inline search" role="search">
-                    <div class="search-bar">
-                        <input type="text" class="form-control search-form-control  ml-lg-auto" placeholder="Search...">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x search-close"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    </div>
-                </form>
-                <span class="badge badge-secondary">Ctrl + /</span>
-            </div>
-
-            <ul class="navbar-item flex-row ms-lg-auto ms-0">
-
-                <li class="nav-item dropdown language-dropdown">
-                    <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="../src/assets/img/1x1/us.svg" class="flag-width" alt="flag">
-                    </a>
-                    <div class="dropdown-menu position-absolute" aria-labelledby="language-dropdown">
-                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="../src/assets/img/1x1/us.svg" class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;USA</span></a>
-                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="../src/assets/img/1x1/tr.svg" class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;Turkey</span></a>
-                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="../src/assets/img/1x1/br.svg" class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;Brazil</span></a>
-                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="../src/assets/img/1x1/in.svg" class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;India</span></a>
-                        <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="../src/assets/img/1x1/de.svg" class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;Germany</span></a>
-                    </div>
-                </li>
-
-                <li class="nav-item theme-toggle-item">
-                    <a href="javascript:void(0);" class="nav-link theme-toggle">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon dark-mode"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun light-mode"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                    </a>
-                </li>
-
-                <li class="nav-item dropdown notification-dropdown">
-                    <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="notificationDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span class="badge badge-success"></span>
-                    </a>
-
-                    <div class="dropdown-menu position-absolute" aria-labelledby="notificationDropdown">
-                        <div class="drodpown-title message">
-                            <h6 class="d-flex justify-content-between"><span class="align-self-center">Messages</span> <span class="badge badge-primary">9 Unread</span></h6>
-                        </div>
-                        <div class="notification-scroll">
-                            <div class="dropdown-item">
-                                <div class="media server-log">
-                                    <img src="../src/assets/img/profile-16.jpeg" class="img-fluid me-2" alt="avatar">
-                                    <div class="media-body">
-                                        <div class="data-info">
-                                            <h6 class="">Kara Young</h6>
-                                            <p class="">1 hr ago</p>
-                                        </div>
-
-                                        <div class="icon-status">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="dropdown-item">
-                                <div class="media ">
-                                    <img src="../src/assets/img/profile-15.jpeg" class="img-fluid me-2" alt="avatar">
-                                    <div class="media-body">
-                                        <div class="data-info">
-                                            <h6 class="">Daisy Anderson</h6>
-                                            <p class="">8 hrs ago</p>
-                                        </div>
-
-                                        <div class="icon-status">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="dropdown-item">
-                                <div class="media file-upload">
-                                    <img src="../src/assets/img/profile-21.jpeg" class="img-fluid me-2" alt="avatar">
-                                    <div class="media-body">
-                                        <div class="data-info">
-                                            <h6 class="">Oscar Garner</h6>
-                                            <p class="">14 hrs ago</p>
-                                        </div>
-
-                                        <div class="icon-status">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="drodpown-title notification mt-2">
-                                <h6 class="d-flex justify-content-between"><span class="align-self-center">Notifications</span> <span class="badge badge-secondary">16 New</span></h6>
-                            </div>
-
-                            <div class="dropdown-item">
-                                <div class="media server-log">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-server"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6" y2="6"></line><line x1="6" y1="18" x2="6" y2="18"></line></svg>
-                                    <div class="media-body">
-                                        <div class="data-info">
-                                            <h6 class="">Server Rebooted</h6>
-                                            <p class="">45 min ago</p>
-                                        </div>
-
-                                        <div class="icon-status">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="dropdown-item">
-                                <div class="media file-upload">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                    <div class="media-body">
-                                        <div class="data-info">
-                                            <h6 class="">Kelly Portfolio.pdf</h6>
-                                            <p class="">670 kb</p>
-                                        </div>
-
-                                        <div class="icon-status">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="dropdown-item">
-                                <div class="media ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                    <div class="media-body">
-                                        <div class="data-info">
-                                            <h6 class="">Licence Expiring Soon</h6>
-                                            <p class="">8 hrs ago</p>
-                                        </div>
-
-                                        <div class="icon-status">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </li>
-
-                <li class="nav-item dropdown user-profile-dropdown  order-lg-0 order-1">
-                    <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="avatar-container">
-                            <div class="avatar avatar-sm avatar-indicators avatar-online">
-                                <img alt="avatar" src="../src/assets/img/profile-30.png" class="rounded-circle">
-                            </div>
-                        </div>
-                    </a>
-
-                    <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
-                        <div class="user-profile-section">
-                            <div class="media mx-auto">
-                                <div class="emoji me-2">
-                                    &#x1F44B;
-                                </div>
-                                <div class="media-body">
-                                    <h5>Shaun Park</h5>
-                                    <p>Project Leader</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dropdown-item">
-                            <a href="user-profile.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> <span>Profile</span>
+<body class="nk-body bg-lighter npc-default has-sidebar ">
+    <div id="app">
+        <div class="nk-app-root">
+            <!-- main @s -->
+            <div class="nk-main ">
+                <!-- sidebar @s -->
+                <div class="nk-sidebar nk-sidebar-fixed is-light " data-content="sidebarMenu">
+                    <div class="nk-sidebar-element nk-sidebar-head">
+                        <div class="nk-sidebar-brand">
+                            <a href="html/index.html" class="logo-link nk-sidebar-logo">
+                                <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="logo">
+                                <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
+                                <img class="logo-small logo-img logo-img-small" src="./images/logo-small.png" srcset="./images/logo-small2x.png 2x" alt="logo-small">
                             </a>
                         </div>
-                        <div class="dropdown-item">
-                            <a href="app-mailbox.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-inbox"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg> <span>Inbox</span>
-                            </a>
+                        <div class="nk-menu-trigger me-n2">
+                            <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
+                            <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                         </div>
-                        <div class="dropdown-item">
-                            <a href="auth-boxed-lockscreen.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> <span>Lock Screen</span>
-                            </a>
-                        </div>
-                        <div class="dropdown-item">
-                            <a href="auth-boxed-signin.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> <span>Log Out</span>
-                            </a>
-                        </div>
-                    </div>
-
-                </li>
-            </ul>
-        </header>
-    </div>
-    <!--  END NAVBAR  -->
-
-    <!--  BEGIN MAIN CONTAINER  -->
-    <div class="main-container" id="container">
-
-        <div class="overlay"></div>
-        <div class="search-overlay"></div>
-
-        <!--  BEGIN SIDEBAR  -->
-        <div class="sidebar-wrapper sidebar-theme">
-
-            <nav id="sidebar">
-
-                <div class="navbar-nav theme-brand flex-row  text-center">
-                    <div class="nav-logo">
-                        <div class="nav-item theme-logo">
-                            <a href="./index.html">
-                                <img src="../src/assets/img/logo.svg" class="navbar-logo" alt="logo">
-                            </a>
-                        </div>
-                        <div class="nav-item theme-text">
-                            <a href="./index.html" class="nav-link"> CORK </a>
-                        </div>
-                    </div>
-                    <div class="nav-item sidebar-toggle">
-                        <div class="btn-toggle sidebarCollapse">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-left"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="shadow-bottom"></div>
-                <ul class="list-unstyled menu-categories" id="accordionExample">
-                    <li class="menu active">
-                        <a href="#dashboard" data-bs-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                                <span>Dashboard</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled show" id="dashboard" data-bs-parent="#accordionExample">
-                            <li class="active">
-                                <a href="./index.html"> Analytics </a>
-                            </li>
-                            <li>
-                                <a href="./index2.html"> Sales </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu menu-heading">
-                        <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>APPLICATIONS</span></div>
-                    </li>
-
-                    <li class="menu">
-                        <a href="./app-calendar.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                <span>Calendar</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a href="./app-chat.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                                <span>Chat</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a href="./app-mailbox.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                                <span>Mailbox</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a href="./app-todoList.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                                <span>Todo List</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a href="./app-notes.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                <span>Notes</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a href="./app-scrumboard.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-plus"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
-                                <span>Scrumboard</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a href="./app-contacts.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                                <span>Contacts</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a href="#invoice" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                                <span>Invoice</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="invoice" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./app-invoice-list.html"> List </a>
-                            </li>
-                            <li>
-                                <a href="./app-invoice-preview.html"> Preview </a>
-                            </li>
-                            <li>
-                                <a href="./app-invoice-add.html"> Add </a>
-                            </li>
-                            <li>
-                                <a href="./app-invoice-edit.html"> Edit </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu">
-                        <a href="#ecommerce" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                                <span>Ecommerce</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="ecommerce" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./app-ecommerce-product-shop.html"> Shop </a>
-                            </li>
-                            <li>
-                                <a href="./app-ecommerce-product.html"> Product </a>
-                            </li>
-                            <li>
-                                <a href="./app-ecommerce-product-list.html"> List </a>
-                            </li>
-                            <li>
-                                <a href="./app-ecommerce-product-add.html"> Create </a>
-                            </li>
-                            <li>
-                                <a href="./app-ecommerce-product-edit.html"> Edit </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu">
-                        <a href="#blog" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pen-tool"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
-                                <span>Blog</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="blog" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./app-blog-grid.html"> Grid </a>
-                            </li>
-                            <li>
-                                <a href="./app-blog-list.html"> List </a>
-                            </li>
-                            <li>
-                                <a href="./app-blog-post.html"> Post </a>
-                            </li>
-                            <li>
-                                <a href="./app-blog-create.html"> Create </a>
-                            </li>
-                            <li>
-                                <a href="./app-blog-edit.html"> Edit </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu menu-heading">
-                        <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>USER INTERFACE</span></div>
-                    </li>
-
-                    <li class="menu">
-                        <a href="#components" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                                <span>Components</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="components" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./component-tabs.html"> Tabs </a>
-                            </li>
-                            <li>
-                                <a href="./component-accordion.html"> Accordions  </a>
-                            </li>
-                            <li>
-                                <a href="./component-modal.html"> Modals </a>
-                            </li>
-                            <li>
-                                <a href="./component-cards.html"> Cards </a>
-                            </li>
-                            <li>
-                                <a href="./component-bootstrap-carousel.html">Carousel</a>
-                            </li>
-                            <li>
-                                <a href="./component-splide.html">Splide</a>
-                            </li>
-                            <li>
-                                <a href="./component-sweetalert.html"> Sweet Alerts </a>
-                            </li>
-                            <li>
-                                <a href="./component-timeline.html"> Timeline </a>
-                            </li>
-                            <li>
-                                <a href="./component-notifications.html"> Notifications </a>
-                            </li>
-                            <li>
-                                <a href="./component-media-object.html"> Media Object </a>
-                            </li>
-                            <li>
-                                <a href="./component-list-group.html"> List Group </a>
-                            </li>
-                            <li>
-                                <a href="./component-pricing-table.html"> Pricing Tables </a>
-                            </li>
-                            <li>
-                                <a href="./component-lightbox.html"> Lightbox </a>
-                            </li>
-                            <li>
-                                <a href="./component-drag-drop.html"> Drag and Drop </a>
-                            </li>
-                            <li>
-                                <a href="./component-fonticons.html"> Font Icons </a>
-                            </li>
-                            <li>
-                                <a href="./component-flags.html"> Flag Icons </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu">
-                        <a href="#elements" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                                <span>Elements</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="elements" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./element-alerts.html"> Alerts </a>
-                            </li>
-                            <li>
-                                <a href="./element-avatar.html"> Avatar </a>
-                            </li>
-                            <li>
-                                <a href="./element-badges.html"> Badges </a>
-                            </li>
-                            <li>
-                                <a href="./element-breadcrumbs.html"> Breadcrumbs </a>
-                            </li>
-                            <li>
-                                <a href="./element-buttons.html"> Buttons </a>
-                            </li>
-                            <li>
-                                <a href="./element-buttons-group.html"> Button Groups </a>
-                            </li>
-                            <li>
-                                <a href="./element-color-library.html"> Color Library </a>
-                            </li>
-                            <li>
-                                <a href="./element-dropdown.html"> Dropdown </a>
-                            </li>
-                            <li>
-                                <a href="./element-infobox.html"> Infobox </a>
-                            </li>
-                            <li>
-                                <a href="./element-loader.html"> Loader </a>
-                            </li>
-                            <li>
-                                <a href="./element-pagination.html"> Pagination </a>
-                            </li>
-                            <li>
-                                <a href="./element-popovers.html"> Popovers </a>
-                            </li>
-                            <li>
-                                <a href="./element-progressbar.html"> Progress Bar </a>
-                            </li>
-                            <li>
-                                <a href="./element-search.html"> Search </a>
-                            </li>
-                            <li>
-                                <a href="./element-tooltips.html"> Tooltips </a>
-                            </li>
-                            <li>
-                                <a href="./element-treeview.html"> Treeview </a>
-                            </li>
-                            <li>
-                                <a href="./element-typography.html"> Typography </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu">
-                        <a href="./map-leaflet.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
-                                <span>Maps</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a href="./charts-apex.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
-                                <span>Charts</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a href="./widgets.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-airplay"><path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path><polygon points="12 15 17 21 7 21 12 15"></polygon></svg>
-                                <span>Widgets</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a href="#layouts" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-terminal"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-                                <span>Layouts</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="layouts" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./layout-blank-page.html"> Blank Page </a>
-                            </li>
-                            <li>
-                                <a href="./layout-empty.html"> Empty Page </a>
-                            </li>
-                            <li>
-                                <a href="./layout-full-width.html"> Full Width </a>
-                            </li>
-                            <li>
-                                <a href="./layout-collapsible-menu.html"> Collapsed Menu </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu menu-heading">
-                        <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>TABLES AND FORMS</span></div>
-                    </li>
-
-                    <li class="menu">
-                        <a href="./table-basic.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layout"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                                <span>Tables</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a href="#datatables" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                                <span>DataTables</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="datatables" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./table-datatable-basic.html"> Basic </a>
-                            </li>
-                            <li>
-                                <a href="./table-datatable-striped-table.html"> Striped </a>
-                            </li>
-                            <li>
-                                <a href="./table-datatable-custom.html"> Custom </a>
-                            </li>
-                            <li>
-                                <a href="./table-datatable-miscellaneous.html"> Miscellaneous </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu">
-                        <a href="#forms" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
-                                <span>Forms</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="forms" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./form-bootstrap-basic.html"> Basic </a>
-                            </li>
-                            <li>
-                                <a href="./form-input-group-basic.html"> Input Group </a>
-                            </li>
-                            <li>
-                                <a href="./form-layouts.html"> Layouts </a>
-                            </li>
-                            <li>
-                                <a href="./form-validation.html"> Validation </a>
-                            </li>
-                            <li>
-                                <a href="./form-input-mask.html"> Input Mask </a>
-                            </li>
-                            <li>
-                                <a href="./form-selectBox.html"> SelectBox </a>
-                            </li>
-                            <li>
-                                <a href="./form-tagify.html"> Tagify </a>
-                            </li>
-                            <li>
-                                <a href="./form-bootstrap-touchspin.html"> TouchSpin </a>
-                            </li>
-                            <li>
-                                <a href="./form-maxlength.html"> Maxlength </a>
-                            </li>
-                            <li>
-                                <a href="./form-checkbox.html"> Checkbox </a>
-                            </li>
-                            <li>
-                                <a href="./form-radio.html"> Radio </a>
-                            </li>
-                            <li>
-                                <a href="./form-switches.html"> Switches </a>
-                            </li>
-                            <li>
-                                <a href="./form-wizard.html"> Wizards </a>
-                            </li>
-                            <li>
-                                <a href="./form-fileupload.html"> File Upload </a>
-                            </li>
-                            <li>
-                                <a href="./form-quill.html"> Quill Editor </a>
-                            </li>
-                            <li>
-                                <a href="./form-markdown.html"> Markdown Editor </a>
-                            </li>
-                            <li>
-                                <a href="./form-date-time-picker.html"> Date Time Picker </a>
-                            </li>
-                            <li>
-                                <a href="./form-slider.html"> Slider </a>
-                            </li>
-                            <li>
-                                <a href="./form-clipboard.html"> Clipboard </a>
-                            </li>
-                            <li>
-                                <a href="./form-autoComplete.html"> Auto Complete </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu menu-heading">
-                        <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>USER AND PAGES</span></div>
-                    </li>
-
-                    <li class="menu">
-                        <a href="#users" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                <span>Users</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="users" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./user-profile.html"> Profile </a>
-                            </li>
-                            <li>
-                                <a href="./user-account-settings.html"> Account Settings </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu">
-                        <a href="#pages" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
-                                <span>Pages</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="pages" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./pages-knowledge-base.html"> Knowledge Base </a>
-                            </li>
-                            <li>
-                                <a href="./pages-faq.html"> FAQ </a>
-                            </li>
-                            <li>
-                                <a href="./pages-contact-us.html" target="_blank"> Contact Form </a>
-                            </li>
-                            <li>
-                                <a href="./pages-error404.html" target="_blank"> Error </a>
-                            </li>
-                            <li>
-                                <a href="./pages-maintenence.html" target="_blank"> Maintanence </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu">
-                        <a href="#authentication" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                <span>Authentication</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="authentication" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./auth-boxed-signin.html" target="_blank"> Sign In </a>
-                            </li>
-                            <li>
-                                <a href="./auth-boxed-signup.html" target="_blank"> Sign Up </a>
-                            </li>
-                            <li>
-                                <a href="./auth-boxed-lockscreen.html" target="_blank"> Unlock </a>
-                            </li>
-                            <li>
-                                <a href="./auth-boxed-password-reset.html" target="_blank"> Reset </a>
-                            </li>
-                            <li>
-                                <a href="./auth-boxed-2-step-verification.html" target="_blank"> 2 Step </a>
-                            </li>
-                            <li>
-                                <a href="./auth-cover-signin.html" target="_blank"> Sign In Cover </a>
-                            </li>
-                            <li>
-                                <a href="./auth-cover-signup.html" target="_blank"> Sign Up Cover </a>
-                            </li>
-                            <li>
-                                <a href="./auth-cover-lockscreen.html" target="_blank"> Unlock Cover </a>
-                            </li>
-                            <li>
-                                <a href="./auth-cover-password-reset.html" target="_blank"> Reset Cover </a>
-                            </li>
-                            <li>
-                                <a href="./auth-cover-2-step-verification.html" target="_blank"> 2 Step Cover </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu menu-heading">
-                        <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>MISCELLANEOUS</span></div>
-                    </li>
-
-                    <li class="menu">
-                        <a href="#menuLevel1" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                                <span>Item Level</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="collapse submenu list-unstyled" id="menuLevel1" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="javascript:void(0);"> Item Level 1a </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);"> Item Level 1b </a>
-                            </li>
-
-                            <li>
-                                <a href="#level-three" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle collapsed"> Item Level 1c <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
-                                <ul class="collapse list-unstyled sub-submenu" id="level-three" data-bs-parent="#pages">
-                                    <li>
-                                        <a href="javascript:void(0);"> Item Level 2a </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);"> Item Level 2b </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);"> Item Level 2c </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="menu">
-                        <a href="javascript:void(0);" aria-expanded="false" class="dropdown-toggle disabled">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                                <span>Item Disabled</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a href="javascript:void(0);" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                                <span>Item Label</span>
-                                <span class="badge badge-primary sidebar-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle badge-icon"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg> New</span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="menu">
-                        <a target="_blank" href="../../documentation/index.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                                <span>Documentation</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="menu">
-                        <a target="_blank" href="../../documentation/changelog.html" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg>
-                                <span>Changelog</span>
-                            </div>
-                        </a>
-                    </li>
-
-                </ul>
-
-            </nav>
-
-        </div>
-        <!--  END SIDEBAR  -->
-
-        <!--  BEGIN CONTENT AREA  -->
-        <div id="content" class="main-content">
-            <div class="layout-px-spacing">
-
-                <div class="middle-content container-xxl p-0">
-
-                    <div class="row layout-top-spacing">
-
-                        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                            <div class="widget widget-six">
-                                <div class="widget-heading">
-                                    <h6 class="">Statistics</h6>
-                                    <div class="task-action">
-                                        <div class="dropdown">
-                                            <a class="dropdown-toggle" href="#" role="button" id="statistics" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
-                                            </a>
-
-                                            <div class="dropdown-menu left" aria-labelledby="statistics" style="will-change: transform;">
-                                                <a class="dropdown-item" href="javascript:void(0);">View</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Download</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="w-chart">
-                                    <div class="w-chart-section">
-                                        <div class="w-detail">
-                                            <p class="w-title">Total Visits</p>
-                                            <p class="w-stats">423,964</p>
-                                        </div>
-                                        <div class="w-chart-render-one">
-                                            <div id="total-users"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="w-chart-section">
-                                        <div class="w-detail">
-                                            <p class="w-title">Paid Visits</p>
-                                            <p class="w-stats">7,929</p>
-                                        </div>
-                                        <div class="w-chart-render-one">
-                                            <div id="paid-visits"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                            <div class="widget widget-card-four">
-                                <div class="widget-content">
-                                    <div class="w-header">
-                                        <div class="w-info">
-                                            <h6 class="value">Expenses</h6>
-                                        </div>
-                                        <div class="task-action">
-                                            <div class="dropdown">
-                                                <a class="dropdown-toggle" href="#" role="button" id="expenses" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
-                                                </a>
-
-                                                <div class="dropdown-menu left" aria-labelledby="expenses" style="will-change: transform;">
-                                                    <a class="dropdown-item" href="javascript:void(0);">This Week</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">Last Week</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="w-content">
-
-                                        <div class="w-info">
-                                            <p class="value">$ 45,141 <span>this week</span> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trending-up"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg></p>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="w-progress-stats">
-                                        <div class="progress">
-                                            <div class="progress-bar bg-gradient-secondary" role="progressbar" style="width: 57%" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-
-                                        <div class="">
-                                            <div class="w-icon">
-                                                <p>57%</p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                            <div class="widget widget-card-three">
-                                <div class="widget-content">
-                                    <div class="account-box">
-                                        <div class="info">
-                                            <div class="inv-title">
-                                                <h5 class="">Total Balance</h5>
-                                            </div>
-                                            <div class="inv-balance-info">
-                                                <p class="inv-balance">$ 41,741.42</p>
-                                                <span class="inv-stats balance-credited">+ 2453</span>
-                                            </div>
-                                        </div>
-                                        <div class="acc-action">
-                                            <div class="">
-                                                <a href="javascript:void(0);" class="btn-wallet"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></a>
-                                            </div>
-                                            <a href="javascript:void(0);" class="btn-add-balance">Add Balance</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                            <div class="widget widget-chart-three">
-                                <div class="widget-heading">
-                                    <div class="">
-                                        <h5 class="">Unique Visitors</h5>
-                                    </div>
-
-                                    <div class="dropdown ">
-                                        <a class="dropdown-toggle" href="#" role="button" id="uniqueVisitors" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                    </div><!-- .nk-sidebar-element -->
+                    <div class="nk-sidebar-element">
+                        <div class="nk-sidebar-content">
+                            <div class="nk-sidebar-menu" data-simplebar>
+                                <ul class="nk-menu">
+                                    <li class="nk-menu-heading">
+                                        <h6 class="overline-title text-primary-alt">Use-Case Preview</h6>
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item">
+                                        <a href="html/ecommerce/index.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-bag"></em></span>
+                                            <span class="nk-menu-text">E-Commerce Panel</span><span class="nk-menu-badge">HOT</span>
                                         </a>
-
-                                        <div class="dropdown-menu left" aria-labelledby="uniqueVisitors">
-                                            <a class="dropdown-item" href="javascript:void(0);">View</a>
-                                            <a class="dropdown-item" href="javascript:void(0);">Update</a>
-                                            <a class="dropdown-item" href="javascript:void(0);">Download</a>
-                                        </div>
-                                    </div>
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item">
+                                        <a href="html/lms/index.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-book-read"></em></span>
+                                            <span class="nk-menu-text">LMS Panel</span><span class="nk-menu-badge">HOT</span>
+                                        </a>
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-heading">
+                                        <h6 class="overline-title text-primary-alt">Dashboards</h6>
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item">
+                                        <a href="html/index.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-cart-fill"></em></span>
+                                            <span class="nk-menu-text">Default</span>
+                                        </a>
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item">
+                                        <a href="html/index-sales.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-activity-round-fill"></em></span>
+                                            <span class="nk-menu-text">Sales</span>
+                                        </a>
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item">
+                                        <a href="html/index-analytics.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-growth-fill"></em></span>
+                                            <span class="nk-menu-text">Analytics</span>
+                                        </a>
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-heading">
+                                        <h6 class="overline-title text-primary-alt">Applications</h6>
+                                    </li><!-- .nk-menu-heading -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill"></em></span>
+                                            <span class="nk-menu-text">Projects</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/project-card.html" class="nk-menu-link"><span class="nk-menu-text">Project Cards</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/project-list.html" class="nk-menu-link"><span class="nk-menu-text">Project List</span></a>
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                                            <span class="nk-menu-text">User Manage</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/user-list-default.html" class="nk-menu-link"><span class="nk-menu-text">User List - Default</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/user-list-regular.html" class="nk-menu-link"><span class="nk-menu-text">User List - Regular</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/user-list-compact.html" class="nk-menu-link"><span class="nk-menu-text">User List - Compact</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/user-details-regular.html" class="nk-menu-link"><span class="nk-menu-text">User Details - Regular</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/user-profile-regular.html" class="nk-menu-link"><span class="nk-menu-text">User Profile - Regular</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/user-card.html" class="nk-menu-link"><span class="nk-menu-text">User Contact - Card</span></a>
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-cc-alt2-fill"></em></span>
+                                            <span class="nk-menu-text">Orders</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/orders-default.html" class="nk-menu-link"><span class="nk-menu-text">Order List - Default</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/orders-regular.html" class="nk-menu-link"><span class="nk-menu-text">Order List - Regular</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/orders-sales.html" class="nk-menu-link"><span class="nk-menu-text">Order List - Sales</span></a>
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-grid-alt-fill"></em></span>
+                                            <span class="nk-menu-text">Applications</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/apps-messages.html" class="nk-menu-link"><span class="nk-menu-text">Messages</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/apps-inbox.html" class="nk-menu-link"><span class="nk-menu-text">Inbox / Mail</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/apps-file-manager.html" class="nk-menu-link"><span class="nk-menu-text">File Manager</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/apps-chats.html" class="nk-menu-link"><span class="nk-menu-text">Chats / Messenger</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/apps-calendar.html" class="nk-menu-link"><span class="nk-menu-text">Calendar</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/apps-kanban.html" class="nk-menu-link"><span class="nk-menu-text">Kanban Board</span></a>
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-file-docs"></em></span>
+                                            <span class="nk-menu-text">Invoice</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/invoice-list.html" class="nk-menu-link"><span class="nk-menu-text">Invoice List</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/invoice-details.html" class="nk-menu-link"><span class="nk-menu-text">Invoice Details</span></a>
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-card-view"></em></span>
+                                            <span class="nk-menu-text">Products</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/product-list.html" class="nk-menu-link"><span class="nk-menu-text">Product List</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/product-card.html" class="nk-menu-link"><span class="nk-menu-text">Product Card</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/product-details.html" class="nk-menu-link"><span class="nk-menu-text">Product Details</span></a>
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item">
+                                        <a href="html/pricing-table.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-view-col"></em></span>
+                                            <span class="nk-menu-text">Pricing Table</span>
+                                        </a>
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item">
+                                        <a href="html/gallery.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-img"></em></span>
+                                            <span class="nk-menu-text">Image Gallery</span>
+                                        </a>
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-heading">
+                                        <h6 class="overline-title text-primary-alt">Misc Pages</h6>
+                                    </li><!-- .nk-menu-heading -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-light-fill"></em></span>
+                                            <span class="nk-menu-text">Auth Pages</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/pages/auths/auth-login.html" class="nk-menu-link" target="_blank"><span class="nk-menu-text">Login / Signin</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/pages/auths/auth-register.html" class="nk-menu-link" target="_blank"><span class="nk-menu-text">Register / Signup</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/pages/auths/auth-reset.html" class="nk-menu-link" target="_blank"><span class="nk-menu-text">Forgot Password</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/pages/auths/auth-success.html" class="nk-menu-link" target="_blank"><span class="nk-menu-text">Success / Confirm</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">Classic Version - v2</span></a>
+                                                <ul class="nk-menu-sub">
+                                                    <li class="nk-menu-item">
+                                                        <a href="html/pages/auths/auth-login-v2.html" class="nk-menu-link" target="_blank"><span class="nk-menu-text">Login / Signin</span></a>
+                                                    </li>
+                                                    <li class="nk-menu-item">
+                                                        <a href="html/pages/auths/auth-register-v2.html" class="nk-menu-link" target="_blank"><span class="nk-menu-text">Register / Signup</span></a>
+                                                    </li>
+                                                    <li class="nk-menu-item">
+                                                        <a href="html/pages/auths/auth-reset-v2.html" class="nk-menu-link" target="_blank"><span class="nk-menu-text">Forgot Password</span></a>
+                                                    </li>
+                                                    <li class="nk-menu-item">
+                                                        <a href="html/pages/auths/auth-success-v2.html" class="nk-menu-link" target="_blank"><span class="nk-menu-text">Success / Confirm</span></a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">No Slider Version - v3</span></a>
+                                                <ul class="nk-menu-sub">
+                                                    <li class="nk-menu-item">
+                                                        <a href="html/pages/auths/auth-login-v3.html" class="nk-menu-link" target="_blank"><span class="nk-menu-text">Login / Signin</span></a>
+                                                    </li>
+                                                    <li class="nk-menu-item">
+                                                        <a href="html/pages/auths/auth-register-v3.html" class="nk-menu-link" target="_blank"><span class="nk-menu-text">Register / Signup</span></a>
+                                                    </li>
+                                                    <li class="nk-menu-item">
+                                                        <a href="html/pages/auths/auth-reset-v3.html" class="nk-menu-link" target="_blank"><span class="nk-menu-text">Forgot Password</span></a>
+                                                    </li>
+                                                    <li class="nk-menu-item">
+                                                        <a href="html/pages/auths/auth-success-v3.html" class="nk-menu-link" target="_blank"><span class="nk-menu-text">Success / Confirm</span></a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-files-fill"></em></span>
+                                            <span class="nk-menu-text">Error Pages</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/pages/errors/404-classic.html" target="_blank" class="nk-menu-link"><span class="nk-menu-text">404 Classic</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/pages/errors/504-classic.html" target="_blank" class="nk-menu-link"><span class="nk-menu-text">504 Classic</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/pages/errors/404-s1.html" target="_blank" class="nk-menu-link"><span class="nk-menu-text">404 Modern</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/pages/errors/504-s1.html" target="_blank" class="nk-menu-link"><span class="nk-menu-text">504 Modern</span></a>
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-files-fill"></em></span>
+                                            <span class="nk-menu-text">Other Pages</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/_blank.html" class="nk-menu-link"><span class="nk-menu-text">Blank / Startup</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/pages/faqs.html" class="nk-menu-link"><span class="nk-menu-text">Faqs / Help</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/pages/terms-policy.html" class="nk-menu-link"><span class="nk-menu-text">Terms / Policy</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/pages/regular-v1.html" class="nk-menu-link"><span class="nk-menu-text">Regular Page - v1</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/pages/regular-v2.html" class="nk-menu-link"><span class="nk-menu-text">Regular Page - v2</span></a>
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-heading">
+                                        <h6 class="overline-title text-primary-alt">Components</h6>
+                                    </li><!-- .nk-menu-heading -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-layers-fill"></em></span>
+                                            <span class="nk-menu-text">Ui Elements</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/alerts.html" class="nk-menu-link"><span class="nk-menu-text">Alerts</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/accordions.html" class="nk-menu-link"><span class="nk-menu-text">Accordions</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/avatar.html" class="nk-menu-link"><span class="nk-menu-text">Avatar</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/badges.html" class="nk-menu-link"><span class="nk-menu-text">Badges</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/buttons.html" class="nk-menu-link"><span class="nk-menu-text">Buttons</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/buttons-group.html" class="nk-menu-link"><span class="nk-menu-text">Button Group</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/breadcrumb.html" class="nk-menu-link"><span class="nk-menu-text">Breadcrumb</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/cards.html" class="nk-menu-link"><span class="nk-menu-text">Cards</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/carousel.html" class="nk-menu-link"><span class="nk-menu-text">Carousel</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/list-dropdown.html" class="nk-menu-link"><span class="nk-menu-text">List Dropdown</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/modals.html" class="nk-menu-link"><span class="nk-menu-text">Modals</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/pagination.html" class="nk-menu-link"><span class="nk-menu-text">Pagination</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/popover.html" class="nk-menu-link"><span class="nk-menu-text">Popovers</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/progress.html" class="nk-menu-link"><span class="nk-menu-text">Progress</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/spinner.html" class="nk-menu-link"><span class="nk-menu-text">Spinner</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/tabs.html" class="nk-menu-link"><span class="nk-menu-text">Tabs</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/toast.html" class="nk-menu-link"><span class="nk-menu-text">Toasts</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/tooltip.html" class="nk-menu-link"><span class="nk-menu-text">Tooltip</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/elements/typography.html" class="nk-menu-link"><span class="nk-menu-text">Typography</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">Utilities</span></a>
+                                                <ul class="nk-menu-sub">
+                                                    <li class="nk-menu-item"><a href="html/components/elements/util-border.html" class="nk-menu-link"><span class="nk-menu-text">Border</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/elements/util-colors.html" class="nk-menu-link"><span class="nk-menu-text">Colors</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/elements/util-display.html" class="nk-menu-link"><span class="nk-menu-text">Display</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/elements/util-embeded.html" class="nk-menu-link"><span class="nk-menu-text">Embeded</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/elements/util-flex.html" class="nk-menu-link"><span class="nk-menu-text">Flex</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/elements/util-text.html" class="nk-menu-link"><span class="nk-menu-text">Text</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/elements/util-sizing.html" class="nk-menu-link"><span class="nk-menu-text">Sizing</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/elements/util-spacing.html" class="nk-menu-link"><span class="nk-menu-text">Spacing</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/elements/util-others.html" class="nk-menu-link"><span class="nk-menu-text">Others</span></a></li>
+                                                </ul><!-- .nk-menu-sub -->
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-dot-box-fill"></em></span>
+                                            <span class="nk-menu-text">Crafted Icons</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/misc/svg-icons.html" class="nk-menu-link">
+                                                    <span class="nk-menu-text">SVG Icon - Exclusive</span>
+                                                </a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/misc/nioicon.html" class="nk-menu-link">
+                                                    <span class="nk-menu-text">Nioicon - HandCrafted</span>
+                                                </a>
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item">
+                                        <a href="html/components/misc/icons.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-menu-circled"></em></span>
+                                            <span class="nk-menu-text">Icon Libraries</span>
+                                        </a>
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-table-view-fill"></em></span>
+                                            <span class="nk-menu-text">Tables</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/tables/table-basic.html" class="nk-menu-link"><span class="nk-menu-text">Basic Tables</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/tables/table-special.html" class="nk-menu-link"><span class="nk-menu-text">Special Tables</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/tables/table-datatable.html" class="nk-menu-link"><span class="nk-menu-text">DataTables</span></a>
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-view-group-fill"></em></span>
+                                            <span class="nk-menu-text">Forms</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/forms/form-elements.html" class="nk-menu-link"><span class="nk-menu-text">Form Elements</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/forms/checkbox-radio.html" class="nk-menu-link"><span class="nk-menu-text">Checkbox Radio</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/forms/advanced-controls.html" class="nk-menu-link"><span class="nk-menu-text">Advanced Controls</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/forms/input-group.html" class="nk-menu-link"><span class="nk-menu-text">Input Group</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/forms/form-upload.html" class="nk-menu-link"><span class="nk-menu-text">Form Upload</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/forms/datetime-picker.html" class="nk-menu-link"><span class="nk-menu-text">Date &amp; Time Picker</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/forms/number-spinner.html" class="nk-menu-link"><span class="nk-menu-text">Number Spinner</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/forms/nouislider.html" class="nk-menu-link"><span class="nk-menu-text">noUiSlider</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/forms/form-layouts.html" class="nk-menu-link"><span class="nk-menu-text">Form Layouts</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/forms/form-validation.html" class="nk-menu-link"><span class="nk-menu-text">Form Validation</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">Wizard</span></a>
+                                                <ul class="nk-menu-sub">
+                                                    <li class="nk-menu-item"><a href="html/components/forms/form-wizard.html" class="nk-menu-link"><span class="nk-menu-text">Basic Demo</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/forms/wizard/create-project.html" class="nk-menu-link"><span class="nk-menu-text">Create Project</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/forms/wizard/create-profile.html" class="nk-menu-link"><span class="nk-menu-text">Create Profile</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/forms/wizard/two-factor-auth.html" class="nk-menu-link"><span class="nk-menu-text">Two Factor Auth</span></a></li>
+                                                    <li class="nk-menu-item"><a target="_blank" href="html/components/forms/wizard/survey-v1.html" class="nk-menu-link"><span class="nk-menu-text">Survey</span></a></li>
+                                                    <li class="nk-menu-item"><a target="_blank" href="html/components/forms/wizard/survey-v2.html" class="nk-menu-link"><span class="nk-menu-text">Survey v2</span></a></li>
+                                                </ul><!-- .nk-menu-sub -->
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-text">Rich Editor</span></a>
+                                                <ul class="nk-menu-sub">
+                                                    <li class="nk-menu-item"><a href="html/components/forms/form-summernote.html" class="nk-menu-link"><span class="nk-menu-text">Summernote</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/forms/form-quill.html" class="nk-menu-link"><span class="nk-menu-text">Quill</span></a></li>
+                                                    <li class="nk-menu-item"><a href="html/components/forms/form-tinymce.html" class="nk-menu-link"><span class="nk-menu-text">Tinymce</span></a></li>
+                                                </ul><!-- .nk-menu-sub -->
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-pie-fill"></em></span>
+                                            <span class="nk-menu-text">Charts</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/charts/chartjs.html" class="nk-menu-link"><span class="nk-menu-text">Chart JS</span></a>
+                                            </li>
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/charts/knob.html" class="nk-menu-link"><span class="nk-menu-text">Knob JS</span></a>
+                                            </li>
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-puzzle-fill"></em></span>
+                                            <span class="nk-menu-text">Widgets</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/widgets/cards.html" class="nk-menu-link"><span class="nk-menu-text">Card Widgets</span></a>
+                                            </li><!-- .nk-menu-item -->
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/widgets/charts.html" class="nk-menu-link"><span class="nk-menu-text">Chart Widgets</span></a>
+                                            </li><!-- .nk-menu-item -->
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/widgets/ratings.html" class="nk-menu-link"><span class="nk-menu-text">Ratings Widgets</span><span class="nk-menu-badge">New</span></a>
+                                            </li><!-- .nk-menu-item -->
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item has-sub">
+                                        <a href="#" class="nk-menu-link nk-menu-toggle">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-block-over"></em></span>
+                                            <span class="nk-menu-text">Miscellaneous</span>
+                                        </a>
+                                        <ul class="nk-menu-sub">
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/misc/slick-sliders.html" class="nk-menu-link"><span class="nk-menu-text">Slick Slider</span></a>
+                                            </li><!-- .nk-menu-item -->
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/misc/toastr.html" class="nk-menu-link"><span class="nk-menu-text">Toastr</span></a>
+                                            </li><!-- .nk-menu-item -->
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/misc/sweet-alert.html" class="nk-menu-link"><span class="nk-menu-text">Sweet Alert</span></a>
+                                            </li><!-- .nk-menu-item -->
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/misc/js-tree.html" class="nk-menu-link"><span class="nk-menu-text">jsTree</span></a>
+                                            </li><!-- .nk-menu-item -->
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/misc/dual-listbox.html" class="nk-menu-link"><span class="nk-menu-text">Dual Listbox</span></a>
+                                            </li><!-- .nk-menu-item -->
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/misc/dragula.html" class="nk-menu-link"><span class="nk-menu-text">Dragula</span><span class="nk-menu-badge">New</span></a>
+                                            </li><!-- .nk-menu-item -->
+                                            <li class="nk-menu-item">
+                                                <a href="html/components/misc/map.html" class="nk-menu-link"><span class="nk-menu-text">Google Map</span><span class="nk-menu-badge">New</span></a>
+                                            </li><!-- .nk-menu-item -->
+                                        </ul><!-- .nk-menu-sub -->
+                                    </li><!-- .nk-menu-item -->
+                                    <li class="nk-menu-item">
+                                        <a href="html/email-templates.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-tag-alt-fill"></em></span>
+                                            <span class="nk-menu-text">Email Template</span>
+                                        </a>
+                                    </li>
+                                </ul><!-- .nk-menu -->
+                            </div><!-- .nk-sidebar-menu -->
+                        </div><!-- .nk-sidebar-content -->
+                    </div><!-- .nk-sidebar-element -->
+                </div>
+                <!-- sidebar @e -->
+                <!-- wrap @s -->
+                <div class="nk-wrap ">
+                    <!-- main header @s -->
+                    <div class="nk-header nk-header-fixed is-light">
+                        <div class="container-fluid">
+                            <div class="nk-header-wrap">
+                                <div class="nk-menu-trigger d-xl-none ms-n1">
+                                    <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                                 </div>
-
-                                <div class="widget-content">
-                                    <div id="uniqueVisits"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                            <div class="widget widget-activity-five">
-
-                                <div class="widget-heading">
-                                    <h5 class="">Activity Log</h5>
-
-                                    <div class="task-action">
-                                        <div class="dropdown">
-                                            <a class="dropdown-toggle" href="#" role="button" id="activitylog" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
-                                            </a>
-
-                                            <div class="dropdown-menu left" aria-labelledby="activitylog" style="will-change: transform;">
-                                                <a class="dropdown-item" href="javascript:void(0);">View All</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Mark as Read</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="widget-content">
-
-                                    <div class="w-shadow-top"></div>
-
-                                    <div class="mt-container mx-auto">
-                                        <div class="timeline-line">
-
-                                            <div class="item-timeline timeline-new">
-                                                <div class="t-dot">
-                                                    <div class="t-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></div>
-                                                </div>
-                                                <div class="t-content">
-                                                    <div class="t-uppercontent">
-                                                        <h5>New project created : <a href="javscript:void(0);"><span>[Cork Admin]</span></a></h5>
-                                                    </div>
-                                                    <p>07 May, 2022</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="item-timeline timeline-new">
-                                                <div class="t-dot">
-                                                    <div class="t-success"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></div>
-                                                </div>
-                                                <div class="t-content">
-                                                    <div class="t-uppercontent">
-                                                        <h5>Mail sent to <a href="javascript:void(0);">HR</a> and <a href="javascript:void(0);">Admin</a></h5>
-                                                    </div>
-                                                    <p>06 May, 2022</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="item-timeline timeline-new">
-                                                <div class="t-dot">
-                                                    <div class="t-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                                                </div>
-                                                <div class="t-content">
-                                                    <div class="t-uppercontent">
-                                                        <h5>Server Logs Updated</h5>
-                                                    </div>
-                                                    <p>01 May, 2022</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="item-timeline timeline-new">
-                                                <div class="t-dot">
-                                                    <div class="t-danger"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-                                                </div>
-                                                <div class="t-content">
-                                                    <div class="t-uppercontent">
-                                                        <h5>Task Completed : <a href="javscript:void(0);"><span>[Backup Files EOD]</span></a></h5>
-                                                    </div>
-                                                    <p>30 Apr, 2022</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="item-timeline timeline-new">
-                                                <div class="t-dot">
-                                                    <div class="t-warning"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg></div>
-                                                </div>
-                                                <div class="t-content">
-                                                    <div class="t-uppercontent">
-                                                        <h5>Documents Submitted from <a href="javascript:void(0);">Sara</a></h5>
-                                                        <span class=""></span>
-                                                    </div>
-                                                    <p>25 Apr, 2022</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="item-timeline timeline-new">
-                                                <div class="t-dot">
-                                                    <div class="t-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-server"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6" y2="6"></line><line x1="6" y1="18" x2="6" y2="18"></line></svg></div>
-                                                </div>
-                                                <div class="t-content">
-                                                    <div class="t-uppercontent">
-                                                        <h5>Server rebooted successfully</h5>
-                                                        <span class=""></span>
-                                                    </div>
-                                                    <p>10 Apr, 2022</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="w-shadow-bottom"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                            <div class="widget-four">
-                                <div class="widget-heading">
-                                    <h5 class="">Visitors by Browser</h5>
-                                </div>
-                                <div class="widget-content">
-                                    <div class="vistorsBrowser">
-                                        <div class="browser-list">
-                                            <div class="w-icon">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chrome"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><line x1="21.17" y1="8" x2="12" y2="8"></line><line x1="3.95" y1="6.06" x2="8.54" y2="14"></line><line x1="10.88" y1="21.94" x2="15.46" y2="14"></line></svg>
-                                            </div>
-                                            <div class="w-browser-details">
-                                                <div class="w-browser-info">
-                                                    <h6>Chrome</h6>
-                                                    <p class="browser-count">65%</p>
-                                                </div>
-                                                <div class="w-browser-stats">
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-gradient-primary" role="progressbar" style="width: 65%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="browser-list">
-                                            <div class="w-icon">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-compass"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
-                                            </div>
-                                            <div class="w-browser-details">
-
-                                                <div class="w-browser-info">
-                                                    <h6>Safari</h6>
-                                                    <p class="browser-count">25%</p>
-                                                </div>
-
-                                                <div class="w-browser-stats">
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-gradient-danger" role="progressbar" style="width: 35%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="browser-list">
-                                            <div class="w-icon">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                                            </div>
-                                            <div class="w-browser-details">
-
-                                                <div class="w-browser-info">
-                                                    <h6>Others</h6>
-                                                    <p class="browser-count">15%</p>
-                                                </div>
-
-                                                <div class="w-browser-stats">
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-gradient-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="row widget-statistic">
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 layout-spacing">
-                                    <div class="widget widget-one_hybrid widget-followers">
-                                        <div class="widget-heading">
-                                            <div class="w-title">
-                                                <div class="w-icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                                </div>
-                                                <div class="">
-                                                    <p class="w-value">31.6K</p>
-                                                    <h5 class="">Followers</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="widget-content">
-                                            <div class="w-chart">
-                                                <div id="hybrid_followers"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 layout-spacing">
-                                    <div class="widget widget-one_hybrid widget-referral">
-                                        <div class="widget-heading">
-                                            <div class="w-title">
-                                                <div class="w-icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                                                </div>
-                                                <div class="">
-                                                    <p class="w-value">1,900</p>
-                                                    <h5 class="">Referral</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="widget-content">
-                                            <div class="w-chart">
-                                                <div id="hybrid_followers1"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 layout-spacing">
-                                    <div class="widget widget-one_hybrid widget-engagement">
-                                        <div class="widget-heading">
-                                            <div class="w-title">
-                                                <div class="w-icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                                                </div>
-                                                <div class="">
-                                                    <p class="w-value">18.2%</p>
-                                                    <h5 class="">Engagement</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="widget-content">
-                                            <div class="w-chart">
-                                                <div id="hybrid_followers3"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                            <div class="widget widget-five">
-
-                                <div class="widget-heading">
-
-                                    <a href="javascript:void(0)" class="task-info">
-
-                                        <div class="usr-avatar">
-                                            <span>FD</span>
-                                        </div>
-
-                                        <div class="w-title">
-
-                                            <h5>Figma Design</h5>
-                                            <span>Design Project</span>
-
-                                        </div>
-
+                                <div class="nk-header-brand d-xl-none">
+                                    <a href="html/index.html" class="logo-link">
+                                        <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="logo">
+                                        <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
                                     </a>
-
-                                    <div class="task-action">
-                                        <div class="dropdown">
-                                            <a class="dropdown-toggle" href="#" role="button" id="pendingTask" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                                </div><!-- .nk-header-brand -->
+                                <div class="nk-header-search ms-3 ms-xl-0">
+                                    <em class="icon ni ni-search"></em>
+                                    <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search anything">
+                                </div><!-- .nk-header-news -->
+                                <div class="nk-header-tools">
+                                    <ul class="nk-quick-nav">
+                                        <li class="dropdown language-dropdown d-none d-sm-block me-n1">
+                                            <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                                                <div class="quick-icon border border-light">
+                                                    <img class="icon" src="./images/flags/english-sq.png" alt="">
+                                                </div>
                                             </a>
-
-                                            <div class="dropdown-menu left" aria-labelledby="pendingTask" style="will-change: transform;">
-                                                <a class="dropdown-item" href="javascript:void(0);">View Project</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Edit Project</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Mark as Done</a>
+                                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
+                                                <ul class="language-list">
+                                                    <li>
+                                                        <a href="#" class="language-item">
+                                                            <img src="./images/flags/english.png" alt="" class="language-flag">
+                                                            <span class="language-name">English</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="language-item">
+                                                            <img src="./images/flags/spanish.png" alt="" class="language-flag">
+                                                            <span class="language-name">Español</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="language-item">
+                                                            <img src="./images/flags/french.png" alt="" class="language-flag">
+                                                            <span class="language-name">Français</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="language-item">
+                                                            <img src="./images/flags/turkey.png" alt="" class="language-flag">
+                                                            <span class="language-name">Türkçe</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
                                             </div>
-                                        </div>
-                                    </div>
-
+                                        </li><!-- .dropdown -->
+                                        <li class="dropdown chats-dropdown hide-mb-xs">
+                                            <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                                                <div class="icon-status icon-status-na"><em class="icon ni ni-comments"></em></div>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end">
+                                                <div class="dropdown-head">
+                                                    <span class="sub-title nk-dropdown-title">Recent Chats</span>
+                                                    <a href="#">Setting</a>
+                                                </div>
+                                                <div class="dropdown-body">
+                                                    <ul class="chat-list">
+                                                        <li class="chat-item">
+                                                            <a class="chat-link" href="html/apps-chats.html">
+                                                                <div class="chat-media user-avatar">
+                                                                    <span>IH</span>
+                                                                    <span class="status dot dot-lg dot-gray"></span>
+                                                                </div>
+                                                                <div class="chat-info">
+                                                                    <div class="chat-from">
+                                                                        <div class="name">Iliash Hossain</div>
+                                                                        <span class="time">Now</span>
+                                                                    </div>
+                                                                    <div class="chat-context">
+                                                                        <div class="text">You: Please confrim if you got my last messages.</div>
+                                                                        <div class="status delivered">
+                                                                            <em class="icon ni ni-check-circle-fill"></em>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </li><!-- .chat-item -->
+                                                        <li class="chat-item is-unread">
+                                                            <a class="chat-link" href="html/apps-chats.html">
+                                                                <div class="chat-media user-avatar bg-pink">
+                                                                    <span>AB</span>
+                                                                    <span class="status dot dot-lg dot-success"></span>
+                                                                </div>
+                                                                <div class="chat-info">
+                                                                    <div class="chat-from">
+                                                                        <div class="name">Abu Bin Ishtiyak</div>
+                                                                        <span class="time">4:49 AM</span>
+                                                                    </div>
+                                                                    <div class="chat-context">
+                                                                        <div class="text">Hi, I am Ishtiyak, can you help me with this problem ?</div>
+                                                                        <div class="status unread">
+                                                                            <em class="icon ni ni-bullet-fill"></em>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </li><!-- .chat-item -->
+                                                        <li class="chat-item">
+                                                            <a class="chat-link" href="html/apps-chats.html">
+                                                                <div class="chat-media user-avatar">
+                                                                    <img src="./images/avatar/b-sm.jpg" alt="">
+                                                                </div>
+                                                                <div class="chat-info">
+                                                                    <div class="chat-from">
+                                                                        <div class="name">George Philips</div>
+                                                                        <span class="time">6 Apr</span>
+                                                                    </div>
+                                                                    <div class="chat-context">
+                                                                        <div class="text">Have you seens the claim from Rose?</div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </li><!-- .chat-item -->
+                                                        <li class="chat-item">
+                                                            <a class="chat-link" href="html/apps-chats.html">
+                                                                <div class="chat-media user-avatar user-avatar-multiple">
+                                                                    <div class="user-avatar">
+                                                                        <img src="./images/avatar/c-sm.jpg" alt="">
+                                                                    </div>
+                                                                    <div class="user-avatar">
+                                                                        <span>AB</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="chat-info">
+                                                                    <div class="chat-from">
+                                                                        <div class="name">Softnio Group</div>
+                                                                        <span class="time">27 Mar</span>
+                                                                    </div>
+                                                                    <div class="chat-context">
+                                                                        <div class="text">You: I just bought a new computer but i am having some problem</div>
+                                                                        <div class="status sent">
+                                                                            <em class="icon ni ni-check-circle"></em>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </li><!-- .chat-item -->
+                                                        <li class="chat-item">
+                                                            <a class="chat-link" href="html/apps-chats.html">
+                                                                <div class="chat-media user-avatar">
+                                                                    <img src="./images/avatar/a-sm.jpg" alt="">
+                                                                    <span class="status dot dot-lg dot-success"></span>
+                                                                </div>
+                                                                <div class="chat-info">
+                                                                    <div class="chat-from">
+                                                                        <div class="name">Larry Hughes</div>
+                                                                        <span class="time">3 Apr</span>
+                                                                    </div>
+                                                                    <div class="chat-context">
+                                                                        <div class="text">Hi Frank! How is you doing?</div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </li><!-- .chat-item -->
+                                                        <li class="chat-item">
+                                                            <a class="chat-link" href="html/apps-chats.html">
+                                                                <div class="chat-media user-avatar bg-purple">
+                                                                    <span>TW</span>
+                                                                </div>
+                                                                <div class="chat-info">
+                                                                    <div class="chat-from">
+                                                                        <div class="name">Tammy Wilson</div>
+                                                                        <span class="time">27 Mar</span>
+                                                                    </div>
+                                                                    <div class="chat-context">
+                                                                        <div class="text">You: I just bought a new computer but i am having some problem</div>
+                                                                        <div class="status sent">
+                                                                            <em class="icon ni ni-check-circle"></em>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </li><!-- .chat-item -->
+                                                    </ul><!-- .chat-list -->
+                                                </div><!-- .nk-dropdown-body -->
+                                                <div class="dropdown-foot center">
+                                                    <a href="html/apps-chats.html">View All</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="dropdown notification-dropdown">
+                                            <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                                                <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end">
+                                                <div class="dropdown-head">
+                                                    <span class="sub-title nk-dropdown-title">Notifications</span>
+                                                    <a href="#">Mark All as Read</a>
+                                                </div>
+                                                <div class="dropdown-body">
+                                                    <div class="nk-notification">
+                                                        <div class="nk-notification-item dropdown-inner">
+                                                            <div class="nk-notification-icon">
+                                                                <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
+                                                            </div>
+                                                            <div class="nk-notification-content">
+                                                                <div class="nk-notification-text">You have requested to <span>Widthdrawl</span></div>
+                                                                <div class="nk-notification-time">2 hrs ago</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-notification-item dropdown-inner">
+                                                            <div class="nk-notification-icon">
+                                                                <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
+                                                            </div>
+                                                            <div class="nk-notification-content">
+                                                                <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
+                                                                <div class="nk-notification-time">2 hrs ago</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-notification-item dropdown-inner">
+                                                            <div class="nk-notification-icon">
+                                                                <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
+                                                            </div>
+                                                            <div class="nk-notification-content">
+                                                                <div class="nk-notification-text">You have requested to <span>Widthdrawl</span></div>
+                                                                <div class="nk-notification-time">2 hrs ago</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-notification-item dropdown-inner">
+                                                            <div class="nk-notification-icon">
+                                                                <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
+                                                            </div>
+                                                            <div class="nk-notification-content">
+                                                                <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
+                                                                <div class="nk-notification-time">2 hrs ago</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-notification-item dropdown-inner">
+                                                            <div class="nk-notification-icon">
+                                                                <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
+                                                            </div>
+                                                            <div class="nk-notification-content">
+                                                                <div class="nk-notification-text">You have requested to <span>Widthdrawl</span></div>
+                                                                <div class="nk-notification-time">2 hrs ago</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-notification-item dropdown-inner">
+                                                            <div class="nk-notification-icon">
+                                                                <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
+                                                            </div>
+                                                            <div class="nk-notification-content">
+                                                                <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
+                                                                <div class="nk-notification-time">2 hrs ago</div>
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .nk-notification -->
+                                                </div><!-- .nk-dropdown-body -->
+                                                <div class="dropdown-foot center">
+                                                    <a href="#">View All</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="dropdown user-dropdown">
+                                            <a href="#" class="dropdown-toggle me-n1" data-bs-toggle="dropdown">
+                                                <div class="user-toggle">
+                                                    <div class="user-avatar sm">
+                                                        <em class="icon ni ni-user-alt"></em>
+                                                    </div>
+                                                    <div class="user-info d-none d-xl-block">
+                                                        <div class="user-status user-status-unverified">Unverified</div>
+                                                        <div class="user-name dropdown-indicator">Abu Bin Ishityak</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-end">
+                                                <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                                    <div class="user-card">
+                                                        <div class="user-avatar">
+                                                            <span>AB</span>
+                                                        </div>
+                                                        <div class="user-info">
+                                                            <span class="lead-text">Abu Bin Ishtiyak</span>
+                                                            <span class="sub-text">info@softnio.com</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-inner">
+                                                    <ul class="link-list">
+                                                        <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                                        <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                                                        <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
+                                                        <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="dropdown-inner">
+                                                    <ul class="link-list">
+                                                        <li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
-
-
-                                <div class="widget-content">
-
-                                    <p>Doloribus nisi vel suscipit modi, optio ex repudiandae voluptatibus officiis commodi.</p>
-
-                                    <div class="progress-data">
-
-                                        <div class="progress-info">
-                                            <div class="task-count"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-square"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><p>5 Tasks</p></div>
-                                            <div class="progress-stats"><p>86.2%</p></div>
-                                        </div>
-
-                                        <div class="progress">
-                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 65%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="meta-info">
-
-                                        <div class="due-time">
-                                            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> 3 Days Left</p>
-                                        </div>
-
-
-                                        <div class="avatar--group">
-
-                                            <div class="avatar translateY-axis more-group">
-                                                <span class="avatar-title">+6</span>
-                                            </div>
-                                            <div class="avatar translateY-axis">
-                                                <img alt="avatar" src="../src/assets/img/profile-8.jpeg"/>
-                                            </div>
-                                            <div class="avatar translateY-axis">
-                                                <img alt="avatar" src="../src/assets/img/profile-12.jpeg"/>
-                                            </div>
-                                            <div class="avatar translateY-axis">
-                                                <img alt="avatar" src="../src/assets/img/profile-19.jpeg"/>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                            <div class="widget widget-card-one">
-                                <div class="widget-content">
-
-                                    <div class="media">
-                                        <div class="w-img">
-                                            <img src="../src/assets/img/profile-19.jpeg" alt="avatar">
-                                        </div>
-                                        <div class="media-body">
-                                            <h6>Jimmy Turner</h6>
-                                            <p class="meta-date-time">Monday, May 18</p>
-                                        </div>
-                                    </div>
-
-                                    <p>"Duis aute irure dolor" in reprehenderit in voluptate velit esse cillum "dolore eu fugiat" nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
-
-                                    <div class="w-action">
-                                        <div class="card-like">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                            <span>551 Likes</span>
-                                        </div>
-
-                                        <div class="read-more">
-                                            <a href="javascript:void(0);">Read More <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-right"><polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline></svg></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                            <div class="widget widget-card-two">
-                                <div class="widget-content">
-
-                                    <div class="media">
-                                        <div class="w-img">
-                                            <img src="../src/assets/img/g-8.png" alt="avatar">
-                                        </div>
-                                        <div class="media-body">
-                                            <h6>Dev Summit - New York</h6>
-                                            <p class="meta-date-time">Bronx, NY</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-bottom-section">
-                                        <h5>4 Members Going</h5>
-                                        <div class="img-group">
-                                            <img src="../src/assets/img/profile-19.jpeg" alt="avatar">
-                                            <img src="../src/assets/img/profile-6.jpeg" alt="avatar">
-                                            <img src="../src/assets/img/profile-8.jpeg" alt="avatar">
-                                            <img src="../src/assets/img/profile-3.jpeg" alt="avatar">
-                                        </div>
-                                        <a href="javascript:void(0);" class="btn">View Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                            </div><!-- .nk-header-wrap -->
+                        </div><!-- .container-fliud -->
                     </div>
-
+                    <!-- main header @e -->
+                    <!-- content @s -->
+                    <div class="nk-content ">
+                        <div class="container-fluid">
+                            <div class="nk-content-inner">
+                                <div class="nk-content-body">
+                                    <div class="nk-block-head nk-block-head-sm">
+                                        <div class="nk-block-between">
+                                            <div class="nk-block-head-content">
+                                                <h3 class="nk-block-title page-title">Dashboard</h3>
+                                            </div><!-- .nk-block-head-content -->
+                                            <div class="nk-block-head-content">
+                                                <div class="toggle-wrap nk-block-tools-toggle">
+                                                    <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                                                    <div class="toggle-expand-content" data-content="pageMenu">
+                                                        <ul class="nk-block-tools g-3">
+                                                            <li>
+                                                                <div class="drodown">
+                                                                    <a href="#" class="dropdown-toggle btn btn-white btn-dim btn-outline-light" data-bs-toggle="dropdown"><em class="d-none d-sm-inline icon ni ni-calender-date"></em><span><span class="d-none d-md-inline">Last</span> 30 Days</span><em class="dd-indc icon ni ni-chevron-right"></em></a>
+                                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                                        <ul class="link-list-opt no-bdr">
+                                                                            <li><a href="#"><span>Last 30 Days</span></a></li>
+                                                                            <li><a href="#"><span>Last 6 Months</span></a></li>
+                                                                            <li><a href="#"><span>Last 1 Years</span></a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="nk-block-tools-opt"><a href="#" class="btn btn-primary"><em class="icon ni ni-reports"></em><span>Reports</span></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div><!-- .nk-block-head-content -->
+                                        </div><!-- .nk-block-between -->
+                                    </div><!-- .nk-block-head -->
+                                    <div class="nk-block">
+                                        <div class="row g-gs">
+                                            <div class="col-xxl-3 col-sm-6">
+                                                <div class="card">
+                                                    <div class="nk-ecwg nk-ecwg6">
+                                                        <div class="card-inner">
+                                                            <div class="card-title-group">
+                                                                <div class="card-title">
+                                                                    <h6 class="title">Today Orders</h6>
+                                                                </div>
+                                                            </div>
+                                                            <div class="data">
+                                                                <div class="data-group">
+                                                                    <div class="amount">1,945</div>
+                                                                    <div class="nk-ecwg6-ck">
+                                                                        <canvas class="ecommerce-line-chart-s3" id="todayOrders"></canvas>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="info"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><span> vs. last week</span></div>
+                                                            </div>
+                                                        </div><!-- .card-inner -->
+                                                    </div><!-- .nk-ecwg -->
+                                                </div><!-- .card -->
+                                            </div><!-- .col -->
+                                            <div class="col-xxl-3 col-sm-6">
+                                                <div class="card">
+                                                    <div class="nk-ecwg nk-ecwg6">
+                                                        <div class="card-inner">
+                                                            <div class="card-title-group">
+                                                                <div class="card-title">
+                                                                    <h6 class="title">Today Revenue</h6>
+                                                                </div>
+                                                            </div>
+                                                            <div class="data">
+                                                                <div class="data-group">
+                                                                    <div class="amount">$2,338</div>
+                                                                    <div class="nk-ecwg6-ck">
+                                                                        <canvas class="ecommerce-line-chart-s3" id="todayRevenue"></canvas>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="info"><span class="change down text-danger"><em class="icon ni ni-arrow-long-down"></em>2.34%</span><span> vs. last week</span></div>
+                                                            </div>
+                                                        </div><!-- .card-inner -->
+                                                    </div><!-- .nk-ecwg -->
+                                                </div><!-- .card -->
+                                            </div><!-- .col -->
+                                            <div class="col-xxl-3 col-sm-6">
+                                                <div class="card">
+                                                    <div class="nk-ecwg nk-ecwg6">
+                                                        <div class="card-inner">
+                                                            <div class="card-title-group">
+                                                                <div class="card-title">
+                                                                    <h6 class="title">Today Customers</h6>
+                                                                </div>
+                                                            </div>
+                                                            <div class="data">
+                                                                <div class="data-group">
+                                                                    <div class="amount">847</div>
+                                                                    <div class="nk-ecwg6-ck">
+                                                                        <canvas class="ecommerce-line-chart-s3" id="todayCustomers"></canvas>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="info"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><span> vs. last week</span></div>
+                                                            </div>
+                                                        </div><!-- .card-inner -->
+                                                    </div><!-- .nk-ecwg -->
+                                                </div><!-- .card -->
+                                            </div><!-- .col -->
+                                            <div class="col-xxl-3 col-sm-6">
+                                                <div class="card">
+                                                    <div class="nk-ecwg nk-ecwg6">
+                                                        <div class="card-inner">
+                                                            <div class="card-title-group">
+                                                                <div class="card-title">
+                                                                    <h6 class="title">Today Visitors</h6>
+                                                                </div>
+                                                            </div>
+                                                            <div class="data">
+                                                                <div class="data-group">
+                                                                    <div class="amount">23,485</div>
+                                                                    <div class="nk-ecwg6-ck">
+                                                                        <canvas class="ecommerce-line-chart-s3" id="todayVisitors"></canvas>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="info"><span class="change down text-danger"><em class="icon ni ni-arrow-long-down"></em>2.34%</span><span> vs. last week</span></div>
+                                                            </div>
+                                                        </div><!-- .card-inner -->
+                                                    </div><!-- .nk-ecwg -->
+                                                </div><!-- .card -->
+                                            </div><!-- .col -->
+                                            <div class="col-xxl-6">
+                                                <div class="card card-full">
+                                                    <div class="nk-ecwg nk-ecwg8 h-100">
+                                                        <div class="card-inner">
+                                                            <div class="card-title-group mb-3">
+                                                                <div class="card-title">
+                                                                    <h6 class="title">Sales Statistics</h6>
+                                                                </div>
+                                                                <div class="card-tools">
+                                                                    <div class="dropdown">
+                                                                        <a href="#" class="dropdown-toggle link link-light link-sm dropdown-indicator" data-bs-toggle="dropdown">Weekly</a>
+                                                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
+                                                                            <ul class="link-list-opt no-bdr">
+                                                                                <li><a href="#"><span>Daily</span></a></li>
+                                                                                <li><a href="#" class="active"><span>Weekly</span></a></li>
+                                                                                <li><a href="#"><span>Monthly</span></a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="nk-ecwg8-legends">
+                                                                <li>
+                                                                    <div class="title">
+                                                                        <span class="dot dot-lg sq" data-bg="#6576ff"></span>
+                                                                        <span>Total Order</span>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="title">
+                                                                        <span class="dot dot-lg sq" data-bg="#eb6459"></span>
+                                                                        <span>Cancelled Order</span>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="nk-ecwg8-ck">
+                                                                <canvas class="ecommerce-line-chart-s4" id="salesStatistics"></canvas>
+                                                            </div>
+                                                            <div class="chart-label-group ps-5">
+                                                                <div class="chart-label">01 Jul, 2020</div>
+                                                                <div class="chart-label">30 Jul, 2020</div>
+                                                            </div>
+                                                        </div><!-- .card-inner -->
+                                                    </div>
+                                                </div><!-- .card -->
+                                            </div><!-- .col -->
+                                            <div class="col-xxl-3 col-md-6">
+                                                <div class="card card-full overflow-hidden">
+                                                    <div class="nk-ecwg nk-ecwg7 h-100">
+                                                        <div class="card-inner flex-grow-1">
+                                                            <div class="card-title-group mb-4">
+                                                                <div class="card-title">
+                                                                    <h6 class="title">Order Statistics</h6>
+                                                                </div>
+                                                            </div>
+                                                            <div class="nk-ecwg7-ck">
+                                                                <canvas class="ecommerce-doughnut-s1" id="orderStatistics"></canvas>
+                                                            </div>
+                                                            <ul class="nk-ecwg7-legends">
+                                                                <li>
+                                                                    <div class="title">
+                                                                        <span class="dot dot-lg sq" data-bg="#816bff"></span>
+                                                                        <span>Completed</span>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="title">
+                                                                        <span class="dot dot-lg sq" data-bg="#13c9f2"></span>
+                                                                        <span>Processing</span>
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="title">
+                                                                        <span class="dot dot-lg sq" data-bg="#ff82b7"></span>
+                                                                        <span>Cancelled</span>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div><!-- .card-inner -->
+                                                    </div>
+                                                </div><!-- .card -->
+                                            </div><!-- .col -->
+                                            <div class="col-xxl-3 col-md-6">
+                                                <div class="card h-100">
+                                                    <div class="card-inner">
+                                                        <div class="card-title-group mb-2">
+                                                            <div class="card-title">
+                                                                <h6 class="title">Store Statistics</h6>
+                                                            </div>
+                                                        </div>
+                                                        <ul class="nk-store-statistics">
+                                                            <li class="item">
+                                                                <div class="info">
+                                                                    <div class="title">Orders</div>
+                                                                    <div class="count">1,795</div>
+                                                                </div>
+                                                                <em class="icon bg-primary-dim ni ni-bag"></em>
+                                                            </li>
+                                                            <li class="item">
+                                                                <div class="info">
+                                                                    <div class="title">Customers</div>
+                                                                    <div class="count">2,327</div>
+                                                                </div>
+                                                                <em class="icon bg-info-dim ni ni-users"></em>
+                                                            </li>
+                                                            <li class="item">
+                                                                <div class="info">
+                                                                    <div class="title">Products</div>
+                                                                    <div class="count">674</div>
+                                                                </div>
+                                                                <em class="icon bg-pink-dim ni ni-box"></em>
+                                                            </li>
+                                                            <li class="item">
+                                                                <div class="info">
+                                                                    <div class="title">Categories</div>
+                                                                    <div class="count">68</div>
+                                                                </div>
+                                                                <em class="icon bg-purple-dim ni ni-server"></em>
+                                                            </li>
+                                                        </ul>
+                                                    </div><!-- .card-inner -->
+                                                </div><!-- .card -->
+                                            </div><!-- .col -->
+                                            <div class="col-xxl-8">
+                                                <div class="card card-full">
+                                                    <div class="card-inner">
+                                                        <div class="card-title-group">
+                                                            <div class="card-title">
+                                                                <h6 class="title">Recent Orders</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nk-tb-list mt-n2">
+                                                        <div class="nk-tb-item nk-tb-head">
+                                                            <div class="nk-tb-col"><span>Order No.</span></div>
+                                                            <div class="nk-tb-col tb-col-sm"><span>Customer</span></div>
+                                                            <div class="nk-tb-col tb-col-md"><span>Date</span></div>
+                                                            <div class="nk-tb-col"><span>Amount</span></div>
+                                                            <div class="nk-tb-col"><span class="d-none d-sm-inline">Status</span></div>
+                                                        </div>
+                                                        <div class="nk-tb-item">
+                                                            <div class="nk-tb-col">
+                                                                <span class="tb-lead"><a href="#">#95954</a></span>
+                                                            </div>
+                                                            <div class="nk-tb-col tb-col-sm">
+                                                                <div class="user-card">
+                                                                    <div class="user-avatar sm bg-purple-dim">
+                                                                        <span>AB</span>
+                                                                    </div>
+                                                                    <div class="user-name">
+                                                                        <span class="tb-lead">Abu Bin Ishtiyak</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="nk-tb-col tb-col-md">
+                                                                <span class="tb-sub">02/11/2020</span>
+                                                            </div>
+                                                            <div class="nk-tb-col">
+                                                                <span class="tb-sub tb-amount">4,596.75 <span>USD</span></span>
+                                                            </div>
+                                                            <div class="nk-tb-col">
+                                                                <span class="badge badge-dot badge-dot-xs bg-success">Paid</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-tb-item">
+                                                            <div class="nk-tb-col">
+                                                                <span class="tb-lead"><a href="#">#95850</a></span>
+                                                            </div>
+                                                            <div class="nk-tb-col tb-col-sm">
+                                                                <div class="user-card">
+                                                                    <div class="user-avatar sm bg-azure-dim">
+                                                                        <span>DE</span>
+                                                                    </div>
+                                                                    <div class="user-name">
+                                                                        <span class="tb-lead">Desiree Edwards</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="nk-tb-col tb-col-md">
+                                                                <span class="tb-sub">02/02/2020</span>
+                                                            </div>
+                                                            <div class="nk-tb-col">
+                                                                <span class="tb-sub tb-amount">596.75 <span>USD</span></span>
+                                                            </div>
+                                                            <div class="nk-tb-col">
+                                                                <span class="badge badge-dot badge-dot-xs bg-danger">Cancelled</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-tb-item">
+                                                            <div class="nk-tb-col">
+                                                                <span class="tb-lead"><a href="#">#95812</a></span>
+                                                            </div>
+                                                            <div class="nk-tb-col tb-col-sm">
+                                                                <div class="user-card">
+                                                                    <div class="user-avatar sm bg-warning-dim">
+                                                                        <img src="./images/avatar/b-sm.jpg" alt="">
+                                                                    </div>
+                                                                    <div class="user-name">
+                                                                        <span class="tb-lead">Blanca Schultz</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="nk-tb-col tb-col-md">
+                                                                <span class="tb-sub">02/01/2020</span>
+                                                            </div>
+                                                            <div class="nk-tb-col">
+                                                                <span class="tb-sub tb-amount">199.99 <span>USD</span></span>
+                                                            </div>
+                                                            <div class="nk-tb-col">
+                                                                <span class="badge badge-dot badge-dot-xs bg-success">Paid</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-tb-item">
+                                                            <div class="nk-tb-col">
+                                                                <span class="tb-lead"><a href="#">#95256</a></span>
+                                                            </div>
+                                                            <div class="nk-tb-col tb-col-sm">
+                                                                <div class="user-card">
+                                                                    <div class="user-avatar sm bg-purple-dim">
+                                                                        <span>NL</span>
+                                                                    </div>
+                                                                    <div class="user-name">
+                                                                        <span class="tb-lead">Naomi Lawrence</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="nk-tb-col tb-col-md">
+                                                                <span class="tb-sub">01/29/2020</span>
+                                                            </div>
+                                                            <div class="nk-tb-col">
+                                                                <span class="tb-sub tb-amount">1099.99 <span>USD</span></span>
+                                                            </div>
+                                                            <div class="nk-tb-col">
+                                                                <span class="badge badge-dot badge-dot-xs bg-success">Paid</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="nk-tb-item">
+                                                            <div class="nk-tb-col">
+                                                                <span class="tb-lead"><a href="#">#95135</a></span>
+                                                            </div>
+                                                            <div class="nk-tb-col tb-col-sm">
+                                                                <div class="user-card">
+                                                                    <div class="user-avatar sm bg-success-dim">
+                                                                        <span>CH</span>
+                                                                    </div>
+                                                                    <div class="user-name">
+                                                                        <span class="tb-lead">Cassandra Hogan</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="nk-tb-col tb-col-md">
+                                                                <span class="tb-sub">01/29/2020</span>
+                                                            </div>
+                                                            <div class="nk-tb-col">
+                                                                <span class="tb-sub tb-amount">1099.99 <span>USD</span></span>
+                                                            </div>
+                                                            <div class="nk-tb-col">
+                                                                <span class="badge badge-dot badge-dot-xs bg-warning">Due</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- .card -->
+                                            </div>
+                                            <div class="col-xxl-4 col-md-8 col-lg-6">
+                                                <div class="card h-100">
+                                                    <div class="card-inner">
+                                                        <div class="card-title-group mb-2">
+                                                            <div class="card-title">
+                                                                <h6 class="title">Top products</h6>
+                                                            </div>
+                                                            <div class="card-tools">
+                                                                <div class="dropdown">
+                                                                    <a href="#" class="dropdown-toggle link link-light link-sm dropdown-indicator" data-bs-toggle="dropdown">Weekly</a>
+                                                                    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
+                                                                        <ul class="link-list-opt no-bdr">
+                                                                            <li><a href="#"><span>Daily</span></a></li>
+                                                                            <li><a href="#" class="active"><span>Weekly</span></a></li>
+                                                                            <li><a href="#"><span>Monthly</span></a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <ul class="nk-top-products">
+                                                            <li class="item">
+                                                                <div class="thumb">
+                                                                    <img src="./images/product/a.png" alt="">
+                                                                </div>
+                                                                <div class="info">
+                                                                    <div class="title">Pink Fitness Tracker</div>
+                                                                    <div class="price">$99.00</div>
+                                                                </div>
+                                                                <div class="total">
+                                                                    <div class="amount">$990.00</div>
+                                                                    <div class="count">10 Sold</div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="item">
+                                                                <div class="thumb">
+                                                                    <img src="./images/product/b.png" alt="">
+                                                                </div>
+                                                                <div class="info">
+                                                                    <div class="title">Purple Smartwatch</div>
+                                                                    <div class="price">$99.00</div>
+                                                                </div>
+                                                                <div class="total">
+                                                                    <div class="amount">$990.00</div>
+                                                                    <div class="count">10 Sold</div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="item">
+                                                                <div class="thumb">
+                                                                    <img src="./images/product/c.png" alt="">
+                                                                </div>
+                                                                <div class="info">
+                                                                    <div class="title">Black Smartwatch</div>
+                                                                    <div class="price">$99.00</div>
+                                                                </div>
+                                                                <div class="total">
+                                                                    <div class="amount">$990.00</div>
+                                                                    <div class="count">10 Sold</div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="item">
+                                                                <div class="thumb">
+                                                                    <img src="./images/product/d.png" alt="">
+                                                                </div>
+                                                                <div class="info">
+                                                                    <div class="title">Black Headphones</div>
+                                                                    <div class="price">$99.00</div>
+                                                                </div>
+                                                                <div class="total">
+                                                                    <div class="amount">$990.00</div>
+                                                                    <div class="count">10 Sold</div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="item">
+                                                                <div class="thumb">
+                                                                    <img src="./images/product/e.png" alt="">
+                                                                </div>
+                                                                <div class="info">
+                                                                    <div class="title">iPhone 7 Headphones</div>
+                                                                    <div class="price">$99.00</div>
+                                                                </div>
+                                                                <div class="total">
+                                                                    <div class="amount">$990.00</div>
+                                                                    <div class="count">10 Sold</div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div><!-- .card-inner -->
+                                                </div><!-- .card -->
+                                            </div><!-- .col -->
+                                        </div><!-- .row -->
+                                    </div><!-- .nk-block -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- content @e -->
+                    <!-- footer @s -->
+                    <div class="nk-footer">
+                        <div class="container-fluid">
+                            <div class="nk-footer-wrap">
+                                <div class="nk-footer-copyright"> &copy; 2022 DashLite. Template by <a href="https://softnio.com" target="_blank">Softnio</a>
+                                </div>
+                                <div class="nk-footer-links">
+                                    <ul class="nav nav-sm">
+                                        <li class="nav-item dropup">
+                                            <a href="#" class="dropdown-toggle dropdown-indicator has-indicator nav-link text-base" data-bs-toggle="dropdown" data-offset="0,10"><span>English</span></a>
+                                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
+                                                <ul class="language-list">
+                                                    <li>
+                                                        <a href="#" class="language-item">
+                                                            <span class="language-name">English</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="language-item">
+                                                            <span class="language-name">Español</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="language-item">
+                                                            <span class="language-name">Français</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" class="language-item">
+                                                            <span class="language-name">Türkçe</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a data-bs-toggle="modal" href="#region" class="nav-link"><em class="icon ni ni-globe"></em><span class="ms-1">Select Region</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- footer @e -->
                 </div>
-
+                <!-- wrap @e -->
             </div>
-            <!--  BEGIN FOOTER  -->
-            <div class="footer-wrapper">
-                <div class="footer-section f-section-1">
-                    <p class="">Copyright © <span class="dynamic-year">2022</span> <a target="_blank" href="https://designreset.com/cork-admin/">DesignReset</a>, All rights reserved.</p>
-                </div>
-                <div class="footer-section f-section-2">
-                    <p class="">Coded with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></p>
-                </div>
-            </div>
-            <!--  END FOOTER  -->
+            <!-- main @e -->
         </div>
-        <!--  END CONTENT AREA  -->
-
+        <!-- app-root @e -->
+        <!-- select region modal -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="region">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <a href="#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                    <div class="modal-body modal-body-md">
+                        <h5 class="title mb-4">Select Your Country</h5>
+                        <div class="nk-country-region">
+                            <ul class="country-list text-center gy-2">
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/arg.png" alt="" class="country-flag">
+                                        <span class="country-name">Argentina</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/aus.png" alt="" class="country-flag">
+                                        <span class="country-name">Australia</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/bangladesh.png" alt="" class="country-flag">
+                                        <span class="country-name">Bangladesh</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/canada.png" alt="" class="country-flag">
+                                        <span class="country-name">Canada <small>(English)</small></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/china.png" alt="" class="country-flag">
+                                        <span class="country-name">Centrafricaine</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/china.png" alt="" class="country-flag">
+                                        <span class="country-name">China</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/french.png" alt="" class="country-flag">
+                                        <span class="country-name">France</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/germany.png" alt="" class="country-flag">
+                                        <span class="country-name">Germany</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/iran.png" alt="" class="country-flag">
+                                        <span class="country-name">Iran</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/italy.png" alt="" class="country-flag">
+                                        <span class="country-name">Italy</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/mexico.png" alt="" class="country-flag">
+                                        <span class="country-name">México</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/philipine.png" alt="" class="country-flag">
+                                        <span class="country-name">Philippines</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/portugal.png" alt="" class="country-flag">
+                                        <span class="country-name">Portugal</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/s-africa.png" alt="" class="country-flag">
+                                        <span class="country-name">South Africa</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/spanish.png" alt="" class="country-flag">
+                                        <span class="country-name">Spain</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/switzerland.png" alt="" class="country-flag">
+                                        <span class="country-name">Switzerland</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/uk.png" alt="" class="country-flag">
+                                        <span class="country-name">United Kingdom</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="country-item">
+                                        <img src="./images/flags/english.png" alt="" class="country-flag">
+                                        <span class="country-name">United State</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- .modal-content -->
+            </div><!-- .modla-dialog -->
+        </div><!-- .modal -->
     </div>
-    <!-- END MAIN CONTAINER -->
-
-    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
-    <script src="../src/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../src/plugins/src/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="../src/plugins/src/mousetrap/mousetrap.min.js"></script>
-    <script src="../layouts/vertical-light-menu/app.js"></script>
-    <!-- END GLOBAL MANDATORY SCRIPTS -->
-
+    <!-- JavaScript -->
+    <script src="./assets/js/bundle.js?ver=3.1.1"></script>
+    <script src="./assets/js/scripts.js?ver=3.1.1"></script>
+    <script src="./assets/js/charts/chart-ecommerce.js?ver=3.1.1"></script>
 </body>
+
 </html>
