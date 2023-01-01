@@ -22,6 +22,11 @@ Route::middleware(['auth.check'])->group(function(){
 
     // Nhiệm vụ
     Route::get('/nhiem-vu','Auth\ChildActivityController@index')->name('task.index');
+
+});
+
+Route::middleware(['auth.API.check'])->prefix('v1/api')->group(function(){
+    Route::get('/activities','Auth\ActivityController@index');
 });
 
 

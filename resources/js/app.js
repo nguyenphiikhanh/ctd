@@ -27,9 +27,12 @@ Vue.component('NhiemVu', require('./src/components/NhiemVu.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import Vue from "vue";
+import Vuex from "vuex";
+Vue.use(Vuex);
 
 import store from "./src/store";
-// import 'bootstrap/dist/css/bootstrap.css'
+
 
 const app = new Vue({
     el: '#app',

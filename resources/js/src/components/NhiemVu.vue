@@ -27,12 +27,12 @@
                                                     <span>Tạo nhiệm vụ</span>
                                                 </button>
 
-                                                <div class="modal fade" id="taskCreate">
+                                                <div class="modal fade" id="taskCreate" data-bs-keyboard="false" data-bs-backdrop="static">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title">Tạo nhiệm vụ</h5>
-                                                                <a href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                <a @click="onCloseModal()" href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                                     <em class="icon ni ni-cross"></em>
                                                                 </a>
                                                             </div>
@@ -41,59 +41,46 @@
                                                                     <div class="form-group">
                                                                         <label class="form-label" for="full-name">Loại nhiệm vụ</label>
                                                                         <div class="form-control-wrap">
-                                                                            <select class="form-control form-control-outlined" name="" id="">
-                                                                                <option value="1">Loại 1</option>
+                                                                            <select v-model="activity.activity" class="form-control form-control-outlined">
+                                                                                <option :value="null">--Chọn loại nhiệm vụ---</option>
+                                                                                <option v-for="(option, index) in activitiy_list" :key="index" :value="option.id">{{option.activity_name}}</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="form-group">
-                                                                        <label class="form-label" for="email-address">Email address</label>
+                                                                    <div class="form-group" v-if="activity.activity">
+                                                                        <label class="form-label" for="email-address">Hoạt động</label>
                                                                         <div class="form-control-wrap">
-                                                                            <input type="text" class="form-control" id="email-address" required>
+                                                                            <div class="custom-control custom-radio">
+                                                                                <input v-model="activity.action" type="radio" :value="actionType.NOTIFICATION_JOIN" id="customRadio2" name="customRadio" class="custom-control-input">
+                                                                                <label class="custom-control-label" for="customRadio2">Tạo phần thi</label>
+                                                                            </div>
+                                                                            <div class="custom-control custom-radio">
+                                                                                <input v-model="activity.action" type="radio" :value="actionType.NOTIFICATION_VIEW" id="customRadio2" name="customRadio" class="custom-control-input">
+                                                                                <label class="custom-control-label" for="customRadio2">Thông báo(có phản hồi)</label>
+                                                                            </div>
+                                                                            <div class="custom-control custom-radio">
+                                                                                <input v-model="activity.action" type="radio" :value="actionType.NOTIFICATION_NOT_RESPONSE" id="customRadio2" name="customRadio" class="custom-control-input">
+                                                                                <label class="custom-control-label" for="customRadio2">Thông báo(không phản hồi)</label>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="form-group">
-                                                                        <label class="form-label" for="phone-no">Phone No</label>
+                                                                    <div class="form-group" v-if="activity.action">
+                                                                        <label class="form-label" for="full-name">Tên nhiệm vụ</label>
                                                                         <div class="form-control-wrap">
-                                                                            <input type="text" class="form-control" id="phone-no">
+                                                                            <input type="text" v-model="activity.taskName" class="form-control">
                                                                         </div>
                                                                     </div>
-                                                                    <div class="form-group">
-                                                                        <label class="form-label">Communication</label>
-                                                                        <ul class="custom-control-group g-3 align-center">
-                                                                            <li>
-                                                                                <div class="custom-control custom-control-sm custom-checkbox">
-                                                                                    <input type="checkbox" class="custom-control-input" id="com-email">
-                                                                                    <label class="custom-control-label" for="com-email">Email</label>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="custom-control custom-control-sm custom-checkbox">
-                                                                                    <input type="checkbox" class="custom-control-input" id="com-sms">
-                                                                                    <label class="custom-control-label" for="com-sms">SMS</label>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="custom-control custom-control-sm custom-checkbox">
-                                                                                    <input type="checkbox" class="custom-control-input" id="com-phone">
-                                                                                    <label class="custom-control-label" for="com-phone">Phone</label>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label class="form-label" for="pay-amount">Amount</label>
+                                                                    <div class="form-group" v-if="activity.action">
+                                                                        <label class="form-label" for="full-name">Mô tả</label>
                                                                         <div class="form-control-wrap">
-                                                                            <input type="number" class="form-control" id="pay-amount">
+                                                                            <textarea  v-model="activity.details" class="form-control"></textarea>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="form-group">
-                                                                        <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
+                                                                    <div class="form-group d-flex justify-content-center">
+                                                                        <button type="button" @click="onSaveActivity()" class="btn btn-lg btn-primary">Lưu</button>
+                                                                        <button type="button" @click="onCloseModal()" data-bs-dismiss="modal" class="btn btn-lg btn-outline-secondary custom-ml-3">Huỷ</button>
                                                                     </div>
                                                                 </form>
-                                                            </div>
-                                                            <div class="modal-footer bg-light">
-                                                                <span class="sub-text">Modal Footer Text</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -308,21 +295,52 @@
 </template>
 
 <script>
+import constants from "../constants";
+import {mapActions} from 'vuex'
+import activitiyServices from "../services/activitiy.services";
+
 export default {
     data(){
         return{
+            activity:{
+                taskName: '',
+                activity: null,
+                action: null,
+                details: ''
+            },
             activitiy_list: [],
         }
     },
-    methods:{
-
+    computed:{
+      actionType(){
+          return constants.ACTIVITY;
+      }
     },
-    mounted() {
+    methods:{
+        ...mapActions({
+            getActivityList: 'activity/getActivityList'
+        }),
 
+        async getActivities(){
+            await activitiyServices.getActivityList()
+                .then(response => this.activitiy_list = response.data.data);
+        },
+        async onSaveActivity(){
+
+        },
+        onCloseModal(){
+            this.activity.activity = null;
+            this.activity.action = null;
+        }
+    },
+    async mounted() {
+        await this.getActivities();
     }
 }
 </script>
 
-<style>
-
+<style scoped>
+.custom-ml-3{
+    margin-left: 0.75rem;
+}
 </style>

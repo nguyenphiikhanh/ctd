@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from "./store";
 
 const instance = axios.create({
-    baseURL: process.env.API_BASE_URL,
+    baseURL: '/v1/api',
     withCredentials: true,
 });
 

@@ -7,7 +7,7 @@ import activity from "./modules/activity";
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
     plugins:[
         createPersistedState()
     ],
@@ -15,3 +15,7 @@ export default new Vuex.Store({
         activity,
     }
 });
+
+Vue.prototype.$store = store;
+
+export default store;
