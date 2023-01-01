@@ -1,7 +1,7 @@
 @extends('pages.layouts.app')
 
 @section('title')
-
+<title>Trang chủ - {{config('app.name')}}</title>
 @endsection
 
 @section('content')

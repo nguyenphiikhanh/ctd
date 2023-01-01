@@ -9,11 +9,12 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
     <!-- Page Title  -->
-    <title>Default Dashboard | DashLite Admin Template</title>
+    @yield('title')
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{asset('assets/css/dashlite.css')}}">
     <link id="skin-default" rel="stylesheet" href="{{asset('assets/css/theme.css')}}">
     {{-- <link rel="stylesheet" href="{{mix('css/app.css')}}"> --}}
+    @yield('css')
 </head>
 
 <body class="nk-body bg-lighter npc-default has-sidebar ">
@@ -46,6 +47,7 @@
     <script src="{{asset('assets/js/bundle.js')}}"></script>
     <script src="{{asset('assets/js/scripts.js')}}"></script>
     <script src="{{mix('js/app.js')}}"></script>
+    @yield('js')
 </body>
 
 </html>
