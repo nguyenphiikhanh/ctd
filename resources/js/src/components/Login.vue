@@ -43,12 +43,13 @@ export default {
     },
     methods:{
         ...mapActions({
-            login:'auth/login'
+            signIn:'auth/login'
         }),
         async login(){
             this.processing = true
-            await this.login(this.auth).then(()=>{
-                this.$router.push({name: 'giaoNhiemVu'})
+            await axios.get('/sanctum/csrf-cookie')
+            await axios.post('/login',this.auth).then(({data})=>{
+                this.signIn()
             }).catch(({response:{data}})=>{
                 alert(data.message)
             }).finally(()=>{

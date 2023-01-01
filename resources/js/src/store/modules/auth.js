@@ -1,6 +1,5 @@
 import http from "../../httpCommon";
 import router from '../../router';
-import authServices from "../../services/auth.services";
 
 export default {
     namespaced: true,
@@ -25,9 +24,8 @@ export default {
         }
     },
     actions:{
-        login({commit}, data){
-            return authServices.login(data)
-                .then(({data})=>{
+        login({commit}){
+            return http.get('/api/user').then(({data})=>{
                 commit('SET_USER',data)
                 commit('SET_AUTHENTICATED',true)
                 router.push({name:'dashboard'})
