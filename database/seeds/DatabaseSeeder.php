@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             ClassTypeSeeder::class,
             TermSeeder::class,
             FacultySeeder::class,
-            ClassSeeder::class
+            ClassSeeder::class,
+            ActivitySeeder::class
         ]);
     }
 }

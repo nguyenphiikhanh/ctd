@@ -19,7 +19,7 @@ Route::get('/logout','AuthController@logout')->name('logout');
 
 Route::middleware(['auth.check'])->group(function(){
     Route::get('/','Auth\DashBoardController@index')->name('dashboard');
-    // Route::get('/nhiem-vu')
+    // Route::get('/nhiem-vu',)
 });
 
 
