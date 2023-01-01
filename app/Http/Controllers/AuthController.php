@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Log;
 class AuthController extends AppBaseController
 {
     //
+    public function index(){
+        if(Auth::check()){
+            return redirect()->route('dashboard');
+        }
+        return view('login');
+    }
+
     public function login(Request $request){
         try{
             $loginInfo = [
@@ -17,12 +24,12 @@ class AuthController extends AppBaseController
                 'password' => $request->password,
             ];
             if(Auth::attempt($loginInfo)){
-                return redirect()->
+                return redirect()->route('dashboard');
             }
         }
         catch(\Exception $e){
             Log::error($e->getMessage().$e->getTraceAsString());
-            return $this->sendError('Có lỗi xảy ra',Response::HTTP_INTERNAL_SERVER_ERROR);
+            return back()->with('error','Có lỗi xảy ra');
         }
     }
 }

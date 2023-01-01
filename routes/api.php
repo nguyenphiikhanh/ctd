@@ -18,8 +18,9 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::middleware(['auth:sanctum'])->group(function(){
-    Route::get('/my-info','Auth\UserController@getInfo');
-});
+// Route::middleware(['auth:sanctum'])->group(function(){
+//     Route::get('/my-info','Auth\UserController@getInfo');
+// });
+
 
 
