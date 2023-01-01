@@ -24,17 +24,18 @@ export default {
         }
     },
     actions:{
-        login({commit}){
-            return http.get('/api/user').then(({data})=>{
+        login({commit,dispatch}){
+            return http.get('/api/my-info').then((data)=>{
+                console.log('debug data');
                 commit('SET_USER',data)
                 commit('SET_AUTHENTICATED',true)
-                router.push({name:'dashboard'})
-            }).catch(({response:{data}})=>{
+                router.push({name:'home'})
+            }).catch(()=>{
                 commit('SET_USER',{})
                 commit('SET_AUTHENTICATED',false)
             })
         },
-        logout({commit}){
+        logout({commit,dispatch}){
             commit('SET_USER',{})
             commit('SET_AUTHENTICATED',false)
         }

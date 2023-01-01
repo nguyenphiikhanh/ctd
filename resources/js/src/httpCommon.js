@@ -19,6 +19,7 @@ instance.interceptors.response.use(
         ) {
             originalRequest._retry = true;
             if (error.config.url != '/logout'){
+                console.log('debug dispatch');
                 await store.dispatch('auth/logout');
                 return router.push({name: 'Login'});
             }

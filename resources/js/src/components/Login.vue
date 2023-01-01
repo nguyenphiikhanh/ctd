@@ -30,6 +30,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import router from "../router";
 export default {
     name:"login",
     data(){
@@ -48,13 +49,14 @@ export default {
         async login(){
             this.processing = true
             await axios.get('/sanctum/csrf-cookie')
-            await axios.post('/login',this.auth).then(({data})=>{
-                this.signIn()
-            }).catch(({response:{data}})=>{
+            console.log('debug 1');
+            await axios.post('/login',this.auth)
+                .catch(({response:{data}})=>{
                 alert(data.message)
             }).finally(()=>{
                 this.processing = false
-            })
+            });
+            await this.signIn().then(data => console.log('debug2'));
         },
     }
 }
