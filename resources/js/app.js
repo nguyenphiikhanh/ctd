@@ -27,9 +27,12 @@ Vue.component('App', require('./src/App.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import App from "./src/App";
 import store from "./src/store";
 import router from "./src/router";
+import 'bootstrap/dist/css/bootstrap.css'
+
+//toast
+
 
 const app = new Vue({
     el: '#app',

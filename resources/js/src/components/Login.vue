@@ -1,59 +1,60 @@
 <template>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Login</div>
-
-                <div class="card-body">
-                    <form>
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" class="form-control" type="email" name="email" required autocomplete="email" autofocus>
+    <div class="container h-100 mt-5">
+        <div class="row h-100 align-items-center">
+            <div class="col-12 col-md-6 offset-md-3">
+                <div class="card shadow sm">
+                    <div class="card-body">
+                        <h1 class="text-center">Login</h1>
+                        <hr/>
+                        <form action="javascript:void(0)" class="row" method="post">
+                            <div class="form-group col-12">
+                                <label for="email" class="font-weight-bold">Email</label>
+                                <input type="text" v-model="auth.email" name="email" id="email" class="form-control">
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" class="form-control" type="password"  name="password" required autocomplete="current-password">
+                            <div class="form-group col-12">
+                                <label for="password" class="font-weight-bold">Password</label>
+                                <input type="password" v-model="auth.password" name="password" id="password" class="form-control">
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember">
-
-                                    <label class="form-check-label" for="remember">
-                                        Remember me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                   Login
+                            <div class="col-12 mb-2">
+                                <button type="submit" :disabled="processing" @click="login" class="btn btn-primary btn-block">
+                                    {{ processing ? "Please wait..." : "Login" }}
                                 </button>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
-    export default {
-        mounted() {
-            console.log('login Component mounted.')
+import { mapActions } from 'vuex'
+export default {
+    name:"login",
+    data(){
+        return {
+            auth:{
+                email:"",
+                password:""
+            },
+            processing:false
         }
+    },
+    methods:{
+        ...mapActions({
+            login:'auth/login'
+        }),
+        async login(){
+            this.processing = true
+            await this.login(this.auth).then(()=>{
+                this.$router.push({name: 'giaoNhiemVu'})
+            }).catch(({response:{data}})=>{
+                alert(data.message)
+            }).finally(()=>{
+                this.processing = false
+            })
+        },
     }
+}
 </script>
