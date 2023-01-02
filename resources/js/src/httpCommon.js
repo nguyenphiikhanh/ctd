@@ -1,5 +1,4 @@
 import axios from 'axios';
-import store from "./store";
 
 const instance = axios.create({
     baseURL: '/v1/api',
@@ -14,15 +13,9 @@ instance.interceptors.response.use(
     if (error) {
         const originalRequest = error.config;
         if (
-            (error.response.status === 401 || error.response.status === 419) &&
-            !originalRequest._retry
+            (error.response.status === 401 || error.response.status === 419)
         ) {
-            originalRequest._retry = true;
-            if (error.config.url != '/logout'){
-                console.log('debug dispatch');
-                await store.dispatch('auth/logout');
-                return router.push({name: 'Login'});
-            }
+            location.href = '/logout';
         }
         return Promise.reject(error);
     }

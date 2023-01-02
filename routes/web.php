@@ -22,12 +22,15 @@ Route::middleware(['auth.check'])->group(function(){
 
     // Nhiệm vụ
     Route::get('/nhiem-vu','Auth\ChildActivityController@index')->name('task.index');
+    Route::get('/nhiem-vu/create','Auth\ChildActivityController@create')->name('task.create');
 
 });
 
+
+// Auth API Custom
 Route::middleware(['auth.API.check'])->prefix('v1/api')->group(function(){
     Route::get('/activities','Auth\ActivityController@index');
-    Route::post('/activities','Auth\ActivityController@store');
+    Route::post('/child-activities','Auth\ChildActivityController@store');
 
 });
 
