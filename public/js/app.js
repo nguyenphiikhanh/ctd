@@ -2319,6 +2319,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   computed: {
     actionType: function actionType() {
       return _constants__WEBPACK_IMPORTED_MODULE_0__["default"].ACTIVITY;
+    },
+    validSubmit: function validSubmit() {
+      return this.activity.activity && this.activity.taskName && this.activity.action;
     }
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
@@ -2342,10 +2345,17 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       }))();
     },
     onSaveActivity: function onSaveActivity() {
+      var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
+              console.log(_this2.activity);
+              _context2.next = 3;
+              return _services_activitiy_services__WEBPACK_IMPORTED_MODULE_2__["default"].createChildActivity(_this2.activity).then(function () {
+                return _this2.$refs.buttonClose.click();
+              });
+            case 3:
             case "end":
               return _context2.stop();
           }
@@ -2355,16 +2365,18 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     onCloseModal: function onCloseModal() {
       this.activity.activity = null;
       this.activity.action = null;
+      this.activity.taskName = '';
+      this.activity.details = '';
     }
   }),
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
       return _regeneratorRuntime().wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
             _context3.next = 2;
-            return _this2.getActivities();
+            return _this3.getActivities();
           case 2:
           case "end":
             return _context3.stop();
@@ -2649,7 +2661,8 @@ var render = function render() {
   }, [_c("button", {
     staticClass: "btn btn-lg btn-primary",
     attrs: {
-      type: "button"
+      type: "button",
+      disabled: !_vm.validSubmit
     },
     on: {
       click: function click($event) {
@@ -2657,6 +2670,7 @@ var render = function render() {
       }
     }
   }, [_vm._v("Lưu")]), _vm._v(" "), _c("button", {
+    ref: "buttonClose",
     staticClass: "btn btn-lg btn-outline-secondary custom-ml-3",
     attrs: {
       type: "button",
@@ -17906,6 +17920,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   getActivityList: function getActivityList() {
     return _httpCommon__WEBPACK_IMPORTED_MODULE_0__["default"].get('/activities');
+  },
+  createChildActivity: function createChildActivity(data) {
+    return _httpCommon__WEBPACK_IMPORTED_MODULE_0__["default"].post('/activities', data);
   }
 });
 

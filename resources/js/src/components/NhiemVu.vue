@@ -77,8 +77,8 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group d-flex justify-content-center">
-                                                                        <button type="button" @click="onSaveActivity()" class="btn btn-lg btn-primary">Lưu</button>
-                                                                        <button type="button" @click="onCloseModal()" data-bs-dismiss="modal" class="btn btn-lg btn-outline-secondary custom-ml-3">Huỷ</button>
+                                                                        <button type="button" :disabled="!validSubmit" @click="onSaveActivity()" class="btn btn-lg btn-primary">Lưu</button>
+                                                                        <button type="button" @click="onCloseModal()" ref="buttonClose" data-bs-dismiss="modal" class="btn btn-lg btn-outline-secondary custom-ml-3">Huỷ</button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -314,7 +314,10 @@ export default {
     computed:{
       actionType(){
           return constants.ACTIVITY;
-      }
+      },
+        validSubmit(){
+          return this.activity.activity && this.activity.taskName && this.activity.action;
+        }
     },
     methods:{
         ...mapActions({
@@ -326,11 +329,15 @@ export default {
                 .then(response => this.activitiy_list = response.data.data);
         },
         async onSaveActivity(){
-
+            console.log(this.activity);
+            await  activitiyServices.createChildActivity(this.activity)
+                .then(() => this.$refs.buttonClose.click());
         },
         onCloseModal(){
             this.activity.activity = null;
             this.activity.action = null;
+            this.activity.taskName = '';
+            this.activity.details = '';
         }
     },
     async mounted() {

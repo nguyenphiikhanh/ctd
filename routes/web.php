@@ -27,6 +27,8 @@ Route::middleware(['auth.check'])->group(function(){
 
 Route::middleware(['auth.API.check'])->prefix('v1/api')->group(function(){
     Route::get('/activities','Auth\ActivityController@index');
+    Route::post('/activities','Auth\ActivityController@store');
+
 });
 
 
