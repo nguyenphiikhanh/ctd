@@ -31,7 +31,7 @@
                     @include('pages.layouts.parts.header')
                     <!-- main header @e -->
                     <!-- content @s -->
-                    <app-content></app-content>
+                    @yield('content')
                     <!-- content @e -->
                     <!-- footer @s -->
                     @include('pages.layouts.parts.footer')

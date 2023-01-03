@@ -18,11 +18,11 @@ Route::post('/dang-nhap','AuthController@login')->name('login.login');
 Route::get('/logout','AuthController@logout')->name('logout');
 
 Route::middleware(['auth.check'])->group(function(){
-    // Route::get('/','Auth\DashBoardController@index')->name('dashboard');
-    Route::get('/{any}', 'Auth\DashBoardController@index')->where('any', '.*');
+    Route::get('/','Auth\DashBoardController@index')->name('dashboard');
+    // Route::get('/{any}', 'Auth\DashBoardController@index')->where('any', '.*');
     // Nhiệm vụ
-    // Route::get('/nhiem-vu','Auth\ChildActivityController@index')->name('task.index');
-    // Route::get('/nhiem-vu/create','Auth\ChildActivityController@create')->name('task.create');
+    Route::get('/nhiem-vu','Auth\ChildActivityController@index')->name('task.index');
+    Route::get('/nhiem-vu/create','Auth\ChildActivityController@create')->name('task.create');
 
 });
 

@@ -1,4 +1,4 @@
-@extends('pages.layouts.app')
+@extends('app')
 
 @section('title')
     <title>Nhiệm vụ - {{ config('app.name') }}</title>

@@ -19,10 +19,8 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('AppContent', require('./src/AppContent.vue').default);
 Vue.component('NhiemVu', require('./src/components/NhiemVu.vue').default);
 Vue.component('GiaoNhiemVu', require('./src/components/GiaoNhiemVu.vue').default);
-Vue.component('DashBoard', require('./src/components/dashboards/DashBoard.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -31,15 +29,11 @@ Vue.component('DashBoard', require('./src/components/dashboards/DashBoard.vue').
  */
 
 import Vue from "vue";
-import Vuex from "vuex";
-Vue.use(Vuex);
 
 import store from "./src/store";
 import router from "./src/router";
 
-
 const app = new Vue({
-    el: '#app',
     store,
     router,
-});
+}).$mount('#app');

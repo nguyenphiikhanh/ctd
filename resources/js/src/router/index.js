@@ -1,27 +1,28 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+
+import nhiemVu from "../components/NhiemVu";
+import giaoNhiemVu from "../components/GiaoNhiemVu";
+
+import AdminDashBoard from "../components/dashboards/AdminDashBoard";
+
 Vue.use(VueRouter);
 
-//components
-import dashBoard from '../components/dashboards/DashBoard.vue'
-import nhiemVu from "../components/NhiemVu.vue";
-import giaoNhiemVu from "../components/GiaoNhiemVu.vue";
-
-
-const router_list = [
+// import { routes } from "./routes";
+const routes = [
     // dashboard
     {
-        name:"home",
+        name:"Home",
         path:"/",
-        component: dashBoard,
+        component: AdminDashBoard,
         meta:{
-            title: 'Trang chủ'
+            title: 'Nhiệm vụ'
         }
     },
     // nhiệm vụ
     {
-        name:"nhiemVu_List",
+        name:"NhiemVu_List",
         path:"/nhiem-vu",
         component: nhiemVu,
         meta:{
@@ -29,7 +30,7 @@ const router_list = [
         }
     },
     {
-        name:"nhiemVu_Create",
+        name:"NhiemVu_Create",
         path:"/nhiem-vu/create",
         component: giaoNhiemVu,
         meta:{
@@ -38,9 +39,10 @@ const router_list = [
     },
 ];
 
-const router = new VueRouter({
+let router = new VueRouter({
+   base: process.env.MIX_BASE_URL,
    mode: 'history',
-    routes: router_list
+   routes,
 });
 
 router.beforeEach((to, from, next) => {

@@ -1,13 +1,12 @@
 <template>
-    <div class="nk-content ">
-        <span>app view</span>
-        <router-view></router-view>
+    <div>
+        admin dash board
     </div>
 </template>
 
 <script>
 export default {
-
+    name: "AdminDashBoard"
 }
 </script>
 
