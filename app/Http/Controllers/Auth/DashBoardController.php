@@ -15,7 +15,7 @@ class DashBoardController extends Controller
     public function index()
     {
         //
-        return view('pages.dashboard.index');
+        return view('app');
     }
 
     /**

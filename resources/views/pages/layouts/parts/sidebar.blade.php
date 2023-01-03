@@ -1,7 +1,7 @@
 <div class="nk-sidebar nk-sidebar-fixed is-light " data-content="sidebarMenu">
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand">
-            <a href="{{route('dashboard')}}" class="logo-link nk-sidebar-logo">
+            <a href="/" class="logo-link nk-sidebar-logo">
                 <img class="logo-light logo-img" src="{{asset('images/logo.png')}}"  alt="logo">
                 <img class="logo-dark logo-img" src="{{asset('images/logo-dark.png')}}"  alt="logo-dark">
                 <img class="logo-small logo-img logo-img-small" src="{{asset('images/logo-small.png')}}" alt="logo-small">
@@ -23,7 +23,7 @@
                         </a>
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item {{request()->routeIs('task*') ? 'active current-page' : ''}}">
-                        <a href="{{route('task.index')}}" class="nk-menu-link">
+                        <a href="/" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
                             <span class="nk-menu-text">Nhiệm vụ</span>
                         </a>
