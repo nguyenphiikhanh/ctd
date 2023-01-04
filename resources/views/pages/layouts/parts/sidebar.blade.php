@@ -17,13 +17,13 @@
             <div class="nk-sidebar-menu" data-simplebar>
                 <ul class="nk-menu">
                     <li class="nk-menu-item {{request()->routeIs('dashboard') ? 'active current-page' : ''}}">
-                        <a href="/" class="nk-menu-link">
+                        <a href="" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-home-fill"></em></span>
                             <span class="nk-menu-text">Trang chủ</span>
                         </a>
                     </li><!-- .nk-menu-item -->
                     <li class="nk-menu-item {{request()->routeIs('task*') ? 'active current-page' : ''}}">
-                        <a href="/" class="nk-menu-link">
+                        <a href="/nhiem-vu" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
                             <span class="nk-menu-text">Nhiệm vụ</span>
                         </a>

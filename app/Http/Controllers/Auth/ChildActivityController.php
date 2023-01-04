@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\AppBaseController;
 use App\Models\ChildActivity;
 use App\Http\Controllers\Controller;
 use App\Http\Utils\AppUtils;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class ChildActivityController extends Controller
+class ChildActivityController extends AppBaseController
 {
     /**
      * Display a listing of the resource.
@@ -43,7 +44,7 @@ class ChildActivityController extends Controller
             $action = $request->get('action');
             $details = $request->get('details');
             DB::beginTransaction();
-            if($action == AppUtils::NOTIFICATION_JOIN ){
+            if($action == AppUtils::NOTIFICATION_JOIN){
                 $child_activity = ChildActivity::create([
                     'id_activity' => $activity,
                     'child_activity_type' => $action,

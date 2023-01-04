@@ -18,8 +18,8 @@ Route::post('/dang-nhap','AuthController@login')->name('login.login');
 Route::get('/logout','AuthController@logout')->name('logout');
 
 Route::middleware(['auth.check'])->group(function(){
-    Route::get('/','Auth\DashBoardController@index')->name('dashboard');
-    // Route::get('/{any}', 'Auth\DashBoardController@index')->where('any', '.*');
+    // Route::get('/','Auth\DashBoardController@index')->name('dashboard');
+    // Route::get('/{any?}', 'SpaController@index')->where('any', '^(?!nova|admin|horizon).*$')->name('dashboard');
     // Nhiệm vụ
     Route::get('/nhiem-vu','Auth\ChildActivityController@index')->name('task.index');
     Route::get('/nhiem-vu/create','Auth\ChildActivityController@create')->name('task.create');
@@ -32,6 +32,8 @@ Route::middleware(['auth.API.check'])->prefix('v1/api')->group(function(){
     Route::get('/activities','Auth\ActivityController@index');
     Route::post('/child-activities','Auth\ChildActivityController@store');
 
+    // class
+    Route::get('/get-class-cb-khoa','Auth\ClassesController@getClassByCbKhoa');
 });
 
 
