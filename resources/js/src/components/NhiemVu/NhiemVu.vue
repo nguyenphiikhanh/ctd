@@ -22,75 +22,12 @@
                                                 </div>
                                             </li>
                                             <li class="nk-block-tools-opt">
-<!--                                                <a href="/nhiem-vu/create" class="text-white">-->
-<!--                                                    <button type="button" class="btn btn-primary d-none d-md-inline-flex">-->
-<!--                                                    <em class="icon ni ni-plus"></em>-->
-<!--                                                    <span>Tạo nhiệm vụ</span>-->
-<!--                                                    </button>-->
-<!--                                                </a>-->
-                                                <button type="button" data-bs-toggle="modal" data-bs-target="#taskCreate" class="btn btn-primary d-none d-md-inline-flex">
-                                                    <em class="icon ni ni-plus"></em>
-                                                    <span>Tạo nhiệm vụ</span>
-                                                </button>
-
-                                                <div class="modal fade" id="taskCreate" data-bs-keyboard="false" data-bs-backdrop="static">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Tạo nhiệm vụ</h5>
-                                                                <a @click="onCloseModal()" href="#" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                                    <em class="icon ni ni-cross"></em>
-                                                                </a>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form action="#" class="form-validate is-alter">
-                                                                    <div class="form-group">
-                                                                        <label class="form-label" for="full-name">Loại nhiệm vụ</label>
-                                                                        <div class="form-control-wrap">
-                                                                            <select v-model="activity.activity" class="form-control form-control-outlined">
-                                                                                <option :value="null">--Chọn loại nhiệm vụ---</option>
-                                                                                <option v-for="(option, index) in activitiy_list" :key="index" :value="option.id">{{option.activity_name}}</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group" v-if="activity.activity">
-                                                                        <label class="form-label" for="email-address">Hoạt động</label>
-                                                                        <div class="form-control-wrap">
-                                                                            <div class="custom-control custom-radio">
-                                                                                <input v-model="activity.action" type="radio" :value="actionType.NOTIFICATION_JOIN" id="customRadio2" name="customRadio" class="custom-control-input">
-                                                                                <label class="custom-control-label" for="customRadio2">Tạo phần thi</label>
-                                                                            </div>
-                                                                            <div class="custom-control custom-radio">
-                                                                                <input v-model="activity.action" type="radio" :value="actionType.NOTIFICATION_VIEW" id="customRadio3" name="customRadio" class="custom-control-input">
-                                                                                <label class="custom-control-label" for="customRadio3">Thông báo(có phản hồi)</label>
-                                                                            </div>
-                                                                            <div class="custom-control custom-radio">
-                                                                                <input v-model="activity.action" type="radio" :value="actionType.NOTIFICATION_NOT_RESPONSE" id="customRadio4" name="customRadio" class="custom-control-input">
-                                                                                <label class="custom-control-label" for="customRadio4">Thông báo(không phản hồi)</label>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group" v-if="activity.action">
-                                                                        <label class="form-label" for="full-name">Tên nhiệm vụ</label>
-                                                                        <div class="form-control-wrap">
-                                                                            <input type="text" v-model="activity.taskName" class="form-control">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group" v-if="activity.action">
-                                                                        <label class="form-label" for="full-name">Mô tả</label>
-                                                                        <div class="form-control-wrap">
-                                                                            <textarea  v-model="activity.details" class="form-control"></textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="form-group d-flex justify-content-center">
-                                                                        <button type="button" :disabled="!validSubmit" @click="onSaveActivity()" class="btn btn-lg btn-primary">Lưu</button>
-                                                                        <button type="button" @click="onCloseModal()" ref="buttonClose" data-bs-dismiss="modal" class="btn btn-lg btn-outline-secondary custom-ml-3">Huỷ</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <router-link :to="{name: 'NhiemVu_Create'}">
+                                                    <button type="button" class="btn btn-primary d-none d-md-inline-flex">
+                                                        <em class="icon ni ni-plus"></em>
+                                                        <span>Tạo nhiệm vụ</span>
+                                                    </button>
+                                                </router-link>
                                             </li>
                                         </ul>
                                     </div>
@@ -301,53 +238,20 @@
 </template>
 
 <script>
-import constants from "../constants";
-import {mapActions} from 'vuex'
-import activitiyServices from "../services/activitiy.services";
 
 export default {
     data(){
         return{
-            activity:{
-                taskName: '',
-                activity: null,
-                action: null,
-                details: ''
-            },
-            activitiy_list: [],
+
         }
     },
     computed:{
-      actionType(){
-          return constants.ACTIVITY;
-      },
-        validSubmit(){
-          return this.activity.activity && this.activity.taskName && this.activity.action;
-        }
     },
     methods:{
-        ...mapActions({
-            getActivityList: 'activity/getActivityList'
-        }),
 
-        async getActivities(){
-            await activitiyServices.getActivityList()
-                .then(response => this.activitiy_list = response.data.data);
-        },
-        async onSaveActivity(){
-            console.log(this.activity);
-            await  activitiyServices.createChildActivity(this.activity)
-                .then(() => this.$refs.buttonClose.click());
-        },
-        onCloseModal(){
-            this.activity.activity = null;
-            this.activity.action = null;
-            this.activity.taskName = '';
-            this.activity.details = '';
-        }
     },
-    async mounted() {
-        await this.getActivities();
+    mounted() {
+
     }
 }
 </script>
