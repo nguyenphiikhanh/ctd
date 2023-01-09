@@ -28,8 +28,12 @@ class ClassesController extends AppBaseController
             ->leftJoin('terms', 'classes.id_term', 'terms.id')
             ->select('classes.id',DB::raw("CONCAT(classes.class_name,'(',class_type.type_name,', ', terms.term_name,' - ', faculties.faculty_name,')') as class_name"));
             if($className){
-                $classList->where('class_name', "%".$className."%");
+                $classList->where('class_name', 'like', "%".$className."%")
+                ->orWhere('faculties.faculty_name', 'like', "%".$className."%")
+                ->orWhere('class_type.type_name', 'like', "%".$className."%")
+                ->orWhere('terms.term_name', 'like', "%".$className."%");
             }
+            $classList->orderByDesc('faculties.id');
             $data = $classList->get();
             return $this->sendResponse($data,__('message.success.get_list',['atribute' => 'lớp']));
         }

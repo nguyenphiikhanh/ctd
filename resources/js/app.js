@@ -30,6 +30,15 @@ import Vue from "vue";
 import store from "./src/store";
 import router from "./src/router";
 
+//global components
+import VueLoading from "vuejs-loading-plugin";
+Vue.use(VueLoading, {
+    dark: true, // default false
+    text: 'Vui lòng đợi...', // default 'Loading'
+    loading: true, // default false
+    background: '#fff', // set custom background
+})
+
 const app = new Vue({
     store,
     router,

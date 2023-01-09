@@ -5,13 +5,14 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <div class="form-control-wrap">
-                        <input type="text" class="form-control"  placeholder="Tìm kiếm">
+                        <input type="text" class="form-control" v-model="searchText" @input="searchClass()" placeholder="Tìm kiếm">
                     </div>
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <ul class="custom-control-group">
+                    <small v-if="isSearching">Đang tìm kiếm...</small>
+                    <ul v-if="!isSearching" class="custom-control-group">
                         <li v-for="(act, index) in classes" :key="index">
                             <div class="custom-control custom-radio custom-control-pro no-control">
                                 <input v-model="class_selected" type="checkbox" :value="act.id" class="custom-control-input" :id="`class-${index}`">
@@ -19,6 +20,7 @@
                             </div>
                         </li>
                     </ul>
+                    <div v-if="classes.length == 0" class="row text-center d-flex justify-content-center"><small>Không có dữ liệu.</small></div>
                 </div>
             </div>
         </div>
@@ -27,6 +29,7 @@
 
 <script>
 import {mapActions} from 'vuex'
+import { asyncLoading } from 'vuejs-loading-plugin';
 export default {
     props:{
         isShowing: {type: Boolean, default: false, required: true},
@@ -36,14 +39,22 @@ export default {
         return{
             classes: [],
             class_select: [],
+            searchText: '',
+            isSearching: false,
         }
     },
     methods:{
         ...mapActions({
            getClassList: 'classes/getClassList',
         }),
-        async getClasses(className = ''){
-            await this.getClassList(className).then(res => this.classes = res.data);
+        async getClasses(){
+            await this.getClassList().then(res => this.classes = res.data);
+        },
+        async searchClass(){
+            this.isSearching = true;
+            let data = {className: this.searchText};
+            await this.getClassList(data).then(res => this.classes = res.data);
+            this.isSearching = false;
         }
     },
     computed:{
@@ -59,7 +70,7 @@ export default {
         }
     },
     async mounted() {
-        await this.getClasses();
+        asyncLoading(this.getClasses());
     }
 }
 </script>
