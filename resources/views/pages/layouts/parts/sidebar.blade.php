@@ -16,18 +16,22 @@
         <div class="nk-sidebar-content">
             <div class="nk-sidebar-menu" data-simplebar>
                 <ul class="nk-menu">
-                    <li class="nk-menu-item {{request()->routeIs('dashboard') ? 'active current-page' : ''}}">
-                        <a href="" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-home-fill"></em></span>
-                            <span class="nk-menu-text">Trang chủ</span>
-                        </a>
-                    </li><!-- .nk-menu-item -->
-                    <li class="nk-menu-item {{request()->routeIs('task*') ? 'active current-page' : ''}}">
-                        <a href="/nhiem-vu" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
-                            <span class="nk-menu-text">Nhiệm vụ</span>
-                        </a>
-                    </li><!-- .nk-menu-item -->
+                    <router-link :to="{name: 'Home'}">
+                        <li class="nk-menu-item">
+                            <a href="#" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-home-fill"></em></span>
+                                <span class="nk-menu-text">Trang chủ</span>
+                            </a>
+                        </li><!-- .nk-menu-item -->
+                    </router-link>
+                    <router-link :to="{name: 'NhiemVu_List'}">
+                        <li class="nk-menu-item">
+                            <a href="#" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
+                                <span class="nk-menu-text">Nhiệm vụ</span>
+                            </a>
+                        </li><!-- .nk-menu-item -->
+                    </router-link>
                     <li class="nk-menu-item">
                         <a href="html/lms/index.html" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-bell-fill"></em></span>

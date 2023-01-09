@@ -14,13 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    return $request->user();
+});
 
-// Route::middleware(['auth:sanctum'])->group(function(){
-//     Route::get('/my-info','Auth\UserController@getInfo');
-// });
+// Auth API Custom
+Route::middleware(['auth.API.check'])->prefix('v1')->group(function(){
+    // Route::get('/activities','Auth\ActivityController@index');
+    // Route::post('/child-activities','Auth\ChildActivityController@store');
+
+    // class
+    Route::get('/classes','Auth\ClassesController@index');
+});
 
 
 

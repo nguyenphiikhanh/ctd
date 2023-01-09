@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: '/v1/api',
+    baseURL: process.env.MIX_BASE_URL_API,
     withCredentials: true,
 });
 

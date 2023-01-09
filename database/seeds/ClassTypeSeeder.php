@@ -15,12 +15,12 @@ class ClassTypeSeeder extends Seeder
         //
         DB::table('class_type')->updateOrInsert(
             ['id' => 1],
-            ['type_name' => 'Khối Sư phạm']
+            ['type_name' => 'Sư phạm']
         );
 
         DB::table('class_type')->updateOrInsert(
             ['id' => 2],
-            ['type_name' => 'Khối Cử nhân']
+            ['type_name' => 'Ngoài Sư phạm']
         );
     }
 }

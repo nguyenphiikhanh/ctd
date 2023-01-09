@@ -17,9 +17,26 @@ class ClassesController extends AppBaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        try{
+            $className = $request->get('className');
+            $classList = DB::table('classes')
+            ->leftJoin('faculties', 'classes.id_faculty', 'faculties.id')
+            ->leftJoin('class_type', 'classes.id_class_type', 'class_type.id')
+            ->leftJoin('terms', 'classes.id_term', 'terms.id')
+            ->select('classes.id',DB::raw("CONCAT(classes.class_name,'(',class_type.type_name,', ', terms.term_name,' - ', faculties.faculty_name,')') as class_name"));
+            if($className){
+                $classList->where('class_name', "%".$className."%");
+            }
+            $data = $classList->get();
+            return $this->sendResponse($data,__('message.success.get_list',['atribute' => 'lớp']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'class']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

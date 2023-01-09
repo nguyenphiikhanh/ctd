@@ -27,13 +27,4 @@ Route::middleware(['auth.check'])->group(function(){
 });
 
 
-// Auth API Custom
-Route::middleware(['auth.API.check'])->prefix('v1/api')->group(function(){
-    Route::get('/activities','Auth\ActivityController@index');
-    Route::post('/child-activities','Auth\ChildActivityController@store');
-
-    // class
-    Route::get('/get-class-cb-khoa','Auth\ClassesController@getClassByCbKhoa');
-});
-
 

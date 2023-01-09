@@ -8,12 +8,10 @@
     <meta name="description" content="Cong tac doan Thanh nien truong DHSP Hanoi.">
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="./images/favicon.png">
-    <!-- Page Title  -->
-    @yield('title')
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{asset('assets/css/dashlite.css')}}">
     <link id="skin-default" rel="stylesheet" href="{{asset('assets/css/theme.css')}}">
-    {{-- <link rel="stylesheet" href="{{mix('css/app.css')}}"> --}}
+    <title>{{ config('app.name') }}</title>
     @yield('css')
 </head>
 
