@@ -33,10 +33,9 @@ import router from "./src/router";
 //global components
 import VueLoading from "vuejs-loading-plugin";
 Vue.use(VueLoading, {
-    dark: true, // default false
-    text: 'Vui lòng đợi...', // default 'Loading'
-    loading: true, // default false
-    background: '#fff', // set custom background
+    dark: true,
+    text: 'Vui lòng đợi...',
+    background: '#fff',
 })
 
 const app = new Vue({

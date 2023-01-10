@@ -20,7 +20,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 // Auth API Custom
 Route::middleware(['auth.API.check'])->prefix('v1')->group(function(){
-    // Route::get('/activities','Auth\ActivityController@index');
+    Route::get('/activities','Auth\ActivityController@index');
     // Route::post('/child-activities','Auth\ChildActivityController@store');
 
     // class

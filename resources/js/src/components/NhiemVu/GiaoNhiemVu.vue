@@ -65,11 +65,12 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Datepicker Range</label>
+                                            <label class="form-label">Thời gian thực hiện</label>
                                             <div class="form-control-wrap">
                                                 <div class="input-daterange date-picker-range input-group">
+                                                    <div class="input-group-addon">Từ</div>
                                                     <input type="text" class="form-control" />
-                                                    <div class="input-group-addon">TO</div>
+                                                    <div class="input-group-addon">Đến</div>
                                                     <input type="text" class="form-control" />
                                                 </div>
                                             </div>
@@ -99,6 +100,7 @@
 <script>
 import constants from "../../constants";
 import GiaoNhiemVu_Truong from "./authorize/giaoNv/GiaoNhiemVu_Truong";
+import {mapActions} from "vuex";
 
 export default {
     components:{
@@ -116,40 +118,8 @@ export default {
             thao_tac: null,
             //
             lop_choose: [],
-            activitiy_list: [
-                {
-                    id: 1,
-                    activity_name: 'Hoạt động Nghiên cứu Khoa học'
-                },
-                {
-                    id: 2,
-                    activity_name: 'Hoạt động Nghiệp vụ Sư phạm'
-                },
-                {
-                    id: 3,
-                    activity_name: 'Hoạt động Đoàn'
-                },
-                {
-                    id: 4,
-                    activity_name: 'Hoạt động Khác'
-                }
-            ],
-            lop: [
-                {
-                    id: 1,
-                    class_name: 'K69C',
-                    id_faculty: 2,
-                    id_class_type: 2,
-                    id_term: 1
-                },
-                {
-                    id: 1,
-                    class_name: 'K69A',
-                    id_faculty: 2,
-                    id_class_type: 1,
-                    id_term: 1
-                }
-            ],
+            sinhvien_choose: [],
+            activitiy_list: [],
         }
     },
     computed:{
@@ -164,14 +134,17 @@ export default {
             }
             else return 'Tạo hoạt động';
         },
-        doi_tuong(){
-            return constants.DOI_TUONG;
-        },
     },
     methods:{
+        ...mapActions({
+           getActivities: 'activity/getActivities'
+        }),
+        async getActivitiyList(){
+            await this.getActivities().then(res => this.activitiy_list = [...res.data]);
+        }
     },
     async mounted() {
-        console.log(...this.activitiy_list);
+        await this.getActivitiyList();
     },
     watch:{
         hoat_dong_choose(){

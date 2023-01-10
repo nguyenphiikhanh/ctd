@@ -4,6 +4,7 @@ import createPersistedState from 'vuex-persistedstate'
 
 //module
 import classes from "./modules/classes";
+import activity from "./modules/activity";
 
 Vue.use(Vuex)
 
@@ -13,6 +14,7 @@ const store = new Vuex.Store({
     ],
     modules:{
         classes,
+        activity
     }
 });
 

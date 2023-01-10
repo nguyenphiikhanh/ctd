@@ -24,11 +24,11 @@ class ActivityController extends AppBaseController
         //
         try{
             $activities = DB::table('activities')->get();
-            return $this->sendResponse($activities,__('message.success.get_list',['atribute' => 'hoạt động']));
+            return $this->sendResponse($activities,__('message.success.get_list',['atribute' => 'nhiệm vụ']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.get_list',['atribute' => 'hoạt động']),Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'nhiệm vụ']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

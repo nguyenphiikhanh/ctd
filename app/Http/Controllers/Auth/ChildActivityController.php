@@ -6,6 +6,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Models\ChildActivity;
 use App\Http\Controllers\Controller;
 use App\Http\Utils\AppUtils;
+use App\Http\Utils\RoleUtils;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -22,11 +23,11 @@ class ChildActivityController extends AppBaseController
     public function index()
     {
         //
-        return view('pages.nhiemVu.index');
+
     }
 
     public function create(){
-        return view('pages.nhiemVu.create');
+
     }
     /**
      * Store a newly created resource in storage.
@@ -44,20 +45,7 @@ class ChildActivityController extends AppBaseController
             $action = $request->get('action');
             $details = $request->get('details');
             DB::beginTransaction();
-            if($action == AppUtils::NOTIFICATION_JOIN){
-                $child_activity = ChildActivity::create([
-                    'id_activity' => $activity,
-                    'child_activity_type' => $action,
-                    'details' => $details,
-                    'name' => $taskName,
-                    'created_by' => $user->id,
-                ]);
 
-                DB::table('activities_details')->insert([
-                    'id_child_activity' => $child_activity->id,
-                    'details' => $details
-                ]);
-            }
             DB::commit();
             return $this->sendResponse('',__('message.success.create',['atribute' => 'hoạt động']));
         }
