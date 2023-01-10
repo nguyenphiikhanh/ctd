@@ -1,7 +1,7 @@
 import classesServices from "../../../services/classes.services";
 
 export default {
-    async getClassList({commit, dispatch}, params){
+    getClassList({commit, dispatch}, params){
         return classesServices.getClassList(params)
             .then(response => {
                 return Promise.resolve(response.data);
@@ -9,5 +9,5 @@ export default {
             .catch((error) => {
                 console.log(error);
             })
-    }
+    },
 }

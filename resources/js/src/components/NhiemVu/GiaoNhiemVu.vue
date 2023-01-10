@@ -69,9 +69,9 @@
                                             <div class="form-control-wrap">
                                                 <div class="input-daterange date-picker-range input-group">
                                                     <div class="input-group-addon">Từ</div>
-                                                    <input type="text" class="form-control" />
+                                                    <input v-model="activity_create.start_time" type="text" class="form-control" />
                                                     <div class="input-group-addon">Đến</div>
-                                                    <input type="text" class="form-control" />
+                                                    <input v-model="activity_create.end_time" type="text" class="form-control" />
                                                 </div>
                                             </div>
                                         </div>
@@ -87,7 +87,11 @@
                                 </div>
 
 <!--                                đối tượng nhận-->
-                                <GiaoNhiemVu_Truong :class_choose="lop_choose" :is-showing="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
+                                <GiaoNhiemVu_Truong :class-choose="doi_tuong" @emitChange="changeDoiTuong" v-if="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
+
+                                <div class="col-12 d-flex justify-content-center">
+                                    <button v-if="isValid" @click="onSaveChildActivity()" class="btn btn-primary mb-3">Tạo nhiệm vụ</button>
+                                </div>
                             </div>
                             </div>
                         </div><!-- .nk-block -->
@@ -101,6 +105,7 @@
 import constants from "../../constants";
 import GiaoNhiemVu_Truong from "./authorize/giaoNv/GiaoNhiemVu_Truong";
 import {mapActions} from "vuex";
+import { asyncLoading } from 'vuejs-loading-plugin';
 
 export default {
     components:{
@@ -111,15 +116,15 @@ export default {
             activity_create:{
                 ten_hoat_dong : '',
                 mota: '',
-                doi_tuong: null,
+                start_time: '',
+                end_time: '',
             },
             //todo activities
             hoat_dong_choose: null,
             thao_tac: null,
             //
-            lop_choose: [],
-            sinhvien_choose: [],
             activitiy_list: [],
+            doi_tuong: [],
         }
     },
     computed:{
@@ -134,14 +139,46 @@ export default {
             }
             else return 'Tạo hoạt động';
         },
+        isValid(){
+            return this.activity_create.ten_hoat_dong && this.doi_tuong.length > 0;
+        }
     },
     methods:{
         ...mapActions({
-           getActivities: 'activity/getActivities'
+           getActivities: 'activity/getActivities',
+            storeChildActivities: 'activity/storeChildActivity'
         }),
         async getActivitiyList(){
             await this.getActivities().then(res => this.activitiy_list = [...res.data]);
+        },
+        changeDoiTuong(val){
+            this.doi_tuong = val;
+        },
+        async onSaveChildActivity(){
+            this.$loading(true);
+            const data = {
+                activity: this.hoat_dong_choose,
+                name: this.activity_create.ten_hoat_dong,
+                action: this.thao_tac,
+                details: this.activity_create.mota,
+                start_time: this.activity_create.start_time,
+                end_time: this.activity_create.end_time,
+                assignTo: this.doi_tuong,
+            }
+            await this.storeChildActivities(data);
+            this.resetForm();
+            this.$loading(false);
+        },
+        resetForm(){
+            this.activity_create = {
+                    ten_hoat_dong : '',
+                    mota: '',
+                    start_time: '',
+                    end_time: '',
+            };
+            this.hoat_dong_choose = null;
         }
+
     },
     async mounted() {
         await this.getActivitiyList();
