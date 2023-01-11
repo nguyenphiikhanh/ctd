@@ -2,6 +2,7 @@
 import NhiemVu from "../components/NhiemVu/NhiemVu";
 import GiaoNhiemVu from "../components/NhiemVu/GiaoNhiemVu";
 import AdminDashBoard from "../components/dashboards/AdminDashBoard";
+import Notifications from "../components/NhiemVu/ThongBao/Notifications";
 
 const routes = [
     // dashboard
@@ -28,6 +29,14 @@ const routes = [
         component: GiaoNhiemVu,
         meta:{
             title: 'Tạo nhiệm vụ'
+        }
+    },
+    {
+        name:"Notifications",
+        path:"/thong-bao-nhiemvu",
+        component: Notifications,
+        meta:{
+            title: 'Thông báo nhiệm vụ'
         }
     },
 ];

@@ -6,5 +6,11 @@ export default {
     },
     storeChildActivity(data){
         return http.post('/child-activities',data);
+    },
+    getActivitiesReceive(){
+        return http.get('/receive-activities');
+    },
+    forwardActivities(id){
+        return http.get(`/child-activity-forward/${id}`)
     }
 }

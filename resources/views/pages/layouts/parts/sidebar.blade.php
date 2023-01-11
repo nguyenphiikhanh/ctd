@@ -32,12 +32,14 @@
                             </a>
                         </li><!-- .nk-menu-item -->
                     </router-link>
-                    <li class="nk-menu-item">
-                        <a href="html/lms/index.html" class="nk-menu-link">
-                            <span class="nk-menu-icon"><em class="icon ni ni-bell-fill"></em></span>
-                            <span class="nk-menu-text">Thông báo</span><span class="nk-menu-badge">10</span>
-                        </a>
-                    </li><!-- .nk-menu-item -->
+                    <router-link :to="{name: 'Notifications'}">
+                        <li class="nk-menu-item">
+                            <a href="#" class="nk-menu-link">
+                                <span class="nk-menu-icon"><em class="icon ni ni-bell-fill"></em></span>
+                                <span class="nk-menu-text">Thông báo nhiệm vụ</span><span class="nk-menu-badge">10</span>
+                            </a>
+                        </li><!-- .nk-menu-item -->
+                    </router-link>
                 </ul><!-- .nk-menu -->
             </div><!-- .nk-sidebar-menu -->
         </div><!-- .nk-sidebar-content -->

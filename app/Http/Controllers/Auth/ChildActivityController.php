@@ -97,6 +97,49 @@ class ChildActivityController extends AppBaseController
         }
     }
 
+    public function getActivitiesReceive(){
+        try{
+            $user = Auth::user();
+            $actRecriveList = DB::table('user_receive_activities')->where('id_user', $user->id)
+                ->leftJoin('child_activities', 'child_activities.id','user_receive_activities.id_child_activity')
+                ->select('user_receive_activities.*', 'child_activities.name as name','child_activities.created_at as created_at')
+                ->get();
+            return $this->sendResponse($actRecriveList,__('message.success.get_list',['atribute' => 'nhiệm vụ và thông báo']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'nhiệm vụ và thông báo']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    public function forwardChildActivity($id){
+        try{
+            $user = Auth::user();
+            DB::beginTransaction();
+            $notiFromCbl = DB::table('user_receive_activities')->where('id',$id)->where('id_user', $user->id)->first();
+            $userReceiveList = DB::table('users')->where('id_class', $user->id_class)
+                ->where('role', RoleUtils::ROLE_SINHVIEN)->get();
+            foreach($userReceiveList as $student){
+                DB::table('user_receive_activities')->insert([
+                    'created_by' => $user->id,
+                    'id_child_activity' => $notiFromCbl->id_child_activity,
+                    'id_user' => $student->id,
+                    'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                ]);
+            }
+            DB::table('user_receive_activities')->where('id',$id)->update([
+                'status' => AppUtils::STATUS_HOAN_THANH,
+            ]);
+            DB::commit();
+            return $this->sendResponse('',__('message.success.forward'));
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.forward'),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
     /**
      * Display the specified resource.
      *

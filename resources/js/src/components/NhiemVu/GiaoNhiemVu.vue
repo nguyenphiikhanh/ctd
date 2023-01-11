@@ -105,7 +105,6 @@
 import constants from "../../constants";
 import GiaoNhiemVu_Truong from "./authorize/giaoNv/GiaoNhiemVu_Truong";
 import {mapActions} from "vuex";
-import { asyncLoading } from 'vuejs-loading-plugin';
 
 export default {
     components:{
