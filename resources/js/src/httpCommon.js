@@ -15,7 +15,7 @@ instance.interceptors.response.use(
         if (
             (error.response.status === 401 || error.response.status === 419)
         ) {
-            location.href = '/logout';
+            // location.href = '/logout';
         }
         return Promise.reject(error);
     }

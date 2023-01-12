@@ -7,16 +7,20 @@ export default {
                 return Promise.resolve(response.data);
             })
             .catch((error) => {
-                console.log(error);
+                if (Object.values(error.errors).length > 0) {
+                    dispatch("alertError", Object.values(error.errors)[0][0], { root: true });
+                } else dispatch("alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
             })
     },
     storeChildActivity({commit, dispatch}, data){
         return activitiesServices.storeChildActivity(data)
             .then(response => {
-                return Promise.resolve(response.data);
+                dispatch('alertSuccess', typeof response.message == 'object' ? response.message[0] : response.message, { root: true })
             })
             .catch((error) => {
-                console.log(error);
+                if (Object.values(error.errors).length > 0) {
+                    dispatch("alertError", Object.values(error.errors)[0][0], { root: true });
+                } else dispatch("alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
             })
     },
     getActivitiesReceive({commit, dispatch}){
@@ -25,16 +29,20 @@ export default {
                 return Promise.resolve(response.data);
             })
             .catch((error) => {
-                console.log(error);
+                if (Object.values(error.errors).length > 0) {
+                    dispatch("alertError", Object.values(error.errors)[0][0], { root: true });
+                } else dispatch("alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
             })
     },
     forwardActivities({commit, dispatch}, id){
         return activitiesServices.forwardActivities(id)
             .then(response => {
-                return Promise.resolve(response.data);
+                dispatch('alertSuccess', typeof response.message == 'object' ? response.message[0] : response.message, { root: true })
             })
             .catch((error) => {
-                console.log(error);
+                if (Object.values(error.errors).length > 0) {
+                    dispatch("alertError", Object.values(error.errors)[0][0], { root: true });
+                } else dispatch("alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
             })
     }
 }

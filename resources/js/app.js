@@ -31,12 +31,20 @@ import store from "./src/store";
 import router from "./src/router";
 
 //global components
-import VueLoading from "vuejs-loading-plugin";
+import VueLoading from "vuejs-loading-plugin"; // loading
 Vue.use(VueLoading, {
     dark: true,
     text: 'Vui lòng đợi...',
     background: '#fff',
-})
+});
+
+import Toast from "vue-toastification";  // Toastify
+import "vue-toastification/dist/index.css";
+Vue.use(Toast, {
+    transition: "Vue-Toastification__fade",
+    maxToasts: 1,
+    newestOnTop: false
+});
 
 const app = new Vue({
     store,
