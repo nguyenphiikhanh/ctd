@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "../store";
 
 Vue.use(VueRouter);
 
@@ -13,7 +14,11 @@ let router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} - ${process.env.MIX_APP_NAME}`
-
+    if (to.matched.some(record => record.meta.requiresAuth) ) {
+        if (!store.getters["auth/isAuthenticated"]) {
+            location.href = '/dang-nhap';
+        }
+    }
     next();
 })
 

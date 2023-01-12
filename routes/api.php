@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,20 +15,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::prefix('v1')->group(function(){
+    Route::post('/login', [AuthController::class, 'login']);
 
-// Auth API Custom
-Route::middleware(['auth.API.check'])->prefix('v1')->group(function(){
-    Route::get('/activities','Auth\ActivityController@index');
-    Route::post('/child-activities','Auth\ChildActivityController@store');
-    Route::get('/receive-activities','Auth\ChildActivityController@getActivitiesReceive');
-    Route::get('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']);
+
+        Route::get('/activities','Auth\ActivityController@index');
+        Route::post('/child-activities','Auth\ChildActivityController@store');
+        Route::get('/receive-activities','Auth\ChildActivityController@getActivitiesReceive');
+        Route::get('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');
 
 
-    // class
-    Route::get('/classes','Auth\ClassesController@index');
+        // class
+        Route::get('/classes','Auth\ClassesController@index');
+    });
 });
 
 

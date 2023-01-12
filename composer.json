@@ -15,6 +15,7 @@
         "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
         "infyomlabs/laravel-generator": "^2.1",
         "laravel/framework": "^7.29",
+        "laravel/passport": "*",
         "laravel/tinker": "^2.5",
         "laravel/ui": "*"
     },

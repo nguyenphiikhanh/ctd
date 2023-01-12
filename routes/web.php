@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,13 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/dang-nhap','AuthController@index')->name('login.index');
-Route::post('/dang-nhap','AuthController@login')->name('login.login');
-Route::get('/logout','AuthController@logout')->name('logout');
+Route::get('/dang-nhap', [AuthController::class, 'index']);
 
-Route::middleware(['auth.check'])->group(function(){
-    Route::get('/{any?}', 'SpaController@index')->where('any', '^(?!nova|admin|horizon).*$')->name('dashboard');
-});
+Route::get('/{any?}', 'SpaController@index')->where('any', '^(?!nova|admin|horizon).*$');
 
 
 

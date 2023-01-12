@@ -1,4 +1,5 @@
 
+
 import NhiemVu from "../components/NhiemVu/NhiemVu";
 import GiaoNhiemVu from "../components/NhiemVu/GiaoNhiemVu";
 import AdminDashBoard from "../components/dashboards/AdminDashBoard";
@@ -11,7 +12,8 @@ const routes = [
         path:"/",
         component: AdminDashBoard,
         meta:{
-            title: 'Nhiệm vụ'
+            title: 'Nhiệm vụ',
+            requiresAuth: true
         }
     },
     // nhiệm vụ
@@ -20,7 +22,8 @@ const routes = [
         path:"/nhiem-vu",
         component: NhiemVu,
         meta:{
-            title: 'Nhiệm vụ'
+            title: 'Nhiệm vụ',
+            requiresAuth: true
         }
     },
     {
@@ -28,7 +31,8 @@ const routes = [
         path:"/nhiem-vu/create",
         component: GiaoNhiemVu,
         meta:{
-            title: 'Tạo nhiệm vụ'
+            title: 'Tạo nhiệm vụ',
+            requiresAuth: true
         }
     },
     {
@@ -36,7 +40,8 @@ const routes = [
         path:"/thong-bao-nhiemvu",
         component: Notifications,
         meta:{
-            title: 'Thông báo nhiệm vụ'
+            title: 'Thông báo nhiệm vụ',
+            requiresAuth: true
         }
     },
 ];

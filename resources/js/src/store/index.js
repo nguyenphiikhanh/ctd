@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 
 //module
-import global from "./modules/global";
+import auth from "./modules/auth";
+import alert from "./modules/alert";
 import classes from "./modules/classes";
 import activity from "./modules/activity";
 
@@ -14,7 +15,8 @@ const store = new Vuex.Store({
         createPersistedState()
     ],
     modules:{
-        global,
+        auth,
+        alert,
         classes,
         activity
     }

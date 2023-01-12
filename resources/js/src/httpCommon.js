@@ -1,4 +1,8 @@
 import axios from 'axios';
+import store from "./store";
+
+let authToken = localStorage.getItem('token');
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + authToken;
 
 const instance = axios.create({
     baseURL: process.env.MIX_BASE_URL_API,
@@ -15,7 +19,7 @@ instance.interceptors.response.use(
         if (
             (error.response.status === 401 || error.response.status === 419)
         ) {
-            // location.href = '/logout';
+            store.dispatch('auth/logout');
         }
         return Promise.reject(error);
     }

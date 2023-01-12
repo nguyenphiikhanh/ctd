@@ -6,35 +6,49 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends AppBaseController
 {
-    //
     public function index(){
-        if(Auth::check()){
-            return redirect()->route('dashboard');
-        }
         return view('login');
     }
+    //
+    public function login(Request $request)
+    {
+        $requestData = $request->all();
+        $validator = Validator::make($requestData,[
+            'username' => 'required',
+            'password' => 'required'
+        ]);
 
-    public function login(Request $request){
-        try{
-            $loginInfo = [
-                'username' => $request->username,
-                'password' => $request->password,
-            ];
-            if(Auth::attempt($loginInfo)){
-                return redirect()->route('dashboard');
-            }
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
         }
-        catch(\Exception $e){
-            Log::error($e->getMessage().$e->getTraceAsString());
-            return back()->with('error','Có lỗi xảy ra');
+
+        if(! auth()->attempt($requestData)){
+            return $this->sendError(__('auth.failed'),Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+
+        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+
+        return $this->sendResponse(['user' => auth()->user(), 'access_token' => $accessToken],__('auth.success'));
     }
 
-    public function logout(){
-        Auth::logout();
-        return redirect()->route('login.index');
+    public function me(Request $request)
+    {
+        $user = $request->user();
+
+        return $this->sendResponse($user,__('message.success.show',['atribute' => 'logged user']));
+    }
+
+    public function logout (Request $request)
+    {
+        $token = $request->user()->token();
+        $token->revoke();
+        $response = ['message' => 'You have been successfully logged out!'];
+        return response($response, 200);
     }
 }
