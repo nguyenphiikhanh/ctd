@@ -75,6 +75,15 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group" v-if="thao_tac == hoat_dong.THONG_BAO_C0_PHAN_HOI">
+                                            <label class="form-label">Chọn hoạt động</label>
+                                            <div class="form-control-wrap">
+                                                <select v-model="hoat_dong_assign" class="form-control js-select2">
+                                                    <option :value="null">Chọn hoạt động</option>
+                                                    <option v-for="(option, index) in activity_responsiable_list" :key="index" :value="option.id">{{option.name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label class="form-label" for="cp1-profile-description">Mô tả</label>
@@ -105,6 +114,7 @@
 import constants from "../../constants";
 import GiaoNhiemVu_Truong from "./authorize/giaoNv/GiaoNhiemVu_Truong";
 import {mapActions} from "vuex";
+import { asyncLoading } from 'vuejs-loading-plugin';
 
 export default {
     components:{
@@ -123,7 +133,9 @@ export default {
             thao_tac: null,
             //
             activitiy_list: [],
+            activity_responsiable_list: [],
             doi_tuong: [],
+            hoat_dong_assign: null,
         }
     },
     computed:{
@@ -139,13 +151,22 @@ export default {
             else return 'Tạo hoạt động';
         },
         isValid(){
-            return this.activity_create.ten_hoat_dong && this.doi_tuong.length > 0;
+            if(this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){
+                return this.activity_create.ten_hoat_dong;
+            }
+            else if(this.thao_tac == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){
+                return this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong.length > 0;
+            }
+            else {
+                return this.activity_create.ten_hoat_dong && this.doi_tuong.length > 0;
+            }
         }
     },
     methods:{
         ...mapActions({
            getActivities: 'activity/getActivities',
-            storeChildActivities: 'activity/storeChildActivity'
+            storeChildActivities: 'activity/storeChildActivity',
+            getActivityResponsiable: 'activity/getActivityResponsiable'
         }),
         async getActivitiyList(){
             await this.getActivities().then(res => this.activitiy_list = [...res.data]);
@@ -163,6 +184,7 @@ export default {
                 start_time: this.activity_create.start_time,
                 end_time: this.activity_create.end_time,
                 assignTo: this.doi_tuong,
+                assignChildActivity: this.hoat_dong_assign,
             }
             await this.storeChildActivities(data);
             this.resetForm();
@@ -180,11 +202,19 @@ export default {
 
     },
     async mounted() {
-        await this.getActivitiyList();
+        await asyncLoading(this.getActivitiyList());
     },
     watch:{
         hoat_dong_choose(){
             this.thao_tac = null;
+        },
+        thao_tac(val){
+            if(val == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){
+                let queryParams = {
+                    activity: this.hoat_dong_choose
+                };
+                asyncLoading(this.getActivityResponsiable(queryParams).then((res) => this.activity_responsiable_list = res.data));
+            }
         }
     },
 }

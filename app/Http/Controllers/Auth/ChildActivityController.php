@@ -47,6 +47,7 @@ class ChildActivityController extends AppBaseController
             $start_time = $request->get('start_time');
             $end_time = $request->get('end_time');
             $assignTo = $request->get('assignTo',[]);
+            $assignChildActivity = $request->get('assignChildActivity');
             DB::beginTransaction();
                 $child_act = ChildActivity::create([
                     'name' => $name,
@@ -57,6 +58,7 @@ class ChildActivityController extends AppBaseController
                     'end_time' => $end_time,
                     'created_by' => $user->id,
                 ]);
+                // phan thi or tieu ban
                 if($action == AppUtils::PHAN_THI_OR_TIEU_BAN){
                     DB::table('activities_details')->insert([
                         'id_child_activity' => $child_act->id,
@@ -67,14 +69,12 @@ class ChildActivityController extends AppBaseController
                         'details' => $details,
                     ]);
                 }
+                //khong phan hoi
                 elseif($action == AppUtils::THONG_BA0_KHONG_PHAN_HOI){
-                    Log::debug('aaaa');
                     foreach($assignTo as $receiveObj){
-                        Log::debug("role log: ". $user->role);
                         if($user->role == RoleUtils::ROLE_DOAN_TRUONG){
                             $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
                                 ->where('id_class', $receiveObj)->first();
-                                // Log::debug($user_cbl);
                             DB::table('user_receive_activities')->insert([
                                 'id_user' => $user_cbl->id,
                                 'id_child_activity' => $child_act->id,
@@ -84,8 +84,21 @@ class ChildActivityController extends AppBaseController
                         }
                     }
                 }
+                // co phan hoi
                 else{
-
+                    if($user->role == RoleUtils::ROLE_DOAN_TRUONG){
+                        foreach($assignTo as $receiveObj){
+                            $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
+                            ->where('id_class', $receiveObj)->first();
+                            DB::table('user_receive_activities')->insert([
+                                'id_user' => $user_cbl->id,
+                                'id_child_activity' => $child_act->id,
+                                'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                                'id_child_activity_assign' => $assignChildActivity,
+                                'created_by' => $user->id,
+                            ]);
+                        }
+                    }
                 }
             DB::commit();
             return $this->sendResponse('',__('message.success.create',['atribute' => 'hoạt động']));
@@ -109,6 +122,23 @@ class ChildActivityController extends AppBaseController
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.get_list',['atribute' => 'nhiệm vụ và thông báo']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getActivityResponsiable(Request $request){
+        try{
+            $activity = $request->get('activity');
+            Log::debug($activity);
+            $user = \Auth::user();
+            $childActivitiesCreated = DB::table('child_activities')
+                ->where('child_activity_type', AppUtils::PHAN_THI_OR_TIEU_BAN)
+                ->where('id_activity', $activity)
+                ->get();
+            return $this->sendResponse($childActivitiesCreated, __('message.success.get_list',['atribute' => 'hoạt động']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'hoạt động']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

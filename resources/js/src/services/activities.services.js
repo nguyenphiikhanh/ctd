@@ -12,5 +12,8 @@ export default {
     },
     forwardActivities(id){
         return http.get(`/child-activity-forward/${id}`)
+    },
+    getActivityResponsiable(data){
+        return http.get('/child-activity-responsiable',{params: data});
     }
 }

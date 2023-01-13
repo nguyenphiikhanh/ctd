@@ -25,6 +25,8 @@ Route::prefix('v1')->group(function(){
         Route::post('/child-activities','Auth\ChildActivityController@store');
         Route::get('/receive-activities','Auth\ChildActivityController@getActivitiesReceive');
         Route::get('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');
+        Route::get('/child-activity-responsiable','Auth\ChildActivityController@getActivityResponsiable');
+
 
 
         // class
