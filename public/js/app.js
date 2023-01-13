@@ -2281,14 +2281,28 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       }))();
     },
     onForward: function onForward() {
-      var data = {
-        id: this.id,
-        assignTo: this.user_selected,
-        readonlyFlg: this.readonlyFlg ? true : null,
-        small_role_details: this.small_role_details
-      };
-      Object(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_1__["asyncLoading"])(this.forwardActivities(data));
-      Object(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_1__["asyncLoading"])(this.getActivitiesReceive());
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var data;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              data = {
+                id: _this4.id,
+                assignTo: _this4.user_selected,
+                readonlyFlg: _this4.readonlyFlg ? true : null,
+                small_role_details: _this4.small_role_details
+              };
+              _context4.next = 3;
+              return Object(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_1__["asyncLoading"])(_this4.forwardActivities(data));
+            case 3:
+              Object(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_1__["asyncLoading"])(_this4.getActivitiesReceive());
+            case 4:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4);
+      }))();
     },
     selectUser: function selectUser(val) {
       this.user_selected = _toConsumableArray(val);
@@ -3519,7 +3533,7 @@ var render = function render() {
       },
       on: {
         click: function click($event) {
-          return _vm.forwardChildAct(item.id, true);
+          return _vm.forwardChildAct(item.id, item.child_activity_type == _vm.action.THONG_BA0_KHONG_PHAN_HOI);
         }
       }
     }, [_vm._v(_vm._s(item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI ? "Chọn danh sách" : "Chuyển tiếp"))]) : _vm._e()])])]);
@@ -3769,14 +3783,14 @@ var render = function render() {
     }
   })])])])]), _vm._v(" "), _c("div", {
     staticClass: "modal-footer d-flex justify-content-center"
-  }, [_c("button", {
+  }, [_vm.user_selected.length > 0 ? _c("button", {
     staticClass: "btn btn-primary",
     on: {
       click: function click($event) {
         return _vm.forward();
       }
     }
-  }, [_vm._v("Chuyển tiếp")])])])])]);
+  }, [_vm._v("Chuyển tiếp")]) : _vm._e()])])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

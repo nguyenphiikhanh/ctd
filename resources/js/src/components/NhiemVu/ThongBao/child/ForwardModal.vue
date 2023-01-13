@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="modal-footer d-flex justify-content-center">
-            <button @click="forward()" class="btn btn-primary">Chuyển tiếp</button>
+            <button v-if="user_selected.length > 0" @click="forward()" class="btn btn-primary">Chuyển tiếp</button>
         </div>
       </div>
     </div>

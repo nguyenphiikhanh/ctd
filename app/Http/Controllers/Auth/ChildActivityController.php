@@ -84,7 +84,7 @@ class ChildActivityController extends AppBaseController
                         }
                     }
                 }
-                // co phan hoi
+                // co phan hoi gui danh sach tham du
                 else{
                     if($user->role == RoleUtils::ROLE_DOAN_TRUONG){
                         foreach($assignTo as $receiveObj){
@@ -132,7 +132,6 @@ class ChildActivityController extends AppBaseController
     public function getActivityResponsiable(Request $request){
         try{
             $activity = $request->get('activity');
-            Log::debug($activity);
             $user = \Auth::user();
             $childActivitiesCreated = DB::table('child_activities')
                 ->where('child_activity_type', AppUtils::PHAN_THI_OR_TIEU_BAN)
@@ -167,7 +166,21 @@ class ChildActivityController extends AppBaseController
                 }
             }
             else{ // thông báo có phản hồi
+                $activities_details = DB::table('activities_details')->where('id_child_activity', $notiFromCbl->id_child_activity_assign)->first();
+                foreach($assignTo as $student_id){
+                    DB::table('user_receive_activities')->insert([
+                        'created_by' => $user->id,
+                        'id_child_activity' => $notiFromCbl->id_child_activity,
+                        'id_user' => $student_id,
+                        'small_role_details' => $small_role_details,
+                        'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                    ]);
 
+                    DB::table('user_activities')->insert([
+                        'id_activities_details' => $activities_details->id,
+                        'id_user' => $student_id,
+                    ]);
+                }
             }
             DB::table('user_receive_activities')->where('id',$id)->update([
                 'status' => AppUtils::STATUS_HOAN_THANH,
