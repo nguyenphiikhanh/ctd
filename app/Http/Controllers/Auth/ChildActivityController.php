@@ -115,7 +115,11 @@ class ChildActivityController extends AppBaseController
             $user = Auth::user();
             $actRecriveList = DB::table('user_receive_activities')->where('id_user', $user->id)
                 ->leftJoin('child_activities', 'child_activities.id','user_receive_activities.id_child_activity')
-                ->select('user_receive_activities.*', 'child_activities.name as name','child_activities.created_at as created_at')
+                ->select(
+                    'user_receive_activities.*', 'child_activities.name as name',
+                    'child_activities.created_at as created_at','child_activities.details as details',
+                    'child_activities.child_activity_type as child_activity_type'
+                )
                 ->get();
             return $this->sendResponse($actRecriveList,__('message.success.get_list',['atribute' => 'nhiệm vụ và thông báo']));
         }
@@ -143,20 +147,27 @@ class ChildActivityController extends AppBaseController
     }
 
 
-    public function forwardChildActivity($id){
+    public function forwardChildActivity(Request $request, $id){
         try{
             $user = Auth::user();
+            $assignTo = $request->get('assignTo');
+            $readonlyFlg = $request->get('readonlyFlg');
+            $small_role_details = $request->get('small_role_details');
             DB::beginTransaction();
             $notiFromCbl = DB::table('user_receive_activities')->where('id',$id)->where('id_user', $user->id)->first();
-            $userReceiveList = DB::table('users')->where('id_class', $user->id_class)
-                ->where('role', RoleUtils::ROLE_SINHVIEN)->get();
-            foreach($userReceiveList as $student){
-                DB::table('user_receive_activities')->insert([
-                    'created_by' => $user->id,
-                    'id_child_activity' => $notiFromCbl->id_child_activity,
-                    'id_user' => $student->id,
-                    'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
-                ]);
+            if($readonlyFlg){  // thông báo không phản hồi
+                foreach($assignTo as $student_id){
+                    DB::table('user_receive_activities')->insert([
+                        'created_by' => $user->id,
+                        'id_child_activity' => $notiFromCbl->id_child_activity,
+                        'id_user' => $student_id,
+                        'small_role_details' => $small_role_details,
+                        'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                    ]);
+                }
+            }
+            else{ // thông báo có phản hồi
+
             }
             DB::table('user_receive_activities')->where('id',$id)->update([
                 'status' => AppUtils::STATUS_HOAN_THANH,

@@ -10,8 +10,9 @@ export default {
     getActivitiesReceive(){
         return http.get('/receive-activities');
     },
-    forwardActivities(id){
-        return http.get(`/child-activity-forward/${id}`)
+    forwardActivities(data){
+        console.log(data);
+        return http.post(`/child-activity-forward/${data.id}`, data)
     },
     getActivityResponsiable(data){
         return http.get('/child-activity-responsiable',{params: data});

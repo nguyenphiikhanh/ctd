@@ -7,6 +7,7 @@ import auth from "./modules/auth";
 import alert from "./modules/alert";
 import classes from "./modules/classes";
 import activity from "./modules/activity";
+import userModule from './modules/userModule';
 
 Vue.use(Vuex)
 
@@ -18,7 +19,8 @@ const store = new Vuex.Store({
         auth,
         alert,
         classes,
-        activity
+        activity,
+        userModule,
     }
 });
 

@@ -21,12 +21,15 @@ Route::prefix('v1')->group(function(){
     Route::middleware('auth:api')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
 
+        //user
+        Route::get('/get-user-classes-by-cbl','Auth\UserController@getUserbyCanbolop');
+
+
         Route::get('/activities','Auth\ActivityController@index');
         Route::post('/child-activities','Auth\ChildActivityController@store');
         Route::get('/receive-activities','Auth\ChildActivityController@getActivitiesReceive');
-        Route::get('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');
+        Route::post('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');
         Route::get('/child-activity-responsiable','Auth\ChildActivityController@getActivityResponsiable');
-
 
 
         // class
