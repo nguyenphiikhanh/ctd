@@ -32,6 +32,12 @@ Route::prefix('v1')->group(function(){
         Route::post('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');
         Route::get('/child-activity-responsiable','Auth\ChildActivityController@getActivityResponsiable');
 
+        //điểm danh
+        Route::get('/checkList-activities','Auth\ChildActivityController@getActivitiesForCheckList');
+        Route::get('/checkList-activities-users/{activity_details_id}','Auth\ChildActivityController@getUserForCheckList');
+
+
+
 
         // class
         Route::get('/classes','Auth\ClassesController@index');

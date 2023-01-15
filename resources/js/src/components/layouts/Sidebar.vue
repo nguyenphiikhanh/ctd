@@ -25,13 +25,28 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
+            <router-link v-if="user.role != roles.ADMIN" :to="{name: 'CheckList'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-list-check"></em></span>
+                        <span class="nk-menu-text">Điểm danh hoạt động</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
         </ul><!-- .nk-menu -->
     </div><!-- .nk-sidebar-menu -->
 </template>
 
 <script>
 import constants from "../../constants";
+import {mapActions} from "vuex";
+import {asyncLoading} from "vuejs-loading-plugin";
 export default {
+    methods:{
+      ...mapActions({
+          getNotifyList: 'activity/getActivitiesReceive',
+      }),
+    },
     computed:{
         roles(){
             return constants.roles;
@@ -39,6 +54,9 @@ export default {
         user(){
             return this.$store.getters['auth/user'];
         }
+    },
+    async mounted() {
+        await asyncLoading(this.getNotifyList());
     }
 }
 </script>

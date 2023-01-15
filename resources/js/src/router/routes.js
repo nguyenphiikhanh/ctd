@@ -4,6 +4,7 @@ import NhiemVu from "../components/NhiemVu/NhiemVu";
 import GiaoNhiemVu from "../components/NhiemVu/GiaoNhiemVu";
 import AdminDashBoard from "../components/dashboards/AdminDashBoard";
 import Notifications from "../components/NhiemVu/ThongBao/Notifications";
+import CheckList from "../components/diemDanh/CheckList";
 
 const routes = [
     // dashboard
@@ -44,6 +45,18 @@ const routes = [
         component: Notifications,
         meta:{
             title: 'Thông báo nhiệm vụ',
+            requiresAuth: true,
+            adminAccess: false,
+        }
+    },
+
+    // điểm danh hoạt động
+    {
+        name:"CheckList",
+        path:"/diem-danh",
+        component: CheckList,
+        meta:{
+            title: 'Điểm danh hoạt động',
             requiresAuth: true,
             adminAccess: false,
         }

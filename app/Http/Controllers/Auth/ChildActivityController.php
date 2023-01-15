@@ -172,13 +172,15 @@ class ChildActivityController extends AppBaseController
             }
             else{ // thông báo có phản hồi
                 foreach($assignTo as $student_id){
-                    DB::table('user_receive_activities')->insert([
-                        'created_by' => $user->id,
-                        'id_child_activity' => $notiFromCbl->id_child_activity,
-                        'id_user' => $student_id,
-                        'small_role_details' => $small_role_details,
-                        'status' => AppUtils::STATUS_HOAN_THANH,
-                    ]);
+                    if($student_id != $user->id){
+                        DB::table('user_receive_activities')->insert([
+                            'created_by' => $user->id,
+                            'id_child_activity' => $notiFromCbl->id_child_activity,
+                            'id_user' => $student_id,
+                            'small_role_details' => $small_role_details,
+                            'status' => AppUtils::STATUS_HOAN_THANH,
+                        ]);
+                    }
 
                     if($notiFromCbl->child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU){
                         DB::table('user_activities')->insert([
@@ -206,6 +208,53 @@ class ChildActivityController extends AppBaseController
             DB::rollBack();
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.forward'),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getActivitiesForCheckList(Request $request){
+        try{
+            $user = $request->user();
+            $activityChecklist = DB::table('user_receive_activities')
+                ->join('activities_details','user_receive_activities.id_activities_details_assign', 'activities_details.id')
+                ->leftJoin('child_activities','child_activities.id','user_receive_activities.id_child_activity')
+                ->select('activities_details.*','child_activities.child_activity_type as child_activity_type')
+                ->where('user_receive_activities.id_user', $user->id)
+                ->where('user_receive_activities.status', AppUtils::STATUS_HOAN_THANH)
+                ->get();
+            return $this->sendResponse($activityChecklist, __('message.success.get_list',['atribute' => 'hoạt động']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'hoạt động']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getUserForCheckList(Request $request, $activity_details_id){
+        try{
+            $child_activity_type = $request->get('child_activity_type');
+            $userChecklist = [];
+            if($child_activity_type && $child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU){
+                $userChecklist = DB::table('user_activities')
+                    ->select(DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"),'users.username as username','user_activities.award as status')
+                    ->leftJoin('users','user_activities.id_user', 'users.id')
+                    ->leftJoin('activities_details','activities_details.id', 'user_activities.id_activities_details')
+                    ->where('activities_details.id',$activity_details_id)
+                    ->get();
+            }
+            if($child_activity_type && $child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA){
+                $userChecklist = DB::table('user_join_activities')
+                    ->select(DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"),'users.username as username','user_join_activities.status as status')
+                    ->leftJoin('users','user_join_activities.id_user', 'users.id')
+                    ->leftJoin('activities_details','activities_details.id', 'user_join_activities.id_activities_details')
+                    ->where('activities_details.id',$activity_details_id)
+                    ->get();
+            }
+
+            return $this->sendResponse($userChecklist, __('message.success.get_list',['atribute' => 'Đoàn viên']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'Đoàn viên']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
     /**

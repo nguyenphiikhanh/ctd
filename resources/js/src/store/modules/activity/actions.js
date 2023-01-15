@@ -56,5 +56,27 @@ export default {
                     dispatch("alert/alertError", Object.values(error.errors)[0][0], { root: true });
                 } else dispatch("alert/alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
             })
-    }
+    },
+    getActivitiesForCheckList({commit, dispatch}){
+        return activitiesServices.getActivitiesForCheckList()
+            .then(response => {
+                return Promise.resolve(response.data);
+            })
+            .catch((error) => {
+                if (error.errors && Object.values(error.errors).length > 0) {
+                    dispatch("alert/alertError", Object.values(error.errors)[0][0], { root: true });
+                } else dispatch("alert/alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
+            })
+    },
+    getUserForCheckList({commit, dispatch}, data){
+        return activitiesServices.getUserForCheckList(data.id, data.child_activity_type)
+            .then(response => {
+                return Promise.resolve(response.data);
+            })
+            .catch((error) => {
+                if (error.errors && Object.values(error.errors).length > 0) {
+                    dispatch("alert/alertError", Object.values(error.errors)[0][0], { root: true });
+                } else dispatch("alert/alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
+            })
+    },
 }
