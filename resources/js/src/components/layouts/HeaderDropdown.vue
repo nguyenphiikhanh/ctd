@@ -8,7 +8,7 @@
                             <em class="icon ni ni-user-alt"></em>
                         </div>
                         <div class="user-info d-none d-xl-block">
-                            <div class="user-name dropdown-indicator">Đỗ Ba Chín</div>
+                            <div class="user-name dropdown-indicator">{{user.ho + ' ' + user.ten}}</div>
                             <div class="user-status user-status-active">Bí thư đoàn trường</div>
                         </div>
                     </div>
@@ -20,14 +20,14 @@
                                 <span>Đ</span>
                             </div>
                             <div class="user-info">
-                                <span class="lead-text">Đỗ Ba Chín</span>
+                                <span class="lead-text">{{user.ho + ' ' + user.ten}}</span>
                                 <span class="sub-text">dobachin@hnue.edu.vn</span>
                             </div>
                         </div>
                     </div>
                     <div class="dropdown-inner">
                         <ul class="link-list">
-                            <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                            <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>Trang cá nhân</span></a></li>
                             <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
                             <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li>
                         </ul>
@@ -51,6 +51,11 @@ export default {
         ...mapActions({
             logout: 'auth/logout',
         })
+    },
+    computed:{
+        user(){
+            return this.$store.getters['auth/user'];
+        }
     }
 }
 </script>

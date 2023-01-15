@@ -11,7 +11,7 @@ const instance = axios.create({
 
 instance.interceptors.response.use(
     (response)=>{
-    return response;
+    return Promise.resolve(response);
 },
     async (error) => {
     if (error) {
@@ -21,7 +21,7 @@ instance.interceptors.response.use(
         ) {
             store.dispatch('auth/logout');
         }
-        return Promise.reject(error);
+        return Promise.reject(error.response.data);
     }
 });
 

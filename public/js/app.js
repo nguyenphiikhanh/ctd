@@ -1951,7 +1951,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   }),
   mounted: function mounted() {
-    document.title = "\u0110\u0103ng nh\u1EADp - ".concat("Laravel MIX_APP_NAME");
+    document.title = "\u0110\u0103ng nh\u1EADp - ".concat("Số hoá công tác Đoàn - Trường Đại học Sư phạm Hà Nội");
   },
   beforeCreate: function beforeCreate() {
     if (this.$store.getters['auth/isAuthenticated']) {
@@ -2546,7 +2546,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
     logout: 'auth/logout'
-  }))
+  })),
+  computed: {
+    user: function user() {
+      return this.$store.getters['auth/user'];
+    }
+  }
 });
 
 /***/ }),
@@ -3970,9 +3975,33 @@ var render = function render() {
     staticClass: "nk-quick-nav"
   }, [_c("li", {
     staticClass: "dropdown user-dropdown"
+  }, [_c("a", {
+    staticClass: "dropdown-toggle me-n1",
+    attrs: {
+      href: "#",
+      "data-bs-toggle": "dropdown"
+    }
+  }, [_c("div", {
+    staticClass: "user-toggle"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
+    staticClass: "user-info d-none d-xl-block"
+  }, [_c("div", {
+    staticClass: "user-name dropdown-indicator"
+  }, [_vm._v(_vm._s(_vm.user.ho + " " + _vm.user.ten))]), _vm._v(" "), _c("div", {
+    staticClass: "user-status user-status-active"
+  }, [_vm._v("Bí thư đoàn trường")])])])]), _vm._v(" "), _c("div", {
     staticClass: "dropdown-menu dropdown-menu-md dropdown-menu-end"
-  }, [_vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c("div", {
+  }, [_c("div", {
+    staticClass: "dropdown-inner user-card-wrap bg-lighter d-none d-md-block"
+  }, [_c("div", {
+    staticClass: "user-card"
+  }, [_vm._m(1), _vm._v(" "), _c("div", {
+    staticClass: "user-info"
+  }, [_c("span", {
+    staticClass: "lead-text"
+  }, [_vm._v(_vm._s(_vm.user.ho + " " + _vm.user.ten))]), _vm._v(" "), _c("span", {
+    staticClass: "sub-text"
+  }, [_vm._v("dobachin@hnue.edu.vn")])])])]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c("div", {
     staticClass: "dropdown-inner"
   }, [_c("ul", {
     staticClass: "link-list"
@@ -3992,41 +4021,17 @@ var render = function render() {
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("a", {
-    staticClass: "dropdown-toggle me-n1",
-    attrs: {
-      href: "#",
-      "data-bs-toggle": "dropdown"
-    }
-  }, [_c("div", {
-    staticClass: "user-toggle"
-  }, [_c("div", {
+  return _c("div", {
     staticClass: "user-avatar sm"
   }, [_c("em", {
     staticClass: "icon ni ni-user-alt"
-  })]), _vm._v(" "), _c("div", {
-    staticClass: "user-info d-none d-xl-block"
-  }, [_c("div", {
-    staticClass: "user-name dropdown-indicator"
-  }, [_vm._v("Đỗ Ba Chín")]), _vm._v(" "), _c("div", {
-    staticClass: "user-status user-status-active"
-  }, [_vm._v("Bí thư đoàn trường")])])])]);
+  })]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "dropdown-inner user-card-wrap bg-lighter d-none d-md-block"
-  }, [_c("div", {
-    staticClass: "user-card"
-  }, [_c("div", {
     staticClass: "user-avatar"
-  }, [_c("span", [_vm._v("Đ")])]), _vm._v(" "), _c("div", {
-    staticClass: "user-info"
-  }, [_c("span", {
-    staticClass: "lead-text"
-  }, [_vm._v("Đỗ Ba Chín")]), _vm._v(" "), _c("span", {
-    staticClass: "sub-text"
-  }, [_vm._v("dobachin@hnue.edu.vn")])])])]);
+  }, [_c("span", [_vm._v("Đ")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -4040,7 +4045,7 @@ var staticRenderFns = [function () {
     }
   }, [_c("em", {
     staticClass: "icon ni ni-user-alt"
-  }), _c("span", [_vm._v("View Profile")])])]), _vm._v(" "), _c("li", [_c("a", {
+  }), _c("span", [_vm._v("Trang cá nhân")])])]), _vm._v(" "), _c("li", [_c("a", {
     attrs: {
       href: "html/user-profile-setting.html"
     }
@@ -59445,7 +59450,7 @@ var instance = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   withCredentials: true
 });
 instance.interceptors.response.use(function (response) {
-  return response;
+  return Promise.resolve(response);
 }, /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(error) {
     var originalRequest;
@@ -59460,7 +59465,7 @@ instance.interceptors.response.use(function (response) {
           if (error.response.status === 401 || error.response.status === 419) {
             _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('auth/logout');
           }
-          return _context.abrupt("return", Promise.reject(error));
+          return _context.abrupt("return", Promise.reject(error.response.data));
         case 4:
         case "end":
           return _context.stop();
@@ -59500,7 +59505,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: _routes__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 router.beforeEach(function (to, from, next) {
-  document.title = "".concat(to.meta.title, " - ").concat("Laravel MIX_APP_NAME");
+  document.title = "".concat(to.meta.title, " - ").concat("Số hoá công tác Đoàn - Trường Đại học Sư phạm Hà Nội");
   if (to.matched.some(function (record) {
     return record.meta.requiresAuth;
   })) {
@@ -59735,11 +59740,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     return _services_activities_services__WEBPACK_IMPORTED_MODULE_0__["default"].getActivities().then(function (response) {
       return Promise.resolve(response.data);
     })["catch"](function (error) {
-      if (Object.values(error.errors).length > 0) {
-        dispatch("alertError", Object.values(error.errors)[0][0], {
+      if (error.errors && Object.values(error.errors).length > 0) {
+        dispatch("alert/alertError", Object.values(error.errors)[0][0], {
           root: true
         });
-      } else dispatch("alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
+      } else dispatch("alert/alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
         root: true
       });
     });
@@ -59752,11 +59757,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         root: true
       });
     })["catch"](function (error) {
-      if (Object.values(error.errors).length > 0) {
-        dispatch("alertError", Object.values(error.errors)[0][0], {
+      if (error.errors && Object.values(error.errors).length > 0) {
+        dispatch("alert/alertError", Object.values(error.errors)[0][0], {
           root: true
         });
-      } else dispatch("alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
+      } else dispatch("alert/alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
         root: true
       });
     });
@@ -59767,11 +59772,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     return _services_activities_services__WEBPACK_IMPORTED_MODULE_0__["default"].getActivitiesReceive().then(function (response) {
       return Promise.resolve(response.data);
     })["catch"](function (error) {
-      if (Object.values(error.errors).length > 0) {
-        dispatch("alertError", Object.values(error.errors)[0][0], {
+      if (error.errors && Object.values(error.errors).length > 0) {
+        dispatch("alert/alertError", Object.values(error.errors)[0][0], {
           root: true
         });
-      } else dispatch("alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
+      } else dispatch("alert/alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
         root: true
       });
     });
@@ -59784,11 +59789,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         root: true
       });
     })["catch"](function (error) {
-      if (Object.values(error.errors).length > 0) {
-        dispatch("alertError", Object.values(error.errors)[0][0], {
+      if (error.errors && Object.values(error.errors).length > 0) {
+        dispatch("alert/alertError", Object.values(error.errors)[0][0], {
           root: true
         });
-      } else dispatch("alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
+      } else dispatch("alert/alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
         root: true
       });
     });
@@ -59799,11 +59804,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     return _services_activities_services__WEBPACK_IMPORTED_MODULE_0__["default"].getActivityResponsiable(data).then(function (response) {
       return Promise.resolve(response.data);
     })["catch"](function (error) {
-      if (Object.values(error.errors).length > 0) {
-        dispatch("alertError", Object.values(error.errors)[0][0], {
+      if (error.errors && Object.values(error.errors).length > 0) {
+        dispatch("alert/alertError", Object.values(error.errors)[0][0], {
           root: true
         });
-      } else dispatch("alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
+      } else dispatch("alert/alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
         root: true
       });
     });
@@ -60024,11 +60029,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
         dispatch("alert/alertError", Object.values(error.errors)[0][0], {
           root: true
         });
-      } else {
-        dispatch("alert/alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
-          root: true
-        });
-      }
+      } else dispatch("alert/alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
+        root: true
+      });
     });
   },
   logout: function logout(_ref2) {
@@ -60057,6 +60060,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   tokenAuth: function tokenAuth(state) {
     return state.token;
+  },
+  user: function user(state) {
+    return state.user;
   }
 });
 
@@ -60144,11 +60150,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     return _services_classes_services__WEBPACK_IMPORTED_MODULE_0__["default"].getClassList(params).then(function (response) {
       return Promise.resolve(response.data);
     })["catch"](function (error) {
-      if (Object.values(error.errors).length > 0) {
-        dispatch("alertError", Object.values(error.errors)[0][0], {
+      if (error.errors && Object.values(error.errors).length > 0) {
+        dispatch("alert/alertError", Object.values(error.errors)[0][0], {
           root: true
         });
-      } else dispatch("alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
+      } else dispatch("alert/alertError", _typeof(error.message) == 'object' ? error.message[0] : error.message, {
         root: true
       });
     });
@@ -60341,8 +60347,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\WorkSpace\CONGTACDOAN_NEW\CONGTACDOAN\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\WorkSpace\CONGTACDOAN_NEW\CONGTACDOAN\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
