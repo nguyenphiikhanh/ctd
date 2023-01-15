@@ -23,4 +23,5 @@ namespace App\Http\Utils;
 
     const STATUS_CHUA_HOAN_THANH = 0;
     const STATUS_HOAN_THANH = 1;
+    const STATUS_VANG_MAT = null;
  }

@@ -44,7 +44,7 @@
                         </div><!-- .card -->
                         <div v-if="checkList.length == 0" class="text-center col-12">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
-                    <CheckListUserModal :child-activity="activity" :user-check-list="userCheckList" @onClose="onClose"/>
+                    <CheckListUserModal :activity="activity" :user-check-list="userCheckList" @onClose="onClose"/>
                 </div>
             </div>
         </div>
@@ -66,7 +66,9 @@ export default {
         return{
             checkList: [],
             userCheckList: [],
-            activity: null,
+            activity: {
+                child_activity_type: 3
+            },
         }
     },
     methods:{

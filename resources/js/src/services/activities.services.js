@@ -25,5 +25,8 @@ export default {
             child_activity_type: child_activity_type,
         }
         return http.get(`/checkList-activities-users/${activity_details_id}`,{params: data});
+    },
+    updateUserCheckListStatus(data){
+        return http.put(`/checkList-for-user/${data.user_id}/${data.activity_details_id}`, data);
     }
 }

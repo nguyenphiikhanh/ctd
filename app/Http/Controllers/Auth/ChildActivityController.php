@@ -235,7 +235,8 @@ class ChildActivityController extends AppBaseController
             $userChecklist = [];
             if($child_activity_type && $child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU){
                 $userChecklist = DB::table('user_activities')
-                    ->select(DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"),'users.username as username','user_activities.award as status')
+                    ->select('users.id as id',DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"),
+                    'user_activities.note as note','users.username as username','user_activities.award as status')
                     ->leftJoin('users','user_activities.id_user', 'users.id')
                     ->leftJoin('activities_details','activities_details.id', 'user_activities.id_activities_details')
                     ->where('activities_details.id',$activity_details_id)
@@ -243,7 +244,8 @@ class ChildActivityController extends AppBaseController
             }
             if($child_activity_type && $child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA){
                 $userChecklist = DB::table('user_join_activities')
-                    ->select(DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"),'users.username as username','user_join_activities.status as status')
+                    ->select('users.id as id',DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"),
+                    'user_join_activities.note as note','users.username as username','user_join_activities.status as status')
                     ->leftJoin('users','user_join_activities.id_user', 'users.id')
                     ->leftJoin('activities_details','activities_details.id', 'user_join_activities.id_activities_details')
                     ->where('activities_details.id',$activity_details_id)
@@ -255,6 +257,51 @@ class ChildActivityController extends AppBaseController
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.get_list',['atribute' => 'Đoàn viên']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function updateUserCheckList(Request $request ,$user_id, $activity_details_id){
+        try{
+            $child_activity_type = $request->get('child_activity_type');
+            $status = $request->get('status');
+            $note = $request->get('note');
+
+            $userUpdate = null;
+            if($child_activity_type && $child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU){
+                $userUpdate = DB::table('user_activities')
+                    ->where('id_user', $user_id)
+                    ->where('id_activities_details',$activity_details_id)->first();
+            }
+            if($child_activity_type && $child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA){
+                $userUpdate = DB::table('user_join_activities')
+                    ->where('id_user', $user_id)
+                    ->where('id_activities_details',$activity_details_id)->first();
+            }
+
+            if(!$userUpdate){
+                return $this->sendError(__('message.failed.not_exist',['Bản ghi điểm danh']),Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            else{
+                if($child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA){
+                    $userUpdate = DB::table('user_join_activities')
+                    ->where('id_user', $user_id)
+                    ->where('id_activities_details',$activity_details_id)
+                    ->update([
+                        'status' => $status,
+                        'note' => $note
+                    ]);
+                }
+
+                if($child_activity_type && $child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU){
+
+                }
+
+                return $this->sendResponse('',__('message.success.update',['atribute' => 'điểm danh']));
+            }
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'điểm danh']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
     /**
