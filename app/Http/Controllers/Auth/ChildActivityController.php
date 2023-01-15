@@ -95,7 +95,7 @@ class ChildActivityController extends AppBaseController
                                 'id_user' => $user_cbl->id,
                                 'id_child_activity' => $child_act->id,
                                 'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
-                                'id_child_activity_assign' => $assignChildActivity,
+                                'id_activities_details_assign' => $assignChildActivity,
                                 'created_by' => $user->id,
                             ]);
                         }
@@ -155,7 +155,10 @@ class ChildActivityController extends AppBaseController
             $readonlyFlg = $request->get('readonlyFlg');
             $small_role_details = $request->get('small_role_details');
             DB::beginTransaction();
-            $notiFromCbl = DB::table('user_receive_activities')->where('id',$id)->where('id_user', $user->id)->first();
+            $notiFromCbl = DB::table('user_receive_activities')
+            ->join('child_activities','child_activities.id', 'user_receive_activities.id_child_activity')
+            ->select('user_receive_activities.*','child_activities.child_activity_type as child_activity_type')
+            ->where('user_receive_activities.id',$id)->where('id_user', $user->id)->first();
             if($readonlyFlg){  // thông báo không phản hồi
                 foreach($assignTo as $student_id){
                     DB::table('user_receive_activities')->insert([
@@ -163,25 +166,34 @@ class ChildActivityController extends AppBaseController
                         'id_child_activity' => $notiFromCbl->id_child_activity,
                         'id_user' => $student_id,
                         'small_role_details' => $small_role_details,
-                        'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                        'status' => AppUtils::STATUS_HOAN_THANH,
                     ]);
                 }
             }
             else{ // thông báo có phản hồi
-                $activities_details = DB::table('activities_details')->where('id_child_activity', $notiFromCbl->id_child_activity_assign)->first();
                 foreach($assignTo as $student_id){
                     DB::table('user_receive_activities')->insert([
                         'created_by' => $user->id,
                         'id_child_activity' => $notiFromCbl->id_child_activity,
                         'id_user' => $student_id,
                         'small_role_details' => $small_role_details,
-                        'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                        'status' => AppUtils::STATUS_HOAN_THANH,
                     ]);
 
-                    DB::table('user_activities')->insert([
-                        'id_activities_details' => $activities_details->id,
-                        'id_user' => $student_id,
-                    ]);
+                    if($notiFromCbl->child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU){
+                        DB::table('user_activities')->insert([
+                            'id_activities_details' => $notiFromCbl->id_activities_details_assign,
+                            'id_user' => $student_id,
+                            'created_by' => $user->id,
+                        ]);
+                    } else {
+                        DB::table('user_join_activities')->insert([
+                            'id_activities_details' => $notiFromCbl->id_activities_details_assign,
+                            'id_user' => $student_id,
+                            'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                            'created_by' => $user->id,
+                        ]);
+                    }
                 }
             }
             DB::table('user_receive_activities')->where('id',$id)->update([

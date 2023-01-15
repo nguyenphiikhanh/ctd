@@ -57,13 +57,13 @@
                                     <ul class="custom-control-group">
                                         <li>
                                             <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input v-model="loai_phan_hoi" type="radio" :value="hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU" class="custom-control-input" name="thao-tac" id="act-act">
+                                                <input v-model="loai_phan_hoi" type="radio" :value="hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU" class="custom-control-input" id="act-act">
                                                 <label class="custom-control-label" for="act-act">Gửi danh sách tham dự</label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input v-model="loai_phan_hoi" type="radio" :value="hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA" class="custom-control-input" name="thao-tac" id="act-join">
+                                                <input v-model="loai_phan_hoi" type="radio" :value="hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA" class="custom-control-input" id="act-join">
                                                 <label class="custom-control-label" for="act-join">Gửi danh sách tham gia</label>
                                             </div>
                                         </li>

@@ -2870,7 +2870,6 @@ var render = function render() {
     staticClass: "custom-control-input",
     attrs: {
       type: "radio",
-      name: "thao-tac",
       id: "act-act"
     },
     domProps: {
@@ -2899,7 +2898,6 @@ var render = function render() {
     staticClass: "custom-control-input",
     attrs: {
       type: "radio",
-      name: "thao-tac",
       id: "act-join"
     },
     domProps: {
@@ -3608,7 +3606,7 @@ var render = function render() {
           return _vm.forwardChildAct(item.id, item.child_activity_type == _vm.action.THONG_BA0_KHONG_PHAN_HOI);
         }
       }
-    }, [_vm._v(_vm._s(item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI ? "Chọn danh sách" : "Chuyển tiếp"))]) : _vm._e()])])]);
+    }, [_vm._v(_vm._s(item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI || item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI_THAM_DU || item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA ? "Chọn danh sách" : "Chuyển tiếp"))]) : _vm._e()])])]);
   }), 0)])])]), _vm._v(" "), _c("forward-modal", {
     attrs: {
       userList: _vm.userList,
@@ -59488,8 +59486,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   STATUS_CHUA_HOAN_THANH: 0,
-  STATUS_DA_XEM: 1,
-  STATUS_HOAN_THANH: 2
+  STATUS_HOAN_THANH: 1
 });
 
 /***/ }),

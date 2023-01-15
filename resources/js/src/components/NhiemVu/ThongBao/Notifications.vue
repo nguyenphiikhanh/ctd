@@ -50,7 +50,9 @@
                                     <td class="tb-odr-action">
                                         <div class="tb-odr-btns d-none d-md-inline">
                                             <a href="#" @click="viewNotify(item.id)" class="btn btn-sm btn-primary">Xem</a>
-                                            <a href="#" v-if="item.status == status.STATUS_CHUA_HOAN_THANH" @click="forwardChildAct(item.id, item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)" class="btn btn-sm btn-primary">{{item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI ? 'Chọn danh sách' : 'Chuyển tiếp'}}</a>
+                                            <a href="#" v-if="item.status == status.STATUS_CHUA_HOAN_THANH" @click="forwardChildAct(item.id, item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
+                                               class="btn btn-sm btn-primary">{{item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI  || item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_DU || item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_GIA
+                                                ? 'Chọn danh sách' : 'Chuyển tiếp'}}</a>
                                         </div>
                                     </td>
                                 </tr>
