@@ -52,6 +52,23 @@
                                         </li>
                                     </ul>
                                 </div>
+                                <div v-if="thao_tac == hoat_dong.THONG_BAO_C0_PHAN_HOI" class="card-inner">
+                                    <h6 class="title mb-3 mt-4">Loại phản hồi</h6>
+                                    <ul class="custom-control-group">
+                                        <li>
+                                            <div class="custom-control custom-radio custom-control-pro no-control">
+                                                <input v-model="loai_phan_hoi" type="radio" :value="hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU" class="custom-control-input" name="thao-tac" id="act-act">
+                                                <label class="custom-control-label" for="act-act">Gửi danh sách tham dự</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-radio custom-control-pro no-control">
+                                                <input v-model="loai_phan_hoi" type="radio" :value="hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA" class="custom-control-input" name="thao-tac" id="act-join">
+                                                <label class="custom-control-label" for="act-join">Gửi danh sách tham gia</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
 <!--                                thông tin nhiệm vụ-->
                                 <div v-if="thao_tac" class="card-inner">
                                     <h5 class="title mb-4">Thông tin nhiệm vụ</h5>
@@ -131,6 +148,7 @@ export default {
             //todo activities
             hoat_dong_choose: null,
             thao_tac: null,
+            loai_phan_hoi: null,
             //
             activitiy_list: [],
             activity_responsiable_list: [],
@@ -155,7 +173,7 @@ export default {
                 return this.activity_create.ten_hoat_dong;
             }
             else if(this.thao_tac == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){
-                return this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong.length > 0;
+                return this.loai_phan_hoi && this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong.length > 0;
             }
             else {
                 return this.activity_create.ten_hoat_dong && this.doi_tuong.length > 0;
@@ -180,6 +198,7 @@ export default {
                 activity: this.hoat_dong_choose,
                 name: this.activity_create.ten_hoat_dong,
                 action: this.thao_tac,
+                responseType: this.loai_phan_hoi,
                 details: this.activity_create.mota,
                 start_time: this.activity_create.start_time,
                 end_time: this.activity_create.end_time,
@@ -209,6 +228,7 @@ export default {
             this.thao_tac = null;
         },
         thao_tac(val){
+            this.loai_phan_hoi = null;
             if(val == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){
                 let queryParams = {
                     activity: this.hoat_dong_choose

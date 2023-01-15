@@ -2010,6 +2010,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       //todo activities
       hoat_dong_choose: null,
       thao_tac: null,
+      loai_phan_hoi: null,
       //
       activitiy_list: [],
       activity_responsiable_list: [],
@@ -2032,7 +2033,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       if (this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN) {
         return this.activity_create.ten_hoat_dong;
       } else if (this.thao_tac == this.hoat_dong.THONG_BAO_C0_PHAN_HOI) {
-        return this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong.length > 0;
+        return this.loai_phan_hoi && this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong.length > 0;
       } else {
         return this.activity_create.ten_hoat_dong && this.doi_tuong.length > 0;
       }
@@ -2075,6 +2076,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 activity: _this2.hoat_dong_choose,
                 name: _this2.activity_create.ten_hoat_dong,
                 action: _this2.thao_tac,
+                responseType: _this2.loai_phan_hoi,
                 details: _this2.activity_create.mota,
                 start_time: _this2.activity_create.start_time,
                 end_time: _this2.activity_create.end_time,
@@ -2124,6 +2126,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     thao_tac: function thao_tac(val) {
       var _this4 = this;
+      this.loai_phan_hoi = null;
       if (val == this.hoat_dong.THONG_BAO_C0_PHAN_HOI) {
         var queryParams = {
           activity: this.hoat_dong_choose
@@ -2849,7 +2852,71 @@ var render = function render() {
     attrs: {
       "for": "hd-3"
     }
-  }, [_vm._v("Thông báo(không phản hồi)")])])])])]) : _vm._e(), _vm._v(" "), _vm.thao_tac ? _c("div", {
+  }, [_vm._v("Thông báo(không phản hồi)")])])])])]) : _vm._e(), _vm._v(" "), _vm.thao_tac == _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI ? _c("div", {
+    staticClass: "card-inner"
+  }, [_c("h6", {
+    staticClass: "title mb-3 mt-4"
+  }, [_vm._v("Loại phản hồi")]), _vm._v(" "), _c("ul", {
+    staticClass: "custom-control-group"
+  }, [_c("li", [_c("div", {
+    staticClass: "custom-control custom-radio custom-control-pro no-control"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.loai_phan_hoi,
+      expression: "loai_phan_hoi"
+    }],
+    staticClass: "custom-control-input",
+    attrs: {
+      type: "radio",
+      name: "thao-tac",
+      id: "act-act"
+    },
+    domProps: {
+      value: _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU,
+      checked: _vm._q(_vm.loai_phan_hoi, _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU)
+    },
+    on: {
+      change: function change($event) {
+        _vm.loai_phan_hoi = _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU;
+      }
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "custom-control-label",
+    attrs: {
+      "for": "act-act"
+    }
+  }, [_vm._v("Gửi danh sách tham dự")])])]), _vm._v(" "), _c("li", [_c("div", {
+    staticClass: "custom-control custom-radio custom-control-pro no-control"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.loai_phan_hoi,
+      expression: "loai_phan_hoi"
+    }],
+    staticClass: "custom-control-input",
+    attrs: {
+      type: "radio",
+      name: "thao-tac",
+      id: "act-join"
+    },
+    domProps: {
+      value: _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA,
+      checked: _vm._q(_vm.loai_phan_hoi, _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA)
+    },
+    on: {
+      change: function change($event) {
+        _vm.loai_phan_hoi = _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA;
+      }
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "custom-control-label",
+    attrs: {
+      "for": "act-join"
+    }
+  }, [_vm._v("Gửi danh sách tham gia")])])])])]) : _vm._e(), _vm._v(" "), _vm.thao_tac ? _c("div", {
     staticClass: "card-inner"
   }, [_c("h5", {
     staticClass: "title mb-4"
@@ -59401,7 +59468,9 @@ __webpack_require__.r(__webpack_exports__);
   HOAT_DONG: {
     THONG_BA0_KHONG_PHAN_HOI: 1,
     THONG_BAO_C0_PHAN_HOI: 2,
-    PHAN_THI_OR_TIEU_BAN: 3
+    THONG_BAO_C0_PHAN_HOI_THAM_DU: 3,
+    THONG_BAO_C0_PHAN_HOI_THAM_GIA: 4,
+    PHAN_THI_OR_TIEU_BAN: 5
   },
   status: _status__WEBPACK_IMPORTED_MODULE_0__["default"]
 });
@@ -59753,7 +59822,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     var commit = _ref2.commit,
       dispatch = _ref2.dispatch;
     return _services_activities_services__WEBPACK_IMPORTED_MODULE_0__["default"].storeChildActivity(data).then(function (response) {
-      dispatch('alertSuccess', _typeof(response.message) == 'object' ? response.message[0] : response.message, {
+      dispatch('alert/alertSuccess', response.data.message, {
         root: true
       });
     })["catch"](function (error) {
@@ -59785,7 +59854,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     var commit = _ref4.commit,
       dispatch = _ref4.dispatch;
     return _services_activities_services__WEBPACK_IMPORTED_MODULE_0__["default"].forwardActivities(id).then(function (response) {
-      dispatch('alertSuccess', _typeof(response.message) == 'object' ? response.message[0] : response.message, {
+      dispatch('alert/alertSuccess', response.data.message, {
         root: true
       });
     })["catch"](function (error) {

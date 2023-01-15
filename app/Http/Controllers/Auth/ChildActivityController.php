@@ -43,6 +43,7 @@ class ChildActivityController extends AppBaseController
             $name = $request->get('name');
             $activity = $request->get('activity');
             $action = $request->get('action');
+            $responseType = $request->get('responseType');
             $details = $request->get('details');
             $start_time = $request->get('start_time');
             $end_time = $request->get('end_time');
@@ -54,7 +55,7 @@ class ChildActivityController extends AppBaseController
                     'id_activity' => $activity,
                     'details' => $details,
                     'start_time' => $start_time,
-                    'child_activity_type' => $action,
+                    'child_activity_type' => $responseType ? $responseType : $action,
                     'end_time' => $end_time,
                     'created_by' => $user->id,
                 ]);
@@ -84,7 +85,7 @@ class ChildActivityController extends AppBaseController
                         }
                     }
                 }
-                // co phan hoi gui danh sach tham du
+                // co phan hoi
                 else{
                     if($user->role == RoleUtils::ROLE_DOAN_TRUONG){
                         foreach($assignTo as $receiveObj){
@@ -132,10 +133,11 @@ class ChildActivityController extends AppBaseController
     public function getActivityResponsiable(Request $request){
         try{
             $activity = $request->get('activity');
-            $user = \Auth::user();
+            $user = Auth::user();
             $childActivitiesCreated = DB::table('child_activities')
-                ->where('child_activity_type', AppUtils::PHAN_THI_OR_TIEU_BAN)
-                ->where('id_activity', $activity)
+                ->join('activities_details','child_activities.id','activities_details.id_child_activity')
+                ->select('activities_details.*', 'child_activities.name as name')
+                ->where('child_activities.id_activity', $activity)
                 ->get();
             return $this->sendResponse($childActivitiesCreated, __('message.success.get_list',['atribute' => 'hoạt động']));
         }

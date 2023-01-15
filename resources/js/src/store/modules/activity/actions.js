@@ -15,7 +15,7 @@ export default {
     storeChildActivity({commit, dispatch}, data){
         return activitiesServices.storeChildActivity(data)
             .then(response => {
-                dispatch('alertSuccess', typeof response.message == 'object' ? response.message[0] : response.message, { root: true })
+                dispatch('alert/alertSuccess',response.data.message, { root: true })
             })
             .catch((error) => {
                 if (error.errors && Object.values(error.errors).length > 0) {
@@ -37,7 +37,7 @@ export default {
     forwardActivities({commit, dispatch}, id){
         return activitiesServices.forwardActivities(id)
             .then(response => {
-                dispatch('alertSuccess', typeof response.message == 'object' ? response.message[0] : response.message, { root: true })
+                dispatch('alert/alertSuccess',response.data.message, { root: true })
             })
             .catch((error) => {
                 if (error.errors && Object.values(error.errors).length > 0) {

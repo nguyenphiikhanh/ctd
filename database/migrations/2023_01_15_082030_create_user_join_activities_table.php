@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Utils\AppUtils;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserActivitiesTable extends Migration
+class CreateUserJoinActivitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +14,11 @@ class CreateUserActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_activities', function (Blueprint $table) {
+        Schema::create('user_join_activities', function (Blueprint $table) {
             $table->id();
             $table->integer('id_activities_details');
             $table->integer('id_user');
-            $table->tinyInteger('award')->default(0)->nullable();
-            $table->longText('proof')->nullable()->comment('link_to_proof');
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateUserActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_activities');
+        Schema::dropIfExists('user_join_activities');
     }
 }
