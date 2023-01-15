@@ -1,4 +1,5 @@
-import status from "./status"
+import status from "./status";
+import roles from "./roles";
 
 export default {
     HOAT_DONG:{
@@ -10,4 +11,5 @@ export default {
     },
 
     status,
+    roles,
 }

@@ -13,7 +13,8 @@ const routes = [
         component: AdminDashBoard,
         meta:{
             title: 'Nhiệm vụ',
-            requiresAuth: true
+            requiresAuth: true,
+            adminAccess: true,
         }
     },
     // nhiệm vụ
@@ -23,7 +24,8 @@ const routes = [
         component: NhiemVu,
         meta:{
             title: 'Nhiệm vụ',
-            requiresAuth: true
+            requiresAuth: true,
+            adminAccess: false,
         }
     },
     {
@@ -32,16 +34,18 @@ const routes = [
         component: GiaoNhiemVu,
         meta:{
             title: 'Tạo nhiệm vụ',
-            requiresAuth: true
+            requiresAuth: true,
+            adminAccess: false,
         }
     },
     {
         name:"Notifications",
-        path:"/thong-bao-nhiemvu",
+        path:"/thong-bao-nhiem-vu",
         component: Notifications,
         meta:{
             title: 'Thông báo nhiệm vụ',
-            requiresAuth: true
+            requiresAuth: true,
+            adminAccess: false,
         }
     },
 ];

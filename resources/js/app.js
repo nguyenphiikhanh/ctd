@@ -10,6 +10,7 @@ window.Vue = require('vue');
 
 Vue.component('Login', require('./src/components/Login.vue').default);
 Vue.component('header-dropdown', require('./src/components/layouts/HeaderDropdown.vue').default);
+Vue.component('Sidebar', require('./src/components/layouts/Sidebar.vue').default);
 
 
 // const files = require.context('./', true, /\.vue$/i)

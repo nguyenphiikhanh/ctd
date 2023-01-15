@@ -26,6 +26,7 @@ export default {
     getActivitiesReceive({commit, dispatch}){
         return activitiesServices.getActivitiesReceive()
             .then(response => {
+                commit("SET_ACTIVITIES_RECEIVE", response.data.data.length);
                 return Promise.resolve(response.data);
             })
             .catch((error) => {
