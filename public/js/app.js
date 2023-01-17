@@ -1951,7 +1951,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   }),
   mounted: function mounted() {
-    document.title = "\u0110\u0103ng nh\u1EADp - ".concat("Số hoá công tác Đoàn - Trường Đại học Sư phạm Hà Nội");
+    document.title = "\u0110\u0103ng nh\u1EADp - ".concat("Laravel MIX_APP_NAME");
   },
   beforeCreate: function beforeCreate() {
     if (this.$store.getters['auth/isAuthenticated']) {
@@ -1972,169 +1972,126 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../constants */ "./resources/js/src/constants/index.js");
-/* harmony import */ var _authorize_giaoNv_GiaoNhiemVu_Truong__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./authorize/giaoNv/GiaoNhiemVu_Truong */ "./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuejs-loading-plugin */ "./node_modules/vuejs-loading-plugin/index.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-
-
-
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    GiaoNhiemVu_Truong: _authorize_giaoNv_GiaoNhiemVu_Truong__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
   data: function data() {
     return {
-      activity_create: {
-        ten_hoat_dong: '',
-        mota: '',
-        start_time: '',
-        end_time: ''
-      },
-      //todo activities
-      hoat_dong_choose: null,
-      thao_tac: null,
-      loai_phan_hoi: null,
-      //
-      activitiy_list: [],
-      activity_responsiable_list: [],
-      doi_tuong: [],
-      hoat_dong_assign: null
+      tieuChi_choose: null,
+      tieuChi: [{
+        value: 1,
+        name: "I. Rèn luyện về lý tưởng cách mạng, nhận thức chính trị"
+      }, {
+        value: 2,
+        name: "II. Rèn luyện về đạo đức, lối sống, tác phong đoàn viên"
+      }, {
+        value: 3,
+        name: "III. Rèn luyện về chuyên môn, nghiệp vụ"
+      }, {
+        value: 4,
+        name: "III. Văn hoá, văn nghệ, thể dục - thể thao"
+      }, {
+        value: 5,
+        name: "V. Ý thức trong xây dựng tổ chức Đoàn"
+      }],
+      noiDung_choose: null,
+      noiDung: [{
+        tieuChi: 1,
+        noidungDanhGia: [{
+          value: 1,
+          name: "Tham gia các hoạt động học tập, các buổi sinh hoạt chi đoàn về các Nghị quyết của Đảng, Nghị quyết Đại hội Đoàn các cấp…; tham gia các bài học lý luận chính trị của Đoàn TNCS HCM."
+        }, {
+          value: 2,
+          name: "Được tham gia học tập các lớp Đoàn viên ưu tú, bồi dưỡng nhận thức về Đảng, được kết nạp vào Đảng Cộng sản Việt Nam."
+        }]
+      }, {
+        tieuChi: 2,
+        noidungDanhGia: [{
+          value: 1,
+          name: "Có đóng góp cho tập thể, phục vụ cộng đồng"
+        }]
+      }, {
+        tieuChi: 3,
+        noidungDanhGia: [{
+          value: 1,
+          name: "Tham gia các hoạt động rèn luyện nghiệp vụ"
+        }, {
+          value: 2,
+          name: "Tham gia học tập để nâng cao trình độ chuyên môn, nghiệp vụ, kỹ năng nghề nghiệp "
+        }, {
+          value: 3,
+          name: "Tham gia nghiên cứu khoa học"
+        }, {
+          value: 4,
+          name: "Học tập, nâng cao trình độ ngoại ngữ, tin học"
+        }]
+      }, {
+        tieuChi: 4,
+        noidungDanhGia: [{
+          value: 1,
+          name: "Tham gia các hoạt động văn nghệ, thể dục, thể thao do Đoàn cấp tổ chức"
+        }, {
+          value: 2,
+          name: "Tích cực tham gia các phong trào thể dục thể thao quần chúng tại địa phương, đơn vị."
+        }, {
+          value: 3,
+          name: "Tham gia các hoạt động văn hoá khác tại địa phương, đơn vị"
+        }, {
+          value: 4,
+          name: "Tham gia các cuộc thi dành cho cá nhân do Đoàn các cấp tổ chức"
+        }]
+      }, {
+        tieuChi: 5,
+        noidungDanhGia: [{
+          value: 1,
+          name: "Tham dự các buổi sinh hoạt chi đoàn, đóng đoàn phí"
+        }, {
+          value: 2,
+          name: "Tham gia các hoạt động tình nguyện, các cuộc vận động do Đoàn các cấp phát động."
+        }]
+      }],
+      mota: '',
+      khoa_choose: [],
+      khoa: [{
+        id: 1,
+        name: "Hóa học"
+      }, {
+        id: 2,
+        name: "Công nghệ thông tin"
+      }, {
+        id: 3,
+        name: "Vật lý"
+      }, {
+        id: 4,
+        name: "GD Quốc phòng & An ninh"
+      }, {
+        id: 5,
+        name: "Tâm lý học"
+      }, {
+        id: 6,
+        name: "Giáo dục Công dân"
+      }]
     };
   },
   computed: {
-    hoat_dong: function hoat_dong() {
-      return _constants__WEBPACK_IMPORTED_MODULE_0__["default"].HOAT_DONG;
-    },
-    ten_hoat_dong: function ten_hoat_dong() {
-      if (this.hoat_dong_choose == 1) {
-        return 'Tạo tiểu ban';
-      } else if (this.hoat_dong_choose == 2) {
-        return 'Tạo phần thi';
-      } else return 'Tạo hoạt động';
-    },
     isValid: function isValid() {
-      if (this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN) {
-        return this.activity_create.ten_hoat_dong;
-      } else if (this.thao_tac == this.hoat_dong.THONG_BAO_C0_PHAN_HOI) {
-        return this.loai_phan_hoi && this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong.length > 0;
-      } else {
-        return this.activity_create.ten_hoat_dong && this.doi_tuong.length > 0;
-      }
-    }
-  },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapActions"])({
-    getActivities: 'activity/getActivities',
-    storeChildActivities: 'activity/storeChildActivity',
-    getActivityResponsiable: 'activity/getActivityResponsiable'
-  })), {}, {
-    getActivitiyList: function getActivitiyList() {
+      return this.tieuChi_choose && this.noiDung_choose;
+    },
+    noidungDanhGia: function noidungDanhGia() {
       var _this = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return _this.getActivities().then(function (res) {
-                return _this.activitiy_list = _toConsumableArray(res.data);
-              });
-            case 2:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee);
-      }))();
-    },
-    changeDoiTuong: function changeDoiTuong(val) {
-      this.doi_tuong = val;
-    },
-    onSaveChildActivity: function onSaveChildActivity() {
-      var _this2 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var data;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              _this2.$loading(true);
-              data = {
-                activity: _this2.hoat_dong_choose,
-                name: _this2.activity_create.ten_hoat_dong,
-                action: _this2.thao_tac,
-                responseType: _this2.loai_phan_hoi,
-                details: _this2.activity_create.mota,
-                start_time: _this2.activity_create.start_time,
-                end_time: _this2.activity_create.end_time,
-                assignTo: _this2.doi_tuong,
-                assignChildActivity: _this2.hoat_dong_assign
-              };
-              _context2.next = 4;
-              return _this2.storeChildActivities(data);
-            case 4:
-              _this2.resetForm();
-              _this2.$loading(false);
-            case 6:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2);
-      }))();
-    },
-    resetForm: function resetForm() {
-      this.activity_create = {
-        ten_hoat_dong: '',
-        mota: '',
-        start_time: '',
-        end_time: ''
-      };
-      this.hoat_dong_choose = null;
-    }
-  }),
-  mounted: function mounted() {
-    var _this3 = this;
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-        while (1) switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.next = 2;
-            return Object(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_3__["asyncLoading"])(_this3.getActivitiyList());
-          case 2:
-          case "end":
-            return _context3.stop();
-        }
-      }, _callee3);
-    }))();
-  },
-  watch: {
-    hoat_dong_choose: function hoat_dong_choose() {
-      this.thao_tac = null;
-    },
-    thao_tac: function thao_tac(val) {
-      var _this4 = this;
-      this.loai_phan_hoi = null;
-      if (val == this.hoat_dong.THONG_BAO_C0_PHAN_HOI) {
-        var queryParams = {
-          activity: this.hoat_dong_choose
-        };
-        Object(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_3__["asyncLoading"])(this.getActivityResponsiable(queryParams).then(function (res) {
-          return _this4.activity_responsiable_list = res.data;
-        }));
+      if (this.tieuChi_choose) {
+        var noiDung = this.noiDung.find(function (_item) {
+          return _item.tieuChi == _this.tieuChi_choose;
+        });
+        return noiDung.noidungDanhGia;
       }
+    }
+  },
+  methods: {},
+  watch: {
+    tieuChi_choose: function tieuChi_choose(val) {
+      this.noiDung_choose = null;
+    },
+    noiDung_choose: function noiDung_choose(val) {
+      this.mota = '';
     }
   }
 });
@@ -2408,106 +2365,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     user_selected: function user_selected(val) {
       this.$emit('changeSelected', val);
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuejs-loading-plugin */ "./node_modules/vuejs-loading-plugin/index.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      classes: [],
-      class_select: [],
-      searchText: '',
-      isSearching: false
-    };
-  },
-  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
-    getClassList: 'classes/getClassList'
-  })), {}, {
-    getClasses: function getClasses() {
-      var _this = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return _this.getClassList().then(function (res) {
-                return _this.classes = res.data;
-              });
-            case 2:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee);
-      }))();
-    },
-    searchClass: function searchClass() {
-      var _this2 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var data;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              _this2.isSearching = true;
-              data = {
-                className: _this2.searchText
-              };
-              _context2.next = 4;
-              return _this2.getClassList(data).then(function (res) {
-                return _this2.classes = res.data;
-              });
-            case 4:
-              _this2.isSearching = false;
-            case 5:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2);
-      }))();
-    }
-  }),
-  computed: {},
-  mounted: function mounted() {
-    var _this3 = this;
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-        while (1) switch (_context3.prev = _context3.next) {
-          case 0:
-            Object(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_1__["asyncLoading"])(_this3.getClasses());
-          case 1:
-          case "end":
-            return _context3.stop();
-        }
-      }, _callee3);
-    }))();
-  },
-  watch: {
-    class_select: function class_select(val) {
-      this.$emit('emitChange', val);
     }
   }
 });
@@ -2974,7 +2831,7 @@ var render = function render() {
     staticClass: "icon ni ni-arrow-left"
   }), _c("span", [_vm._v("Quay lại")])])])], 1), _vm._v(" "), _c("h2", {
     staticClass: "nk-block-title fw-normal"
-  }, [_vm._v("Tạo nhiệm vụ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Tạo nhiệm vụ Đoàn")]), _vm._v(" "), _c("div", {
     staticClass: "nk-block-des"
   })])]), _vm._v(" "), _c("div", {
     staticClass: "nk-block nk-block-lg"
@@ -2982,203 +2839,151 @@ var render = function render() {
     staticClass: "card card-bordered"
   }, [_c("div", {
     staticClass: "card-inner"
-  }, [_c("h6", {
-    staticClass: "title mt-4"
-  }, [_vm._v("Loại nhiệm vụ ")]), _vm._v(" "), _c("ul", {
+  }, [_c("h4", {
+    staticClass: "title mb-2 mt-4"
+  }, [_vm._v("Loại nhiệm vụ")]), _vm._v(" "), _c("ul", {
     staticClass: "custom-control-group"
-  }, _vm._l(_vm.activitiy_list, function (act, index) {
+  }, _vm._l(_vm.tieuChi, function (option, index) {
     return _c("li", {
-      key: index
+      key: index,
+      staticClass: "col-12"
     }, [_c("div", {
-      staticClass: "custom-control custom-radio custom-control-pro no-control"
+      staticClass: "custom-control custom-radio custom-control-pro no-control col-12"
     }, [_c("input", {
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: _vm.hoat_dong_choose,
-        expression: "hoat_dong_choose"
+        value: _vm.tieuChi_choose,
+        expression: "tieuChi_choose"
+      }],
+      staticClass: "custom-control-input 100",
+      attrs: {
+        type: "radio",
+        name: "tieu-chi",
+        id: "tieuChi-".concat(index)
+      },
+      domProps: {
+        value: option.value,
+        checked: _vm._q(_vm.tieuChi_choose, option.value)
+      },
+      on: {
+        change: function change($event) {
+          _vm.tieuChi_choose = option.value;
+        }
+      }
+    }), _vm._v(" "), _c("label", {
+      staticClass: "custom-control-label col-12",
+      attrs: {
+        "for": "tieuChi-".concat(index)
+      }
+    }, [_vm._v(_vm._s(option.name))])])]);
+  }), 0)]), _vm._v(" "), _vm.tieuChi_choose ? _c("div", {
+    staticClass: "card-inner"
+  }, [_c("h4", {
+    staticClass: "title mb-2"
+  }, [_vm._v("Hoạt động")]), _vm._v(" "), _c("ul", {
+    staticClass: "custom-control-group"
+  }, _vm._l(_vm.noidungDanhGia, function (option, index) {
+    return _c("li", {
+      key: index,
+      staticClass: "col-12"
+    }, [_c("div", {
+      staticClass: "custom-control custom-radio custom-control-pro no-control col-12"
+    }, [_c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.noiDung_choose,
+        expression: "noiDung_choose"
       }],
       staticClass: "custom-control-input",
       attrs: {
         type: "radio",
-        name: "hoat-dong",
-        id: "act-".concat(index)
+        name: "noidung",
+        id: "noiDung-".concat(index)
       },
       domProps: {
-        value: act.id,
-        checked: _vm._q(_vm.hoat_dong_choose, act.id)
+        value: option.value,
+        checked: _vm._q(_vm.noiDung_choose, option.value)
       },
       on: {
         change: function change($event) {
-          _vm.hoat_dong_choose = act.id;
+          _vm.noiDung_choose = option.value;
         }
       }
     }), _vm._v(" "), _c("label", {
-      staticClass: "custom-control-label",
+      staticClass: "custom-control-label col-12",
       attrs: {
-        "for": "act-".concat(index)
+        "for": "noiDung-".concat(index)
       }
-    }, [_vm._v(_vm._s(act.activity_name))])])]);
-  }), 0)]), _vm._v(" "), _vm.hoat_dong_choose ? _c("div", {
-    staticClass: "card-inner"
-  }, [_c("h6", {
-    staticClass: "title mb-3 mt-4"
-  }, [_vm._v("Hoạt động")]), _vm._v(" "), _c("ul", {
-    staticClass: "custom-control-group"
-  }, [_c("li", [_c("div", {
-    staticClass: "custom-control custom-radio custom-control-pro no-control"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.thao_tac,
-      expression: "thao_tac"
-    }],
-    staticClass: "custom-control-input",
-    attrs: {
-      type: "radio",
-      name: "thao-tac",
-      id: "hd-1"
-    },
-    domProps: {
-      value: _vm.hoat_dong.PHAN_THI_OR_TIEU_BAN,
-      checked: _vm._q(_vm.thao_tac, _vm.hoat_dong.PHAN_THI_OR_TIEU_BAN)
-    },
-    on: {
-      change: function change($event) {
-        _vm.thao_tac = _vm.hoat_dong.PHAN_THI_OR_TIEU_BAN;
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "custom-control-label",
-    attrs: {
-      "for": "hd-1"
-    }
-  }, [_vm._v(_vm._s(_vm.ten_hoat_dong))])])]), _vm._v(" "), _c("li", [_c("div", {
-    staticClass: "custom-control custom-radio custom-control-pro no-control"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.thao_tac,
-      expression: "thao_tac"
-    }],
-    staticClass: "custom-control-input",
-    attrs: {
-      type: "radio",
-      name: "thao-tac",
-      id: "hd-2"
-    },
-    domProps: {
-      value: _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI,
-      checked: _vm._q(_vm.thao_tac, _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI)
-    },
-    on: {
-      change: function change($event) {
-        _vm.thao_tac = _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI;
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "custom-control-label",
-    attrs: {
-      "for": "hd-2"
-    }
-  }, [_vm._v("Thông báo(phản hồi)")])])]), _vm._v(" "), _c("li", [_c("div", {
-    staticClass: "custom-control custom-radio custom-control-pro no-control"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.thao_tac,
-      expression: "thao_tac"
-    }],
-    staticClass: "custom-control-input",
-    attrs: {
-      type: "radio",
-      name: "thao-tac",
-      id: "hd-3"
-    },
-    domProps: {
-      value: _vm.hoat_dong.THONG_BA0_KHONG_PHAN_HOI,
-      checked: _vm._q(_vm.thao_tac, _vm.hoat_dong.THONG_BA0_KHONG_PHAN_HOI)
-    },
-    on: {
-      change: function change($event) {
-        _vm.thao_tac = _vm.hoat_dong.THONG_BA0_KHONG_PHAN_HOI;
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "custom-control-label",
-    attrs: {
-      "for": "hd-3"
-    }
-  }, [_vm._v("Thông báo(không phản hồi)")])])])])]) : _vm._e(), _vm._v(" "), _vm.thao_tac == _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI ? _c("div", {
-    staticClass: "card-inner"
-  }, [_c("h6", {
-    staticClass: "title mb-3 mt-4"
-  }, [_vm._v("Loại phản hồi")]), _vm._v(" "), _c("ul", {
-    staticClass: "custom-control-group"
-  }, [_c("li", [_c("div", {
-    staticClass: "custom-control custom-radio custom-control-pro no-control"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.loai_phan_hoi,
-      expression: "loai_phan_hoi"
-    }],
-    staticClass: "custom-control-input",
-    attrs: {
-      type: "radio",
-      id: "act-act"
-    },
-    domProps: {
-      value: _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU,
-      checked: _vm._q(_vm.loai_phan_hoi, _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU)
-    },
-    on: {
-      change: function change($event) {
-        _vm.loai_phan_hoi = _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU;
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "custom-control-label",
-    attrs: {
-      "for": "act-act"
-    }
-  }, [_vm._v("Gửi danh sách tham dự")])])]), _vm._v(" "), _c("li", [_c("div", {
-    staticClass: "custom-control custom-radio custom-control-pro no-control"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.loai_phan_hoi,
-      expression: "loai_phan_hoi"
-    }],
-    staticClass: "custom-control-input",
-    attrs: {
-      type: "radio",
-      id: "act-join"
-    },
-    domProps: {
-      value: _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA,
-      checked: _vm._q(_vm.loai_phan_hoi, _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA)
-    },
-    on: {
-      change: function change($event) {
-        _vm.loai_phan_hoi = _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA;
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "custom-control-label",
-    attrs: {
-      "for": "act-join"
-    }
-  }, [_vm._v("Gửi danh sách tham gia")])])])])]) : _vm._e(), _vm._v(" "), _vm.thao_tac ? _c("div", {
+    }, [_vm._v(_vm._s(option.name))])])]);
+  }), 0)]) : _vm._e(), _vm._v(" "), _vm.noiDung_choose ? _c("div", {
     staticClass: "card-inner"
   }, [_c("h5", {
     staticClass: "title mb-4"
-  }, [_vm._v("Thông tin nhiệm vụ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Thông tin nhiệm vụ")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1)]) : _vm._e(), _vm._v(" "), _vm.noiDung_choose ? _c("div", {
+    staticClass: "card-inner"
+  }, [_c("h4", {
+    staticClass: "title mb-2"
+  }, [_vm._v("Đối tượng nhận")]), _vm._v(" "), _c("ul", {
+    staticClass: "custom-control-group"
+  }, _vm._l(_vm.khoa, function (option, index) {
+    return _c("li", {
+      key: index,
+      staticClass: "col-6"
+    }, [_c("div", {
+      staticClass: "custom-control custom-radio custom-control-pro no-control col-11"
+    }, [_c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.khoa_choose,
+        expression: "khoa_choose"
+      }],
+      staticClass: "custom-control-input",
+      attrs: {
+        type: "checkbox",
+        name: "khoa",
+        id: "khoa-".concat(index)
+      },
+      domProps: {
+        value: option.id,
+        checked: Array.isArray(_vm.khoa_choose) ? _vm._i(_vm.khoa_choose, option.id) > -1 : _vm.khoa_choose
+      },
+      on: {
+        change: function change($event) {
+          var $$a = _vm.khoa_choose,
+            $$el = $event.target,
+            $$c = $$el.checked ? true : false;
+          if (Array.isArray($$a)) {
+            var $$v = option.id,
+              $$i = _vm._i($$a, $$v);
+            if ($$el.checked) {
+              $$i < 0 && (_vm.khoa_choose = $$a.concat([$$v]));
+            } else {
+              $$i > -1 && (_vm.khoa_choose = $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+            }
+          } else {
+            _vm.khoa_choose = $$c;
+          }
+        }
+      }
+    }), _vm._v(" "), _c("label", {
+      staticClass: "custom-control-label col-12",
+      attrs: {
+        "for": "khoa-".concat(index)
+      }
+    }, [_vm._v("Khoa " + _vm._s(option.name))])])]);
+  }), 0)]) : _vm._e(), _vm._v(" "), _c("div", {
+    staticClass: "col-12 d-flex justify-content-center"
+  }, [_vm.isValid ? _c("button", {
+    staticClass: "btn btn-primary mb-3"
+  }, [_vm._v("Tạo nhiệm vụ")]) : _vm._e()])])])])])])])]);
+};
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
     staticClass: "row g-3"
   }, [_c("div", {
     staticClass: "col-sm-12"
@@ -3189,26 +2994,11 @@ var render = function render() {
   }, [_vm._v("Tên nhiệm vụ")]), _vm._v(" "), _c("div", {
     staticClass: "form-control-wrap"
   }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.activity_create.ten_hoat_dong,
-      expression: "activity_create.ten_hoat_dong"
-    }],
     staticClass: "form-control",
     attrs: {
       type: "text",
       placeholder: "Tên nhiệm vụ",
       required: ""
-    },
-    domProps: {
-      value: _vm.activity_create.ten_hoat_dong
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.activity_create, "ten_hoat_dong", $event.target.value);
-      }
     }
   })])])]), _vm._v(" "), _c("div", {
     staticClass: "form-group"
@@ -3221,85 +3011,23 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "input-group-addon"
   }, [_vm._v("Từ")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.activity_create.start_time,
-      expression: "activity_create.start_time"
-    }],
     staticClass: "form-control",
     attrs: {
       type: "text"
-    },
-    domProps: {
-      value: _vm.activity_create.start_time
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.activity_create, "start_time", $event.target.value);
-      }
     }
   }), _vm._v(" "), _c("div", {
     staticClass: "input-group-addon"
   }, [_vm._v("Đến")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.activity_create.end_time,
-      expression: "activity_create.end_time"
-    }],
     staticClass: "form-control",
     attrs: {
       type: "text"
-    },
-    domProps: {
-      value: _vm.activity_create.end_time
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.activity_create, "end_time", $event.target.value);
-      }
     }
-  })])])]), _vm._v(" "), _vm.thao_tac == _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI ? _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", {
-    staticClass: "form-label"
-  }, [_vm._v("Chọn hoạt động")]), _vm._v(" "), _c("div", {
-    staticClass: "form-control-wrap"
-  }, [_c("select", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.hoat_dong_assign,
-      expression: "hoat_dong_assign"
-    }],
-    staticClass: "form-control js-select2",
-    on: {
-      change: function change($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
-          return o.selected;
-        }).map(function (o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val;
-        });
-        _vm.hoat_dong_assign = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
-      }
-    }
-  }, [_c("option", {
-    domProps: {
-      value: null
-    }
-  }, [_vm._v("Chọn hoạt động")]), _vm._v(" "), _vm._l(_vm.activity_responsiable_list, function (option, index) {
-    return _c("option", {
-      key: index,
-      domProps: {
-        value: option.id
-      }
-    }, [_vm._v(_vm._s(option.name))]);
-  })], 2)])]) : _vm._e(), _vm._v(" "), _c("div", {
-    staticClass: "col-12"
+  })])])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "col-12 mt-1"
   }, [_c("div", {
     staticClass: "form-group"
   }, [_c("label", {
@@ -3310,44 +3038,12 @@ var render = function render() {
   }, [_vm._v("Mô tả")]), _vm._v(" "), _c("div", {
     staticClass: "form-control-wrap"
   }, [_c("textarea", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.activity_create.mota,
-      expression: "activity_create.mota"
-    }],
     staticClass: "form-control form-control-sm quill-basic",
     attrs: {
       placeholder: "Mô tả hoạt động"
-    },
-    domProps: {
-      value: _vm.activity_create.mota
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.activity_create, "mota", $event.target.value);
-      }
     }
-  })])])])])]) : _vm._e(), _vm._v(" "), _vm.thao_tac != null && _vm.thao_tac != _vm.hoat_dong.PHAN_THI_OR_TIEU_BAN ? _c("GiaoNhiemVu_Truong", {
-    attrs: {
-      "class-choose": _vm.doi_tuong
-    },
-    on: {
-      emitChange: _vm.changeDoiTuong
-    }
-  }) : _vm._e(), _vm._v(" "), _c("div", {
-    staticClass: "col-12 d-flex justify-content-center"
-  }, [_vm.isValid ? _c("button", {
-    staticClass: "btn btn-primary mb-3",
-    on: {
-      click: function click($event) {
-        return _vm.onSaveChildActivity();
-      }
-    }
-  }, [_vm._v("Tạo nhiệm vụ")]) : _vm._e()])], 1)])])])])])]);
-};
-var staticRenderFns = [];
+  })])])]);
+}];
 render._withStripped = true;
 
 
@@ -4121,116 +3817,6 @@ var render = function render() {
       }
     }
   }, [_vm._v("Chuyển tiếp")]) : _vm._e()])])])]);
-};
-var staticRenderFns = [];
-render._withStripped = true;
-
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue?vue&type=template&id=f6ddcd5c&scoped=true&":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue?vue&type=template&id=f6ddcd5c&scoped=true& ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function render() {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "card-inner"
-  }, [_c("h5", {
-    staticClass: "title mb-4"
-  }, [_vm._v("Chọn đối tượng nhận")]), _vm._v(" "), _c("div", {
-    staticClass: "row g-3"
-  }, [_c("div", {
-    staticClass: "col-sm-6"
-  }, [_c("div", {
-    staticClass: "form-group"
-  }, [_c("div", {
-    staticClass: "form-control-wrap"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.searchText,
-      expression: "searchText"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      placeholder: "Tìm kiếm"
-    },
-    domProps: {
-      value: _vm.searchText
-    },
-    on: {
-      input: [function ($event) {
-        if ($event.target.composing) return;
-        _vm.searchText = $event.target.value;
-      }, function ($event) {
-        return _vm.searchClass();
-      }]
-    }
-  })])])]), _vm._v(" "), _c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    staticClass: "form-group"
-  }, [_vm.isSearching ? _c("small", [_vm._v("Đang tìm kiếm...")]) : _vm._e(), _vm._v(" "), !_vm.isSearching ? _c("ul", {
-    staticClass: "custom-control-group"
-  }, _vm._l(_vm.classes, function (option, index) {
-    return _c("li", {
-      key: index
-    }, [_c("div", {
-      staticClass: "custom-control custom-radio custom-control-pro no-control"
-    }, [_c("input", {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: _vm.class_select,
-        expression: "class_select"
-      }],
-      staticClass: "custom-control-input",
-      attrs: {
-        type: "checkbox",
-        id: "class-".concat(index)
-      },
-      domProps: {
-        value: option.id,
-        checked: Array.isArray(_vm.class_select) ? _vm._i(_vm.class_select, option.id) > -1 : _vm.class_select
-      },
-      on: {
-        change: function change($event) {
-          var $$a = _vm.class_select,
-            $$el = $event.target,
-            $$c = $$el.checked ? true : false;
-          if (Array.isArray($$a)) {
-            var $$v = option.id,
-              $$i = _vm._i($$a, $$v);
-            if ($$el.checked) {
-              $$i < 0 && (_vm.class_select = $$a.concat([$$v]));
-            } else {
-              $$i > -1 && (_vm.class_select = $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
-            }
-          } else {
-            _vm.class_select = $$c;
-          }
-        }
-      }
-    }), _vm._v(" "), _c("label", {
-      staticClass: "custom-control-label",
-      attrs: {
-        "for": "class-".concat(index)
-      }
-    }, [_vm._v(_vm._s(option.class_name))])])]);
-  }), 0) : _vm._e(), _vm._v(" "), _vm.classes.length == 0 ? _c("div", {
-    staticClass: "row text-center d-flex justify-content-center"
-  }, [_c("small", [_vm._v("Không có dữ liệu.")])]) : _vm._e()])])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -59873,75 +59459,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue ***!
-  \*************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _GiaoNhiemVu_Truong_vue_vue_type_template_id_f6ddcd5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GiaoNhiemVu_Truong.vue?vue&type=template&id=f6ddcd5c&scoped=true& */ "./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue?vue&type=template&id=f6ddcd5c&scoped=true&");
-/* harmony import */ var _GiaoNhiemVu_Truong_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GiaoNhiemVu_Truong.vue?vue&type=script&lang=js& */ "./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _GiaoNhiemVu_Truong_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _GiaoNhiemVu_Truong_vue_vue_type_template_id_f6ddcd5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _GiaoNhiemVu_Truong_vue_vue_type_template_id_f6ddcd5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  "f6ddcd5c",
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue?vue&type=script&lang=js&":
-/*!**************************************************************************************************************!*\
-  !*** ./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GiaoNhiemVu_Truong_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../../node_modules/vue-loader/lib??vue-loader-options!./GiaoNhiemVu_Truong.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GiaoNhiemVu_Truong_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue?vue&type=template&id=f6ddcd5c&scoped=true&":
-/*!********************************************************************************************************************************!*\
-  !*** ./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue?vue&type=template&id=f6ddcd5c&scoped=true& ***!
-  \********************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_GiaoNhiemVu_Truong_vue_vue_type_template_id_f6ddcd5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!../../../../../../../node_modules/vue-loader/lib??vue-loader-options!./GiaoNhiemVu_Truong.vue?vue&type=template&id=f6ddcd5c&scoped=true& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/components/NhiemVu/authorize/giaoNv/GiaoNhiemVu_Truong.vue?vue&type=template&id=f6ddcd5c&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_GiaoNhiemVu_Truong_vue_vue_type_template_id_f6ddcd5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_GiaoNhiemVu_Truong_vue_vue_type_template_id_f6ddcd5c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
-
-/***/ }),
-
 /***/ "./resources/js/src/components/dashboards/AdminDashBoard.vue":
 /*!*******************************************************************!*\
   !*** ./resources/js/src/components/dashboards/AdminDashBoard.vue ***!
@@ -60428,7 +59945,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 });
 var roles = _constants__WEBPACK_IMPORTED_MODULE_3__["default"].roles;
 router.beforeEach(function (to, from, next) {
-  document.title = "".concat(to.meta.title, " - ").concat("Số hoá công tác Đoàn - Trường Đại học Sư phạm Hà Nội");
+  document.title = "".concat(to.meta.title, " - ").concat("Laravel MIX_APP_NAME");
   if (to.matched.some(function (record) {
     return record.meta.requiresAuth;
   }) && !_store__WEBPACK_IMPORTED_MODULE_2__["default"].getters["auth/isAuthenticated"]) {
@@ -61364,8 +60881,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\WorkSpace\CONGTACDOAN_NEW\CONGTACDOAN\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\WorkSpace\CONGTACDOAN_NEW\CONGTACDOAN\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

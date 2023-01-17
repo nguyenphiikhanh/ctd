@@ -11,7 +11,7 @@
                                         <a class="back-to" href="#"><em class="icon ni ni-arrow-left"></em><span>Quay lại</span></a>
                                     </router-link>
                                 </div>
-                                <h2 class="nk-block-title fw-normal">Tạo nhiệm vụ</h2>
+                                <h2 class="nk-block-title fw-normal">Tạo nhiệm vụ Đoàn</h2>
                                 <div class="nk-block-des">
                                 </div>
                             </div>
@@ -19,65 +19,36 @@
                         <div class="nk-block nk-block-lg">
                             <div class="card card-bordered">
                                 <div class="card-inner">
-                                    <h6 class="title mt-4">Loại nhiệm vụ </h6>
+                                    <h4 class="title mb-2 mt-4">Loại nhiệm vụ</h4>
                                     <ul class="custom-control-group">
-                                        <li v-for="(act, index) in activitiy_list" :key="index">
-                                            <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input v-model="hoat_dong_choose" type="radio" :value="act.id" class="custom-control-input" name="hoat-dong" :id="`act-${index}`">
-                                                <label class="custom-control-label" :for="`act-${index}`">{{act.activity_name}}</label>
+                                        <li v-for="(option, index) in tieuChi" :key="index" class="col-12">
+                                            <div class="custom-control custom-radio custom-control-pro no-control col-12">
+                                                <input v-model="tieuChi_choose" type="radio" :value="option.value" class="custom-control-input 100" name="tieu-chi" :id="`tieuChi-${index}`">
+                                                <label class="custom-control-label col-12" :for="`tieuChi-${index}`">{{option.name}}</label>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
-                                <div v-if="hoat_dong_choose" class="card-inner">
-                                    <h6 class="title mb-3 mt-4">Hoạt động</h6>
+
+                                <div class="card-inner" v-if="tieuChi_choose">
+                                    <h4 class="title mb-2">Hoạt động</h4>
                                     <ul class="custom-control-group">
-                                        <li>
-                                            <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input v-model="thao_tac" type="radio" :value="hoat_dong.PHAN_THI_OR_TIEU_BAN" class="custom-control-input" name="thao-tac" id="hd-1">
-                                                <label class="custom-control-label" for="hd-1">{{ten_hoat_dong}}</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input v-model="thao_tac" type="radio" :value="hoat_dong.THONG_BAO_C0_PHAN_HOI" class="custom-control-input" name="thao-tac" id="hd-2">
-                                                <label class="custom-control-label" for="hd-2">Thông báo(phản hồi)</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input v-model="thao_tac" type="radio" :value="hoat_dong.THONG_BA0_KHONG_PHAN_HOI" class="custom-control-input" name="thao-tac" id="hd-3">
-                                                <label class="custom-control-label" for="hd-3">Thông báo(không phản hồi)</label>
+                                        <li v-for="(option, index) in noidungDanhGia" :key="index" class="col-12">
+                                            <div class="custom-control custom-radio custom-control-pro no-control col-12">
+                                                <input v-model="noiDung_choose" type="radio" :value="option.value" class="custom-control-input" name="noidung" :id="`noiDung-${index}`">
+                                                <label class="custom-control-label col-12" :for="`noiDung-${index}`">{{option.name}}</label>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
-                                <div v-if="thao_tac == hoat_dong.THONG_BAO_C0_PHAN_HOI" class="card-inner">
-                                    <h6 class="title mb-3 mt-4">Loại phản hồi</h6>
-                                    <ul class="custom-control-group">
-                                        <li>
-                                            <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input v-model="loai_phan_hoi" type="radio" :value="hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU" class="custom-control-input" id="act-act">
-                                                <label class="custom-control-label" for="act-act">Gửi danh sách tham dự</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input v-model="loai_phan_hoi" type="radio" :value="hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA" class="custom-control-input" id="act-join">
-                                                <label class="custom-control-label" for="act-join">Gửi danh sách tham gia</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-<!--                                thông tin nhiệm vụ-->
-                                <div v-if="thao_tac" class="card-inner">
+                                <div v-if="noiDung_choose" class="card-inner">
                                     <h5 class="title mb-4">Thông tin nhiệm vụ</h5>
                                     <div class="row g-3">
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label class="form-label" >Tên nhiệm vụ</label>
                                                 <div class="form-control-wrap">
-                                                    <input type="text" v-model="activity_create.ten_hoat_dong" class="form-control"  placeholder="Tên nhiệm vụ" required>
+                                                    <input type="text" class="form-control"  placeholder="Tên nhiệm vụ" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -86,39 +57,38 @@
                                             <div class="form-control-wrap">
                                                 <div class="input-daterange date-picker-range input-group">
                                                     <div class="input-group-addon">Từ</div>
-                                                    <input v-model="activity_create.start_time" type="text" class="form-control" />
+                                                    <input type="text" class="form-control" />
                                                     <div class="input-group-addon">Đến</div>
-                                                    <input v-model="activity_create.end_time" type="text" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group" v-if="thao_tac == hoat_dong.THONG_BAO_C0_PHAN_HOI">
-                                            <label class="form-label">Chọn hoạt động</label>
-                                            <div class="form-control-wrap">
-                                                <select v-model="hoat_dong_assign" class="form-control js-select2">
-                                                    <option :value="null">Chọn hoạt động</option>
-                                                    <option v-for="(option, index) in activity_responsiable_list" :key="index" :value="option.id">{{option.name}}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label class="form-label" for="cp1-profile-description">Mô tả</label>
-                                                <div class="form-control-wrap">
-                                                    <textarea class="form-control form-control-sm quill-basic" v-model="activity_create.mota" placeholder="Mô tả hoạt động"></textarea>
+                                                    <input type="text" class="form-control" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                      <div class="col-12 mt-1">
+                                            <div class="form-group">
+                                                <label class="form-label" for="cp1-profile-description">Mô tả</label>
+                                                <div class="form-control-wrap">
+                                                    <textarea class="form-control form-control-sm quill-basic" placeholder="Mô tả hoạt động"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
 
-<!--                                đối tượng nhận-->
-                                <GiaoNhiemVu_Truong :class-choose="doi_tuong" @emitChange="changeDoiTuong" v-if="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
-
+                                <div class="card-inner" v-if="noiDung_choose">
+                                    <h4 class="title mb-2">Đối tượng nhận</h4>
+                                    <ul class="custom-control-group">
+                                        <li v-for="(option, index) in khoa" :key="index" class="col-6">
+                                            <div class="custom-control custom-radio custom-control-pro no-control col-11">
+                                                <input v-model="khoa_choose" type="checkbox" :value="option.id" class="custom-control-input" name="khoa" :id="`khoa-${index}`">
+                                                <label class="custom-control-label col-12" :for="`khoa-${index}`">Khoa {{option.name}}</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <div class="col-12 d-flex justify-content-center">
-                                    <button v-if="isValid" @click="onSaveChildActivity()" class="btn btn-primary mb-3">Tạo nhiệm vụ</button>
+                                    <button v-if="isValid" class="btn btn-primary mb-3">Tạo nhiệm vụ</button>
                                 </div>
-                            </div>
+                                </div>
                             </div>
                         </div><!-- .nk-block -->
                     </div><!-- .components-preview -->
@@ -128,114 +98,163 @@
 </template>
 
 <script>
-import constants from "../../constants";
-import GiaoNhiemVu_Truong from "./authorize/giaoNv/GiaoNhiemVu_Truong";
-import {mapActions} from "vuex";
-import { asyncLoading } from 'vuejs-loading-plugin';
-
 export default {
-    components:{
-      GiaoNhiemVu_Truong,
-    },
     data(){
         return{
-            activity_create:{
-                ten_hoat_dong : '',
-                mota: '',
-                start_time: '',
-                end_time: '',
+            tieuChi_choose: null,
+            tieuChi:[
+            {
+                value: 1,
+                name: "I. Rèn luyện về lý tưởng cách mạng, nhận thức chính trị"
             },
-            //todo activities
-            hoat_dong_choose: null,
-            thao_tac: null,
-            loai_phan_hoi: null,
-            //
-            activitiy_list: [],
-            activity_responsiable_list: [],
-            doi_tuong: [],
-            hoat_dong_assign: null,
+                        {
+                value: 2,
+                name: "II. Rèn luyện về đạo đức, lối sống, tác phong đoàn viên"
+            },
+                        {
+                value: 3,
+                name: "III. Rèn luyện về chuyên môn, nghiệp vụ"
+            },            {
+                value: 4,
+                name: "III. Văn hoá, văn nghệ, thể dục - thể thao"
+            },            {
+                value: 5,
+                name: "V. Ý thức trong xây dựng tổ chức Đoàn"
+            }
+            ],
+            noiDung_choose: null,
+            noiDung:[
+                {
+                    tieuChi: 1,
+                    noidungDanhGia: [
+                        {
+                            value: 1,
+                            name: "Tham gia các hoạt động học tập, các buổi sinh hoạt chi đoàn về các Nghị quyết của Đảng, Nghị quyết Đại hội Đoàn các cấp…; tham gia các bài học lý luận chính trị của Đoàn TNCS HCM."
+                        },
+                         {
+                            value: 2,
+                            name: "Được tham gia học tập các lớp Đoàn viên ưu tú, bồi dưỡng nhận thức về Đảng, được kết nạp vào Đảng Cộng sản Việt Nam."
+                        },
+                    ]
+                },
+                {
+                    tieuChi: 2,
+                    noidungDanhGia: [
+                        {
+                            value: 1,
+                            name: "Có đóng góp cho tập thể, phục vụ cộng đồng"
+                        },
+                    ]
+                },
+                {
+                    tieuChi: 3,
+                    noidungDanhGia: [
+                        {
+                            value: 1,
+                            name: "Tham gia các hoạt động rèn luyện nghiệp vụ"
+                        },
+                         {
+                            value: 2,
+                            name: "Tham gia học tập để nâng cao trình độ chuyên môn, nghiệp vụ, kỹ năng nghề nghiệp "
+                        },
+                         {
+                            value: 3,
+                            name: "Tham gia nghiên cứu khoa học"
+                        },
+                         {
+                            value: 4,
+                            name: "Học tập, nâng cao trình độ ngoại ngữ, tin học"
+                        },
+                    ]
+                },
+                {
+                    tieuChi: 4 ,
+                    noidungDanhGia: [
+                        {
+                            value: 1,
+                            name: "Tham gia các hoạt động văn nghệ, thể dục, thể thao do Đoàn cấp tổ chức"
+                        },
+                         {
+                            value: 2,
+                            name: "Tích cực tham gia các phong trào thể dục thể thao quần chúng tại địa phương, đơn vị."
+                        },
+                         {
+                            value: 3,
+                            name: "Tham gia các hoạt động văn hoá khác tại địa phương, đơn vị"
+                        },
+                         {
+                            value: 4,
+                            name: "Tham gia các cuộc thi dành cho cá nhân do Đoàn các cấp tổ chức"
+                        },
+                    ]
+                },
+                {
+                    tieuChi: 5,
+                    noidungDanhGia: [
+                        {
+                            value: 1,
+                            name: "Tham dự các buổi sinh hoạt chi đoàn, đóng đoàn phí"
+                        },
+                         {
+                            value: 2,
+                            name: "Tham gia các hoạt động tình nguyện, các cuộc vận động do Đoàn các cấp phát động."
+                        },
+                    ]
+                },
+            ],
+            mota: '',
+            khoa_choose: [],
+            khoa:[
+                {
+                    id: 1,
+                    name: "Hóa học"
+                },
+                {
+                    id: 2,
+                    name: "Công nghệ thông tin"
+                },
+                {
+                    id: 3,
+                    name: "Vật lý"
+                },
+                {
+                    id: 4,
+                    name: "GD Quốc phòng & An ninh"
+                },
+                {
+                    id: 5,
+                    name: "Tâm lý học"
+                },
+                {
+                    id: 6,
+                    name: "Giáo dục Công dân"
+                },
+            ]
         }
     },
     computed:{
-        hoat_dong(){
-            return constants.HOAT_DONG;
-        },
-        ten_hoat_dong(){
-            if(this.hoat_dong_choose == 1) {
-                return 'Tạo tiểu ban';
-            } else if (this.hoat_dong_choose == 2){
-                return 'Tạo phần thi';
-            }
-            else return 'Tạo hoạt động';
-        },
         isValid(){
-            if(this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){
-                return this.activity_create.ten_hoat_dong;
-            }
-            else if(this.thao_tac == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){
-                return this.loai_phan_hoi && this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong.length > 0;
-            }
-            else {
-                return this.activity_create.ten_hoat_dong && this.doi_tuong.length > 0;
+            return this.tieuChi_choose && this.noiDung_choose;
+        },
+        noidungDanhGia(){
+            if(this.tieuChi_choose){
+                const noiDung = this.noiDung.find(_item => _item.tieuChi == this.tieuChi_choose);
+                return noiDung.noidungDanhGia;
             }
         }
     },
     methods:{
-        ...mapActions({
-           getActivities: 'activity/getActivities',
-            storeChildActivities: 'activity/storeChildActivity',
-            getActivityResponsiable: 'activity/getActivityResponsiable'
-        }),
-        async getActivitiyList(){
-            await this.getActivities().then(res => this.activitiy_list = [...res.data]);
-        },
-        changeDoiTuong(val){
-            this.doi_tuong = val;
-        },
-        async onSaveChildActivity(){
-            this.$loading(true);
-            const data = {
-                activity: this.hoat_dong_choose,
-                name: this.activity_create.ten_hoat_dong,
-                action: this.thao_tac,
-                responseType: this.loai_phan_hoi,
-                details: this.activity_create.mota,
-                start_time: this.activity_create.start_time,
-                end_time: this.activity_create.end_time,
-                assignTo: this.doi_tuong,
-                assignChildActivity: this.hoat_dong_assign,
-            }
-            await this.storeChildActivities(data);
-            this.resetForm();
-            this.$loading(false);
-        },
-        resetForm(){
-            this.activity_create = {
-                    ten_hoat_dong : '',
-                    mota: '',
-                    start_time: '',
-                    end_time: '',
-            };
-            this.hoat_dong_choose = null;
-        }
 
     },
-    async mounted() {
-        await asyncLoading(this.getActivitiyList());
-    },
+
     watch:{
-        hoat_dong_choose(){
-            this.thao_tac = null;
+        tieuChi_choose(val){
+            this.noiDung_choose = null;
         },
-        thao_tac(val){
-            this.loai_phan_hoi = null;
-            if(val == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){
-                let queryParams = {
-                    activity: this.hoat_dong_choose
-                };
-                asyncLoading(this.getActivityResponsiable(queryParams).then((res) => this.activity_responsiable_list = res.data));
-            }
+        noiDung_choose(val){
+            this.mota = '';
         }
+
     },
 }
 </script>
