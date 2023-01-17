@@ -6,6 +6,7 @@ import AdminDashBoard from "../components/dashboards/AdminDashBoard";
 import Notifications from "../components/NhiemVu/ThongBao/Notifications";
 import CheckList from "../components/diemDanh/CheckList";
 import KhoaDaoTao from "../components/quanLy/KhoaDaoTao/KhoaDaoTao";
+import Khoa from "../components/quanLy/khoa/Khoa";
 
 const routes = [
     // dashboard
@@ -23,10 +24,21 @@ const routes = [
     //khóa đào tạo
     {
         name:"KhoaDaoTao",
-        path:"/khoa-dao-tao",
+        path:"/quan-ly-khoa-dao-tao",
         component: KhoaDaoTao,
         meta:{
-            title: 'Nhiệm vụ',
+            title: 'Quản lý khóa đào tạo',
+            requiresAuth: true,
+            adminAccess: true,
+        }
+    },
+    //Khoa
+    {
+        name:"Khoa",
+        path:"/quan-ly-khoa",
+        component: Khoa,
+        meta:{
+            title: 'Quản lý khoa',
             requiresAuth: true,
             adminAccess: true,
         }

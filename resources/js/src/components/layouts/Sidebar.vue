@@ -17,7 +17,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role == roles.ADMIN" :to="{name: 'NhiemVu_List'}">
+            <router-link v-if="user.role == roles.ADMIN" :to="{name: 'Khoa'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>

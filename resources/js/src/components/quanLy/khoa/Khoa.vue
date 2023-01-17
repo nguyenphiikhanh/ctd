@@ -6,7 +6,7 @@
                     <div class="nk-block-head nk-block-head-sm">
                         <div class="nk-block-between">
                             <div class="nk-block-head-content">
-                                <h3 class="nk-block-title page-title">Quản lý khóa đào tạo</h3>
+                                <h3 class="nk-block-title page-title">Quản lý khoa/ngành đào tạo</h3>
                             </div><!-- .nk-block-head-content -->
                             <div class="nk-block-head-content">
                                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -16,7 +16,7 @@
                                             <li class="nk-block-tools-opt">
                                                 <button @click="showPopup(true)" type="button" class="btn btn-primary d-none d-md-inline-flex">
                                                     <em class="icon ni ni-plus"></em>
-                                                    <span>Thêm khóa đào tạo</span>
+                                                    <span>Thêm Khoa/Ngành</span>
                                                 </button>
                                             </li>
                                         </ul>
@@ -28,7 +28,7 @@
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
-                                <h5 class="nk-block-title">Danh sách khóa đào tạo</h5>
+                                <h5 class="nk-block-title">Danh sách Khoa/Ngành đào tạo</h5>
                             </div>
                         </div>
                         <div class="card card-preview">
@@ -37,14 +37,14 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">STT</th>
-                                        <th scope="col">Tên khóa đào tạo</th>
+                                        <th scope="col">Tên khoa/ngành đào tạo</th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(_item, index) in listKhoaDaoTao" :key="index">
+                                    <tr v-for="(_item, index) in facultyList" :key="index">
                                         <th scope="row">{{index + 1}}</th>
-                                        <td>{{_item.term_name}}</td>
+                                        <td>{{_item.faculty_name}}</td>
                                         <td class="d-flex justify-content-end">
                                             <div>
                                             <button class="btn btn-sm btn-info">Sửa</button>
@@ -56,7 +56,7 @@
                                 </table>
                             </div>
                         </div><!-- .card -->
-                        <div v-if="listKhoaDaoTao.length == 0" class="text-center col-12">Không có dữ liệu.</div>
+                        <div v-if="facultyList.length == 0" class="text-center col-12">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
                     <create-or-update-dialog :createFlg="createFlg" :tenKhoa="tenKhoa" @onSave="onSave" @closeModal="closeModal()" @changeName="changeName"/>
                 </div>
@@ -68,7 +68,7 @@
 <script>
 import { asyncLoading } from 'vuejs-loading-plugin';
 import { mapActions } from 'vuex';
-import createOrUpdateDialog from './child/CreateOrUpdateKhoaDaoTao.vue';
+import createOrUpdateDialog from './child/CreateOrUpdateKhoa.vue';
 export default {
     components:{
         createOrUpdateDialog,
@@ -76,19 +76,19 @@ export default {
     data(){
         return{
             id: null,
-            listKhoaDaoTao: [],
+            facultyList: [],
             createFlg: true,
             tenKhoa: ''
         }
     },
     methods:{
         ...mapActions({
-            getTermList: 'khoaDaoTao/getTermList',
-            createTerm: 'khoaDaoTao/createTerm',
+            getFacultyList: 'khoa/getFacultyList',
+            createFaculty: 'khoa/createFaculty',
         }),
-        async getTermListData(){
+        async getFacultyListData(){
             const params = {};
-            await this.getTermList(params).then(res => this.listKhoaDaoTao = [...res.data]);
+            await this.getFacultyList(params).then(res => this.facultyList = [...res.data]);
         },
         showPopup(createFlg = true){
             if(!createFlg){
@@ -105,17 +105,17 @@ export default {
         async onSave(createFlg){
             this.$loading(true);
             let data = {
-                term_name: this.tenKhoa,
+                faculty_name: this.tenKhoa,
             };
             if(createFlg){
-                await this.createTerm(data);
+                await this.createFaculty(data);
             }
             else{
 
             }
             this.$loading(false);
             this.closeModal();
-            await asyncLoading(this.getTermListData());
+            await asyncLoading(this.getFacultyListData());
         },
         closeModal(){
             this.$nextTick(() => {
@@ -126,7 +126,7 @@ export default {
         }
     },
     mounted(){
-        asyncLoading(this.getTermListData());
+        asyncLoading(this.getFacultyListData());
     }
 }
 </script>

@@ -26,6 +26,10 @@ Route::prefix('v1')->group(function(){
         Route::get('/terms','Auth\TermController@index');
         Route::post('/terms','Auth\TermController@store');
 
+        //khóa đào tạo
+        Route::get('/terms','Auth\FacultyController@index');
+        Route::post('/terms','Auth\FacultyController@store');
+
         //user
         Route::get('/get-user-classes-by-cbl','Auth\UserController@getUserbyCanbolop');
 
