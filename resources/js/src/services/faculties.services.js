@@ -2,9 +2,9 @@ import http from "../httpCommon";
 
 export default {
     getFacultyList(params = null){
-        return http.get('/terms',{params: params});
+        return http.get('/faculties',{params: params});
     },
     createFaculty(data){
-        return http.post('/terms', data);
+        return http.post('/faculties', data);
     }
 }

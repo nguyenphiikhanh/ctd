@@ -21,7 +21,7 @@
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
-                        <span class="nk-menu-text">Quản lý Khoa/Ngành đào tạo</span>
+                        <span class="nk-menu-text">Quản lý Liên chi Đoàn</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
@@ -29,7 +29,15 @@
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
-                        <span class="nk-menu-text">Quản lý Lớp</span>
+                        <span class="nk-menu-text">Quản lý Cán bộ Liên chi Đoàn</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+            <router-link v-if="user.role == roles.ADMIN" :to="{name: 'Lop'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
+                        <span class="nk-menu-text">Quản lý chi Đoàn</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>

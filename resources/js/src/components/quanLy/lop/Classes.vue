@@ -6,7 +6,7 @@
                     <div class="nk-block-head nk-block-head-sm">
                         <div class="nk-block-between">
                             <div class="nk-block-head-content">
-                                <h3 class="nk-block-title page-title">Quản lý Liên chi Đoàn</h3>
+                                <h3 class="nk-block-title page-title">Quản lý chi Đoàn</h3>
                             </div><!-- .nk-block-head-content -->
                             <div class="nk-block-head-content">
                                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -16,7 +16,7 @@
                                             <li class="nk-block-tools-opt">
                                                 <button @click="showPopup(true)" type="button" class="btn btn-primary d-none d-md-inline-flex">
                                                     <em class="icon ni ni-plus"></em>
-                                                    <span>Thêm Liên chi Đoàn</span>
+                                                    <span>Thêm chi Đoàn</span>
                                                 </button>
                                             </li>
                                         </ul>
@@ -28,7 +28,7 @@
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
-                                <h5 class="nk-block-title">Danh sách Liên chi Đoàn</h5>
+                                <h5 class="nk-block-title">Danh sách chi Đoàn</h5>
                             </div>
                         </div>
                         <div class="card card-preview">
@@ -37,14 +37,14 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">STT</th>
-                                        <th scope="col">Tên liên chi Đoàn</th>
+                                        <th scope="col">Tên chi Đoàn</th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(_item, index) in facultyList" :key="index">
+                                    <tr v-for="(_item, index) in classList" :key="index">
                                         <th scope="row">{{index + 1}}</th>
-                                        <td>{{_item.faculty_name}}</td>
+                                        <td>{{_item.class_name}}</td>
                                         <td class="d-flex justify-content-end">
                                             <div>
                                             <button class="btn btn-sm btn-info">Sửa</button>
@@ -56,9 +56,10 @@
                                 </table>
                             </div>
                         </div><!-- .card -->
-                        <div v-if="facultyList.length == 0" class="text-center col-12">Không có dữ liệu.</div>
+                        <div v-if="classList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
-                    <create-or-update-dialog :createFlg="createFlg" :tenKhoa="tenKhoa" @onSave="onSave" @closeModal="closeModal()" @changeName="changeName"/>
+                    <create-or-update-dialog :createFlg="createFlg" :terms="terms" :faculties="faculties" :classTypes="classTypes" :classObject="classObject"
+                     @onSave="onSave" @closeModal="closeModal()" @changeObject="changeObject"/>
                 </div>
             </div>
         </div>
@@ -68,27 +69,39 @@
 <script>
 import { asyncLoading } from 'vuejs-loading-plugin';
 import { mapActions } from 'vuex';
-import createOrUpdateDialog from './child/CreateOrUpdateKhoa.vue';
+import createOrUpdateDialog from './child/CreateOrUpdateClass.vue';
 export default {
     components:{
         createOrUpdateDialog,
     },
     data(){
         return{
-            id: null,
-            facultyList: [],
+            classList: [],
             createFlg: true,
-            tenKhoa: ''
+            classTypes: [],
+            classObject:{
+                id: null,
+                class_name: '',
+                id_class_type: null,
+                id_faculty: null,
+                id_term: null,
+                id_user_cvht: null,
+            },
+            faculties: [],
+            terms: [],
         }
     },
     methods:{
         ...mapActions({
+            getClasses: 'classes/getClasses',
+            getClassTypes: 'classes/getClassTypes',
             getFacultyList: 'khoa/getFacultyList',
-            createFaculty: 'khoa/createFaculty',
+            getTermList: 'khoaDaoTao/getTermList',
+            createClass: 'classes/createClass'
         }),
-        async getFacultyListData(){
+        async getClassListData(){
             const params = {};
-            await this.getFacultyList(params).then(res => this.facultyList = [...res.data]);
+            await this.getClasses(params).then(res => this.classList = [...res.data]);
         },
         showPopup(createFlg = true){
             if(!createFlg){
@@ -99,26 +112,23 @@ export default {
                 $('#createOrUpdateDialog').modal('show');
             });
         },
-        changeName(val){
-            this.tenKhoa = val;
+        changeObject(val){
+            this.classObject = val;
         },
         async onSave(createFlg){
+            this.$nextTick(() => {
+                $('#createOrUpdateDialog').modal('hide');
+            });
             this.$loading(true);
-            let data = {
-                faculty_name: this.tenKhoa,
-            };
             if(createFlg){
-                this.$nextTick(() => {
-                    $('#createOrUpdateDialog').modal('hide');
-                });
-                await this.createFaculty(data);
+                await this.createClass(this.classObject);
             }
             else{
 
             }
             this.$loading(false);
             this.closeModal();
-            await asyncLoading(this.getFacultyListData());
+            await asyncLoading(this.getClassListData());
         },
         closeModal(){
             this.$nextTick(() => {
@@ -129,7 +139,13 @@ export default {
         }
     },
     mounted(){
-        asyncLoading(this.getFacultyListData());
+        asyncLoading(this.getClassTypes().then(res => this.classTypes = [...res.data]));
+        asyncLoading(this.getClassListData());
+        const data = {
+            getAllFlg: true
+        }
+        asyncLoading(this.getFacultyList(data).then(res => this.faculties = [...res.data]));
+        asyncLoading(this.getTermList(data).then(res => this.terms = [...res.data]));
     }
 }
 </script>

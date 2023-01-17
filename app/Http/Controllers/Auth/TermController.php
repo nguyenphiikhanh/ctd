@@ -17,11 +17,17 @@ class TermController extends AppBaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         try{
-            $termList = DB::table('terms')->get();
+            $getAllFlg = $request->get('getAllFlg');
+            if($getAllFlg){
+                $termList = DB::table('terms')->get();
+            }
+            else{
+                $termList = DB::table('terms')->get();
+            }
             return $this->sendResponse($termList, __('message.success.get_list',['atribute' => 'khóa đào tạo']));
         }
         catch(\Exception $e){

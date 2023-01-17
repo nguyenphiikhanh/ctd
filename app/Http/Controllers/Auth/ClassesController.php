@@ -35,14 +35,24 @@ class ClassesController extends AppBaseController
             }
             $classList->orderByDesc('faculties.id');
             $data = $classList->get();
-            return $this->sendResponse($data,__('message.success.get_list',['atribute' => 'lớp']));
+            return $this->sendResponse($data,__('message.success.get_list',['atribute' => 'chi Đoàn']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.get_list',['atribute' => 'class']),Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'chi Đoàn']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
+    public function getClasses(Request $request){
+        try{
+            $classList = DB::table('classes')->get();
+            return $this->sendResponse($classList,__('message.success.get_list',['atribute' => 'chi Đoàn']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'chi Đoàn']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -52,6 +62,26 @@ class ClassesController extends AppBaseController
     public function store(Request $request)
     {
         //
+        try{
+            $class_name = $request->get('class_name');
+            $id_faculty = $request->get('id_faculty');
+            $id_class_type = $request->get('id_class_type');
+            $id_term = $request->get('id_term');
+            DB::table('classes')->insert([
+                'class_name' => $class_name,
+                'id_faculty' => $id_faculty,
+                'id_class_type' => $id_class_type,
+                'id_term' => $id_term,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            return $this->sendResponse('', __('message.success.create',['atribute' => 'chi Đoàn']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.create',['atribute' => 'chi Đoàn']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

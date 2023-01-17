@@ -1,8 +1,8 @@
-import termServices from "../../../services/term.services";
+import facultyServices from "../../../services/faculties.services";
 
 export default {
     getFacultyList({commit, dispatch}, params){
-        return termServices.getTermList(params)
+        return facultyServices.getFacultyList(params)
             .then(response => {
                 return Promise.resolve(response.data);
             })
@@ -13,7 +13,7 @@ export default {
             })
     },
     createFaculty({commit, dispatch}, data){
-        return termServices.createTerm(data)
+        return facultyServices.createFaculty(data)
             .then(response => {
                 dispatch('alert/alertSuccess',response.data.message, { root: true })
             })

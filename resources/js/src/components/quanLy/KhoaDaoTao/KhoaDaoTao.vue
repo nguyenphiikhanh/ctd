@@ -108,6 +108,9 @@ export default {
                 term_name: this.tenKhoa,
             };
             if(createFlg){
+                this.$nextTick(() => {
+                    $('#createOrUpdateDialog').modal('hide');
+                });
                 await this.createTerm(data);
             }
             else{

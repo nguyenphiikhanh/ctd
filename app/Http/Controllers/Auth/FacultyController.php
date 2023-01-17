@@ -16,11 +16,18 @@ class FacultyController extends AppBaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $getAllFlg = $request->get('getAllFlg');
         try{
-            $facultyList = DB::table('faculties')->get();
+            $facultyList = [];
+            if($getAllFlg){
+                $facultyList = DB::table('faculties')->get();
+            }
+            else {
+                $facultyList = DB::table('faculties')->get();
+            }
             return $this->sendResponse($facultyList, __('message.success.get_list',['atribute' => 'khoa/ngành đào tạo']));
         }
         catch(\Exception $e){
