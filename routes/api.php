@@ -21,6 +21,10 @@ Route::prefix('v1')->group(function(){
     Route::middleware('auth:api')->group(function () {
         //logout
         Route::post('/logout', [AuthController::class, 'logout']);
+        // admin
+        //khóa đào tạo
+        Route::get('/terms','Auth\TermController@index');
+        Route::post('/terms','Auth\TermController@store');
 
         //user
         Route::get('/get-user-classes-by-cbl','Auth\UserController@getUserbyCanbolop');

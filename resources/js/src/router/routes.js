@@ -5,6 +5,7 @@ import GiaoNhiemVu from "../components/NhiemVu/GiaoNhiemVu";
 import AdminDashBoard from "../components/dashboards/AdminDashBoard";
 import Notifications from "../components/NhiemVu/ThongBao/Notifications";
 import CheckList from "../components/diemDanh/CheckList";
+import KhoaDaoTao from "../components/quanLy/KhoaDaoTao/KhoaDaoTao";
 
 const routes = [
     // dashboard
@@ -12,6 +13,18 @@ const routes = [
         name:"Home",
         path:"/",
         component: AdminDashBoard,
+        meta:{
+            title: 'Nhiệm vụ',
+            requiresAuth: true,
+            adminAccess: true,
+        }
+    },
+
+    //khóa đào tạo
+    {
+        name:"KhoaDaoTao",
+        path:"/khoa-dao-tao",
+        component: KhoaDaoTao,
         meta:{
             title: 'Nhiệm vụ',
             requiresAuth: true,
