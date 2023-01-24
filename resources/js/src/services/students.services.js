@@ -7,5 +7,9 @@ export default {
 
     createStudent(data){
         return http.post('/student', data);
+    },
+
+    changeCbSetting(data){
+        return http.put('/student/cbSetting', data);
     }
 }

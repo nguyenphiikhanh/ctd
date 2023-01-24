@@ -39,6 +39,7 @@ Route::prefix('v1')->group(function(){
         // Sinh viên
         Route::get('/students/class/{id}','Auth\StudentController@index');
         Route::post('/student','Auth\StudentController@store');
+        Route::put('/student/cbSetting','Auth\StudentController@updateCbSetting');
 
 
         // khối ngành đào tạo(Sư phạm vs Ngoài sư phạm)

@@ -25,6 +25,16 @@
                             </div><!-- .nk-block-head-content -->
                         </div><!-- .nk-block-between -->
                     </div><!-- .nk-block-head -->
+                    <div class="nk-block">
+                        <h4>Chi Đoàn: <span class="text-danger">{{ classInfo.class_name }}</span></h4>
+                        <h4>Liên chi Đoàn: <span class="text-danger">{{ classInfo.faculty_name }}</span></h4>
+                        <h4>Khóa: <span class="text-danger">{{ classInfo.term_name }}</span></h4>
+                        <h4>Khối đào tạo: <span class="text-danger">{{ classInfo.type_name }}</span></h4>
+                        <h4>Cán bộ chi Đoàn:
+                            <span :class="cbStudent ? 'text-danger' : 'text-info'">{{ cbStudent ? cbStudent.ho + ' ' + cbStudent.ten : 'Chưa có' }}</span>
+                            <button @click="changeCbPopup()" class="btn btn-sm btn-outline-primary"><em class="icon ni ni-repeat"></em></button>
+                        </h4>
+                    </div>
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
@@ -64,6 +74,7 @@
                     </div><!-- nk-block -->
                     <create-or-update-dialog :createFlg="createFlg" :student-info="studentInfo"
                      @onSave="onSave" @closeModal="closeModal()" @changeObject="changeObject"/>
+                     <CBSettings @onSave="saveChangeCb()" @closeModal="closeModal()" :student-list="studentList" :id_cbl="cbStudent?.id" :class_id="Number($route.params.id)"/>
                 </div>
             </div>
         </div>
@@ -74,9 +85,12 @@
 import { asyncLoading } from 'vuejs-loading-plugin';
 import { mapActions } from 'vuex';
 import createOrUpdateDialog from './child/CreateOrUpdateStudent.vue';
+import CBSettings from './child/CBSettings.vue';
+import constants from '../../../constants';
 export default {
     components:{
         createOrUpdateDialog,
+        CBSettings,
     },
     data(){
         return{
@@ -92,6 +106,12 @@ export default {
                 password: '',
                 email: '',
             },
+        }
+    },
+    computed:{
+        cbStudent(){
+            const cb = this.studentList.find(_item => _item.role == constants.roles.ROLE_CBL);
+            return cb || null;
         }
     },
     methods:{
@@ -142,10 +162,20 @@ export default {
                 ten: '',
                 username: '',
                 email: '',
-            },
+                };
                 $('#createOrUpdateDialog').modal('hide');
+                $('#cbSettings').modal('hide');
             });
         },
+        changeCbPopup(){
+            this.$nextTick(() => {
+                $('#cbSettings').modal('show');
+            });
+        },
+        saveChangeCb(){
+            this.closeModal();
+            asyncLoading(this.getStudentList());
+        }
     },
     mounted(){
         asyncLoading(this.getStudentList());

@@ -103,4 +103,26 @@ class StudentController extends AppBaseController
     {
         //
     }
+
+    public function updateCbSetting(Request $request){
+        try{
+            $cbId = $request->get('cbId');
+            $id_class = $request->get('id_class');
+            DB::transaction(function () use ($cbId, $id_class){
+                DB::table('users')->where('id_class', $id_class)
+                    ->where('role', RoleUtils::ROLE_CBL)
+                    ->update([
+                        'role' => RoleUtils::ROLE_SINHVIEN
+                    ]);
+                DB::table('users')->where('id', $cbId)->update([
+                    'role' => RoleUtils::ROLE_CBL,
+                ]);
+            });
+            return $this->sendResponse('',__('message.success.update',['atribute' => 'cán bộ chi Đoàn']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'cán bộ chi Đoàn']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
