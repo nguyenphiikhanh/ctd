@@ -33,7 +33,14 @@ Route::prefix('v1')->group(function(){
         //Lớp
         Route::get('/class-list','Auth\ClassesController@index');
         Route::get('/classes','Auth\ClassesController@getClasses');
+        Route::get('/class/{id}','Auth\ClassesController@show');
         Route::post('/classes','Auth\ClassesController@store');
+
+        // Sinh viên
+        Route::get('/students/class/{id}','Auth\StudentController@index');
+        Route::post('/student','Auth\StudentController@store');
+
+
         // khối ngành đào tạo(Sư phạm vs Ngoài sư phạm)
         Route::get('/class-types','Auth\ClassTypeController@index');
 

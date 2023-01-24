@@ -6,7 +6,7 @@
                     <div class="nk-block-head nk-block-head-sm">
                         <div class="nk-block-between">
                             <div class="nk-block-head-content">
-                                <h3 class="nk-block-title page-title">Quản lý chi Đoàn</h3>
+                                <h3 class="nk-block-title page-title">Quản lý Đoàn viên</h3>
                             </div><!-- .nk-block-head-content -->
                             <div class="nk-block-head-content">
                                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -16,7 +16,7 @@
                                             <li class="nk-block-tools-opt">
                                                 <button @click="showPopup(true)" type="button" class="btn btn-primary d-none d-md-inline-flex">
                                                     <em class="icon ni ni-plus"></em>
-                                                    <span>Thêm chi Đoàn</span>
+                                                    <span>Thêm Đoàn viên</span>
                                                 </button>
                                             </li>
                                         </ul>
@@ -37,19 +37,20 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">STT</th>
-                                        <th scope="col">Tên chi Đoàn</th>
+                                        <th scope="col">Mã Đoàn viên</th>
+                                        <th scope="col">Tên Đoàn viên</th>
+                                        <th scope="col">Địa chỉ Email</th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(_item, index) in classList" :key="index">
+                                    <tr v-for="(_item, index) in studentList" :key="index">
                                         <th scope="row">{{index + 1}}</th>
-                                        <td>{{_item.class_name}}</td>
+                                        <td>{{_item.username}}</td>
+                                        <td>{{_item.ho + ' ' + _item.ten}}</td>
+                                        <td>{{_item.email}}</td>
                                         <td class="d-flex justify-content-end">
                                             <div>
-                                            <router-link :to="`chi-doan-${_item.id}/danh-sach-doan-vien`" target="_blank">
-                                                <button class="btn btn-sm btn-primary">Danh sách Đoàn viên</button>
-                                            </router-link>
                                             <button class="btn btn-sm btn-info">Sửa</button>
                                             <button class="btn btn-sm btn-danger mr-2">Xóa</button>
                                             </div>
@@ -59,9 +60,9 @@
                                 </table>
                             </div>
                         </div><!-- .card -->
-                        <div v-if="classList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
+                        <div v-if="studentList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
-                    <create-or-update-dialog :createFlg="createFlg" :terms="terms" :faculties="faculties" :classTypes="classTypes" :classObject="classObject"
+                    <create-or-update-dialog :createFlg="createFlg" :student-info="studentInfo"
                      @onSave="onSave" @closeModal="closeModal()" @changeObject="changeObject"/>
                 </div>
             </div>
@@ -72,39 +73,36 @@
 <script>
 import { asyncLoading } from 'vuejs-loading-plugin';
 import { mapActions } from 'vuex';
-import createOrUpdateDialog from './child/CreateOrUpdateClass.vue';
+import createOrUpdateDialog from './child/CreateOrUpdateStudent.vue';
 export default {
     components:{
         createOrUpdateDialog,
     },
     data(){
         return{
-            classList: [],
+            studentList: [],
             createFlg: true,
-            classTypes: [],
-            classObject:{
+            classInfo: {},
+            studentInfo:{
                 id: null,
-                class_name: '',
-                id_class_type: null,
-                id_faculty: null,
-                id_term: null,
-                id_user_cvht: null,
+                id_class: null,
+                ho: '',
+                ten: '',
+                username: '',
+                password: '',
+                email: '',
             },
-            faculties: [],
-            terms: [],
         }
     },
     methods:{
         ...mapActions({
-            getClasses: 'classes/getClasses',
-            getClassTypes: 'classes/getClassTypes',
-            getFacultyList: 'khoa/getFacultyList',
-            getTermList: 'khoaDaoTao/getTermList',
-            createClass: 'classes/createClass'
+            getClassInfo: 'classes/getClassInfo',
+            getStudentByClass: 'student/getStudentByClass',
+            createStudent: 'student/createStudent',
         }),
-        async getClassListData(){
-            const params = {};
-            await this.getClasses(params).then(res => this.classList = [...res.data]);
+        async getStudentList(){
+            const class_id = this.$route.params.id;
+            await this.getStudentByClass(class_id).then(res => this.studentList = [...res.data]);
         },
         showPopup(createFlg = true){
             if(!createFlg){
@@ -116,39 +114,43 @@ export default {
             });
         },
         changeObject(val){
-            this.classObject = val;
+            this.studentInfo = val;
         },
         async onSave(createFlg){
+            this.studentInfo.id_class = this.$route.params.id;
             this.$nextTick(() => {
                 $('#createOrUpdateDialog').modal('hide');
             });
             this.$loading(true);
             if(createFlg){
-                await this.createClass(this.classObject);
+                await this.createStudent(this.studentInfo);
             }
             else{
 
             }
             this.$loading(false);
             this.closeModal();
-            await asyncLoading(this.getClassListData());
+            await asyncLoading(this.getStudentList());
         },
         closeModal(){
             this.$nextTick(() => {
                 this.createFlg = true;
-                this.tenKhoa = '';
+                this.studentInfo = {
+                id: null,
+                id_class: '',
+                ho: '',
+                ten: '',
+                username: '',
+                email: '',
+            },
                 $('#createOrUpdateDialog').modal('hide');
             });
         },
     },
     mounted(){
-        asyncLoading(this.getClassTypes().then(res => this.classTypes = [...res.data]));
-        asyncLoading(this.getClassListData());
-        const data = {
-            getAllFlg: true
-        }
-        asyncLoading(this.getFacultyList(data).then(res => this.faculties = [...res.data]));
-        asyncLoading(this.getTermList(data).then(res => this.terms = [...res.data]));
+        asyncLoading(this.getStudentList());
+        const id_class = this.$route.params.id;
+        asyncLoading(this.getClassInfo(id_class).then(res => this.classInfo = {...res.data}));
     }
 }
 </script>

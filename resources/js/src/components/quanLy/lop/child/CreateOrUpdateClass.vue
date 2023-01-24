@@ -72,7 +72,6 @@ export default {
                 return this.classObject;
             },
             set(val){
-                console.log(val);
                 this.$emit('changeObject', val);
             }
         },

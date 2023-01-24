@@ -13,6 +13,9 @@ export default {
     },
     createClass(data){
         return http.post('/classes', data);
+    },
+    getClassInfo(id){
+        return http.get(`/class/${id}`);
     }
 
 }

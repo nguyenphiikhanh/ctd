@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Utils\RoleUtils;
+use App\Models\Classes;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -93,6 +94,22 @@ class ClassesController extends AppBaseController
     public function show($id)
     {
         //
+        try{
+            $classInfo = DB::table('classes')
+                ->select('classes.*','faculties.faculty_name', 'terms.term_name', 'class_type.type_name')
+                ->leftJoin('faculties', 'classes.id_faculty', 'faculties.id')
+                ->leftJoin('terms', 'terms.id', 'classes.id_term')
+                ->leftJoin('class_type', 'class_type.id', 'classes.id_class_type')
+                ->where('classes.id', $id)->first();
+            if(!$classInfo){
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'Chi Đoàn'], Response::HTTP_UNPROCESSABLE_ENTITY));
+            }
+            return $this->sendResponse($classInfo,__('message.success.show',['atribute' => 'chi Đoàn']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.show', ['atribute' => 'chi Đoàn']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

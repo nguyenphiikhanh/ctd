@@ -8,6 +8,7 @@ import CheckList from "../components/diemDanh/CheckList";
 import KhoaDaoTao from "../components/quanLy/KhoaDaoTao/KhoaDaoTao";
 import Khoa from "../components/quanLy/khoa/Khoa";
 import Classes from "../components/quanLy/lop/Classes";
+import Students from "../components/quanLy/sinhvien/Students"
 
 const routes = [
     // dashboard
@@ -51,6 +52,17 @@ const routes = [
         component: Classes,
         meta:{
             title: 'Quản lý chi Đoàn',
+            requiresAuth: true,
+            adminAccess: true,
+        }
+    },
+    // Đoàn viên
+    {
+        name:"SinhVien",
+        path:"/chi-doan-:id/danh-sach-doan-vien",
+        component: Students,
+        meta:{
+            title: 'Quản lý Đoàn viên',
             requiresAuth: true,
             adminAccess: true,
         }

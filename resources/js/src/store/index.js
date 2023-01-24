@@ -10,6 +10,7 @@ import activity from "./modules/activity";
 import userModule from './modules/userModule';
 import khoaDaoTao from './modules/khoaDaoTao';
 import khoa from './modules/khoa';
+import student from './modules/students';
 
 Vue.use(Vuex)
 
@@ -24,7 +25,8 @@ const store = new Vuex.Store({
         activity,
         userModule,
         khoaDaoTao,
-        khoa
+        khoa,
+        student,
     }
 });
 
