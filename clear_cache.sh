@@ -13,4 +13,4 @@ echo "optimzing..."
 php artisan optimize:clear
 
 echo "Changing Owner"
-sudo chown -R www-data:www-data /www/wwwroot/congtacdoan-test-env.nguyenphikhanh.dev/
+sudo chown -R www:www /www/wwwroot/congtacdoan-test-env.nguyenphikhanh.dev/
