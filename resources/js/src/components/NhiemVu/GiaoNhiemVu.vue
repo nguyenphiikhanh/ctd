@@ -105,7 +105,16 @@
                                             <div class="form-group">
                                                 <label class="form-label">Mô tả</label>
                                                 <div class="form-control-wrap">
-                                                    <textarea class="form-control form-control-sm quill-basic" v-model="activity_create.mota" placeholder="Mô tả hoạt động"></textarea>
+                                                    <vue-editor placeholder="Mô tả" v-model="activity_create.mota"></vue-editor>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label class="form-label">Tài liệu kèm theo</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="file" name="files[]" ref="fileUpload" @change="uploadFileChange()" multiple class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -134,7 +143,6 @@ import { asyncLoading } from 'vuejs-loading-plugin';
 import DatePicker from 'vue2-datepicker';
 import { VueEditor } from "vue2-editor";
 
-
 export default {
     components:{
       GiaoNhiemVu_Truong,
@@ -158,6 +166,7 @@ export default {
             activity_responsiable_list: [],
             doi_tuong: [],
             hoat_dong_assign: null,
+            file: null,
         }
     },
     computed:{
@@ -220,7 +229,15 @@ export default {
                     start_time: '',
                     end_time: '',
             };
+            this.$refs.fileUpload.reset();
             this.hoat_dong_choose = null;
+            this.file = null;
+        },
+
+        uploadFileChange(){
+            this.file = this.$refs.fileUpload.files;
+            console.log('file log',this.file);
+            console.log(this.$refs.fileUpload.value);
         }
 
     },
