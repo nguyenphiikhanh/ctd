@@ -86,9 +86,9 @@
                                             <div class="form-control-wrap">
                                                 <div class="input-daterange date-picker-range input-group">
                                                     <div class="input-group-addon">Từ</div>
-                                                    <input v-model="activity_create.start_time" type="text" class="form-control" />
+                                                    <date-picker v-model="activity_create.start_time" :show-second="false" format="HH:mm DD-MM-YYYY" type="datetime"></date-picker>
                                                     <div class="input-group-addon">Đến</div>
-                                                    <input v-model="activity_create.end_time" type="text" class="form-control" />
+                                                    <date-picker v-model="activity_create.end_time" :show-second="false" format="HH:mm DD-MM-YYYY" type="datetime"></date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -103,7 +103,7 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label class="form-label" for="cp1-profile-description">Mô tả</label>
+                                                <label class="form-label">Mô tả</label>
                                                 <div class="form-control-wrap">
                                                     <textarea class="form-control form-control-sm quill-basic" v-model="activity_create.mota" placeholder="Mô tả hoạt động"></textarea>
                                                 </div>
@@ -111,7 +111,6 @@
                                         </div>
                                     </div>
                                 </div>
-
 <!--                                đối tượng nhận-->
                                 <GiaoNhiemVu_Truong :class-choose="doi_tuong" @emitChange="changeDoiTuong" v-if="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
 
@@ -132,10 +131,15 @@ import constants from "../../constants";
 import GiaoNhiemVu_Truong from "./authorize/giaoNv/GiaoNhiemVu_Truong";
 import {mapActions} from "vuex";
 import { asyncLoading } from 'vuejs-loading-plugin';
+import DatePicker from 'vue2-datepicker';
+import { VueEditor } from "vue2-editor";
+
 
 export default {
     components:{
       GiaoNhiemVu_Truong,
+      DatePicker,
+      VueEditor
     },
     data(){
         return{

@@ -43,6 +43,8 @@ Vue.use(Toast, {
     newestOnTop: true
 });
 
+import 'vue2-datepicker/index.css'; // Datepicker
+
 const app = new Vue({
     store,
     router,
