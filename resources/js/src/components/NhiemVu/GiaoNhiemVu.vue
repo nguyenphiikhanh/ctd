@@ -114,7 +114,7 @@
                                             <div class="form-group">
                                                 <label class="form-label">Tài liệu kèm theo</label>
                                                 <div class="form-control-wrap">
-                                                    <input type="file" name="files[]" ref="fileUpload" @change="uploadFileChange()" multiple class="form-control">
+                                                    <input type="file" @change="uploadFileChange($event.target.files)" multiple class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -137,6 +137,7 @@
 
 <script>
 import constants from "../../constants";
+import datetimeUtils from "../../helpers/utils/datetimeUtils";
 import GiaoNhiemVu_Truong from "./authorize/giaoNv/GiaoNhiemVu_Truong";
 import {mapActions} from "vuex";
 import { asyncLoading } from 'vuejs-loading-plugin';
@@ -166,7 +167,7 @@ export default {
             activity_responsiable_list: [],
             doi_tuong: [],
             hoat_dong_assign: null,
-            file: null,
+            files: [],
         }
     },
     computed:{
@@ -213,11 +214,13 @@ export default {
                 action: this.thao_tac,
                 responseType: this.loai_phan_hoi,
                 details: this.activity_create.mota,
-                start_time: this.activity_create.start_time,
-                end_time: this.activity_create.end_time,
+                start_time: this.activity_create.start_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.start_time) : '',
+                end_time: this.activity_create.end_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.end_time) : '',
                 assignTo: this.doi_tuong,
                 assignChildActivity: this.hoat_dong_assign,
+                files: this.files
             }
+            console.log('data', data);
             await this.storeChildActivities(data);
             this.resetForm();
             this.$loading(false);
@@ -231,13 +234,12 @@ export default {
             };
             this.$refs.fileUpload.reset();
             this.hoat_dong_choose = null;
-            this.file = null;
+            this.files = [];
         },
 
-        uploadFileChange(){
-            this.file = this.$refs.fileUpload.files;
-            console.log('file log',this.file);
-            console.log(this.$refs.fileUpload.value);
+        uploadFileChange(clientFiles){
+            this.files = clientFiles;
+            // console.log(this.file);
         }
 
     },
