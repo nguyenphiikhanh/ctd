@@ -17,7 +17,8 @@
         "laravel/framework": "^7.29",
         "laravel/passport": "*",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "*"
+        "laravel/ui": "*",
+        "unisharp/laravel-filemanager": "^2.5"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

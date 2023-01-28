@@ -2018,7 +2018,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       //todo activities
       hoat_dong_choose: null,
       thao_tac: null,
-      loai_phan_hoi: null,
+      loai_phan_hoi: '',
       //
       activitiy_list: [],
       activity_responsiable_list: [],
@@ -2076,30 +2076,31 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     onSaveChildActivity: function onSaveChildActivity() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var data;
+        var formData, i, file;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               _this2.$loading(true);
-              data = {
-                activity: _this2.hoat_dong_choose,
-                name: _this2.activity_create.ten_hoat_dong,
-                action: _this2.thao_tac,
-                responseType: _this2.loai_phan_hoi,
-                details: _this2.activity_create.mota,
-                start_time: _this2.activity_create.start_time ? _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_1__["default"].convertTimezoneToDatetime(_this2.activity_create.start_time) : '',
-                end_time: _this2.activity_create.end_time ? _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_1__["default"].convertTimezoneToDatetime(_this2.activity_create.end_time) : '',
-                assignTo: _this2.doi_tuong,
-                assignChildActivity: _this2.hoat_dong_assign,
-                files: _this2.files
-              };
-              console.log('data', data);
-              _context2.next = 5;
-              return _this2.storeChildActivities(data);
-            case 5:
+              formData = new FormData();
+              formData.append('activity', _this2.hoat_dong_choose);
+              formData.append('name', _this2.activity_create.ten_hoat_dong);
+              formData.append('action', _this2.thao_tac || '');
+              formData.append('responseType', _this2.loai_phan_hoi || '');
+              formData.append('details', _this2.activity_create.mota);
+              formData.append('start_time', _this2.activity_create.start_time ? _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_1__["default"].convertTimezoneToDatetime(_this2.activity_create.start_time) : '');
+              formData.append('end_time', _this2.activity_create.end_time ? _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_1__["default"].convertTimezoneToDatetime(_this2.activity_create.end_time) : '');
+              formData.append('assignTo', _this2.doi_tuong);
+              formData.append('assignChildActivity', _this2.hoat_dong_assign || '');
+              for (i = 0; i < _this2.files.length; i++) {
+                file = _this2.files[i];
+                formData.append('files[' + i + ']', file);
+              }
+              _context2.next = 14;
+              return _this2.storeChildActivities(formData);
+            case 14:
               _this2.resetForm();
               _this2.$loading(false);
-            case 7:
+            case 16:
             case "end":
               return _context2.stop();
           }
@@ -2113,13 +2114,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         start_time: '',
         end_time: ''
       };
-      this.$refs.fileUpload.reset();
+      this.$refs.fileUpload.value = null;
       this.hoat_dong_choose = null;
       this.files = [];
     },
     uploadFileChange: function uploadFileChange(clientFiles) {
       this.files = clientFiles;
-      // console.log(this.file);
     }
   }),
   mounted: function mounted() {
@@ -83021,13 +83021,16 @@ __webpack_require__.r(__webpack_exports__);
     return _httpCommon__WEBPACK_IMPORTED_MODULE_0__["default"].get('/activities');
   },
   storeChildActivity: function storeChildActivity(data) {
-    return _httpCommon__WEBPACK_IMPORTED_MODULE_0__["default"].post('/child-activities', data);
+    return _httpCommon__WEBPACK_IMPORTED_MODULE_0__["default"].post('/child-activities', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
   },
   getActivitiesReceive: function getActivitiesReceive() {
     return _httpCommon__WEBPACK_IMPORTED_MODULE_0__["default"].get('/receive-activities');
   },
   forwardActivities: function forwardActivities(data) {
-    console.log(data);
     return _httpCommon__WEBPACK_IMPORTED_MODULE_0__["default"].post("/child-activity-forward/".concat(data.id), data);
   },
   getActivityResponsiable: function getActivityResponsiable(data) {

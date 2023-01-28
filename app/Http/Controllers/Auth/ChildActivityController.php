@@ -49,6 +49,9 @@ class ChildActivityController extends AppBaseController
             $end_time = $request->get('end_time');
             $assignTo = $request->get('assignTo',[]);
             $assignChildActivity = $request->get('assignChildActivity');
+            $files = $request->file('files');
+            Log::debug($name);
+            Log::debug($files);
             DB::beginTransaction();
                 $child_act = ChildActivity::create([
                     'name' => $name,

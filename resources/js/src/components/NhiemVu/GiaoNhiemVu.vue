@@ -161,7 +161,7 @@ export default {
             //todo activities
             hoat_dong_choose: null,
             thao_tac: null,
-            loai_phan_hoi: null,
+            loai_phan_hoi: '',
             //
             activitiy_list: [],
             activity_responsiable_list: [],
@@ -208,20 +208,21 @@ export default {
         },
         async onSaveChildActivity(){
             this.$loading(true);
-            const data = {
-                activity: this.hoat_dong_choose,
-                name: this.activity_create.ten_hoat_dong,
-                action: this.thao_tac,
-                responseType: this.loai_phan_hoi,
-                details: this.activity_create.mota,
-                start_time: this.activity_create.start_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.start_time) : '',
-                end_time: this.activity_create.end_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.end_time) : '',
-                assignTo: this.doi_tuong,
-                assignChildActivity: this.hoat_dong_assign,
-                files: this.files
+            let formData = new FormData();
+            formData.append('activity', this.hoat_dong_choose);
+            formData.append('name', this.activity_create.ten_hoat_dong);
+            formData.append('action', this.thao_tac || '');
+            formData.append('responseType', this.loai_phan_hoi || '');
+            formData.append('details', this.activity_create.mota);
+            formData.append('start_time', this.activity_create.start_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.start_time) : '');
+            formData.append('end_time', this.activity_create.end_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.end_time) : '');
+            formData.append('assignTo', this.doi_tuong);
+            formData.append('assignChildActivity', this.hoat_dong_assign || '');
+            for(let i = 0; i < this.files.length; i++){
+                let file = this.files[i];
+                formData.append('files[' + i + ']', file);
             }
-            console.log('data', data);
-            await this.storeChildActivities(data);
+            await this.storeChildActivities(formData);
             this.resetForm();
             this.$loading(false);
         },
@@ -232,14 +233,13 @@ export default {
                     start_time: '',
                     end_time: '',
             };
-            this.$refs.fileUpload.reset();
+            this.$refs.fileUpload.value = null;
             this.hoat_dong_choose = null;
             this.files = [];
         },
 
         uploadFileChange(clientFiles){
             this.files = clientFiles;
-            // console.log(this.file);
         }
 
     },
