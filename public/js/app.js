@@ -1951,7 +1951,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   }),
   mounted: function mounted() {
-    document.title = "\u0110\u0103ng nh\u1EADp - ".concat("Laravel MIX_APP_NAME");
+    document.title = "\u0110\u0103ng nh\u1EADp - ".concat("Số hoá công tác Đoàn - Trường Đại học Sư phạm Hà Nội");
   },
   beforeCreate: function beforeCreate() {
     if (this.$store.getters['auth/isAuthenticated']) {
@@ -2071,12 +2071,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       }))();
     },
     changeDoiTuong: function changeDoiTuong(val) {
-      this.doi_tuong = val;
+      console.log('doituong', val);
+      this.doi_tuong = _toConsumableArray(val);
+      console.log('assign params', this.doi_tuong);
     },
     onSaveChildActivity: function onSaveChildActivity() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var formData, i, file;
+        var formData, i, _i, file;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
@@ -2089,11 +2091,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               formData.append('details', _this2.activity_create.mota);
               formData.append('start_time', _this2.activity_create.start_time ? _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_1__["default"].convertTimezoneToDatetime(_this2.activity_create.start_time) : '');
               formData.append('end_time', _this2.activity_create.end_time ? _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_1__["default"].convertTimezoneToDatetime(_this2.activity_create.end_time) : '');
-              formData.append('assignTo', _this2.doi_tuong);
               formData.append('assignChildActivity', _this2.hoat_dong_assign || '');
-              for (i = 0; i < _this2.files.length; i++) {
-                file = _this2.files[i];
-                formData.append('files[' + i + ']', file);
+              for (i = 0; i < _this2.doi_tuong.length; i++) {
+                formData.append('assignTo[]', _this2.doi_tuong[i]);
+              }
+              for (_i = 0; _i < _this2.files.length; _i++) {
+                file = _this2.files[_i];
+                formData.append('files[' + _i + ']', file);
               }
               _context2.next = 14;
               return _this2.storeChildActivities(formData);
@@ -4197,6 +4201,7 @@ var render = function render() {
   }, [_vm._v("Tài liệu kèm theo")]), _vm._v(" "), _c("div", {
     staticClass: "form-control-wrap"
   }, [_c("input", {
+    ref: "fileUpload",
     staticClass: "form-control",
     attrs: {
       type: "file",
@@ -82856,7 +82861,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 });
 var roles = _constants__WEBPACK_IMPORTED_MODULE_3__["default"].roles;
 router.beforeEach(function (to, from, next) {
-  document.title = "".concat(to.meta.title, " - ").concat("Laravel MIX_APP_NAME");
+  document.title = "".concat(to.meta.title, " - ").concat("Số hoá công tác Đoàn - Trường Đại học Sư phạm Hà Nội");
   if (to.matched.some(function (record) {
     return record.meta.requiresAuth;
   }) && !_store__WEBPACK_IMPORTED_MODULE_2__["default"].getters["auth/isAuthenticated"]) {
@@ -84370,8 +84375,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\WorkSpace\CONGTACDOAN_NEW\CONGTACDOAN\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\WorkSpace\CONGTACDOAN_NEW\CONGTACDOAN\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\AppBaseController;
 use App\Models\ChildActivity;
 use App\Http\Controllers\Controller;
+use App\Http\Traits\UploadFileTrait;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\RoleUtils;
 use Illuminate\Http\Request;
@@ -35,6 +36,8 @@ class ChildActivityController extends AppBaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    use UploadFileTrait;
     public function store(Request $request)
     {
         //
@@ -49,61 +52,68 @@ class ChildActivityController extends AppBaseController
             $end_time = $request->get('end_time');
             $assignTo = $request->get('assignTo',[]);
             $assignChildActivity = $request->get('assignChildActivity');
-            $files = $request->file('files');
-            Log::debug($name);
-            Log::debug($files);
+            $files = $request->file('files',[]);
             DB::beginTransaction();
-                $child_act = ChildActivity::create([
+            $child_act = ChildActivity::create([
+                'name' => $name,
+                'id_activity' => $activity,
+                'details' => $details,
+                'start_time' => $start_time,
+                'child_activity_type' => $responseType ? $responseType : $action,
+                'end_time' => $end_time,
+                'created_by' => $user->id,
+            ]);
+            // phan thi or tieu ban
+            if($action == AppUtils::PHAN_THI_OR_TIEU_BAN){
+                DB::table('activities_details')->insert([
+                    'id_child_activity' => $child_act->id,
                     'name' => $name,
-                    'id_activity' => $activity,
-                    'details' => $details,
                     'start_time' => $start_time,
-                    'child_activity_type' => $responseType ? $responseType : $action,
                     'end_time' => $end_time,
-                    'created_by' => $user->id,
+                    'created_at' => now(),
+                    'details' => $details,
                 ]);
-                // phan thi or tieu ban
-                if($action == AppUtils::PHAN_THI_OR_TIEU_BAN){
-                    DB::table('activities_details')->insert([
-                        'id_child_activity' => $child_act->id,
-                        'name' => $name,
-                        'start_time' => $start_time,
-                        'end_time' => $end_time,
-                        'created_at' => now(),
-                        'details' => $details,
-                    ]);
-                }
-                //khong phan hoi
-                elseif($action == AppUtils::THONG_BA0_KHONG_PHAN_HOI){
-                    foreach($assignTo as $receiveObj){
-                        if($user->role == RoleUtils::ROLE_DOAN_TRUONG){
-                            $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
-                                ->where('id_class', $receiveObj)->first();
-                            DB::table('user_receive_activities')->insert([
-                                'id_user' => $user_cbl->id,
-                                'id_child_activity' => $child_act->id,
-                                'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
-                                'created_by' => $user->id,
-                            ]);
-                        }
-                    }
-                }
-                // co phan hoi
-                else{
+            }
+            //khong phan hoi
+            elseif($action == AppUtils::THONG_BA0_KHONG_PHAN_HOI){
+                foreach($assignTo as $receiveObj){
                     if($user->role == RoleUtils::ROLE_DOAN_TRUONG){
-                        foreach($assignTo as $receiveObj){
-                            $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
+                        $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
                             ->where('id_class', $receiveObj)->first();
-                            DB::table('user_receive_activities')->insert([
-                                'id_user' => $user_cbl->id,
-                                'id_child_activity' => $child_act->id,
-                                'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
-                                'id_activities_details_assign' => $assignChildActivity,
-                                'created_by' => $user->id,
-                            ]);
-                        }
+                        DB::table('user_receive_activities')->insert([
+                            'id_user' => $user_cbl->id,
+                            'id_child_activity' => $child_act->id,
+                            'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                            'created_by' => $user->id,
+                        ]);
                     }
                 }
+            }
+            // co phan hoi
+            else{
+                if($user->role == RoleUtils::ROLE_DOAN_TRUONG){
+                    foreach($assignTo as $receiveObj){
+                        $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
+                        ->where('id_class', $receiveObj)->first();
+                        DB::table('user_receive_activities')->insert([
+                            'id_user' => $user_cbl->id,
+                            'id_child_activity' => $child_act->id,
+                            'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                            'id_activities_details_assign' => $assignChildActivity,
+                            'created_by' => $user->id,
+                        ]);
+                    }
+                }
+                else{
+
+                }
+            }
+            //save file upload
+            $saveFileAttack = $this->storageMultipleFile($files, $child_act->id);
+            if(!$saveFileAttack){
+                DB::rollBack();
+                return $this->sendError(__('message.failed.create',['atribute' => 'hoạt động']),Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
             DB::commit();
             return $this->sendResponse('',__('message.success.create',['atribute' => 'hoạt động']));
         }

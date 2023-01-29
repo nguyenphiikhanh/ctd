@@ -114,7 +114,7 @@
                                             <div class="form-group">
                                                 <label class="form-label">Tài liệu kèm theo</label>
                                                 <div class="form-control-wrap">
-                                                    <input type="file" @change="uploadFileChange($event.target.files)" multiple class="form-control">
+                                                    <input type="file" ref="fileUpload" @change="uploadFileChange($event.target.files)" multiple class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -204,7 +204,9 @@ export default {
             await this.getActivities().then(res => this.activitiy_list = [...res.data]);
         },
         changeDoiTuong(val){
-            this.doi_tuong = val;
+            console.log('doituong',val);
+            this.doi_tuong = [...val];
+            console.log('assign params',this.doi_tuong);
         },
         async onSaveChildActivity(){
             this.$loading(true);
@@ -216,8 +218,10 @@ export default {
             formData.append('details', this.activity_create.mota);
             formData.append('start_time', this.activity_create.start_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.start_time) : '');
             formData.append('end_time', this.activity_create.end_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.end_time) : '');
-            formData.append('assignTo', this.doi_tuong);
             formData.append('assignChildActivity', this.hoat_dong_assign || '');
+            for(let i = 0; i < this.doi_tuong.length; i++){
+                formData.append('assignTo[]', this.doi_tuong[i]);
+            }
             for(let i = 0; i < this.files.length; i++){
                 let file = this.files[i];
                 formData.append('files[' + i + ']', file);
