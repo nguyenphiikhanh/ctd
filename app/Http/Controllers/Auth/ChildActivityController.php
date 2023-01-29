@@ -131,10 +131,15 @@ class ChildActivityController extends AppBaseController
                 ->leftJoin('child_activities', 'child_activities.id','user_receive_activities.id_child_activity')
                 ->select(
                     'user_receive_activities.*', 'child_activities.name as name',
-                    'child_activities.created_at as created_at','child_activities.details as details',
+                    'child_activities.created_at as created_at', 'child_activities.details as details',
+                    'child_activities.start_time as start_time', 'child_activities.end_time as end_time',
                     'child_activities.child_activity_type as child_activity_type'
                 )
                 ->get();
+            foreach($actRecriveList as $act){
+                $attackFiles = DB::table('child_activity_files')->where('id_child_activity', $act->id)->get();
+                $act->files = $attackFiles;
+            }
             return $this->sendResponse($actRecriveList,__('message.success.get_list',['atribute' => 'nhiệm vụ và thông báo']));
         }
         catch(\Exception $e){

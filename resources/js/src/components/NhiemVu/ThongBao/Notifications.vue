@@ -40,7 +40,7 @@
                                     </td>
                                     <td class="tb-odr-amount">
                                             <span class="tb-odr-total">
-                                                <span class="amount">{{item.details}}</span>
+                                                <span class="amount" v-html="item.details"></span>
                                             </span>
                                         <span class="tb-odr-status">
                                                <span class="badge badge-dot bg-success" v-if="item.status == status.STATUS_HOAN_THANH">Đã hoàn thành</span>
@@ -49,7 +49,7 @@
                                     </td>
                                     <td class="tb-odr-action">
                                         <div class="tb-odr-btns d-none d-md-inline">
-                                            <a href="#" @click="viewNotify(item.id)" class="btn btn-sm btn-primary">Xem</a>
+                                            <a href="#" @click="viewNotify(item)" class="btn btn-sm btn-primary">Xem</a>
                                             <a href="#" v-if="item.status == status.STATUS_CHUA_HOAN_THANH" @click="forwardChildAct(item.id, item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
                                                class="btn btn-sm btn-primary">{{item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI  || item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_DU || item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_GIA
                                                 ? 'Chọn danh sách' : 'Chuyển tiếp'}}</a>
@@ -61,6 +61,7 @@
                         </div><!-- .card -->
                     </div><!-- nk-block -->
                     <forward-modal :userList="userList" :readonly="readonlyFlg" @forward="onForward()" @closeModal="closeForward()" @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/>
+                    <view-notification :notify-info="child_act_info" @closeModal="closeForward()"/>
                 </div>
             </div>
         </div>
@@ -73,11 +74,12 @@ import {mapActions} from "vuex";
 import { asyncLoading } from 'vuejs-loading-plugin';
 import constants from '../../../constants';
 import ForwardModal from './child/ForwardModal.vue';
-
+import ViewNotification from "./child/ViewNotification.vue";
 
 export default {
     components:{
         ForwardModal,
+        ViewNotification,
     },
     data(){
         return{
@@ -87,6 +89,20 @@ export default {
             user_selected: [],
             readonlyFlg: true,
             small_role_details: '',
+
+            child_act_info:{
+                id: null,
+                name: '',
+                start_time: '',
+                end_time: '',
+                details: '',
+                files: [
+                    {
+                        file_name: '',
+                        file_path: '',
+                    }
+                ],
+            }
         }
     },
     computed:{
@@ -135,12 +151,16 @@ export default {
         changeSmallRoleDetails(val){
             this.small_role_details = val;
         },
-        viewNotify(id){
-            alert(id+ ' Chưa làm chức năng này đâu, chờ tí');
+        viewNotify(item){
+            this.child_act_info = item;
+            this.$nextTick(() => {
+                $('#viewNotification').modal('show');
+            });
         },
         closeForward(){
             this.$nextTick(() => {
                 $('#forwardModal').modal('hide');
+                $('#viewNotification').modal('hide');
             })
         }
     },
