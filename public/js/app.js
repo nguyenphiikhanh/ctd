@@ -2071,9 +2071,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       }))();
     },
     changeDoiTuong: function changeDoiTuong(val) {
-      console.log('doituong', val);
       this.doi_tuong = _toConsumableArray(val);
-      console.log('assign params', this.doi_tuong);
     },
     onSaveChildActivity: function onSaveChildActivity() {
       var _this2 = this;
@@ -2250,6 +2248,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     action: function action() {
       return _constants__WEBPACK_IMPORTED_MODULE_2__["default"].HOAT_DONG;
+    },
+    role: function role() {
+      return _constants__WEBPACK_IMPORTED_MODULE_2__["default"].roles;
+    },
+    user: function user() {
+      return this.$store.getters['auth/user'];
     }
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
@@ -2357,6 +2361,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       this.$nextTick(function () {
         $('#viewNotification').modal('show');
       });
+      console.log('view to upload proof', this.child_act_info);
     },
     closeForward: function closeForward() {
       this.$nextTick(function () {
@@ -2467,6 +2472,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../constants */ "./resources/js/src/constants/index.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2474,9 +2485,40 @@ __webpack_require__.r(__webpack_exports__);
       type: Object
     }
   },
+  data: function data() {
+    return {
+      proof: []
+    };
+  },
   methods: {
     closeModal: function closeModal() {
+      this.proof = [];
+      if (this.canUploadProof) {
+        this.$refs.proof.value = null;
+      }
       this.$emit('closeModal');
+    },
+    uploadProof: function uploadProof(proofFiles) {
+      this.proof = _toConsumableArray(proofFiles);
+      var validFileExtensions = ['image/png', 'image/jpeg', 'image/jpg'];
+      for (var i = 0; i < this.proof.length; i++) {
+        var file = this.proof[i];
+        if (!validFileExtensions.includes(file.type)) {
+          alert('Vui lòng chỉ chọn tệp ảnh có định dạng .png/.jpeg/.jpg');
+          this.proof = [];
+          this.$refs.proof.value = null;
+          break;
+        }
+      }
+    },
+    sendProof: function sendProof() {
+      this.$loading(true);
+      var formData = new FormData();
+      for (var i = 0; i < this.proof.length; i++) {
+        var file = this.proof[i];
+        formData.append('files[' + i + ']', file);
+      }
+      this.$loading(false);
     }
   },
   computed: {
@@ -2485,10 +2527,25 @@ __webpack_require__.r(__webpack_exports__);
     },
     user: function user() {
       return this.$store.getters['auth/user'];
+    },
+    status: function status() {
+      return _constants__WEBPACK_IMPORTED_MODULE_0__["default"].status;
+    },
+    action: function action() {
+      return _constants__WEBPACK_IMPORTED_MODULE_0__["default"].HOAT_DONG;
+    },
+    canUploadProof: function canUploadProof() {
+      return (this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA || this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_DU) && this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH;
+    },
+    proofContent: function proofContent() {
+      if (this.proof.length == 0) {
+        return 'Gửi minh chứng';
+      } else {
+        if (this.proof.length == 1) {
+          return this.proof[0].name;
+        } else return "".concat(this.proof.length, " t\u1EC7p \u0111\xEDnh k\xE8m");
+      }
     }
-  },
-  mounted: function mounted() {
-    console.log(this.user);
   }
 });
 
@@ -4081,12 +4138,12 @@ var render = function render() {
       id: "act-act"
     },
     domProps: {
-      value: _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU,
-      checked: _vm._q(_vm.loai_phan_hoi, _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU)
+      value: _vm.hoat_dong.TB_GUI_DS_THAM_DU,
+      checked: _vm._q(_vm.loai_phan_hoi, _vm.hoat_dong.TB_GUI_DS_THAM_DU)
     },
     on: {
       change: function change($event) {
-        _vm.loai_phan_hoi = _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_DU;
+        _vm.loai_phan_hoi = _vm.hoat_dong.TB_GUI_DS_THAM_DU;
       }
     }
   }), _vm._v(" "), _c("label", {
@@ -4109,12 +4166,12 @@ var render = function render() {
       id: "act-join"
     },
     domProps: {
-      value: _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA,
-      checked: _vm._q(_vm.loai_phan_hoi, _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA)
+      value: _vm.hoat_dong.TB_GUI_DS_THAM_GIA,
+      checked: _vm._q(_vm.loai_phan_hoi, _vm.hoat_dong.TB_GUI_DS_THAM_GIA)
     },
     on: {
       change: function change($event) {
-        _vm.loai_phan_hoi = _vm.hoat_dong.THONG_BAO_C0_PHAN_HOI_THAM_GIA;
+        _vm.loai_phan_hoi = _vm.hoat_dong.TB_GUI_DS_THAM_GIA;
       }
     }
   }), _vm._v(" "), _c("label", {
@@ -4754,65 +4811,43 @@ var render = function render() {
     staticClass: "nk-block nk-block-lg"
   }, [_vm._m(1), _vm._v(" "), _c("div", {
     staticClass: "card card-preview"
+  }, [_c("div", {
+    staticClass: "table-responsive"
   }, [_c("table", {
-    staticClass: "table table-orders"
-  }, [_vm._m(2), _vm._v(" "), _c("tbody", {
-    staticClass: "tb-odr-body"
-  }, _vm._l(_vm.notiList, function (item, index) {
+    staticClass: "table"
+  }, [_vm._m(2), _vm._v(" "), _c("tbody", _vm._l(_vm.notiList, function (_item, index) {
     return _c("tr", {
-      key: index,
-      staticClass: "tb-odr-item"
-    }, [_c("td", {
-      staticClass: "tb-odr-info"
-    }, [_c("span", {
-      staticClass: "tb-odr-date"
-    }, [_vm._v(_vm._s(item.created_at))]), _vm._v(" "), _c("span", {
-      staticClass: "tb-odr-id"
-    }, [_c("a", {
+      key: index
+    }, [_c("th", {
       attrs: {
-        href: "#"
+        scope: "row"
       }
-    }, [_vm._v(_vm._s(item.name))])])]), _vm._v(" "), _c("td", {
-      staticClass: "tb-odr-amount"
-    }, [_c("span", {
-      staticClass: "tb-odr-total"
-    }, [_c("span", {
-      staticClass: "amount",
-      domProps: {
-        innerHTML: _vm._s(item.details)
-      }
-    })]), _vm._v(" "), _c("span", {
+    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.created_at))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.name))]), _vm._v(" "), _c("td", [_c("span", {
       staticClass: "tb-odr-status"
-    }, [item.status == _vm.status.STATUS_HOAN_THANH ? _c("span", {
-      staticClass: "badge badge-dot bg-success"
-    }, [_vm._v("Đã hoàn thành")]) : _vm._e(), _vm._v(" "), item.status == _vm.status.STATUS_CHUA_HOAN_THANH ? _c("span", {
-      staticClass: "badge badge-dot bg-warning"
-    }, [_vm._v("Chưa hoàn thành")]) : _vm._e()])]), _vm._v(" "), _c("td", {
-      staticClass: "tb-odr-action"
-    }, [_c("div", {
-      staticClass: "tb-odr-btns d-none d-md-inline"
-    }, [_c("a", {
-      staticClass: "btn btn-sm btn-primary",
-      attrs: {
-        href: "#"
-      },
+    }, [_item.status == _vm.status.STATUS_HOAN_THANH ? _c("span", {
+      staticClass: "badge bg-success"
+    }, [_vm._v("Đã hoàn thành")]) : _vm._e(), _vm._v(" "), _item.status == _vm.status.STATUS_CHUA_HOAN_THANH ? _c("span", {
+      staticClass: "badge bg-danger"
+    }, [_vm._v("Chưa hoàn thành")]) : _vm._e()])]), _vm._v(" "), _c("td", [_item.child_activity_type == _vm.action.THONG_BA0_KHONG_PHAN_HOI ? _c("span", [_vm._v("Thông báo")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA ? _c("span", [_vm._v("Tham gia")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI_THAM_DU ? _c("span", [_vm._v("Tham dự")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.action.TB_GUI_DS_THAM_DU ? _c("span", [_vm._v("Gửi danh sách tham dự")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.action.TB_GUI_DS_THAM_GIA ? _c("span", [_vm._v("Gửi danh sách tham gia")]) : _vm._e()]), _vm._v(" "), _c("td", {
+      staticClass: "d-flex justify-content-end"
+    }, [_c("div", [_c("button", {
+      staticClass: "btn btn-sm btn-info mr-2",
       on: {
         click: function click($event) {
-          return _vm.viewNotify(item);
+          return _vm.viewNotify(_item);
         }
       }
-    }, [_vm._v("Xem")]), _vm._v(" "), item.status == _vm.status.STATUS_CHUA_HOAN_THANH ? _c("a", {
-      staticClass: "btn btn-sm btn-primary",
-      attrs: {
-        href: "#"
-      },
+    }, [_vm._v("Xem chi tiết")]), _vm._v(" "), _item.status == _vm.status.STATUS_CHUA_HOAN_THANH && _vm.user.role == _vm.role.ROLE_CBL ? _c("button", {
+      staticClass: "btn btn-sm btn-primary mr-2",
       on: {
         click: function click($event) {
-          return _vm.forwardChildAct(item.id, item.child_activity_type == _vm.action.THONG_BA0_KHONG_PHAN_HOI);
+          return _vm.forwardChildAct(_item.id, _item.child_activity_type == _vm.action.THONG_BA0_KHONG_PHAN_HOI);
         }
       }
-    }, [_vm._v(_vm._s(item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI || item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI_THAM_DU || item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA ? "Chọn danh sách" : "Chuyển tiếp"))]) : _vm._e()])])]);
-  }), 0)])])]), _vm._v(" "), _c("forward-modal", {
+    }, [_vm._v(_vm._s(_item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI || _item.child_activity_type == _vm.action.TB_GUI_DS_THAM_GIA || _item.child_activity_type == _vm.action.TB_GUI_DS_THAM_DU ? "Chọn danh sách" : "Chuyển tiếp"))]) : _vm._e()])])]);
+  }), 0)])])]), _vm._v(" "), _vm.notiList.length == 0 ? _c("div", {
+    staticClass: "text-center col-12 mt-5"
+  }, [_vm._v("Không có dữ liệu.")]) : _vm._e()]), _vm._v(" "), _c("forward-modal", {
     attrs: {
       userList: _vm.userList,
       readonly: _vm.readonlyFlg
@@ -4863,25 +4898,27 @@ var staticRenderFns = [function () {
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", {
-    staticClass: "tb-odr-head"
-  }, [_c("tr", {
-    staticClass: "tb-odr-item"
-  }, [_c("th", {
-    staticClass: "tb-odr-info"
-  }, [_c("span", {
-    staticClass: "tb-odr-id"
-  }, [_vm._v("Thời gian")]), _vm._v(" "), _c("span", {
-    staticClass: "tb-odr-date d-none d-md-inline-block"
-  }, [_vm._v("Tên nhiệm vụ")])]), _vm._v(" "), _c("th", {
-    staticClass: "tb-odr-amount"
-  }, [_c("span", {
-    staticClass: "tb-odr-total"
-  }, [_vm._v("Mô tả")]), _vm._v(" "), _c("span", {
-    staticClass: "tb-odr-status d-none d-md-inline-block"
-  }, [_vm._v("Trạng thái")])]), _vm._v(" "), _c("th", {
-    staticClass: "tb-odr-action"
-  }, [_vm._v(" ")])])]);
+  return _c("thead", [_c("tr", [_c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("STT")]), _vm._v(" "), _c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("Thời gian")]), _vm._v(" "), _c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("Tên nhiệm vụ")]), _vm._v(" "), _c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("Trạng thái")]), _vm._v(" "), _c("th", {
+    attrs: {
+      scope: "col"
+    }
+  }, [_vm._v("Yêu cầu hoạt động")]), _vm._v(" "), _c("th")])]);
 }];
 render._withStripped = true;
 
@@ -5101,6 +5138,7 @@ var render = function render() {
     attrs: {
       tabindex: "-1",
       "data-bs-backdrop": "static",
+      "data-bs-keyboard": "false",
       id: "viewNotification"
     }
   }, [_c("div", {
@@ -5168,7 +5206,7 @@ var render = function render() {
         download: file.file_name
       }
     }, [_vm._v(_vm._s(file.file_name))]);
-  }), 0)])]), _vm._v(" "), _c("div", {
+  }), 0)])]), _vm._v(" "), _vm.user.role == _vm.role.ROLE_SINH_VIEN ? _c("div", {
     staticClass: "col-12 mt-2"
   }, [_c("div", {
     staticClass: "form-group"
@@ -5181,7 +5219,50 @@ var render = function render() {
     }
   }) : _vm._e(), _vm._v(" "), !_vm.notifyInfo.small_role_details ? _c("div", {
     staticClass: "form-control-wrap"
-  }, [_vm._v("Không có ghi chú.")]) : _vm._e()])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Không có ghi chú.")]) : _vm._e()])]) : _vm._e(), _vm._v(" "), _c("div", {
+    staticClass: "col-12"
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    staticClass: "form-label"
+  }, [_vm._v("Trạng thái: ")]), _vm._v(" "), _vm.notifyInfo.status == _vm.status.STATUS_HOAN_THANH ? _c("span", {
+    staticClass: "badge bg-success"
+  }, [_vm._v("Đã hoàn thành")]) : _vm._e(), _vm._v(" "), _vm.notifyInfo.status == _vm.status.STATUS_CHUA_HOAN_THANH ? _c("span", {
+    staticClass: "badge bg-danger"
+  }, [_vm._v("Chưa hoàn thành")]) : _vm._e()])]), _vm._v(" "), _vm.canUploadProof ? _c("div", {
+    staticClass: "col-12"
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("input", {
+    ref: "proof",
+    staticClass: "d-none",
+    attrs: {
+      type: "file",
+      multiple: "",
+      accept: ".png, .jpg, .jpeg"
+    },
+    on: {
+      change: function change($event) {
+        return _vm.uploadProof($event.target.files);
+      }
+    }
+  }), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-lg btn-info",
+    on: {
+      click: function click($event) {
+        return _vm.$refs.proof.click();
+      }
+    }
+  }, [_c("em", {
+    staticClass: "icon ni ni-upload"
+  }), _vm._v("\n                            " + _vm._s(_vm.proofContent))]), _vm._v(" "), _vm.proof.length ? _c("button", {
+    staticClass: "btn btn-lg btn-primary",
+    on: {
+      click: function click($event) {
+        return _vm.sendProof();
+      }
+    }
+  }, [_vm._v("Gửi")]) : _vm._e()])]) : _vm._e()]), _vm._v(" "), _c("div", {
     staticClass: "modal-footer d-flex justify-content-center"
   }, [_c("button", {
     staticClass: "btn btn-primary",
@@ -5395,7 +5476,7 @@ var render = function render() {
       attrs: {
         scope: "row"
       }
-    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.child_activity_type == _vm.type.THONG_BAO_C0_PHAN_HOI_THAM_DU ? "DS tham dự" : "DS tham gia"))]), _vm._v(" "), _vm._m(3, true), _vm._v(" "), _c("td", [_c("button", {
+    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.name))]), _vm._v(" "), _c("td", [_item.child_activity_type == _vm.type.TB_GUI_DS_THAM_DU ? _c("span", [_vm._v("Tham dự")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.type.TB_GUI_DS_THAM_GIA ? _c("span", [_vm._v("Tham gia")]) : _vm._e()]), _vm._v(" "), _vm._m(3, true), _vm._v(" "), _c("td", [_c("button", {
       staticClass: "btn btn-sm btn-primary",
       on: {
         click: function click($event) {
@@ -5452,7 +5533,7 @@ var staticRenderFns = [function () {
     attrs: {
       scope: "col"
     }
-  }, [_vm._v("Loại")]), _vm._v(" "), _c("th", {
+  }, [_vm._v("Yêu cầu hoạt động")]), _vm._v(" "), _c("th", {
     attrs: {
       scope: "col"
     }
@@ -83041,7 +83122,9 @@ __webpack_require__.r(__webpack_exports__);
     THONG_BAO_C0_PHAN_HOI: 2,
     THONG_BAO_C0_PHAN_HOI_THAM_DU: 3,
     THONG_BAO_C0_PHAN_HOI_THAM_GIA: 4,
-    PHAN_THI_OR_TIEU_BAN: 5
+    PHAN_THI_OR_TIEU_BAN: 5,
+    TB_GUI_DS_THAM_DU: 6,
+    TB_GUI_DS_THAM_GIA: 7
   },
   status: _status__WEBPACK_IMPORTED_MODULE_0__["default"],
   roles: _roles__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -83060,7 +83143,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   ADMIN: 0,
-  ROLE_CBL: 4
+  ROLE_CBL: 4,
+  ROLE_SINH_VIEN: 5
 });
 
 /***/ }),
@@ -83076,7 +83160,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   STATUS_CHUA_HOAN_THANH: 0,
-  STATUS_HOAN_THANH: 1
+  STATUS_HOAN_THANH: 1,
+  STATUS_CHO_DUYET: 9
 });
 
 /***/ }),

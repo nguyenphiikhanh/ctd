@@ -83,6 +83,7 @@ class ChildActivityController extends AppBaseController
                         DB::table('user_receive_activities')->insert([
                             'id_user' => $user_cbl->id,
                             'id_child_activity' => $child_act->id,
+                            'child_activity_type' => $responseType ? $responseType : $action,
                             'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
                             'created_by' => $user->id,
                         ]);
@@ -98,6 +99,7 @@ class ChildActivityController extends AppBaseController
                         DB::table('user_receive_activities')->insert([
                             'id_user' => $user_cbl->id,
                             'id_child_activity' => $child_act->id,
+                            'child_activity_type' => $responseType ? $responseType : $action,
                             'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
                             'id_activities_details_assign' => $assignChildActivity,
                             'created_by' => $user->id,
@@ -109,7 +111,7 @@ class ChildActivityController extends AppBaseController
                 }
             }
             //save file upload
-            $saveFileAttack = $this->storageMultipleFile($files, $child_act->id);
+            $saveFileAttack = $this->storageMultipleFile($files, 'child_activity_files','id_child_activity' , $child_act->id);
             if(!$saveFileAttack){
                 DB::rollBack();
                 return $this->sendError(__('message.failed.create',['atribute' => 'hoạt động']),Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -133,13 +135,10 @@ class ChildActivityController extends AppBaseController
                     'user_receive_activities.*', 'child_activities.name as name',
                     'child_activities.created_at as created_at', 'child_activities.details as details',
                     'child_activities.start_time as start_time', 'child_activities.end_time as end_time',
-                    'child_activities.child_activity_type as child_activity_type'
                 )
                 ->get();
             foreach($actRecriveList as $act){
-                Log::debug($act->id_child_activity);
                 $attackFiles = DB::table('child_activity_files')->where('id_child_activity', $act->id_child_activity)->get();
-                Log::debug($attackFiles);
                 $act->files = $attackFiles;
             }
             return $this->sendResponse($actRecriveList,__('message.success.get_list',['atribute' => 'nhiệm vụ và thông báo']));
@@ -184,6 +183,7 @@ class ChildActivityController extends AppBaseController
                     DB::table('user_receive_activities')->insert([
                         'created_by' => $user->id,
                         'id_child_activity' => $notiFromCbl->id_child_activity,
+                        'child_activity_type' => AppUtils::THONG_BA0_KHONG_PHAN_HOI,
                         'id_user' => $student_id,
                         'small_role_details' => $small_role_details,
                         'status' => AppUtils::STATUS_HOAN_THANH,
@@ -191,18 +191,23 @@ class ChildActivityController extends AppBaseController
                 }
             }
             else{ // thông báo có phản hồi
+                $action_flg = AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU;
+                if($notiFromCbl->child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
+                    $action_flg = AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA;
+                }
                 foreach($assignTo as $student_id){
                     if($student_id != $user->id){
                         DB::table('user_receive_activities')->insert([
                             'created_by' => $user->id,
-                            'id_child_activity' => $notiFromCbl->id_child_activity,
+                            'id_child_activity' => $notiFromCbl->id_activities_details_assign,
+                            'child_activity_type' => $action_flg,
                             'id_user' => $student_id,
                             'small_role_details' => $small_role_details,
-                            'status' => AppUtils::STATUS_HOAN_THANH,
+                            'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
                         ]);
                     }
 
-                    if($notiFromCbl->child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU){
+                    if($notiFromCbl->child_activity_type == AppUtils::TB_GUI_DS_THAM_DU){
                         DB::table('user_activities')->insert([
                             'id_activities_details' => $notiFromCbl->id_activities_details_assign,
                             'id_user' => $student_id,
@@ -253,7 +258,7 @@ class ChildActivityController extends AppBaseController
         try{
             $child_activity_type = $request->get('child_activity_type');
             $userChecklist = [];
-            if($child_activity_type && $child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU){
+            if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
                 $userChecklist = DB::table('user_activities')
                     ->select('users.id as id',DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"),
                     'user_activities.note as note','users.username as username','user_activities.award as status')
@@ -262,7 +267,7 @@ class ChildActivityController extends AppBaseController
                     ->where('activities_details.id',$activity_details_id)
                     ->get();
             }
-            if($child_activity_type && $child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA){
+            if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
                 $userChecklist = DB::table('user_join_activities')
                     ->select('users.id as id',DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"),
                     'user_join_activities.note as note','users.username as username','user_join_activities.status as status')
@@ -324,6 +329,20 @@ class ChildActivityController extends AppBaseController
             return $this->sendError(__('message.failed.update',['atribute' => 'điểm danh']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    //upload minh chung
+    public function storeProof(Request $request){
+        try {
+            $user = Auth::user();
+            $files = $request->file('files',[]);
+            // $saveFileAttack = $this->storageMultipleFile($files, 'child_activity_files','id_child_activity' , $child_act->id);
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.create',['atribute' => 'minh chứng']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     /**
      * Display the specified resource.
      *

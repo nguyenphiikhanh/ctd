@@ -60,12 +60,6 @@ Route::prefix('v1')->group(function(){
         Route::get('/checkList-activities','Auth\ChildActivityController@getActivitiesForCheckList');
         Route::get('/checkList-activities-users/{activity_details_id}','Auth\ChildActivityController@getUserForCheckList');
         Route::put('/checkList-for-user/{id_user}/{act_id}','Auth\ChildActivityController@updateUserCheckList');
-
-
-
-
-        // class
-
     });
 });
 

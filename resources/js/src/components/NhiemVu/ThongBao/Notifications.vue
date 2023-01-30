@@ -50,8 +50,8 @@
                                         <td class="d-flex justify-content-end">
                                             <div>
                                             <button @click="viewNotify(_item)" class="btn btn-sm btn-info mr-2">Xem chi tiết</button>
-                                            <button v-if="_item.status == status.STATUS_CHUA_HOAN_THANH" @click="forwardChildAct(_item.id, _item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
-                                               class="btn btn-sm btn-primary mr-2">{{_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI  || _item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_DU || _item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_GIA
+                                            <button v-if="_item.status == status.STATUS_CHUA_HOAN_THANH && user.role == role.ROLE_CBL" @click="forwardChildAct(_item.id, _item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
+                                               class="btn btn-sm btn-primary mr-2">{{_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI  || _item.child_activity_type == action.TB_GUI_DS_THAM_GIA || _item.child_activity_type == action.TB_GUI_DS_THAM_DU
                                                 ? 'Chọn danh sách' : 'Chuyển tiếp'}}</button>
                                             </div>
                                         </td>
@@ -60,6 +60,7 @@
                                 </table>
                             </div>
                         </div><!-- .card -->
+                        <div v-if="notiList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
                     <forward-modal :userList="userList" :readonly="readonlyFlg" @forward="onForward()" @closeModal="closeForward()" @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/>
                     <view-notification :notify-info="child_act_info" @closeModal="closeForward()"/>
@@ -113,6 +114,12 @@ export default {
         },
         action(){
             return constants.HOAT_DONG;
+        },
+        role(){
+            return constants.roles;
+        },
+        user(){
+            return this.$store.getters['auth/user'];
         }
     },
     methods:{

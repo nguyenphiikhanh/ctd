@@ -97,7 +97,13 @@ export default {
             }
         },
         sendProof(){
-            alert('đã gửi minh chứng');
+            this.$loading(true);
+            let formData = new FormData();
+            for(let i = 0; i < this.proof.length; i++){
+                let file = this.proof[i];
+                formData.append('files[' + i + ']', file);
+            }
+            this.$loading(false);
         }
     },
     computed:{

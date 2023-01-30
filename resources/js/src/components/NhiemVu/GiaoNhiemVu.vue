@@ -204,9 +204,7 @@ export default {
             await this.getActivities().then(res => this.activitiy_list = [...res.data]);
         },
         changeDoiTuong(val){
-            console.log('doituong',val);
             this.doi_tuong = [...val];
-            console.log('assign params',this.doi_tuong);
         },
         async onSaveChildActivity(){
             this.$loading(true);

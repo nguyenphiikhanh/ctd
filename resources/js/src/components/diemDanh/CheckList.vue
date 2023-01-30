@@ -23,7 +23,7 @@
                                     <tr>
                                         <th scope="col">STT</th>
                                         <th scope="col">Tên hoạt động</th>
-                                        <th scope="col">Loại</th>
+                                        <th scope="col">Yêu cầu hoạt động</th>
                                         <th scope="col">Trạng thái</th>
                                         <th ></th>
                                     </tr>
@@ -32,7 +32,10 @@
                                     <tr v-for="(_item, index) in checkList" :key="index">
                                         <th scope="row">{{index + 1}}</th>
                                         <td>{{_item.name}}</td>
-                                        <td>{{_item.child_activity_type == type.THONG_BAO_C0_PHAN_HOI_THAM_DU ? 'DS tham dự' : 'DS tham gia'}}</td>
+                                        <td>
+                                            <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_DU">Tham dự</span>
+                                            <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_GIA">Tham gia</span>
+                                        </td>
                                         <td><span class="mx-auto my-auto badge-dim bg-success">Đang diễn ra</span></td>
                                         <td>
                                             <button @click="showUserCheckList(_item)" class="btn btn-sm btn-primary">Điểm danh</button>
