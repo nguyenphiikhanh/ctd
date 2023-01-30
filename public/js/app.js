@@ -2354,7 +2354,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       this.child_act_info = _objectSpread({}, item);
       this.child_act_info.start_time = this.child_act_info.start_time ? _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_5__["default"].dateTimeVnFormat(item.start_time) : '';
       this.child_act_info.end_time = this.child_act_info.end_time ? _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_5__["default"].dateTimeVnFormat(item.end_time) : '';
-      console.log(this.child_act_info.end_time);
       this.$nextTick(function () {
         $('#viewNotification').modal('show');
       });
@@ -2467,6 +2466,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../constants */ "./resources/js/src/constants/index.js");
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     notifyInfo: {
@@ -2477,6 +2478,17 @@ __webpack_require__.r(__webpack_exports__);
     closeModal: function closeModal() {
       this.$emit('closeModal');
     }
+  },
+  computed: {
+    role: function role() {
+      return _constants__WEBPACK_IMPORTED_MODULE_0__["default"].roles;
+    },
+    user: function user() {
+      return this.$store.getters['auth/user'];
+    }
+  },
+  mounted: function mounted() {
+    console.log(this.user);
   }
 });
 
@@ -5156,7 +5168,20 @@ var render = function render() {
         download: file.file_name
       }
     }, [_vm._v(_vm._s(file.file_name))]);
-  }), 0)])])]), _vm._v(" "), _c("div", {
+  }), 0)])]), _vm._v(" "), _c("div", {
+    staticClass: "col-12 mt-2"
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    staticClass: "form-label"
+  }, [_vm._v("Ghi chú từ Bí thư chi Đoàn:")]), _vm._v(" "), _vm.notifyInfo.small_role_details ? _c("div", {
+    staticClass: "form-control-wrap",
+    domProps: {
+      innerHTML: _vm._s(_vm.notifyInfo.small_role_details)
+    }
+  }) : _vm._e(), _vm._v(" "), !_vm.notifyInfo.small_role_details ? _c("div", {
+    staticClass: "form-control-wrap"
+  }, [_vm._v("Không có ghi chú.")]) : _vm._e()])])]), _vm._v(" "), _c("div", {
     staticClass: "modal-footer d-flex justify-content-center"
   }, [_c("button", {
     staticClass: "btn btn-primary",

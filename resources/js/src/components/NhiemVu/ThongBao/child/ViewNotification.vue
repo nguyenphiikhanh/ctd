@@ -30,6 +30,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 mt-2">
+                        <div class="form-group">
+                            <label class="form-label">Ghi chú từ Bí thư chi Đoàn:</label>
+                            <div class="form-control-wrap" v-if="notifyInfo.small_role_details" v-html="notifyInfo.small_role_details"></div>
+                            <div class="form-control-wrap" v-if="!notifyInfo.small_role_details">Không có ghi chú.</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
                     <button @click="closeModal()" class="btn btn-primary">Đóng</button>
@@ -40,6 +47,7 @@
 </template>
 
 <script>
+import constants from '../../../../constants';
 export default {
     props:{
         notifyInfo: {
@@ -50,6 +58,17 @@ export default {
         closeModal(){
             this.$emit('closeModal');
         },
+    },
+    computed:{
+        role(){
+            return constants.roles;
+        },
+        user(){
+            return this.$store.getters['auth/user'];
+        }
+    },
+    mounted(){
+        console.log(this.user);
     }
 };
 </script>

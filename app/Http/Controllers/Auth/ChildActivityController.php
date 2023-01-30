@@ -110,7 +110,6 @@ class ChildActivityController extends AppBaseController
             }
             //save file upload
             $saveFileAttack = $this->storageMultipleFile($files, $child_act->id);
-            Log::debug($saveFileAttack);
             if(!$saveFileAttack){
                 DB::rollBack();
                 return $this->sendError(__('message.failed.create',['atribute' => 'hoạt động']),Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -138,7 +137,9 @@ class ChildActivityController extends AppBaseController
                 )
                 ->get();
             foreach($actRecriveList as $act){
-                $attackFiles = DB::table('child_activity_files')->where('id_child_activity', $act->id)->get();
+                Log::debug($act->id_child_activity);
+                $attackFiles = DB::table('child_activity_files')->where('id_child_activity', $act->id_child_activity)->get();
+                Log::debug($attackFiles);
                 $act->files = $attackFiles;
             }
             return $this->sendResponse($actRecriveList,__('message.success.get_list',['atribute' => 'nhiệm vụ và thông báo']));
