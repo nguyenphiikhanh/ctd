@@ -17,47 +17,48 @@
                             </div>
                         </div>
                         <div class="card card-preview">
-                            <table class="table table-orders">
-                                <thead class="tb-odr-head">
-                                <tr class="tb-odr-item">
-                                    <th class="tb-odr-info">
-                                        <span class="tb-odr-id">Thời gian</span>
-                                        <span class="tb-odr-date d-none d-md-inline-block">Tên nhiệm vụ</span>
-                                    </th>
-                                    <th class="tb-odr-amount">
-                                        <span class="tb-odr-total">Mô tả</span>
-                                        <span class="tb-odr-status d-none d-md-inline-block">Trạng thái</span>
-                                    </th>
-                                    <th class="tb-odr-action">&nbsp;</th>
-                                </tr>
-                                </thead>
-                                <tbody class="tb-odr-body">
-                                <tr class="tb-odr-item" v-for="(item, index) in notiList" :key="index">
-                                    <td class="tb-odr-info">
-                                        <span class="tb-odr-date">{{item.created_at}}</span>
-                                        <span class="tb-odr-id"><a href="#">{{item.name}}</a></span>
-
-                                    </td>
-                                    <td class="tb-odr-amount">
-                                            <span class="tb-odr-total">
-                                                <span class="amount" v-html="item.details"></span>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">STT</th>
+                                        <th scope="col">Thời gian</th>
+                                        <th scope="col">Tên nhiệm vụ</th>
+                                        <th scope="col">Trạng thái</th>
+                                        <th scope="col">Yêu cầu hoạt động</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="(_item, index) in notiList" :key="index">
+                                        <th scope="row">{{index + 1}}</th>
+                                        <td>{{_item.created_at}}</td>
+                                        <td>{{_item.name}}</td>
+                                        <td>
+                                            <span class="tb-odr-status">
+                                               <span class="badge bg-success" v-if="_item.status == status.STATUS_HOAN_THANH">Đã hoàn thành</span>
+                                               <span class="badge bg-danger" v-if="_item.status == status.STATUS_CHUA_HOAN_THANH">Chưa hoàn thành</span>
                                             </span>
-                                        <span class="tb-odr-status">
-                                               <span class="badge badge-dot bg-success" v-if="item.status == status.STATUS_HOAN_THANH">Đã hoàn thành</span>
-                                                <span class="badge badge-dot bg-warning" v-if="item.status == status.STATUS_CHUA_HOAN_THANH">Chưa hoàn thành</span>
-                                            </span>
-                                    </td>
-                                    <td class="tb-odr-action">
-                                        <div class="tb-odr-btns d-none d-md-inline">
-                                            <a href="#" @click="viewNotify(item)" class="btn btn-sm btn-primary">Xem</a>
-                                            <a href="#" v-if="item.status == status.STATUS_CHUA_HOAN_THANH" @click="forwardChildAct(item.id, item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
-                                               class="btn btn-sm btn-primary">{{item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI  || item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_DU || item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_GIA
-                                                ? 'Chọn danh sách' : 'Chuyển tiếp'}}</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                        </td>
+                                        <td>
+                                            <span v-if="_item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI">Thông báo</span>
+                                            <span v-if="_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_GIA">Tham gia</span>
+                                            <span v-if="_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_DU">Tham dự</span>
+                                            <span v-if="_item.child_activity_type == action.TB_GUI_DS_THAM_DU">Gửi danh sách tham dự</span>
+                                            <span v-if="_item.child_activity_type == action.TB_GUI_DS_THAM_GIA">Gửi danh sách tham gia</span>
+                                        </td>
+                                        <td class="d-flex justify-content-end">
+                                            <div>
+                                            <button @click="viewNotify(_item)" class="btn btn-sm btn-info mr-2">Xem chi tiết</button>
+                                            <button v-if="_item.status == status.STATUS_CHUA_HOAN_THANH" @click="forwardChildAct(_item.id, _item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
+                                               class="btn btn-sm btn-primary mr-2">{{_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI  || _item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_DU || _item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_GIA
+                                                ? 'Chọn danh sách' : 'Chuyển tiếp'}}</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div><!-- .card -->
                     </div><!-- nk-block -->
                     <forward-modal :userList="userList" :readonly="readonlyFlg" @forward="onForward()" @closeModal="closeForward()" @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/>
@@ -159,6 +160,7 @@ export default {
             this.$nextTick(() => {
                 $('#viewNotification').modal('show');
             });
+            console.log('view to upload proof',this.child_act_info);
         },
         closeForward(){
             this.$nextTick(() => {
