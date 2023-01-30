@@ -41,6 +41,7 @@
                         <div class="form-group">
                             <label class="form-label">Trạng thái:&nbsp;</label>
                             <span class="badge bg-success" v-if="notifyInfo.status == status.STATUS_HOAN_THANH">Đã hoàn thành</span>
+                            <span class="badge bg-warning" v-if="notifyInfo.status == status.STATUS_CHO_DUYET">Đang chờ duyệt</span>
                             <span class="badge bg-danger" v-if="notifyInfo.status == status.STATUS_CHUA_HOAN_THANH">Chưa hoàn thành</span>
                         </div>
                     </div>
@@ -63,6 +64,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import constants from '../../../../constants';
 export default {
     props:{
@@ -76,6 +78,9 @@ export default {
         }
     },
     methods:{
+        ...mapActions({
+            storeProof: 'activity/uploadProof',
+        }),
         closeModal(){
             this.proof = [];
             if(this.canUploadProof){
@@ -96,14 +101,23 @@ export default {
                 }
             }
         },
-        sendProof(){
+        async sendProof(){
+            this.$nextTick(() => {
+                $('#viewNotification').modal('hide');
+            })
             this.$loading(true);
             let formData = new FormData();
+            formData.append("id", this.notifyInfo.id);
+            formData.append("id_child_activity", this.notifyInfo.id_child_activity);
+            formData.append("child_activity_type", this.notifyInfo.child_activity_type);
             for(let i = 0; i < this.proof.length; i++){
                 let file = this.proof[i];
                 formData.append('files[' + i + ']', file);
             }
+            await this.storeProof(formData);
+            this.closeModal();
             this.$loading(false);
+            this.$emit('proofUploaded');
         }
     },
     computed:{

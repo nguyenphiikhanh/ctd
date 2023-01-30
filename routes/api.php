@@ -41,20 +41,19 @@ Route::prefix('v1')->group(function(){
         Route::post('/student','Auth\StudentController@store');
         Route::put('/student/cbSetting','Auth\StudentController@updateCbSetting');
 
-
         // khối ngành đào tạo(Sư phạm vs Ngoài sư phạm)
         Route::get('/class-types','Auth\ClassTypeController@index');
-
 
         //user
         Route::get('/get-user-classes-by-cbl','Auth\UserController@getUserbyCanbolop');
 
-
+        // hoạt động
         Route::get('/activities','Auth\ActivityController@index');
         Route::post('/child-activities','Auth\ChildActivityController@store');
         Route::get('/receive-activities','Auth\ChildActivityController@getActivitiesReceive');
         Route::post('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');
         Route::get('/child-activity-responsiable','Auth\ChildActivityController@getActivityResponsiable');
+        Route::post('/proof/store','Auth\ChildActivityController@storeProof'); // upload minh chứng
 
         //điểm danh
         Route::get('/checkList-activities','Auth\ChildActivityController@getActivitiesForCheckList');

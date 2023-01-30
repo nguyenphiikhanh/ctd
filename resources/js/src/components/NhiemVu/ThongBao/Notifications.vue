@@ -37,6 +37,7 @@
                                         <td>
                                             <span class="tb-odr-status">
                                                <span class="badge bg-success" v-if="_item.status == status.STATUS_HOAN_THANH">Đã hoàn thành</span>
+                                               <span class="badge bg-warning" v-if="_item.status == status.STATUS_CHO_DUYET">Đang chờ duyệt</span>
                                                <span class="badge bg-danger" v-if="_item.status == status.STATUS_CHUA_HOAN_THANH">Chưa hoàn thành</span>
                                             </span>
                                         </td>
@@ -63,7 +64,7 @@
                         <div v-if="notiList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
                     <forward-modal :userList="userList" :readonly="readonlyFlg" @forward="onForward()" @closeModal="closeForward()" @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/>
-                    <view-notification :notify-info="child_act_info" @closeModal="closeForward()"/>
+                    <view-notification :notify-info="child_act_info" @closeModal="closeForward()" @proofUploaded="getActivitiesReceive()"/>
                 </div>
             </div>
         </div>

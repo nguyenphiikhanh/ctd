@@ -31,5 +31,13 @@ export default {
     },
     updateUserCheckListStatus(data){
         return http.put(`/checkList-for-user/${data.user_id}/${data.activity_details_id}`, data);
-    }
+    },
+
+    uploadProof(data){
+        return http.post('/proof/store',data,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+        });
+    },
 }

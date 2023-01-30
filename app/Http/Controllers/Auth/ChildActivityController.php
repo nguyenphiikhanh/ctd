@@ -334,10 +334,52 @@ class ChildActivityController extends AppBaseController
     public function storeProof(Request $request){
         try {
             $user = Auth::user();
+            $id = $request->id;
             $files = $request->file('files',[]);
-            // $saveFileAttack = $this->storageMultipleFile($files, 'child_activity_files','id_child_activity' , $child_act->id);
+            $id_child_activity = $request->id_child_activity;
+            $child_activity_type = $request->child_activity_type;
+            $act_details = DB::table('activities_details')->where('id_child_activity', $id_child_activity)->first();
+            DB::beginTransaction();
+            DB::table('user_receive_activities')
+                ->where('id', $id)
+                ->where('id_child_activity', $id_child_activity)
+                ->where('id_user', $user->id)
+                ->update([
+                    'status' => AppUtils::STATUS_CHO_DUYET,
+                ]);
+            $saveFileAttack = false;
+            if($child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU){
+                $user_act = DB::table('user_activities')
+                    ->where('id_user', $user->id)
+                    ->where('id_activities_details', $act_details->id)->first();
+                $saveFileAttack = $this->storageMultipleFile($files, 'user_activity_prooves', 'id_user_activities' , $user_act->id, 'act_proof');
+                if(!$saveFileAttack){
+                    DB::rollBack();
+                    return $this->sendError(__('message.failed.create',['atribute' => 'minh chứng']),Response::HTTP_INTERNAL_SERVER_ERROR);
+                }
+            }
+            else{
+                DB::table('user_join_activities')
+                ->where('id_user' ,$user->id)
+                ->where('id_activities_details', $act_details->id)
+                ->update([
+                    'status' => AppUtils::STATUS_CHO_DUYET,
+                ]);
+                $user_join_act = DB::table('user_join_activities')
+                    ->where('id_user', $user->id)
+                    ->where('id_activities_details', $act_details->id)
+                    ->first();
+                    $saveFileAttack = $this->storageMultipleFile($files, 'user_join_activity_prooves', 'id_user_join_activities' , $user_join_act->id, 'join_proof');
+                    if(!$saveFileAttack){
+                        DB::rollBack();
+                        return $this->sendError(__('message.failed.create',['atribute' => 'minh chứng']),Response::HTTP_INTERNAL_SERVER_ERROR);
+                    }
+            }
+            DB::commit();
+            return $this->sendResponse('',__('message.success.create',['atribute' => 'minh chứng']));
         }
         catch(\Exception $e){
+            DB::rollBack();
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.create',['atribute' => 'minh chứng']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
