@@ -16,13 +16,15 @@
                     </div>
                     <div class="col-12 mt-2">
                         <div class="form-group">
-                            <label class="form-label">Ghi chú</label>
-                            <div class="form-control-wrap" v-html="notifyInfo.details"></div>
+                            <label class="form-label">Ghi chú:</label>
+                            <div class="form-control-wrap" v-if="notifyInfo.details" v-html="notifyInfo.details"></div>
+                            <div class="form-control-wrap" v-if="!notifyInfo.details">Không có ghi chú.</div>
                         </div>
                     </div>
                     <div class="col-12 mt-2">
                         <div class="form-group">
                             <label class="form-label">Tệp đính kèm</label>
+                            <div class="form-control-wrap" v-if="notifyInfo.files.length == 0">Không có tệp đính kèm.</div>
                             <div class="form-control-wrap d-block">
                                 <a class="d-block blue-text" :href="file.file_path" :download="file.file_name" v-for="(file, index) in notifyInfo.files" :key="index">{{file.file_name}}</a>
                             </div>

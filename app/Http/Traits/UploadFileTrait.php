@@ -35,6 +35,5 @@ trait UploadFileTrait{
             DB::rollBack();
             return false;
         }
-
     }
 }

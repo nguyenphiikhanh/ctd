@@ -110,6 +110,7 @@ class ChildActivityController extends AppBaseController
             }
             //save file upload
             $saveFileAttack = $this->storageMultipleFile($files, $child_act->id);
+            Log::debug($saveFileAttack);
             if(!$saveFileAttack){
                 DB::rollBack();
                 return $this->sendError(__('message.failed.create',['atribute' => 'hoạt động']),Response::HTTP_INTERNAL_SERVER_ERROR);

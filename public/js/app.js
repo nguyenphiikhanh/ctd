@@ -1951,7 +1951,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   }),
   mounted: function mounted() {
-    document.title = "\u0110\u0103ng nh\u1EADp - ".concat("Số hoá công tác Đoàn - Trường Đại học Sư phạm Hà Nội");
+    document.title = "\u0110\u0103ng nh\u1EADp - ".concat("Laravel MIX_APP_NAME");
   },
   beforeCreate: function beforeCreate() {
     if (this.$store.getters['auth/isAuthenticated']) {
@@ -2196,6 +2196,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../constants */ "./resources/js/src/constants/index.js");
 /* harmony import */ var _child_ForwardModal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./child/ForwardModal.vue */ "./resources/js/src/components/NhiemVu/ThongBao/child/ForwardModal.vue");
 /* harmony import */ var _child_ViewNotification_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./child/ViewNotification.vue */ "./resources/js/src/components/NhiemVu/ThongBao/child/ViewNotification.vue");
+/* harmony import */ var _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../helpers/utils/datetimeUtils */ "./resources/js/src/helpers/utils/datetimeUtils.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2211,6 +2212,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 
 
@@ -2349,7 +2351,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       this.small_role_details = val;
     },
     viewNotify: function viewNotify(item) {
-      this.child_act_info = item;
+      this.child_act_info = _objectSpread({}, item);
+      this.child_act_info.start_time = this.child_act_info.start_time ? _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_5__["default"].dateTimeVnFormat(item.start_time) : '';
+      this.child_act_info.end_time = this.child_act_info.end_time ? _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_5__["default"].dateTimeVnFormat(item.end_time) : '';
+      console.log(this.child_act_info.end_time);
       this.$nextTick(function () {
         $('#viewNotification').modal('show');
       });
@@ -5125,18 +5130,22 @@ var render = function render() {
     staticClass: "form-group"
   }, [_c("label", {
     staticClass: "form-label"
-  }, [_vm._v("Ghi chú")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Ghi chú:")]), _vm._v(" "), _vm.notifyInfo.details ? _c("div", {
     staticClass: "form-control-wrap",
     domProps: {
       innerHTML: _vm._s(_vm.notifyInfo.details)
     }
-  })])]), _vm._v(" "), _c("div", {
+  }) : _vm._e(), _vm._v(" "), !_vm.notifyInfo.details ? _c("div", {
+    staticClass: "form-control-wrap"
+  }, [_vm._v("Không có ghi chú.")]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "col-12 mt-2"
   }, [_c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     staticClass: "form-label"
-  }, [_vm._v("Tệp đính kèm")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Tệp đính kèm")]), _vm._v(" "), _vm.notifyInfo.files.length == 0 ? _c("div", {
+    staticClass: "form-control-wrap"
+  }, [_vm._v("Không có tệp đính kèm.")]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "form-control-wrap d-block"
   }, _vm._l(_vm.notifyInfo.files, function (file, index) {
     return _c("a", {
@@ -83070,6 +83079,20 @@ __webpack_require__.r(__webpack_exports__);
     if (mi.length < 2) mi = '0' + mi;
     var s = '00';
     return "".concat(y, "-").concat(m, "-").concat(d, " ").concat(h, ":").concat(mi, ":").concat(s);
+  },
+  dateTimeVnFormat: function dateTimeVnFormat(datetime) {
+    var tz = new Date(datetime);
+    var y = tz.getFullYear();
+    var m = '' + (tz.getMonth() + 1);
+    if (m.length < 2) m = '0' + m;
+    var d = '' + tz.getDate();
+    if (d.length < 2) d = '0' + d;
+    var h = '' + tz.getHours();
+    if (h.length < 2) h = '0' + h;
+    var mi = '' + tz.getMinutes();
+    if (mi.length < 2) mi = '0' + mi;
+    var s = '00';
+    return "".concat(h, ":").concat(mi, " ").concat(d, "/").concat(m, "/").concat(y);
   }
 });
 
@@ -83158,7 +83181,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 });
 var roles = _constants__WEBPACK_IMPORTED_MODULE_3__["default"].roles;
 router.beforeEach(function (to, from, next) {
-  document.title = "".concat(to.meta.title, " - ").concat("Số hoá công tác Đoàn - Trường Đại học Sư phạm Hà Nội");
+  document.title = "".concat(to.meta.title, " - ").concat("Laravel MIX_APP_NAME");
   if (to.matched.some(function (record) {
     return record.meta.requiresAuth;
   }) && !_store__WEBPACK_IMPORTED_MODULE_2__["default"].getters["auth/isAuthenticated"]) {
@@ -84672,8 +84695,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\WorkSpace\CONGTACDOAN_NEW\CONGTACDOAN\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\WorkSpace\CONGTACDOAN_NEW\CONGTACDOAN\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

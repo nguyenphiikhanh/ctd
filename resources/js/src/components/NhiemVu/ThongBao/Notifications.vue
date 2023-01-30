@@ -75,6 +75,7 @@ import { asyncLoading } from 'vuejs-loading-plugin';
 import constants from '../../../constants';
 import ForwardModal from './child/ForwardModal.vue';
 import ViewNotification from "./child/ViewNotification.vue";
+import datetimeUtils from '../../../helpers/utils/datetimeUtils';
 
 export default {
     components:{
@@ -152,7 +153,10 @@ export default {
             this.small_role_details = val;
         },
         viewNotify(item){
-            this.child_act_info = item;
+            this.child_act_info = {...item};
+            this.child_act_info.start_time = this.child_act_info.start_time ? datetimeUtils.dateTimeVnFormat(item.start_time) : '';
+            this.child_act_info.end_time = this.child_act_info.end_time ? datetimeUtils.dateTimeVnFormat(item.end_time) : '';
+            console.log(this.child_act_info.end_time);
             this.$nextTick(() => {
                 $('#viewNotification').modal('show');
             });
