@@ -23,7 +23,8 @@
                                     <tr>
                                         <th scope="col">STT</th>
                                         <th scope="col">Tên hoạt động</th>
-                                        <th scope="col">Yêu cầu hoạt động</th>
+                                        <th scope="col">Loại hoạt động</th>
+                                        <th scope="col">Thời gian</th>
                                         <th scope="col">Trạng thái</th>
                                         <th ></th>
                                     </tr>
@@ -33,8 +34,11 @@
                                         <th scope="row">{{index + 1}}</th>
                                         <td>{{_item.name}}</td>
                                         <td>
-                                            <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_DU">Tham dự</span>
-                                            <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_GIA">Tham gia</span>
+                                            <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_DU">Danh sách tham dự</span>
+                                            <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_GIA">Danh sách tham gia</span>
+                                        </td>
+                                        <td>
+                                            <span>{{ convertDateTime(_item.start_time) }} đến {{ convertDateTime(_item.end_time) }}</span>
                                         </td>
                                         <td><span class="mx-auto my-auto badge-dim bg-success">Đang diễn ra</span></td>
                                         <td>
@@ -58,7 +62,7 @@
 import {mapActions} from "vuex";
 import {asyncLoading} from "vuejs-loading-plugin";
 import constants from "../../constants";
-
+import datetimeUtils from "../../helpers/utils/datetimeUtils";
 import CheckListUserModal from "./child/CheckListUserModal.vue";
 
 export default {
@@ -95,6 +99,9 @@ export default {
             this.$nextTick(() => {
                 $('#checkListModal').modal('hide');
             });
+        },
+        convertDateTime(datetime){
+           return datetime ? datetimeUtils.dateTimeVnFormat(datetime) : '';
         }
     },
     computed:{

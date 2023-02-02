@@ -137,7 +137,6 @@ class ChildActivityController extends AppBaseController
                     'child_activities.start_time as start_time', 'child_activities.end_time as end_time',
                 )
                 ->get();
-                Log::debug($actRecriveList);
             foreach($actRecriveList as $act){
                 $attackFiles = DB::table('child_activity_files')->where('id_child_activity', $act->id_child_activity)->get();
                 $act->files = $attackFiles;
@@ -211,7 +210,7 @@ class ChildActivityController extends AppBaseController
 
                     if($notiFromCbl->child_activity_type == AppUtils::TB_GUI_DS_THAM_DU){
                         DB::table('user_activities')->insert([
-                            'id_activities_details' => $act_detail->id_child_activity,
+                            'id_activities_details' => $act_detail->id,
                             'id_user' => $student_id,
                             'created_by' => $user->id,
                         ]);
@@ -260,22 +259,29 @@ class ChildActivityController extends AppBaseController
         try{
             $child_activity_type = $request->get('child_activity_type');
             $userChecklist = [];
-            if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
+            $act_detail = DB::table('activities_details')->where('id',$activity_details_id)->first();
+            if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_DU){
                 $userChecklist = DB::table('user_activities')
                     ->select('users.id as id',DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"),
-                    'user_activities.note as note','users.username as username','user_activities.award as status')
-                    ->leftJoin('users','user_activities.id_user', 'users.id')
+                    'users.username','user_activities.note', 'user_receive_activities.status')
                     ->leftJoin('activities_details','activities_details.id', 'user_activities.id_activities_details')
+                    ->leftJoin('users','user_activities.id_user', 'users.id')
+                    ->leftjoin('user_receive_activities','user_receive_activities.id_user','user_activities.id_user')
                     ->where('activities_details.id',$activity_details_id)
+                    ->where('user_receive_activities.id_child_activity', $act_detail->id_child_activity)
+                    ->where('user_receive_activities.child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU)
                     ->get();
             }
             if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
                 $userChecklist = DB::table('user_join_activities')
                     ->select('users.id as id',DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"),
-                    'user_join_activities.note as note','users.username as username','user_join_activities.status as status')
+                    'user_join_activities.note','users.username','user_receive_activities.status')
                     ->leftJoin('users','user_join_activities.id_user', 'users.id')
                     ->leftJoin('activities_details','activities_details.id', 'user_join_activities.id_activities_details')
+                    ->leftjoin('user_receive_activities','user_receive_activities.id_user','user_join_activities.id_user')
                     ->where('activities_details.id',$activity_details_id)
+                    ->where('user_receive_activities.id_child_activity', $act_detail->id_child_activity)
+                    ->where('user_receive_activities.child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA)
                     ->get();
             }
 
@@ -306,7 +312,7 @@ class ChildActivityController extends AppBaseController
             }
 
             if(!$userUpdate){
-                return $this->sendError(__('message.failed.not_exist',['Bản ghi điểm danh']),Response::HTTP_UNPROCESSABLE_ENTITY);
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'Bản ghi điểm danh']),Response::HTTP_UNPROCESSABLE_ENTITY);
             }
             else{
                 if($child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA){
@@ -384,6 +390,39 @@ class ChildActivityController extends AppBaseController
             DB::rollBack();
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.create',['atribute' => 'minh chứng']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getProoves(Request $request){
+        try{
+            $user_id = $request->user_id;
+            $activity_details_id = $request->activity_details_id;
+            $child_activity_type = $request->child_activity_type;
+            $prooves = [];
+            $act_detail = DB::table('activities_details')->where('id', $activity_details_id)->first();
+            if(!$act_detail){
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'Hoạt động']), Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            if($child_activity_type == AppUtils::TB_GUI_DS_THAM_DU){
+                $prooves = DB::table('user_activities')
+                ->select('user_activity_prooves.*')
+                ->rightJoin('user_activity_prooves','user_activity_prooves.id_user_activities', 'user_activities.id')
+                ->where('user_activities.id_user', $user_id)
+                ->where('user_activities.id_activities_details', $activity_details_id)
+                ->get();
+            } else{
+                $prooves = DB::table('user_join_activities')
+                ->select('user_join_activity_prooves.*')
+                ->rightJoin('user_join_activity_prooves','user_join_activity_prooves.id_user_join_activities', 'user_join_activities.id')
+                ->where('user_join_activities.id_user', $user_id)
+                ->where('user_join_activities.id_activities_details', $activity_details_id)
+                ->get();
+            }
+            return $this->sendResponse($prooves, __('message.success.get_list',['atribute' => 'minh chứng']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'minh chứng']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
