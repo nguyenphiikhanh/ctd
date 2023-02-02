@@ -137,6 +137,7 @@ class ChildActivityController extends AppBaseController
                     'child_activities.start_time as start_time', 'child_activities.end_time as end_time',
                 )
                 ->get();
+                Log::debug($actRecriveList);
             foreach($actRecriveList as $act){
                 $attackFiles = DB::table('child_activity_files')->where('id_child_activity', $act->id_child_activity)->get();
                 $act->files = $attackFiles;
@@ -195,11 +196,12 @@ class ChildActivityController extends AppBaseController
                 if($notiFromCbl->child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
                     $action_flg = AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA;
                 }
+                $act_detail = DB::table('activities_details')->where('id', $notiFromCbl->id_activities_details_assign)->first();
                 foreach($assignTo as $student_id){
                     if($student_id != $user->id){
                         DB::table('user_receive_activities')->insert([
                             'created_by' => $user->id,
-                            'id_child_activity' => $notiFromCbl->id_activities_details_assign,
+                            'id_child_activity' => $act_detail->id_child_activity,
                             'child_activity_type' => $action_flg,
                             'id_user' => $student_id,
                             'small_role_details' => $small_role_details,
@@ -209,7 +211,7 @@ class ChildActivityController extends AppBaseController
 
                     if($notiFromCbl->child_activity_type == AppUtils::TB_GUI_DS_THAM_DU){
                         DB::table('user_activities')->insert([
-                            'id_activities_details' => $notiFromCbl->id_activities_details_assign,
+                            'id_activities_details' => $act_detail->id_child_activity,
                             'id_user' => $student_id,
                             'created_by' => $user->id,
                         ]);
@@ -240,7 +242,7 @@ class ChildActivityController extends AppBaseController
         try{
             $user = $request->user();
             $activityChecklist = DB::table('user_receive_activities')
-                ->join('activities_details','user_receive_activities.id_activities_details_assign', 'activities_details.id')
+                ->leftJoin('activities_details','user_receive_activities.id_activities_details_assign', 'activities_details.id')
                 ->leftJoin('child_activities','child_activities.id','user_receive_activities.id_child_activity')
                 ->select('activities_details.*','child_activities.child_activity_type as child_activity_type')
                 ->where('user_receive_activities.id_user', $user->id)
