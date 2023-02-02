@@ -9,9 +9,6 @@
                     {{activity.child_activity_type == types.THONG_BAO_C0_PHAN_HOI_THAM_DU ? `Danh sách tham dự: ${activity.name}`
                      : `Danh sách tham gia: ${activity.name}`}}</h5></div>
                 <div class="modal-body">
-                    <p v-if="userCheckList.length == 0" class="text-center">
-                        Không có dữ liệu.
-                    </p>
                     <div class="col-12">
                         <table class="table table-striped">
                             <thead>
@@ -42,6 +39,7 @@
                             </tbody>
                         </table>
                     </div>
+                <p v-if="userCheckList.length == 0" class="text-center">Không có dữ liệu.</p>
                 </div>
             </div>
         </div>
