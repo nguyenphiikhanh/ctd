@@ -42,196 +42,35 @@
                             </div>
                         </div>
                         <div class="card card-preview">
-                            <table class="table table-orders">
-                                <thead class="tb-odr-head">
-                                    <tr class="tb-odr-item">
-                                        <th class="tb-odr-info">
-                                            <span class="tb-odr-id">Order ID</span>
-                                            <span class="tb-odr-date d-none d-md-inline-block">Date</span>
-                                        </th>
-                                        <th class="tb-odr-amount">
-                                            <span class="tb-odr-total">Amount</span>
-                                            <span class="tb-odr-status d-none d-md-inline-block">Status</span>
-                                        </th>
-                                        <th class="tb-odr-action">&nbsp;</th>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">STT</th>
+                                        <th scope="col">Tên hoạt động</th>
+                                        <th scope="col">Loại hoạt động</th>
+                                        <th scope="col">Yêu cầu</th>
+                                        <th ></th>
                                     </tr>
-                                </thead>
-                                <tbody class="tb-odr-body">
-                                    <tr class="tb-odr-item">
-                                        <td class="tb-odr-info">
-                                            <span class="tb-odr-id"><a href="#">#746F5K2</a></span>
-                                            <span class="tb-odr-date">23 Jan 2019, 10:45pm</span>
-                                        </td>
-                                        <td class="tb-odr-amount">
-                                            <span class="tb-odr-total">
-                                                <span class="amount">$2300.00</span>
-                                            </span>
-                                            <span class="tb-odr-status">
-                                                <span class="badge badge-dot bg-success">Complete</span>
-                                            </span>
-                                        </td>
-                                        <td class="tb-odr-action">
-                                            <div class="tb-odr-btns d-none d-md-inline">
-                                                <a href="#" class="btn btn-sm btn-primary">View</a>
-                                            </div>
-                                            <div class="dropdown">
-                                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger"
-                                                    data-bs-toggle="dropdown" data-offset="-8,0"><em
-                                                        class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                    <ul class="link-list-plain">
-                                                        <li><a href="#" class="text-primary">Edit</a>
-                                                        </li>
-                                                        <li><a href="#" class="text-primary">View</a>
-                                                        </li>
-                                                        <li><a href="#" class="text-danger">Remove</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="(_item, index) in child_activities" :key="index">
+                                        <th scope="row">{{ index + 1 }}</th>
+                                        <td>{{_item.name}}</td>
+                                        <td><span>{{ activity_type(_item.id_activity) }}</span></td>
+                                        <td><span>{{ requirement(_item.id_activity, _item.child_activity_type) }}</span></td>
+                                        <td>
+                                            <button @click="viewAct(_item)" class="btn btn-sm btn-info">Chi tiết</button>
+                                            <button v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN" class="btn btn-sm btn-primary">Xem danh sách</button>
                                         </td>
                                     </tr>
-                                    <tr class="tb-odr-item">
-                                        <td class="tb-odr-info">
-                                            <span class="tb-odr-id"><a href="#">#546H74W</a></span>
-                                            <span class="tb-odr-date">12 Jan 2020, 10:45pm</span>
-                                        </td>
-                                        <td class="tb-odr-amount">
-                                            <span class="tb-odr-total">
-                                                <span class="amount">$120.00</span>
-                                            </span>
-                                            <span class="tb-odr-status">
-                                                <span class="badge badge-dot bg-warning">Pending</span>
-                                            </span>
-                                        </td>
-                                        <td class="tb-odr-action">
-                                            <div class="tb-odr-btns d-none d-md-inline">
-                                                <a href="#" class="btn btn-sm btn-primary">View</a>
-                                            </div>
-                                            <div class="dropdown">
-                                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger"
-                                                    data-bs-toggle="dropdown" data-offset="-8,0"><em
-                                                        class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                    <ul class="link-list-plain">
-                                                        <li><a href="#" class="text-primary">Edit</a>
-                                                        </li>
-                                                        <li><a href="#" class="text-primary">View</a>
-                                                        </li>
-                                                        <li><a href="#" class="text-danger">Remove</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="tb-odr-item">
-                                        <td class="tb-odr-info">
-                                            <span class="tb-odr-id"><a href="#">#87X6A44</a></span>
-                                            <span class="tb-odr-date">26 Dec 2019, 12:15 pm</span>
-                                        </td>
-                                        <td class="tb-odr-amount">
-                                            <span class="tb-odr-total">
-                                                <span class="amount">$560.00</span>
-                                            </span>
-                                            <span class="tb-odr-status">
-                                                <span class="badge badge-dot bg-success">Complete</span>
-                                            </span>
-                                        </td>
-                                        <td class="tb-odr-action">
-                                            <div class="tb-odr-btns d-none d-md-inline">
-                                                <a href="#" class="btn btn-sm btn-primary">View</a>
-                                            </div>
-                                            <div class="dropdown">
-                                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger"
-                                                    data-bs-toggle="dropdown" data-offset="-8,0"><em
-                                                        class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                    <ul class="link-list-plain">
-                                                        <li><a href="#" class="text-primary">Edit</a>
-                                                        </li>
-                                                        <li><a href="#" class="text-primary">View</a>
-                                                        </li>
-                                                        <li><a href="#" class="text-danger">Remove</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="tb-odr-item">
-                                        <td class="tb-odr-info">
-                                            <span class="tb-odr-id"><a href="#">#986G531</a></span>
-                                            <span class="tb-odr-date">21 Jan 2019, 6 :12 am</span>
-                                        </td>
-                                        <td class="tb-odr-amount">
-                                            <span class="tb-odr-total">
-                                                <span class="amount">$3654.00</span>
-                                            </span>
-                                            <span class="tb-odr-status">
-                                                <span class="badge badge-dot bg-danger">Cancelled</span>
-                                            </span>
-                                        </td>
-                                        <td class="tb-odr-action">
-                                            <div class="tb-odr-btns d-none d-md-inline">
-                                                <a href="#" class="btn btn-sm btn-primary">View</a>
-                                            </div>
-                                            <div class="dropdown">
-                                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger"
-                                                    data-bs-toggle="dropdown" data-offset="-8,0"><em
-                                                        class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                    <ul class="link-list-plain">
-                                                        <li><a href="#" class="text-primary">Edit</a>
-                                                        </li>
-                                                        <li><a href="#" class="text-primary">View</a>
-                                                        </li>
-                                                        <li><a href="#" class="text-danger">Remove</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="tb-odr-item">
-                                        <td class="tb-odr-info">
-                                            <span class="tb-odr-id"><a href="#">#326T4M9</a></span>
-                                            <span class="tb-odr-date">21 Jan 2019, 6 :12 am</span>
-                                        </td>
-                                        <td class="tb-odr-amount">
-                                            <span class="tb-odr-total">
-                                                <span class="amount">$200.00</span>
-                                            </span>
-                                            <span class="tb-odr-status">
-                                                <span class="badge badge-dot bg-success">Complete</span>
-                                            </span>
-                                        </td>
-                                        <td class="tb-odr-action">
-                                            <div class="tb-odr-btns d-none d-md-inline">
-                                                <a href="#" class="btn btn-sm btn-primary">View</a>
-                                            </div>
-                                            <div class="dropdown">
-                                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger"
-                                                    data-bs-toggle="dropdown" data-offset="-8,0"><em
-                                                        class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
-                                                    <ul class="link-list-plain">
-                                                        <li><a href="#" class="text-primary">Edit</a>
-                                                        </li>
-                                                        <li><a href="#" class="text-primary">View</a>
-                                                        </li>
-                                                        <li><a href="#" class="text-danger">Remove</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div><!-- .card -->
                     </div><!-- nk-block -->
                 </div>
+                <view-activity/>
             </div>
         </div>
     </div>
@@ -239,19 +78,106 @@
 
 <script>
 
+import {mapActions} from "vuex";
+import {asyncLoading} from "vuejs-loading-plugin";
+import constants from "../../constants";
+import viewActivity from "./ThongBao/child/ViewActivity.vue";
+
 export default {
+    components:{
+        viewActivity,
+    },
     data(){
         return{
-
+            child_activities: [],
         }
     },
     computed:{
+        loai_hoat_dong(){
+          return constants.LOAI_HOAT_DONG;
+        },
+        action(){
+            return constants.HOAT_DONG;
+        }
     },
     methods:{
+        ...mapActions({
+            getChildActivities: "activity/getChildActivities",
+        }),
+        async getChildActList(){
+            await this.getChildActivities().then(res => this.child_activities = [...res.data]);
+        },
+        viewAct(_item){
 
+        },
+        activity_type(id_act){
+            switch (id_act){
+                case this.loai_hoat_dong.HOAT_DONG_NCKH:
+                    return 'Nghiên cứu khoa học';
+                    break;
+                case this.loai_hoat_dong.HOAT_DONG_NVSP:
+                    return 'Nghiệp vụ Sư phạm';
+                    break;
+                case this.loai_hoat_dong.HOAT_DONG_DOAN:
+                    return 'Hoạt động Đoàn';
+                    break;
+                default: return 'Khác';
+            }
+        },
+        requirement(id_activity, child_activity_type){
+            switch (id_activity){
+                case this.loai_hoat_dong.HOAT_DONG_NCKH:
+                    switch (child_activity_type) {
+                        case this.action.PHAN_THI_OR_TIEU_BAN:
+                            return 'Tiểu ban';
+                            break;
+                        case this.action.TB_GUI_DS_THAM_DU:
+                            return 'Gửi danh sách dự thi';
+                            break;
+                        case this.action.TB_GUI_DS_THAM_GIA:
+                            return 'Gửi danh sách tham gia';
+                            break;
+                        case this.action.THONG_BA0_KHONG_PHAN_HOI:
+                            return 'Thông báo';
+                            break;
+                    }
+                    break;
+                case this.loai_hoat_dong.HOAT_DONG_NVSP:
+                    switch (child_activity_type) {
+                        case this.action.PHAN_THI_OR_TIEU_BAN:
+                            return 'Phần thi';
+                            break;
+                        case this.action.TB_GUI_DS_THAM_DU:
+                            return 'Gửi danh sách dự thi';
+                            break;
+                        case this.action.TB_GUI_DS_THAM_GIA:
+                            return 'Gửi danh sách tham gia';
+                            break;
+                        case this.action.THONG_BA0_KHONG_PHAN_HOI:
+                            return 'Thông báo';
+                            break;
+                    }
+                    break;
+                default:
+                    switch (child_activity_type) {
+                        case this.action.PHAN_THI_OR_TIEU_BAN:
+                            return 'Hoạt động';
+                            break;
+                        case this.action.TB_GUI_DS_THAM_DU:
+                            return 'Gửi danh sách dự thi';
+                            break;
+                        case this.action.TB_GUI_DS_THAM_GIA:
+                            return 'Gửi danh sách tham gia';
+                            break;
+                        case this.action.THONG_BA0_KHONG_PHAN_HOI:
+                            return 'Thông báo';
+                            break;
+                    }
+            }
+        }
     },
     mounted() {
-
+        asyncLoading(this.getChildActList());
     }
 }
 </script>

@@ -2,6 +2,12 @@ import status from "./status";
 import roles from "./roles";
 
 export default {
+    LOAI_HOAT_DONG:{
+        HOAT_DONG_NCKH: 1,
+        HOAT_DONG_NVSP: 2,
+        HOAT_DONG_DOAN: 3,
+        HOAT_DONG_KHAC: 4,
+    },
     HOAT_DONG:{
         THONG_BA0_KHONG_PHAN_HOI: 1,
         THONG_BAO_C0_PHAN_HOI: 2,

@@ -49,6 +49,7 @@ Route::prefix('v1')->group(function(){
 
         // hoạt động
         Route::get('/activities','Auth\ActivityController@index');
+        Route::get('/child-activities','Auth\ChildActivityController@index');
         Route::post('/child-activities','Auth\ChildActivityController@store');
         Route::get('/receive-activities','Auth\ChildActivityController@getActivitiesReceive');
         Route::post('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');

@@ -58,7 +58,7 @@
                                         <li>
                                             <div class="custom-control custom-radio custom-control-pro no-control">
                                                 <input v-model="loai_phan_hoi" type="radio" :value="hoat_dong.TB_GUI_DS_THAM_DU" class="custom-control-input" id="act-act">
-                                                <label class="custom-control-label" for="act-act">Gửi danh sách tham dự</label>
+                                                <label class="custom-control-label" for="act-act">Gửi danh sách dự thi</label>
                                             </div>
                                         </li>
                                         <li>

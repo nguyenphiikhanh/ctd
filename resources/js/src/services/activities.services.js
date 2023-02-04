@@ -11,6 +11,9 @@ export default {
             },
         });
     },
+    getChildActivities(){
+        return http.get('/child-activities');
+    },
     getActivitiesReceive(){
         return http.get('/receive-activities');
     },

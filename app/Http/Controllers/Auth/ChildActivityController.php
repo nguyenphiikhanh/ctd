@@ -24,7 +24,14 @@ class ChildActivityController extends AppBaseController
     public function index()
     {
         //
-
+        try{
+            $child_activities = DB::table('child_activities')->get();
+            return $this->sendResponse($child_activities, __('message.success.get_list',['atribute' => 'hoạt động']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'hoạt động']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function create(){
