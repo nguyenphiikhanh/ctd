@@ -43,4 +43,8 @@ export default {
             },
         });
     },
+
+    getProoves(data){
+        return http.get('/prooves',{params: data});
+    }
 }

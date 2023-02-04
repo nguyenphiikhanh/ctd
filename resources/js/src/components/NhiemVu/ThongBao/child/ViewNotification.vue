@@ -40,9 +40,17 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="form-label">Trạng thái:&nbsp;</label>
-                            <span class="badge bg-success" v-if="notifyInfo.status == status.STATUS_HOAN_THANH">Đã hoàn thành</span>
+                            <span class="badge bg-success" v-if="notifyInfo.status == status.STATUS_HOAN_THANH || notifyInfo.status == status.STATUS_DUYET">Đã hoàn thành</span>
                             <span class="badge bg-warning" v-if="notifyInfo.status == status.STATUS_CHO_DUYET">Đang chờ duyệt</span>
                             <span class="badge bg-danger" v-if="notifyInfo.status == status.STATUS_CHUA_HOAN_THANH">Chưa hoàn thành</span>
+                            <span class="badge bg-danger" v-if="notifyInfo.status == status.STATUS_TU_CHOI">Minh chứng không được xét duyệt</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-label">Ghi chú:&nbsp;</label>
+                            <div class="form-control-wrap" v-if="!notifyInfo.note">Không có ghi chú.</div>
+                            <div class="form-control-wrap" v-if="notifyInfo.note">{{ notifyInfo.note }}</div>
                         </div>
                     </div>
                     <div class="col-12" v-if="canUploadProof">
@@ -136,7 +144,8 @@ export default {
         canUploadProof(){
             return (this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA
             || this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_DU)
-            && this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH;
+            && (this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH
+            || this.notifyInfo.status == this.status.STATUS_TU_CHOI);
         },
         proofContent(){
             if(this.proof.length == 0){

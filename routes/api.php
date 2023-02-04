@@ -54,7 +54,12 @@ Route::prefix('v1')->group(function(){
         Route::get('/receive-activities','Auth\ChildActivityController@getActivitiesReceive');
         Route::post('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');
         Route::get('/child-activity-responsiable','Auth\ChildActivityController@getActivityResponsiable');
+
+        //minh chứng
+        Route::get('/prooves','Auth\ChildActivityController@getProoves');
         Route::post('/proof/store','Auth\ChildActivityController@storeProof'); // upload minh chứng
+
+
 
         //điểm danh
         Route::get('/checkList-activities','Auth\ChildActivityController@getActivitiesForCheckList');
