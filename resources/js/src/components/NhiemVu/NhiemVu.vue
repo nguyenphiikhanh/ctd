@@ -70,7 +70,7 @@
                         </div><!-- .card -->
                     </div><!-- nk-block -->
                 </div>
-                <view-activity/>
+                <ViewChildActivity :childActInfo="child_act_view" @closeModal="closeModal()"/>
             </div>
         </div>
     </div>
@@ -81,15 +81,19 @@
 import {mapActions} from "vuex";
 import {asyncLoading} from "vuejs-loading-plugin";
 import constants from "../../constants";
-import viewActivity from "./ThongBao/child/ViewActivity.vue";
+import ViewChildActivity from "./authorize/child/ViewChildActivity.vue";
 
 export default {
     components:{
-        viewActivity,
+        ViewChildActivity,
     },
     data(){
         return{
             child_activities: [],
+            child_act_view: {
+                files: [],
+            },
+            user_act: [],
         }
     },
     computed:{
@@ -108,7 +112,15 @@ export default {
             await this.getChildActivities().then(res => this.child_activities = [...res.data]);
         },
         viewAct(_item){
-
+            this.child_act_view = _item;
+            this.$nextTick(() => {
+                $('#viewChildAct').modal('show');
+            });
+        },
+        closeModal(){
+            this.$nextTick(() => {
+                $('#viewChildAct').modal('hide');
+            });
         },
         activity_type(id_act){
             switch (id_act){

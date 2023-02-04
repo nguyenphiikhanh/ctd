@@ -16,9 +16,9 @@
                     </div>
                     <div class="col-12 mt-2">
                         <div class="form-group">
-                            <label class="form-label">Ghi chú:</label>
+                            <label class="form-label">Nội dung:</label>
                             <div class="form-control-wrap" v-if="notifyInfo.details" v-html="notifyInfo.details"></div>
-                            <div class="form-control-wrap" v-if="!notifyInfo.details">Không có ghi chú.</div>
+                            <div class="form-control-wrap" v-if="!notifyInfo.details">Không có nội dung.</div>
                         </div>
                     </div>
                     <div class="col-12 mt-2">

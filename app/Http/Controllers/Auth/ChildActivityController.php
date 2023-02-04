@@ -26,6 +26,10 @@ class ChildActivityController extends AppBaseController
         //
         try{
             $child_activities = DB::table('child_activities')->get();
+            foreach($child_activities as $child_act){
+                $child_act->files = DB::table('child_activity_files')
+                    ->where('id_child_activity', $child_act->id)->get();
+            }
             return $this->sendResponse($child_activities, __('message.success.get_list',['atribute' => 'hoạt động']));
         }
         catch(\Exception $e){
@@ -84,37 +88,30 @@ class ChildActivityController extends AppBaseController
             //khong phan hoi
             elseif($action == AppUtils::THONG_BA0_KHONG_PHAN_HOI){
                 foreach($assignTo as $receiveObj){
-                    if($user->role == RoleUtils::ROLE_DOAN_TRUONG){
-                        $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
-                            ->where('id_class', $receiveObj)->first();
-                        DB::table('user_receive_activities')->insert([
-                            'id_user' => $user_cbl->id,
-                            'id_child_activity' => $child_act->id,
-                            'child_activity_type' => $responseType ? $responseType : $action,
-                            'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
-                            'created_by' => $user->id,
-                        ]);
-                    }
+                    $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
+                        ->where('id_class', $receiveObj)->first();
+                    DB::table('user_receive_activities')->insert([
+                        'id_user' => $user_cbl->id,
+                        'id_child_activity' => $child_act->id,
+                        'child_activity_type' => $responseType ? $responseType : $action,
+                        'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                        'created_by' => $user->id,
+                    ]);
                 }
             }
             // co phan hoi
             else{
-                if($user->role == RoleUtils::ROLE_DOAN_TRUONG){
-                    foreach($assignTo as $receiveObj){
-                        $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
-                        ->where('id_class', $receiveObj)->first();
-                        DB::table('user_receive_activities')->insert([
-                            'id_user' => $user_cbl->id,
-                            'id_child_activity' => $child_act->id,
-                            'child_activity_type' => $responseType ? $responseType : $action,
-                            'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
-                            'id_activities_details_assign' => $assignChildActivity,
-                            'created_by' => $user->id,
-                        ]);
-                    }
-                }
-                else{
-
+                foreach($assignTo as $receiveObj){
+                    $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
+                    ->where('id_class', $receiveObj)->first();
+                    DB::table('user_receive_activities')->insert([
+                        'id_user' => $user_cbl->id,
+                        'id_child_activity' => $child_act->id,
+                        'child_activity_type' => $responseType ? $responseType : $action,
+                        'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                        'id_activities_details_assign' => $assignChildActivity,
+                        'created_by' => $user->id,
+                    ]);
                 }
             }
             //save file upload

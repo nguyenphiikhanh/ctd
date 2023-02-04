@@ -121,7 +121,7 @@
                                     </div>
                                 </div>
 <!--                                đối tượng nhận-->
-                                <GiaoNhiemVu_Truong :class-choose="doi_tuong" @emitChange="changeDoiTuong" v-if="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
+                                <SetUpChildActivity :class-choose="doi_tuong" @emitChange="changeDoiTuong" v-if="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
 
                                 <div class="col-12 d-flex justify-content-center">
                                     <button v-if="isValid" @click="onSaveChildActivity()" class="btn btn-primary mb-3">Tạo nhiệm vụ</button>
@@ -138,7 +138,7 @@
 <script>
 import constants from "../../constants";
 import datetimeUtils from "../../helpers/utils/datetimeUtils";
-import GiaoNhiemVu_Truong from "./authorize/giaoNv/GiaoNhiemVu_Truong";
+import SetUpChildActivity from "./authorize/giaoNv/SetUpChildActivity.vue";
 import {mapActions} from "vuex";
 import { asyncLoading } from 'vuejs-loading-plugin';
 import DatePicker from 'vue2-datepicker';
@@ -146,7 +146,7 @@ import { VueEditor } from "vue2-editor";
 
 export default {
     components:{
-      GiaoNhiemVu_Truong,
+      SetUpChildActivity,
       DatePicker,
       VueEditor
     },

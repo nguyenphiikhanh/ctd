@@ -8,6 +8,12 @@ namespace App\Http\Utils;
  */
 
  class AppUtils{
+   // Loại nhiệm vụ(activities)
+   const HOAT_DONG_NCKH = 1;
+   const HOAT_DONG_NVSP = 2;
+   const HOAT_DONG_DOAN = 3;
+   const HOAT_DONG_KHAC = 4;
+
     // Kiểu(child_activities)
     const THONG_BA0_KHONG_PHAN_HOI = 1;
     const THONG_BAO_CO_PHAN_HOI = 2;
@@ -16,12 +22,6 @@ namespace App\Http\Utils;
     const PHAN_THI_OR_TIEU_BAN = 5;
     const TB_GUI_DS_THAM_DU = 6;
     const TB_GUI_DS_THAM_GIA = 7;
-
-    // Loại nhiệm vụ(activities)
-    const ACTION_NCKH = 1;
-    const ACTION_NVSP = 2;
-    const ACTION_DOAN = 3;
-    const ACTION_KHAC = 4;
 
     // trạng thái nhiệm vụ(status)
     const STATUS_CHUA_HOAN_THANH = 0;
