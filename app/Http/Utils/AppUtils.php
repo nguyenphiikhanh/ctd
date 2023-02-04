@@ -26,8 +26,8 @@ namespace App\Http\Utils;
     // trạng thái nhiệm vụ(status)
     const STATUS_CHUA_HOAN_THANH = 0;
     const STATUS_HOAN_THANH = 1;
-    const STATUS_CHO_DUYET = 9;
-    const STATUS_DUYET = 8;
+    const STATUS_VANG_MAT = 6;
     const STATUS_TU_CHOI = 7;
-    const STATUS_VANG_MAT = null;
+    const STATUS_DUYET = 8;
+    const STATUS_CHO_DUYET = 9;
  }

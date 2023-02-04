@@ -55,6 +55,8 @@ Route::prefix('v1')->group(function(){
         Route::post('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');
         Route::get('/child-activity-responsiable','Auth\ChildActivityController@getActivityResponsiable');
         Route::get('/child-activity/{id}/users','Auth\ChildActivityController@getUserActivity');
+        //update giải thưởng
+        Route::put('/user-activity/{id}/update','Auth\ChildActivityController@awardUpdate');
         //minh chứng
         Route::get('/prooves','Auth\ChildActivityController@getProoves');
         Route::post('/proof/store','Auth\ChildActivityController@storeProof'); // upload minh chứng

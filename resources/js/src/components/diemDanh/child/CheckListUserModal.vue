@@ -30,14 +30,14 @@
                                     <select v-if="user.status != statuses.STATUS_CHO_DUYET && user.status != statuses.STATUS_DUYET && user.status != statuses.STATUS_TU_CHOI" v-model="user.status" @change="onUpdateStatus(user)" class="form-control w-90">
                                         <option :value="statuses.STATUS_CHUA_HOAN_THANH">Chưa hoàn thành</option>
                                         <option :value="statuses.STATUS_HOAN_THANH">Hoàn thành</option>
-                                        <option :value="null">Vắng mặt</option>
+                                        <option :value="statuses.STATUS_VANG_MAT">Vắng mặt</option>
                                     </select>
                                     <span v-if="user.status == statuses.STATUS_CHO_DUYET" class="text-warning">Chờ xét duyệt</span>
                                     <span v-if="user.status == statuses.STATUS_DUYET" class="text-success">Đã xét duyệt</span>
                                     <span v-if="user.status == statuses.STATUS_TU_CHOI" class="text-danger">Không duyệt minh chứng</span>
                                 </td>
                                 <td>
-                                    <input v-model="user.note" @blur="onUpdateStatus(user)" class="form-control" placeholder="Ghi chú">
+                                    <input v-model="user.note" @keyup.enter="$event.target.blur()" @blur="onUpdateStatus(user)" class="form-control" placeholder="Ghi chú">
                                 </td>
                                 <td class="d-flex justify-content-center">
                                     <div v-if="user.status == statuses.STATUS_CHO_DUYET">

@@ -28,11 +28,11 @@
                                 </td>
                                 <td>
                                     <input v-if="user.status != status.STATUS_DUYET && user.status != status.STATUS_HOAN_THANH" class="form-control" disabled placeholder="Chưa thể cập nhật">
-                                    <select v-else v-model="user.award" class="form-select">
-                                        <option :value="awards.NO_AWARDS">Chưa có giải thưởng</option>
-                                        <option :value="awards.GIAI_NHAT">Giải nhất</option>
-                                        <option :value="awards.GIAI_NHI">Giải nhì</option>
-                                        <option :value="awards.GIAI_BA">Giải ba</option>
+                                    <select v-else v-model="user.award" @change="onUpdateAward(user)" class="form-select">
+                                        <option :value="awards.NO_AWARDS">Chưa có Giải thưởng</option>
+                                        <option :value="awards.GIAI_NHAT">Giải Nhất</option>
+                                        <option :value="awards.GIAI_NHI">Giải Nhì</option>
+                                        <option :value="awards.GIAI_BA">Giải Ba</option>
                                         <option :value="awards.GIAI_KHUYEN_KHICH">Giải Khuyến khích</option>
                                     </select>
                                 </td>
@@ -65,10 +65,17 @@ export default {
     },
     methods:{
         ...mapActions({
-
+            updateUserActivityAward: 'activity/updateUserActivityAward',
         }),
         closeModal(){
             this.$emit('closeModal');
+        },
+        async onUpdateAward(user){
+            const data = {
+                id: user.id_user_activity,
+                award: user.award
+            }
+            await this.updateUserActivityAward(data);
         },
         statusText(status){
             switch(status){
@@ -80,6 +87,9 @@ export default {
                     break;
                 case this.status.STATUS_CHO_DUYET:
                     return 'Chờ duyệt minh chứng';
+                    break;
+                case this.status.STATUS_VANG_MAT:
+                    return 'Vắng mặt';
                     break;
                 default: return 'Chưa hoàn thành';
             }

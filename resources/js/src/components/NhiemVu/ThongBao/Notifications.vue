@@ -40,6 +40,7 @@
                                                <span class="badge bg-warning" v-if="_item.status == status.STATUS_CHO_DUYET">Đang chờ duyệt</span>
                                                <span class="badge bg-danger" v-if="_item.status == status.STATUS_CHUA_HOAN_THANH">Chưa hoàn thành</span>
                                                <span class="badge bg-danger" v-if="_item.status == status.STATUS_TU_CHOI">Minh chứng không được xét duyệt</span>
+                                               <span class="badge bg-danger" v-if="_item.status == status.STATUS_VANG_MAT">Vắng mặt</span>
                                             </span>
                                         </td>
                                         <td>

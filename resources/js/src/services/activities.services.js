@@ -50,5 +50,9 @@ export default {
 
     getUserActivities(id){
         return http.get(`/child-activity/${id}/users`);
+    },
+
+    updateUserActivityAward(id, data){
+        return http.put(`/user-activity/${id}/update`, data);
     }
 }

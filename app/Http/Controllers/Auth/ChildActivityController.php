@@ -147,8 +147,8 @@ class ChildActivityController extends AppBaseController
                     $user_act = DB::table('user_activities')
                         ->select('user_activities.*')
                         ->join('activities_details', 'activities_details.id', 'user_activities.id_activities_details')
-                        ->join('user_receive_activities','user_receive_activities.id_child_activity', 'activities_details.id_child_activity')
-                        ->where('user_receive_activities.id_user',$act->id_user)
+                        ->leftJoin('user_receive_activities','user_receive_activities.id_child_activity', 'activities_details.id_child_activity')
+                        ->where('user_activities.id_user',$act->id_user)
                         ->where('user_receive_activities.id_child_activity', $act->id_child_activity)
                         ->where('user_receive_activities.child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU)
                         ->first();
@@ -158,8 +158,8 @@ class ChildActivityController extends AppBaseController
                     $user_act = DB::table('user_join_activities')
                     ->select('user_join_activities.*')
                     ->join('activities_details', 'activities_details.id', 'user_join_activities.id_activities_details')
-                    ->join('user_receive_activities','user_receive_activities.id_child_activity', 'activities_details.id_child_activity')
-                    ->where('user_receive_activities.id_user',$act->id_user)
+                    ->leftJoin('user_receive_activities','user_receive_activities.id_child_activity', 'activities_details.id_child_activity')
+                    ->where('user_join_activities.id_user',$act->id_user)
                     ->where('user_receive_activities.id_child_activity', $act->id_child_activity)
                     ->where('user_receive_activities.child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU)
                     ->first();
@@ -507,6 +507,29 @@ class ChildActivityController extends AppBaseController
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.get_list',['atribute' => 'người dự thi']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function awardUpdate(Request $request, $id_user_act){
+        try{
+            $user_act = DB::table('user_activities')
+                ->where('id', $id_user_act)->first();
+            if(!$user_act){
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'Hoạt động']));
+                return;
+            }
+            $award = $request->get('award', 0);
+            $user_act = DB::table('user_activities')
+            ->where('id', $id_user_act)
+            ->update([
+                'award' => $award
+            ]);
+
+            return $this->sendResponse('', __('message.success.update',['atribute' => 'giải thưởng']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'giải thưởng']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
