@@ -56,7 +56,7 @@
                                     <h6 class="title mb-3 mt-4">Loại phản hồi</h6>
                                     <ul class="custom-control-group">
                                         <li>
-                                            <div class="custom-control custom-radio custom-control-pro no-control">
+                                            <div v-if="hoat_dong_choose != loai_hoat_dong.HOAT_DONG_NCKH" class="custom-control custom-radio custom-control-pro no-control">
                                                 <input v-model="loai_phan_hoi" type="radio" :value="hoat_dong.TB_GUI_DS_THAM_DU" class="custom-control-input" id="act-act">
                                                 <label class="custom-control-label" for="act-act">Gửi danh sách dự thi</label>
                                             </div>
@@ -171,6 +171,9 @@ export default {
         }
     },
     computed:{
+        loai_hoat_dong(){
+            return constants.LOAI_HOAT_DONG;
+        },
         hoat_dong(){
             return constants.HOAT_DONG;
         },

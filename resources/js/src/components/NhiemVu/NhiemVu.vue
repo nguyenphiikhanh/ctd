@@ -61,7 +61,7 @@
                                         <td><span>{{ requirement(_item.id_activity, _item.child_activity_type) }}</span></td>
                                         <td>
                                             <button @click="viewAct(_item)" class="btn btn-sm btn-info">Chi tiết</button>
-                                            <button v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN" class="btn btn-sm btn-primary">Xem danh sách</button>
+                                            <button @click="showUserActivityList(_item.id)" v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN" class="btn btn-sm btn-primary">Danh sách</button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -71,6 +71,7 @@
                     </div><!-- nk-block -->
                 </div>
                 <ViewChildActivity :childActInfo="child_act_view" @closeModal="closeModal()"/>
+                <ViewUserActivity :user-list="user_acts" @closeModal="closeModal()"/>
             </div>
         </div>
     </div>
@@ -82,10 +83,12 @@ import {mapActions} from "vuex";
 import {asyncLoading} from "vuejs-loading-plugin";
 import constants from "../../constants";
 import ViewChildActivity from "./authorize/child/ViewChildActivity.vue";
+import ViewUserActivity from "./authorize/child/ViewUserActivity.vue";
 
 export default {
     components:{
         ViewChildActivity,
+        ViewUserActivity
     },
     data(){
         return{
@@ -93,7 +96,7 @@ export default {
             child_act_view: {
                 files: [],
             },
-            user_act: [],
+            user_acts: [],
         }
     },
     computed:{
@@ -107,6 +110,7 @@ export default {
     methods:{
         ...mapActions({
             getChildActivities: "activity/getChildActivities",
+            getUserActivities: "activity/getUserActivities",
         }),
         async getChildActList(){
             await this.getChildActivities().then(res => this.child_activities = [...res.data]);
@@ -120,7 +124,19 @@ export default {
         closeModal(){
             this.$nextTick(() => {
                 $('#viewChildAct').modal('hide');
+                $('#viewUserAct').modal('hide');
             });
+        },
+        async showUserActivityList(child_act_id){
+            this.$loading(true);
+            await this.getUserActivities(child_act_id)
+                .then(res => {
+                    this.user_acts = [...res.data];
+                    this.$nextTick(() => {
+                        $('#viewUserAct').modal('show');
+                    });
+                })
+                .finally(() => this.$loading(false));
         },
         activity_type(id_act){
             switch (id_act){

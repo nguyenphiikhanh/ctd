@@ -479,6 +479,37 @@ class ChildActivityController extends AppBaseController
         }
     }
 
+    public function getUserActivity($id_child_act){
+        try{
+            $child_act = DB::table('child_activities')->where('id', $id_child_act)->first();
+            if(!$child_act){
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'Hoạt động']), Response::HTTP_UNPROCESSABLE_ENTITY);
+                return;
+            }
+            $userActs = DB::table('child_activities')
+                ->join('activities_details', 'activities_details.id_child_activity', 'child_activities.id')
+                ->leftJoin('user_activities','user_activities.id_activities_details', 'activities_details.id')
+                ->leftJoin('users', 'user_activities.id_user', 'users.id')
+                ->leftJoin('user_receive_activities',function($leftJoin) use($id_child_act){
+                    $leftJoin->on('user_receive_activities.id_child_activity', '=', 'child_activities.id');
+                    $leftJoin->on('user_receive_activities.id_user', '=', 'user_activities.id_user');
+                    $leftJoin->where('user_receive_activities.child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU);
+                })
+                ->select('users.id', DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"), 'users.username',
+                'user_receive_activities.status as status',
+                'user_activities.id as id_user_activity',
+                'user_activities.award as award')
+                ->where('child_activities.id', $id_child_act)
+                ->get();
+
+            return $this->sendResponse($userActs, __('message.success.get_list',['atribute' => 'người dự thi']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'người dự thi']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     /**
      * Display the specified resource.
      *

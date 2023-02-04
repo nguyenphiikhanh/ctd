@@ -46,5 +46,9 @@ export default {
 
     getProoves(data){
         return http.get('/prooves',{params: data});
+    },
+
+    getUserActivities(id){
+        return http.get(`/child-activity/${id}/users`);
     }
 }

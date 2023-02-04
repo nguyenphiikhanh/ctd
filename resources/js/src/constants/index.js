@@ -1,5 +1,6 @@
 import status from "./status";
 import roles from "./roles";
+import awards from "./awards";
 
 export default {
     LOAI_HOAT_DONG:{
@@ -20,4 +21,5 @@ export default {
 
     status,
     roles,
+    awards
 }

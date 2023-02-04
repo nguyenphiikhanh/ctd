@@ -26,7 +26,12 @@
                             <label class="form-label">Tệp đính kèm:</label>
                             <div class="form-control-wrap" v-if="childActInfo.files.length == 0">Không có tệp đính kèm.</div>
                             <div class="form-control-wrap d-block">
-                                <a class="d-block blue-text" :href="file.file_path" :download="file.file_name" v-for="(file, index) in childActInfo.files" :key="index">{{file.file_name}}</a>
+                                <a class="d-block mb-1" :href="file.file_path" :download="file.file_name" v-for="(file, index) in childActInfo.files" :key="index">
+                                    <button class="btn btn-light w-100">
+                                        <em class="icon ni ni-file"></em>
+                                        {{file.file_name}}
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -61,14 +66,6 @@ export default {
             this.$emit('closeModal');
         },
     },
-    computed:{
-        status(){
-            return constants.status;
-        },
-        action(){
-            return constants.HOAT_DONG;
-        },
-    }
 };
 </script>
 
