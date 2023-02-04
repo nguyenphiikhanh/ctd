@@ -61,7 +61,8 @@ class ChildActivityController extends AppBaseController
             $details = $request->get('details');
             $start_time = $request->get('start_time');
             $end_time = $request->get('end_time');
-            $assignTo = $request->get('assignTo',[]);
+            $assignToClasses = $request->get('assignToClasses',[]);
+            $assignToStudents = $request->get('assignToStudents',[]);
             $assignChildActivity = $request->get('assignChildActivity');
             $files = $request->file('files',[]);
             DB::beginTransaction();
@@ -75,8 +76,9 @@ class ChildActivityController extends AppBaseController
                 'created_by' => $user->id,
             ]);
             // phan thi or tieu ban
+            $id_act_details = null;
             if($action == AppUtils::PHAN_THI_OR_TIEU_BAN){
-                DB::table('activities_details')->insert([
+                $id_act_details = DB::table('activities_details')->insertGetId([
                     'id_child_activity' => $child_act->id,
                     'name' => $name,
                     'start_time' => $start_time,
@@ -87,7 +89,7 @@ class ChildActivityController extends AppBaseController
             }
             //khong phan hoi
             elseif($action == AppUtils::THONG_BA0_KHONG_PHAN_HOI){
-                foreach($assignTo as $receiveObj){
+                foreach($assignToClasses as $receiveObj){
                     $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
                         ->where('id_class', $receiveObj)->first();
                     DB::table('user_receive_activities')->insert([
@@ -101,17 +103,38 @@ class ChildActivityController extends AppBaseController
             }
             // co phan hoi
             else{
-                foreach($assignTo as $receiveObj){
-                    $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
-                    ->where('id_class', $receiveObj)->first();
-                    DB::table('user_receive_activities')->insert([
-                        'id_user' => $user_cbl->id,
-                        'id_child_activity' => $child_act->id,
-                        'child_activity_type' => $responseType ? $responseType : $action,
-                        'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
-                        'id_activities_details_assign' => $assignChildActivity,
-                        'created_by' => $user->id,
-                    ]);
+                // NCKH
+                if($activity == AppUtils::HOAT_DONG_NCKH && $action == AppUtils::PHAN_THI_OR_TIEU_BAN){
+                    foreach($assignToStudents as $student){
+                        DB::table('user_receive_activities')->insert([
+                            'id_user' => $student->id,
+                            'id_child_activity' => $child_act->id,
+                            'child_activity_type' => AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU,
+                            'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                            'id_activities_details_assign' => $assignChildActivity,
+                            'created_by' => $user->id,
+                        ]);
+                        DB::table('user_activities')->insert([
+                            'id_user' => $student->id,
+                            'id_activities_details' => $id_act_details,
+                            'created_by' => $user->id,
+                        ]);
+                    }
+                }
+                //
+                else{
+                    foreach($assignToClasses as $receiveObj){
+                        $user_cbl = DB::table('users')->where('role',RoleUtils::ROLE_CBL)
+                        ->where('id_class', $receiveObj)->first();
+                        DB::table('user_receive_activities')->insert([
+                            'id_user' => $user_cbl->id,
+                            'id_child_activity' => $child_act->id,
+                            'child_activity_type' => $responseType ? $responseType : $action,
+                            'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                            'id_activities_details_assign' => $assignChildActivity,
+                            'created_by' => $user->id,
+                        ]);
+                    }
                 }
             }
             //save file upload
@@ -495,11 +518,14 @@ class ChildActivityController extends AppBaseController
                     $leftJoin->on('user_receive_activities.id_user', '=', 'user_activities.id_user');
                     $leftJoin->where('user_receive_activities.child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU);
                 })
+                ->leftJoin('classes', 'users.id_class', 'classes.id')
                 ->select('users.id', DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"), 'users.username',
+                'classes.class_name',
                 'user_receive_activities.status as status',
                 'user_activities.id as id_user_activity',
                 'user_activities.award as award')
                 ->where('child_activities.id', $id_child_act)
+                ->orderBy('classes.class_name')
                 ->get();
 
             return $this->sendResponse($userActs, __('message.success.get_list',['atribute' => 'người dự thi']));

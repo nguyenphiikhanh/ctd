@@ -11,5 +11,9 @@ export default {
 
     changeCbSetting(data){
         return http.put('/student/cbSetting', data);
+    },
+
+    getStudentByFaculty(id_faculty, params = null){
+        return http.get(`/student/faculty/${id_faculty}`, {params: params});
     }
 }

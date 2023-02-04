@@ -26,11 +26,11 @@ class StudentController extends AppBaseController
                 ->where('id_class', $class_id)
                 ->select('id','ho','ten', 'email', 'username', 'role')
                 ->get();
-            return $this->sendResponse($students,__('message.success.get_list',['atribute' => 'Đoàn viên']));
+            return $this->sendResponse($students,__('message.success.get_list',['atribute' => 'sinh viên']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.get_list',['atribute' => 'Đoàn viên']), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'sinh viên']), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -62,11 +62,39 @@ class StudentController extends AppBaseController
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-            return $this->sendResponse('',__('message.success.create',['atribute' => 'Đoàn viên']));
+            return $this->sendResponse('',__('message.success.create',['atribute' => 'Sinh viên']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.create',['atribute' => 'Đoàn viên']), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.create',['atribute' => 'Sinh viên']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getStudentByFaculty(Request $request, $id_faculty){
+        try{
+            $searchText = $request->get('searchText');
+            $studentList = DB::table('users')
+                ->select(DB::raw("CONCAT(users.ho, ' ', users.ten, ' - ', users.username,
+                ' (',classes.class_name,' - ', class_type.type_name,')') as name"),
+                )
+                ->leftJoin('classes', 'classes.id', 'users.id_class')
+                ->leftJoin('class_type', 'classes.id_class_type', 'class_type.id')
+                ->where('classes.id_faculty', $id_faculty)
+                ->where(function($query){
+                    $query->where('users.role', RoleUtils::ROLE_SINHVIEN)
+                        ->orWhere('users.role', RoleUtils::ROLE_CBL);
+                });
+                if($searchText){
+                    $studentList->whereRaw("CONCAT(users.ho, ' ', users.ten, ' - ', users.username,
+                    ' (',classes.class_name,' - ', class_type.type_name,')') LIKE ?", ["%".$searchText."%"]);
+                }
+                $studentList->orderByDesc('classes.class_name');
+                $data = $studentList->get();
+                return $this->sendResponse($data,__('message.success.get_list',['atribute' => 'sinh viên']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'sinh viên']), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade modal-lg" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" id="viewUserAct">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-top mw-50" role="document">
             <div class="modal-content">
                 <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">
                     <em class="icon ni ni-cross"></em>
@@ -14,6 +14,7 @@
                                 <th scope="col">STT</th>
                                 <th scope="col">Mã sinh viên</th>
                                 <th scope="col">Họ tên</th>
+                                <th scope="col">Đơn vị</th>
                                 <th scope="col">Trạng thái điểm danh</th>
                                 <th scope="col">Giải thưởng</th>
                             </tr>
@@ -23,6 +24,7 @@
                                 <th scope="row">{{index + 1}}</th>
                                 <td>{{user.username}}</td>
                                 <td>{{user.fullname}}</td>
+                                <td>{{user.class_name}}</td>
                                 <td>
                                     <span :class="`text-${classText(user.status)}`">{{ statusText(user.status) }}</span>
                                 </td>
@@ -124,5 +126,7 @@ export default {
 </script>
 
 <style scoped>
-
+.mw-50{
+    min-width: 70%;
+}
 </style>

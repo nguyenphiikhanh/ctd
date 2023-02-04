@@ -40,6 +40,7 @@ Route::prefix('v1')->group(function(){
         Route::get('/students/class/{id}','Auth\StudentController@index');
         Route::post('/student','Auth\StudentController@store');
         Route::put('/student/cbSetting','Auth\StudentController@updateCbSetting');
+        Route::get('/student/faculty/{id}','Auth\StudentController@getStudentByFaculty');
 
         // khối ngành đào tạo(Sư phạm vs Ngoài sư phạm)
         Route::get('/class-types','Auth\ClassTypeController@index');

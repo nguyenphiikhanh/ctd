@@ -12,11 +12,11 @@
             <div class="col-12">
                 <div class="form-group">
                     <small v-if="isSearching">Đang tìm kiếm...</small>
-                    <ul v-if="!isSearching" class="custom-control-group">
-                        <li v-for="(option, index) in classes" :key="index">
-                            <div class="custom-control custom-radio custom-control-pro no-control">
+                    <ul v-if="!isSearching" class="custom-control-group d-flex">
+                        <li v-for="(option, index) in classes" :key="index" class="col-4">
+                            <div class="custom-control custom-radio custom-control-pro no-control col-12">
                                 <input v-model="class_select" type="checkbox" :value="option.id" class="custom-control-input" :id="`class-${index}`">
-                                <label class="custom-control-label" :for="`class-${index}`">{{option.class_name}}</label>
+                                <label class="custom-control-label col-12" :for="`class-${index}`">{{option.class_name}}</label>
                             </div>
                         </li>
                     </ul>

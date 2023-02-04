@@ -121,7 +121,8 @@
                                     </div>
                                 </div>
 <!--                                đối tượng nhận-->
-                                <SetUpChildActivity :class-choose="doi_tuong" @emitChange="changeDoiTuong" v-if="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
+                                <SetUpChildActivity @emitChange="changeDoiTuongClasses" v-if="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
+                                <SetupTieuBanNCKH @emitChange="changeDoiTuongStudents" v-if="hoat_dong_choose == loai_hoat_dong.HOAT_DONG_NCKH && thao_tac != null && thao_tac == hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
 
                                 <div class="col-12 d-flex justify-content-center">
                                     <button v-if="isValid" @click="onSaveChildActivity()" class="btn btn-primary mb-3">Tạo nhiệm vụ</button>
@@ -139,6 +140,7 @@
 import constants from "../../constants";
 import datetimeUtils from "../../helpers/utils/datetimeUtils";
 import SetUpChildActivity from "./authorize/giaoNv/SetUpChildActivity.vue";
+import SetupTieuBanNCKH from "./authorize/giaoNv/SetupTieuBanNCKH.vue";
 import {mapActions} from "vuex";
 import { asyncLoading } from 'vuejs-loading-plugin';
 import DatePicker from 'vue2-datepicker';
@@ -147,6 +149,7 @@ import { VueEditor } from "vue2-editor";
 export default {
     components:{
       SetUpChildActivity,
+      SetupTieuBanNCKH,
       DatePicker,
       VueEditor
     },
@@ -165,7 +168,8 @@ export default {
             //
             activitiy_list: [],
             activity_responsiable_list: [],
-            doi_tuong: [],
+            doi_tuong_classes: [],
+            doi_tuong_students: [],
             hoat_dong_assign: null,
             files: [],
         }
@@ -186,14 +190,21 @@ export default {
             else return 'Tạo hoạt động';
         },
         isValid(){
+            if(this.hoat_dong_choose == this.loai_hoat_dong.HOAT_DONG_NCKH){
+                if(this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){
+                    return this.activity_create.ten_hoat_dong && this.doi_tuong_students.length > 0;
+                }
+            }
+            else{
             if(this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){
                 return this.activity_create.ten_hoat_dong;
             }
             else if(this.thao_tac == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){
-                return this.loai_phan_hoi && this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong.length > 0;
+                return this.loai_phan_hoi && this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong_classes.length > 0;
             }
             else {
-                return this.activity_create.ten_hoat_dong && this.doi_tuong.length > 0;
+                return this.activity_create.ten_hoat_dong && this.doi_tuong_classes.length > 0;
+            }
             }
         }
     },
@@ -206,8 +217,11 @@ export default {
         async getActivitiyList(){
             await this.getActivities().then(res => this.activitiy_list = [...res.data]);
         },
-        changeDoiTuong(val){
-            this.doi_tuong = [...val];
+        changeDoiTuongClasses(val){
+            this.doi_tuong_classes = [...val];
+        },
+        changeDoiTuongStudents(val){
+            this.doi_tuong_students = [...val];
         },
         async onSaveChildActivity(){
             this.$loading(true);
@@ -220,8 +234,11 @@ export default {
             formData.append('start_time', this.activity_create.start_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.start_time) : '');
             formData.append('end_time', this.activity_create.end_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.end_time) : '');
             formData.append('assignChildActivity', this.hoat_dong_assign || '');
-            for(let i = 0; i < this.doi_tuong.length; i++){
-                formData.append('assignTo[]', this.doi_tuong[i]);
+            for(let i = 0; i < this.doi_tuong_classes.length; i++){
+                formData.append('assignToClasses[]', this.doi_tuong_classes[i]);
+            }
+            for(let i = 0; i < this.doi_tuong_students.length; i++){
+                formData.append('assignToStudents[]', this.doi_tuong_students[i]);
             }
             for(let i = 0; i < this.files.length; i++){
                 let file = this.files[i];

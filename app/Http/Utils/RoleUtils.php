@@ -11,8 +11,7 @@ use function PHPUnit\Framework\returnSelf;
 
  class RoleUtils{
     const ROLE_AMIN = 0;
-    const ROLE_DOAN_TRUONG = 1;
-    const ROLE_DOAN_KHOA = 2;
+    const ROLE_BI_THU_DOAN = 1;
     const ROLE_CVHT = 3;
     const ROLE_CBL = 4;
     const ROLE_SINHVIEN = 5;
@@ -21,15 +20,13 @@ use function PHPUnit\Framework\returnSelf;
         switch($roleFlg){
             case self::ROLE_AMIN: return 'Admin';
             break;
-            case self::ROLE_DOAN_TRUONG: return 'Bí thư Đoàn trường';
+            case self::ROLE_BI_THU_DOAN: return 'Bí thư Liên chi Đoàn';
             break;
-            case self::ROLE_DOAN_KHOA: return 'Bí thư Liên chi Đoàn khoa';
+            case self::ROLE_CVHT: return 'Cố vấn học tập';
             break;
-            case self::ROLE_CVHT: return 'Cố vấn học tập chi Đoàn';
+            case self::ROLE_CBL: return 'Bí thư lớp';
             break;
-            case self::ROLE_CBL: return 'Bí thư chi Đoàn';
-            break;
-            default: return 'Đoàn viên chi Đoàn';
+            default: return 'Sinh viên';
         }
     }
  }

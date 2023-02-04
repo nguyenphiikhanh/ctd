@@ -8,6 +8,7 @@ use App\Http\Utils\RoleUtils;
 use App\Models\Classes;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -22,36 +23,37 @@ class ClassesController extends AppBaseController
     {
         //
         try{
+            $user = Auth::user();
             $className = $request->get('className');
             $classList = DB::table('classes')
-            ->leftJoin('faculties', 'classes.id_faculty', 'faculties.id')
             ->leftJoin('class_type', 'classes.id_class_type', 'class_type.id')
             ->leftJoin('terms', 'classes.id_term', 'terms.id')
-            ->select('classes.id',DB::raw("CONCAT(classes.class_name,'(',class_type.type_name,', ', terms.term_name,' - ', faculties.faculty_name,')') as class_name"));
+            ->select('classes.id',
+            DB::raw("CONCAT(classes.class_name,'(',terms.term_name,' - ', class_type.type_name ,')') as class_name"))
+            ->where('id_faculty', $user->id_khoa);
             if($className){
                 $classList->where('class_name', 'like', "%".$className."%")
-                ->orWhere('faculties.faculty_name', 'like', "%".$className."%")
                 ->orWhere('class_type.type_name', 'like', "%".$className."%")
                 ->orWhere('terms.term_name', 'like', "%".$className."%");
             }
-            $classList->orderByDesc('faculties.id');
+            $classList->orderByDesc('classes.class_name');
             $data = $classList->get();
-            return $this->sendResponse($data,__('message.success.get_list',['atribute' => 'chi Đoàn']));
+            return $this->sendResponse($data,__('message.success.get_list',['atribute' => 'lớp']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.get_list',['atribute' => 'chi Đoàn']),Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'lớp']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     public function getClasses(Request $request){
         try{
             $classList = DB::table('classes')->get();
-            return $this->sendResponse($classList,__('message.success.get_list',['atribute' => 'chi Đoàn']));
+            return $this->sendResponse($classList,__('message.success.get_list',['atribute' => 'lớp']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.get_list',['atribute' => 'chi Đoàn']),Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'lớp']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
     /**
@@ -77,11 +79,11 @@ class ClassesController extends AppBaseController
                 'updated_at' => now()
             ]);
 
-            return $this->sendResponse('', __('message.success.create',['atribute' => 'chi Đoàn']));
+            return $this->sendResponse('', __('message.success.create',['atribute' => 'lớp']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.create',['atribute' => 'chi Đoàn']),Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.create',['atribute' => 'lớp']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -104,11 +106,11 @@ class ClassesController extends AppBaseController
             if(!$classInfo){
                 return $this->sendError(__('message.failed.not_exist',['attibute' => 'Chi Đoàn'], Response::HTTP_UNPROCESSABLE_ENTITY));
             }
-            return $this->sendResponse($classInfo,__('message.success.show',['atribute' => 'chi Đoàn']));
+            return $this->sendResponse($classInfo,__('message.success.show',['atribute' => 'lớp']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.show', ['atribute' => 'chi Đoàn']),Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.show', ['atribute' => 'lớp']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
