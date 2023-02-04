@@ -2571,7 +2571,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       return _constants__WEBPACK_IMPORTED_MODULE_1__["default"].HOAT_DONG;
     },
     canUploadProof: function canUploadProof() {
-      return (this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA || this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_DU) && this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH;
+      return (this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA || this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_DU) && (this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH || this.notifyInfo.status == this.status.STATUS_TU_CHOI);
     },
     proofContent: function proofContent() {
       if (this.proof.length == 0) {
@@ -2800,6 +2800,24 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         $('#checkListModal').modal('hide');
       });
     },
+    onConfirmed: function onConfirmed(activity) {
+      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              _this3.activity = activity;
+              _context3.next = 3;
+              return _this3.getUserForCheckList(_this3.activity).then(function (res) {
+                return _this3.userCheckList = _toConsumableArray(res.data);
+              });
+            case 3:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3);
+      }))();
+    },
     convertDateTime: function convertDateTime(datetime) {
       return datetime ? _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_3__["default"].dateTimeVnFormat(datetime) : '';
     }
@@ -2810,18 +2828,18 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-        while (1) switch (_context3.prev = _context3.next) {
+    var _this4 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+        while (1) switch (_context4.prev = _context4.next) {
           case 0:
-            _context3.next = 2;
-            return Object(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_1__["asyncLoading"])(_this3.getCheckList());
+            _context4.next = 2;
+            return Object(vuejs_loading_plugin__WEBPACK_IMPORTED_MODULE_1__["asyncLoading"])(_this4.getCheckList());
           case 2:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
-      }, _callee3);
+      }, _callee4);
     }))();
   }
 });
@@ -2912,9 +2930,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               _this2.$loading(true);
-              // this.$nextTick(() => {
-              //     $('#checkListModal').modal('hide');
-              // });
               data = {
                 user_id: userObj.id,
                 activity_details_id: _this2.activity.id,
@@ -2944,6 +2959,33 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               return _context3.stop();
           }
         }, _callee3);
+      }))();
+    },
+    onConfirmProof: function onConfirmProof(userObj) {
+      var _arguments = arguments,
+        _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var confirmFlg, data;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              confirmFlg = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : true;
+              data = {
+                user_id: userObj.id,
+                activity_details_id: _this3.activity.id,
+                child_activity_type: _this3.activity.child_activity_type,
+                status: confirmFlg ? _this3.statuses.STATUS_DUYET : _this3.statuses.STATUS_TU_CHOI,
+                note: userObj.note
+              };
+              _context4.next = 4;
+              return _this3.updateUserCheckListStatus(data).then(function () {
+                return _this3.$emit('confirmed', _this3.activity);
+              });
+            case 4:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4);
       }))();
     },
     closeModal: function closeModal() {
@@ -4949,13 +4991,15 @@ var render = function render() {
       }
     }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.created_at))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.name))]), _vm._v(" "), _c("td", [_c("span", {
       staticClass: "tb-odr-status"
-    }, [_item.status == _vm.status.STATUS_HOAN_THANH ? _c("span", {
+    }, [_item.status == _vm.status.STATUS_HOAN_THANH || _item.status == _vm.status.STATUS_DUYET ? _c("span", {
       staticClass: "badge bg-success"
     }, [_vm._v("Đã hoàn thành")]) : _vm._e(), _vm._v(" "), _item.status == _vm.status.STATUS_CHO_DUYET ? _c("span", {
       staticClass: "badge bg-warning"
     }, [_vm._v("Đang chờ duyệt")]) : _vm._e(), _vm._v(" "), _item.status == _vm.status.STATUS_CHUA_HOAN_THANH ? _c("span", {
       staticClass: "badge bg-danger"
-    }, [_vm._v("Chưa hoàn thành")]) : _vm._e()])]), _vm._v(" "), _c("td", [_item.child_activity_type == _vm.action.THONG_BA0_KHONG_PHAN_HOI ? _c("span", [_vm._v("Thông báo")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA ? _c("span", [_vm._v("Tham gia")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI_THAM_DU ? _c("span", [_vm._v("Tham dự")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.action.TB_GUI_DS_THAM_DU ? _c("span", [_vm._v("Gửi danh sách tham dự")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.action.TB_GUI_DS_THAM_GIA ? _c("span", [_vm._v("Gửi danh sách tham gia")]) : _vm._e()]), _vm._v(" "), _c("td", {
+    }, [_vm._v("Chưa hoàn thành")]) : _vm._e(), _vm._v(" "), _item.status == _vm.status.STATUS_TU_CHOI ? _c("span", {
+      staticClass: "badge bg-danger"
+    }, [_vm._v("Minh chứng không được xét duyệt")]) : _vm._e()])]), _vm._v(" "), _c("td", [_item.child_activity_type == _vm.action.THONG_BA0_KHONG_PHAN_HOI ? _c("span", [_vm._v("Thông báo")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA ? _c("span", [_vm._v("Tham gia")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI_THAM_DU ? _c("span", [_vm._v("Tham dự")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.action.TB_GUI_DS_THAM_DU ? _c("span", [_vm._v("Gửi danh sách tham dự")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.action.TB_GUI_DS_THAM_GIA ? _c("span", [_vm._v("Gửi danh sách tham gia")]) : _vm._e()]), _vm._v(" "), _c("td", {
       staticClass: "d-flex justify-content-end"
     }, [_c("div", [_c("button", {
       staticClass: "btn btn-sm btn-info mr-2",
@@ -5355,13 +5399,25 @@ var render = function render() {
     staticClass: "form-group"
   }, [_c("label", {
     staticClass: "form-label"
-  }, [_vm._v("Trạng thái: ")]), _vm._v(" "), _vm.notifyInfo.status == _vm.status.STATUS_HOAN_THANH ? _c("span", {
+  }, [_vm._v("Trạng thái: ")]), _vm._v(" "), _vm.notifyInfo.status == _vm.status.STATUS_HOAN_THANH || _vm.notifyInfo.status == _vm.status.STATUS_DUYET ? _c("span", {
     staticClass: "badge bg-success"
   }, [_vm._v("Đã hoàn thành")]) : _vm._e(), _vm._v(" "), _vm.notifyInfo.status == _vm.status.STATUS_CHO_DUYET ? _c("span", {
     staticClass: "badge bg-warning"
   }, [_vm._v("Đang chờ duyệt")]) : _vm._e(), _vm._v(" "), _vm.notifyInfo.status == _vm.status.STATUS_CHUA_HOAN_THANH ? _c("span", {
     staticClass: "badge bg-danger"
-  }, [_vm._v("Chưa hoàn thành")]) : _vm._e()])]), _vm._v(" "), _vm.canUploadProof ? _c("div", {
+  }, [_vm._v("Chưa hoàn thành")]) : _vm._e(), _vm._v(" "), _vm.notifyInfo.status == _vm.status.STATUS_TU_CHOI ? _c("span", {
+    staticClass: "badge bg-danger"
+  }, [_vm._v("Minh chứng không được xét duyệt")]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "col-12"
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    staticClass: "form-label"
+  }, [_vm._v("Ghi chú: ")]), _vm._v(" "), !_vm.notifyInfo.note ? _c("div", {
+    staticClass: "form-control-wrap"
+  }, [_vm._v("Không có ghi chú.")]) : _vm._e(), _vm._v(" "), _vm.notifyInfo.note ? _c("div", {
+    staticClass: "form-control-wrap"
+  }, [_vm._v(_vm._s(_vm.notifyInfo.note))]) : _vm._e()])]), _vm._v(" "), _vm.canUploadProof ? _c("div", {
     staticClass: "col-12"
   }, [_c("div", {
     staticClass: "form-group"
@@ -5624,6 +5680,7 @@ var render = function render() {
       "user-check-list": _vm.userCheckList
     },
     on: {
+      confirmed: _vm.onConfirmed,
       onClose: _vm.onClose
     }
   })], 1)])])]);
@@ -5746,7 +5803,7 @@ var render = function render() {
       attrs: {
         scope: "row"
       }
-    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.username))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.fullname))]), _vm._v(" "), _c("td", [user.status != _vm.statuses.STATUS_CHO_DUYET ? _c("select", {
+    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.username))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(user.fullname))]), _vm._v(" "), _c("td", [user.status != _vm.statuses.STATUS_CHO_DUYET && user.status != _vm.statuses.STATUS_DUYET && user.status != _vm.statuses.STATUS_TU_CHOI ? _c("select", {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -5781,7 +5838,11 @@ var render = function render() {
       }
     }, [_vm._v("Vắng mặt")])]) : _vm._e(), _vm._v(" "), user.status == _vm.statuses.STATUS_CHO_DUYET ? _c("span", {
       staticClass: "text-warning"
-    }, [_vm._v("Chờ xét duyệt")]) : _vm._e()]), _vm._v(" "), _c("td", [_c("input", {
+    }, [_vm._v("Chờ xét duyệt")]) : _vm._e(), _vm._v(" "), user.status == _vm.statuses.STATUS_DUYET ? _c("span", {
+      staticClass: "text-success"
+    }, [_vm._v("Đã xét duyệt")]) : _vm._e(), _vm._v(" "), user.status == _vm.statuses.STATUS_TU_CHOI ? _c("span", {
+      staticClass: "text-danger"
+    }, [_vm._v("Không duyệt minh chứng")]) : _vm._e()]), _vm._v(" "), _c("td", [_c("input", {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -5806,18 +5867,28 @@ var render = function render() {
       }
     })]), _vm._v(" "), _c("td", {
       staticClass: "d-flex justify-content-center"
-    }, [_c("div", [_c("button", {
-      staticClass: "btn btn-info mr-3 ml-auto",
+    }, [user.status == _vm.statuses.STATUS_CHO_DUYET ? _c("div", [_c("button", {
+      staticClass: "btn btn-info ml-auto",
       on: {
         click: function click($event) {
           return _vm.onViewProof(user);
         }
       }
-    }, [_vm._v("Xem minh chứng")]), _vm._v(" "), user.status == _vm.statuses.STATUS_CHO_DUYET ? _c("button", {
-      staticClass: "btn btn-success"
-    }, [_vm._v("Duyệt")]) : _vm._e(), _vm._v(" "), user.status == _vm.statuses.STATUS_CHO_DUYET ? _c("button", {
-      staticClass: "btn btn-danger"
-    }, [_vm._v("Từ chối")]) : _vm._e()])])]);
+    }, [_vm._v("Xem minh chứng")]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-success",
+      on: {
+        click: function click($event) {
+          return _vm.onConfirmProof(user);
+        }
+      }
+    }, [_vm._v("Duyệt")]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-danger",
+      on: {
+        click: function click($event) {
+          return _vm.onConfirmProof(user, false);
+        }
+      }
+    }, [_vm._v("Từ chối")])]) : _vm._e()])]);
   }), 0)])]), _vm._v(" "), _vm.userCheckList.length == 0 ? _c("p", {
     staticClass: "text-center"
   }, [_vm._v("Không có dữ liệu.")]) : _vm._e()]), _vm._v(" "), _c("ViewProof", {
@@ -14038,7 +14109,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, "\n.blue-text[data-v-5de7ae8d]{\r\n    color: #2828e7;\r\n    text-decoration: underline;\n}\r\n", ""]);
+exports.push([module.i, "\n.blue-text[data-v-5de7ae8d]{\n    color: #2828e7;\n    text-decoration: underline;\n}\n", ""]);
 
 // exports
 

@@ -51,7 +51,7 @@
                         </div><!-- .card -->
                         <div v-if="checkList.length == 0" class="text-center col-12">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
-                    <CheckListUserModal :activity="activity" :user-check-list="userCheckList" @onClose="onClose"/>
+                    <CheckListUserModal @confirmed="onConfirmed" :activity="activity" :user-check-list="userCheckList" @onClose="onClose"/>
                 </div>
             </div>
         </div>
@@ -99,6 +99,10 @@ export default {
             this.$nextTick(() => {
                 $('#checkListModal').modal('hide');
             });
+        },
+        async onConfirmed(activity){
+            this.activity = activity;
+            await this.getUserForCheckList(this.activity).then(res => this.userCheckList = [...res.data]);
         },
         convertDateTime(datetime){
            return datetime ? datetimeUtils.dateTimeVnFormat(datetime) : '';

@@ -27,21 +27,23 @@
                                 <td>{{user.username}}</td>
                                 <td>{{user.fullname}}</td>
                                 <td>
-                                    <select v-if="user.status != statuses.STATUS_CHO_DUYET" v-model="user.status" @change="onUpdateStatus(user)" class="form-control w-90">
+                                    <select v-if="user.status != statuses.STATUS_CHO_DUYET && user.status != statuses.STATUS_DUYET && user.status != statuses.STATUS_TU_CHOI" v-model="user.status" @change="onUpdateStatus(user)" class="form-control w-90">
                                         <option :value="statuses.STATUS_CHUA_HOAN_THANH">Chưa hoàn thành</option>
                                         <option :value="statuses.STATUS_HOAN_THANH">Hoàn thành</option>
                                         <option :value="null">Vắng mặt</option>
                                     </select>
                                     <span v-if="user.status == statuses.STATUS_CHO_DUYET" class="text-warning">Chờ xét duyệt</span>
+                                    <span v-if="user.status == statuses.STATUS_DUYET" class="text-success">Đã xét duyệt</span>
+                                    <span v-if="user.status == statuses.STATUS_TU_CHOI" class="text-danger">Không duyệt minh chứng</span>
                                 </td>
                                 <td>
                                     <input v-model="user.note" @blur="onUpdateStatus(user)" class="form-control" placeholder="Ghi chú">
                                 </td>
                                 <td class="d-flex justify-content-center">
-                                    <div>
-                                        <button class="btn btn-info mr-3 ml-auto" @click="onViewProof(user)">Xem minh chứng</button>
-                                        <button v-if="user.status == statuses.STATUS_CHO_DUYET" class="btn btn-success">Duyệt</button>
-                                        <button v-if="user.status == statuses.STATUS_CHO_DUYET" class="btn btn-danger">Từ chối</button>
+                                    <div v-if="user.status == statuses.STATUS_CHO_DUYET">
+                                        <button class="btn btn-info ml-auto" @click="onViewProof(user)">Xem minh chứng</button>
+                                        <button class="btn btn-success" @click="onConfirmProof(user)">Duyệt</button>
+                                        <button class="btn btn-danger"  @click="onConfirmProof(user, false)">Từ chối</button>
                                     </div>
                                 </td>
                             </tr>
@@ -89,9 +91,6 @@ export default {
         },
         async onViewProof(userObj){
             this.$loading(true);
-            // this.$nextTick(() => {
-            //     $('#checkListModal').modal('hide');
-            // });
             let data = {
                 user_id: userObj.id,
                 activity_details_id: this.activity.id,
@@ -104,6 +103,16 @@ export default {
                 });
             }).finally(() => this.$loading(false));
             $('#checkListModal').modal('show');
+        },
+        async onConfirmProof(userObj, confirmFlg = true){
+            let data = {
+                user_id: userObj.id,
+                activity_details_id: this.activity.id,
+                child_activity_type: this.activity.child_activity_type,
+                status: confirmFlg ? this.statuses.STATUS_DUYET : this.statuses.STATUS_TU_CHOI,
+                note: userObj.note
+            }
+            await this.updateUserCheckListStatus(data).then(() => this.$emit('confirmed',this.activity));
         },
         closeModal(){
             this.$emit('onClose')
