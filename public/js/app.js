@@ -1951,7 +1951,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   }),
   mounted: function mounted() {
-    document.title = "\u0110\u0103ng nh\u1EADp - ".concat("Dev. Khanh");
+    document.title = "\u0110\u0103ng nh\u1EADp - ".concat("Hệ thốngSố hóa Công tác Đoàn Thanh niên - Trường Đại học Sư phạm Hà Nội");
   },
   beforeCreate: function beforeCreate() {
     if (this.$store.getters['auth/isAuthenticated']) {
@@ -5038,7 +5038,9 @@ var render = function render() {
         }
       }
     }, [_vm._v("Danh sách")]) : _vm._e()])]);
-  }), 0)])])])])]), _vm._v(" "), _c("ViewChildActivity", {
+  }), 0)])])]), _vm._v(" "), _vm.child_activities.length == 0 ? _c("div", {
+    staticClass: "text-center col-12 mt-5"
+  }, [_vm._v("Không có dữ liệu.")]) : _vm._e()])]), _vm._v(" "), _c("ViewChildActivity", {
     attrs: {
       childActInfo: _vm.child_act_view
     },
@@ -14685,7 +14687,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, "\n.blue-text[data-v-5de7ae8d]{\n    color: #2828e7;\n    text-decoration: underline;\n}\n", ""]);
+exports.push([module.i, "\n.blue-text[data-v-5de7ae8d]{\r\n    color: #2828e7;\r\n    text-decoration: underline;\n}\r\n", ""]);
 
 // exports
 
@@ -14704,7 +14706,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, "\n.blue-text[data-v-5243f244]{\n    color: #2828e7;\n    text-decoration: underline;\n}\n", ""]);
+exports.push([module.i, "\n.blue-text[data-v-5243f244]{\r\n    color: #2828e7;\r\n    text-decoration: underline;\n}\r\n", ""]);
 
 // exports
 
@@ -14723,7 +14725,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, "\n.mw-50[data-v-74e03ede]{\n    min-width: 70%;\n}\n", ""]);
+exports.push([module.i, "\n.mw-50[data-v-74e03ede]{\r\n    min-width: 70%;\n}\r\n", ""]);
 
 // exports
 
@@ -14742,7 +14744,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, "\n.mw-70[data-v-46e079aa]{\n    min-width: 70%;\n}\n", ""]);
+exports.push([module.i, "\n.mw-70[data-v-46e079aa]{\r\n    min-width: 70%;\n}\r\n", ""]);
 
 // exports
 
@@ -84804,7 +84806,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 });
 var roles = _constants__WEBPACK_IMPORTED_MODULE_3__["default"].roles;
 router.beforeEach(function (to, from, next) {
-  document.title = "".concat(to.meta.title, " - ").concat("Dev. Khanh");
+  document.title = "".concat(to.meta.title, " - ").concat("Hệ thốngSố hóa Công tác Đoàn Thanh niên - Trường Đại học Sư phạm Hà Nội");
   if (to.matched.some(function (record) {
     return record.meta.requiresAuth;
   }) && !_store__WEBPACK_IMPORTED_MODULE_2__["default"].getters["auth/isAuthenticated"]) {
@@ -86441,8 +86443,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\WorkSpace\ctd\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\WorkSpace\ctd\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

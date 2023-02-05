@@ -74,7 +74,8 @@ class StudentController extends AppBaseController
         try{
             $searchText = $request->get('searchText');
             $studentList = DB::table('users')
-                ->select(DB::raw("CONCAT(users.ho, ' ', users.ten, ' - ', users.username,
+                ->select('users.id as id',
+                    DB::raw("CONCAT(users.ho, ' ', users.ten, ' - ', users.username,
                 ' (',classes.class_name,' - ', class_type.type_name,')') as name"),
                 )
                 ->leftJoin('classes', 'classes.id', 'users.id_class')

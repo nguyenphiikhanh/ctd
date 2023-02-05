@@ -68,6 +68,7 @@
                                 </table>
                             </div>
                         </div><!-- .card -->
+                        <div v-if="child_activities.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
                 </div>
                 <ViewChildActivity :childActInfo="child_act_view" @closeModal="closeModal()"/>

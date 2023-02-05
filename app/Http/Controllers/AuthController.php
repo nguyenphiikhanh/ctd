@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Utils\RoleUtils;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -33,8 +34,10 @@ class AuthController extends AppBaseController
         }
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        $user = auth()->user();
+        $user->role_name = RoleUtils::getRoleName($user->role);
 
-        return $this->sendResponse(['user' => auth()->user(), 'access_token' => $accessToken],__('auth.success'));
+        return $this->sendResponse(['user' => $user, 'access_token' => $accessToken],__('auth.success'));
     }
 
     public function me(Request $request)
