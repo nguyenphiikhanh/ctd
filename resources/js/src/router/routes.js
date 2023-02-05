@@ -40,7 +40,7 @@ const routes = [
         path:"/lien-chi-doan",
         component: Khoa,
         meta:{
-            title: 'Quản lý Liên chi Đoàn',
+            title: 'Quản lý khoa',
             requiresAuth: true,
             adminAccess: true,
         }
@@ -51,7 +51,7 @@ const routes = [
         path:"/chi-doan",
         component: Classes,
         meta:{
-            title: 'Quản lý chi Đoàn',
+            title: 'Quản lý lớp',
             requiresAuth: true,
             adminAccess: true,
         }
@@ -62,7 +62,7 @@ const routes = [
         path:"/chi-doan-:id/danh-sach-doan-vien",
         component: Students,
         meta:{
-            title: 'Quản lý Đoàn viên',
+            title: 'Quản lý Sinh viên',
             requiresAuth: true,
             adminAccess: true,
         }

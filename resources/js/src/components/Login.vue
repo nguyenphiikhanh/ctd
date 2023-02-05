@@ -4,20 +4,20 @@
             <div class="col-12 col-md-6 offset-md-3">
                 <div class="card shadow sm">
                     <div class="card-body">
-                        <h1 class="text-center">Login</h1>
+                        <h1 class="text-center">Đăng Nhập</h1>
                         <hr/>
                         <form @submit.prevent="login()" class="row" method="post">
                             <div class="form-group col-12">
-                                <label for="email" class="font-weight-bold">Username</label>
+                                <label for="email" class="font-weight-bold">Tên đăng nhập</label>
                                 <input type="text" v-model="authInfo.username" class="form-control">
                             </div>
                             <div class="form-group col-12">
-                                <label for="password" class="font-weight-bold">Password</label>
+                                <label for="password" class="font-weight-bold">Mật khẩu</label>
                                 <input type="password" v-model="authInfo.password" class="form-control">
                             </div>
                             <div class="col-12 mb-2">
                                 <button type="submit" class="btn btn-primary btn-block">
-                                    Login
+                                    Đăng nhập
                                 </button>
                             </div>
                         </form>
