@@ -2135,6 +2135,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         start_time: '',
         end_time: ''
       };
+      this.doi_tuong_classes = [];
+      this.doi_tuong_students = [];
       this.$refs.fileUpload.value = null;
       this.hoat_dong_choose = null;
       this.files = [];
@@ -14668,7 +14670,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.custom-ml-3[data-v-c0c449a6]{\n    margin-left: 0.75rem;\n}\n", ""]);
+exports.push([module.i, "\n.custom-ml-3[data-v-c0c449a6]{\r\n    margin-left: 0.75rem;\n}\r\n", ""]);
 
 // exports
 
