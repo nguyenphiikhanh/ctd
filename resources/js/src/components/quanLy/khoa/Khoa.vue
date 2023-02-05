@@ -6,7 +6,7 @@
                     <div class="nk-block-head nk-block-head-sm">
                         <div class="nk-block-between">
                             <div class="nk-block-head-content">
-                                <h3 class="nk-block-title page-title">Quản lý Liên chi Đoàn</h3>
+                                <h3 class="nk-block-title page-title">Quản lý khoa</h3>
                             </div><!-- .nk-block-head-content -->
                             <div class="nk-block-head-content">
                                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -16,7 +16,7 @@
                                             <li class="nk-block-tools-opt">
                                                 <button @click="showPopup(true)" type="button" class="btn btn-primary d-none d-md-inline-flex">
                                                     <em class="icon ni ni-plus"></em>
-                                                    <span>Thêm Liên chi Đoàn</span>
+                                                    <span>Thêm Khoa</span>
                                                 </button>
                                             </li>
                                         </ul>
@@ -28,7 +28,7 @@
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
-                                <h5 class="nk-block-title">Danh sách Liên chi Đoàn</h5>
+                                <h5 class="nk-block-title">Danh sách khoa</h5>
                             </div>
                         </div>
                         <div class="card card-preview">
@@ -37,7 +37,7 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">STT</th>
-                                        <th scope="col">Tên liên chi Đoàn</th>
+                                        <th scope="col">Tên khoa</th>
                                         <th></th>
                                     </tr>
                                     </thead>
