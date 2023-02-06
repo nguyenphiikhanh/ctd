@@ -2448,6 +2448,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     forwardActivities: 'activity/forwardActivities',
     getUserList: 'userModule/getUserByCanBoLop'
   })), {}, {
+    canForward: function canForward(noti, user) {
+      if (user.role == this.role.ROLE_CBL) {
+        return noti.status == this.status.STATUS_CHUA_HOAN_THANH && user.role == this.role.ROLE_CBL && (noti.child_activity_type == this.action.TB_GUI_DS_THAM_DU || noti.child_activity_type == this.action.TB_GUI_DS_THAM_GIA || noti.child_activity_type == this.action.PHAN_THI_OR_TIEU_BAN);
+      } else return false;
+    },
     getActivitiesReceive: function getActivitiesReceive() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -2758,7 +2763,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       return _constants__WEBPACK_IMPORTED_MODULE_1__["default"].HOAT_DONG;
     },
     canUploadProof: function canUploadProof() {
-      return (this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA || this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_DU) && (this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH || this.notifyInfo.status == this.status.STATUS_TU_CHOI);
+      return (this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA || this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_DU) && (this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH || this.notifyInfo.status == this.status.STATUS_TU_CHOI || this.notifyInfo.status == this.status.STATUS_VANG_MAT);
     },
     proofContent: function proofContent() {
       if (this.proof.length == 0) {
@@ -5211,7 +5216,7 @@ var render = function render() {
           return _vm.viewNotify(_item);
         }
       }
-    }, [_vm._v("Xem chi tiết")]), _vm._v(" "), _item.status == _vm.status.STATUS_CHUA_HOAN_THANH && _vm.user.role == _vm.role.ROLE_CBL ? _c("button", {
+    }, [_vm._v("Xem chi tiết")]), _vm._v(" "), _vm.canForward(_item, _vm.user.role) ? _c("button", {
       staticClass: "btn btn-sm btn-primary mr-2",
       on: {
         click: function click($event) {
@@ -5614,7 +5619,9 @@ var render = function render() {
     staticClass: "badge bg-danger"
   }, [_vm._v("Chưa hoàn thành")]) : _vm._e(), _vm._v(" "), _vm.notifyInfo.status == _vm.status.STATUS_TU_CHOI ? _c("span", {
     staticClass: "badge bg-danger"
-  }, [_vm._v("Minh chứng không được xét duyệt")]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Minh chứng không được xét duyệt")]) : _vm._e(), _vm._v(" "), _vm.notifyInfo.status == _vm.status.STATUS_VANG_MAT ? _c("span", {
+    staticClass: "badge bg-danger"
+  }, [_vm._v("Vắng mặt")]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "col-12"
   }, [_c("div", {
     staticClass: "form-group"
@@ -6258,7 +6265,7 @@ var render = function render() {
       attrs: {
         scope: "row"
       }
-    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.activityText(_item.id_activity)))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.name))]), _vm._v(" "), _c("td", [_item.child_activity_type == _vm.type.TB_GUI_DS_THAM_DU ? _c("span", [_vm._v("Danh sách tham dự")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.type.TB_GUI_DS_THAM_GIA ? _c("span", [_vm._v("Danh sách tham gia")]) : _vm._e()]), _vm._v(" "), _c("td", [_c("span", [_vm._v(_vm._s(_vm.convertDateTime(_item.start_time)) + " đến " + _vm._s(_vm.convertDateTime(_item.end_time)))])]), _vm._v(" "), _vm._m(3, true), _vm._v(" "), _c("td", [_c("button", {
+    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.activityText(_item.id_activity)))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.name))]), _vm._v(" "), _c("td", [_item.child_activity_type == _vm.type.TB_GUI_DS_THAM_DU || _item.id_activity == _vm.act.HOAT_DONG_NCKH && _item.child_activity_type == _vm.type.PHAN_THI_OR_TIEU_BAN ? _c("span", [_vm._v("Danh sách tham dự")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.type.TB_GUI_DS_THAM_GIA ? _c("span", [_vm._v("Danh sách tham gia")]) : _vm._e()]), _vm._v(" "), _c("td", [_c("span", [_vm._v(_vm._s(_vm.convertDateTime(_item.start_time)) + " đến " + _vm._s(_vm.convertDateTime(_item.end_time)))])]), _vm._v(" "), _vm._m(3, true), _vm._v(" "), _c("td", [_c("button", {
       staticClass: "btn btn-sm btn-primary",
       on: {
         click: function click($event) {

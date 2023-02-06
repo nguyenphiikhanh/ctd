@@ -49,6 +49,7 @@
                             <span class="badge bg-warning" v-if="notifyInfo.status == status.STATUS_CHO_DUYET">Đang chờ duyệt</span>
                             <span class="badge bg-danger" v-if="notifyInfo.status == status.STATUS_CHUA_HOAN_THANH">Chưa hoàn thành</span>
                             <span class="badge bg-danger" v-if="notifyInfo.status == status.STATUS_TU_CHOI">Minh chứng không được xét duyệt</span>
+                            <span class="badge bg-danger" v-if="notifyInfo.status == status.STATUS_VANG_MAT">Vắng mặt</span>
                         </div>
                     </div>
                     <div class="col-12">
@@ -149,8 +150,9 @@ export default {
         canUploadProof(){
             return (this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA
             || this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_DU)
-            && (this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH
-            || this.notifyInfo.status == this.status.STATUS_TU_CHOI);
+            && (this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH ||
+            this.notifyInfo.status == this.status.STATUS_TU_CHOI ||
+            this.notifyInfo.status == this.status.STATUS_VANG_MAT);
         },
         proofContent(){
             if(this.proof.length == 0){

@@ -36,7 +36,7 @@
                                         <td>{{ activityText(_item.id_activity) }}</td>
                                         <td>{{_item.name}}</td>
                                         <td>
-                                            <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_DU">Danh sách tham dự</span>
+                                            <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_DU || (_item.id_activity == act.HOAT_DONG_NCKH && _item.child_activity_type == type.PHAN_THI_OR_TIEU_BAN)">Danh sách tham dự</span>
                                             <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_GIA">Danh sách tham gia</span>
                                         </td>
                                         <td>
