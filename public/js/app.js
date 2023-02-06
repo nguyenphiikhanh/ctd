@@ -5575,7 +5575,7 @@ var render = function render() {
     staticClass: "form-group"
   }, [_c("label", {
     staticClass: "form-label"
-  }, [_vm._v("Ghi chú từ Bí thư chi Đoàn:")]), _vm._v(" "), _vm.notifyInfo.small_role_details ? _c("div", {
+  }, [_vm._v("Ghi chú từ Bí thư lớp:")]), _vm._v(" "), _vm.notifyInfo.small_role_details ? _c("div", {
     staticClass: "form-control-wrap",
     domProps: {
       innerHTML: _vm._s(_vm.notifyInfo.small_role_details)
@@ -14689,7 +14689,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, "\n.blue-text[data-v-5de7ae8d]{\r\n    color: #2828e7;\r\n    text-decoration: underline;\n}\r\n", ""]);
+exports.push([module.i, "\n.blue-text[data-v-5de7ae8d]{\n    color: #2828e7;\n    text-decoration: underline;\n}\n", ""]);
 
 // exports
 
@@ -86445,8 +86445,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\WorkSpace\ctd\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\WorkSpace\ctd\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

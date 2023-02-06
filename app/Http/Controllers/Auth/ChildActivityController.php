@@ -53,7 +53,7 @@ class ChildActivityController extends AppBaseController
     {
         //
         try{
-            DB::connection(config('database.connections.mysql'))->transaction(function() use ($request){
+            DB::connection('mysql')->transaction(function() use ($request){
                 $user = Auth::user();
                 $name = $request->get('name');
                 $activity = $request->get('activity');
@@ -90,7 +90,7 @@ class ChildActivityController extends AppBaseController
                     if($activity == AppUtils::HOAT_DONG_NCKH){
                         foreach($assignToStudents as $student){
                             DB::table('user_receive_activities')->insert([
-                                'id_user' => $student->id,
+                                'id_user' => $student,
                                 'id_child_activity' => $child_act->id,
                                 'child_activity_type' => AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU,
                                 'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
@@ -98,7 +98,7 @@ class ChildActivityController extends AppBaseController
                                 'created_by' => $user->id,
                             ]);
                             DB::table('user_activities')->insert([
-                                'id_user' => $student->id,
+                                'id_user' => $student,
                                 'id_activities_details' => $id_act_details,
                                 'created_by' => $user->id,
                             ]);

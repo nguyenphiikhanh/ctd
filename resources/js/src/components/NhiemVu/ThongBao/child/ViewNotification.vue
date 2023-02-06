@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-12 mt-2" v-if="user.role == role.ROLE_SINH_VIEN">
                         <div class="form-group">
-                            <label class="form-label">Ghi chú từ Bí thư chi Đoàn:</label>
+                            <label class="form-label">Ghi chú từ Bí thư lớp:</label>
                             <div class="form-control-wrap" v-if="notifyInfo.small_role_details" v-html="notifyInfo.small_role_details"></div>
                             <div class="form-control-wrap" v-if="!notifyInfo.small_role_details">Không có ghi chú.</div>
                         </div>
