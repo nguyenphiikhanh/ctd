@@ -6,7 +6,7 @@
                     <div class="nk-block-head nk-block-head-sm">
                         <div class="nk-block-between">
                             <div class="nk-block-head-content">
-                                <h3 class="nk-block-title page-title">Quản lý Đoàn viên</h3>
+                                <h3 class="nk-block-title page-title">Quản lý Sinh viên</h3>
                             </div><!-- .nk-block-head-content -->
                             <div class="nk-block-head-content">
                                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -16,7 +16,7 @@
                                             <li class="nk-block-tools-opt">
                                                 <button @click="showPopup(true)" type="button" class="btn btn-primary d-none d-md-inline-flex">
                                                     <em class="icon ni ni-plus"></em>
-                                                    <span>Thêm Đoàn viên</span>
+                                                    <span>Thêm Sinh viên</span>
                                                 </button>
                                             </li>
                                         </ul>
@@ -26,19 +26,22 @@
                         </div><!-- .nk-block-between -->
                     </div><!-- .nk-block-head -->
                     <div class="nk-block">
-                        <h4>Chi Đoàn: <span class="text-danger">{{ classInfo.class_name }}</span></h4>
-                        <h4>Liên chi Đoàn: <span class="text-danger">{{ classInfo.faculty_name }}</span></h4>
+                        <h4>Lớp: <span class="text-danger">{{ classInfo.class_name }}</span></h4>
+                        <h4>Khoa: <span class="text-danger">{{ classInfo.faculty_name }}</span></h4>
                         <h4>Khóa: <span class="text-danger">{{ classInfo.term_name }}</span></h4>
                         <h4>Khối đào tạo: <span class="text-danger">{{ classInfo.type_name }}</span></h4>
-                        <h4>Cán bộ chi Đoàn:
+                        <h4>Bí thư lớp:
                             <span :class="cbStudent ? 'text-danger' : 'text-info'">{{ cbStudent ? cbStudent.ho + ' ' + cbStudent.ten : 'Chưa có' }}</span>
                             <button @click="changeCbPopup()" class="btn btn-sm btn-outline-primary"><em class="icon ni ni-repeat"></em></button>
+                        </h4>
+                        <h4>Lớp trưởng: <span class="text-info">Chưa có </span>
+                        <button class="btn btn-sm btn-outline-primary"><em class="icon ni ni-repeat"></em></button>
                         </h4>
                     </div>
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
-                                <h5 class="nk-block-title">Danh sách chi Đoàn</h5>
+                                <h5 class="nk-block-title">Danh sách lớp</h5>
                             </div>
                         </div>
                         <div class="card card-preview">
@@ -47,8 +50,8 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">STT</th>
-                                        <th scope="col">Mã Đoàn viên</th>
-                                        <th scope="col">Tên Đoàn viên</th>
+                                        <th scope="col">Mã Sinh viên</th>
+                                        <th scope="col">Tên Sinh  viên</th>
                                         <th scope="col">Địa chỉ Email</th>
                                         <th></th>
                                     </tr>

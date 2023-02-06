@@ -9,9 +9,9 @@
         <div class="modal-body">
             <div class="col-12">
                 <div class="form-group">
-                    <label class="form-label">Tên chi Đoàn</label>
+                    <label class="form-label">Tên lớp</label>
                     <div class="form-control-wrap">
-                        <input  v-model="classCreateOrUpdate.class_name" class="form-control" placeholder="Tên chi Đoàn">
+                        <input  v-model="classCreateOrUpdate.class_name" class="form-control" placeholder="Tên lớp">
                     </div>
                 </div>
             </div>
@@ -39,10 +39,10 @@
             </div>
             <div class="col-12 mt-2">
                 <div class="form-group">
-                    <label class="form-label">Liên chi Đoàn</label>
+                    <label class="form-label">Khoa</label>
                     <div class="form-control-wrap">
                         <select v-model="classCreateOrUpdate.id_faculty" class="form-control">
-                            <option :value="null">--Chọn liên chi Đoàn---</option>
+                            <option :value="null">--Chọn khoa---</option>
                             <option v-for="option, ind in faculties" :key="ind" :value="option.id">{{option.faculty_name}}</option>
                         </select>
                     </div>
@@ -76,7 +76,7 @@ export default {
             }
         },
         modalTitle(){
-            return this.createFlg ? 'Thêm chi Đoàn mới' : 'Chỉnh sửa chi Đoàn';
+            return this.createFlg ? 'Thêm lớp mới' : 'Chỉnh sửa chi Đoàn';
         },
         isValid(){
             return this.classCreateOrUpdate.class_name && this.classCreateOrUpdate.id_faculty

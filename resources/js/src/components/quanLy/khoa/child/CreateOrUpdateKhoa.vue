@@ -9,9 +9,9 @@
         <div class="modal-body">
             <div class="col-12">
                 <div class="form-group">
-                    <label class="form-label">Tên Liên chi Đoàn</label>
+                    <label class="form-label">Tên khoa</label>
                     <div class="form-control-wrap">
-                        <input  v-model="ten_khoa_dao_tao" class="form-control" placeholder="Tên Liên chi Đoàn">
+                        <input  v-model="ten_khoa_dao_tao" class="form-control" placeholder="Tên khoa">
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@ export default {
             }
         },
         modalTitle(){
-            return this.createFlg ? 'Thêm Liên chi Đoàn mới' : 'Chỉnh sửa Liên chi Đoàn';
+            return this.createFlg ? 'Thêm Khoa mới' : 'Chỉnh sửa Liên chi Đoàn';
         },
         isValid(){
             return this.tenKhoa;

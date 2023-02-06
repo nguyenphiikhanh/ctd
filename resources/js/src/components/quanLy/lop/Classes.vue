@@ -6,7 +6,7 @@
                     <div class="nk-block-head nk-block-head-sm">
                         <div class="nk-block-between">
                             <div class="nk-block-head-content">
-                                <h3 class="nk-block-title page-title">Quản lý chi Đoàn</h3>
+                                <h3 class="nk-block-title page-title">Quản lý lớp</h3>
                             </div><!-- .nk-block-head-content -->
                             <div class="nk-block-head-content">
                                 <div class="toggle-wrap nk-block-tools-toggle">
@@ -16,7 +16,7 @@
                                             <li class="nk-block-tools-opt">
                                                 <button @click="showPopup(true)" type="button" class="btn btn-primary d-none d-md-inline-flex">
                                                     <em class="icon ni ni-plus"></em>
-                                                    <span>Thêm chi Đoàn</span>
+                                                    <span>Thêm lớp</span>
                                                 </button>
                                             </li>
                                         </ul>
@@ -28,7 +28,7 @@
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
-                                <h5 class="nk-block-title">Danh sách chi Đoàn</h5>
+                                <h5 class="nk-block-title">Danh sách lớp</h5>
                             </div>
                         </div>
                         <div class="card card-preview">
@@ -37,7 +37,7 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">STT</th>
-                                        <th scope="col">Tên chi Đoàn</th>
+                                        <th scope="col">Tên lớp</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -48,7 +48,7 @@
                                         <td class="d-flex justify-content-end">
                                             <div>
                                             <router-link :to="`chi-doan-${_item.id}/danh-sach-doan-vien`" target="_blank">
-                                                <button class="btn btn-sm btn-primary">Danh sách Đoàn viên</button>
+                                                <button class="btn btn-sm btn-primary">Danh sách Sinh viên</button>
                                             </router-link>
                                             <button class="btn btn-sm btn-info">Sửa</button>
                                             <button class="btn btn-sm btn-danger mr-2">Xóa</button>
