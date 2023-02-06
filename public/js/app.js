@@ -2135,6 +2135,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         start_time: '',
         end_time: ''
       };
+      this.doi_tuong_classes = [];
+      this.doi_tuong_students = [];
       this.$refs.fileUpload.value = null;
       this.hoat_dong_choose = null;
       this.files = [];
@@ -2446,6 +2448,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     forwardActivities: 'activity/forwardActivities',
     getUserList: 'userModule/getUserByCanBoLop'
   })), {}, {
+    canForward: function canForward(noti, user) {
+      if (user.role == this.role.ROLE_CBL) {
+        return noti.status == this.status.STATUS_CHUA_HOAN_THANH && user.role == this.role.ROLE_CBL && (noti.child_activity_type == this.action.TB_GUI_DS_THAM_DU || noti.child_activity_type == this.action.TB_GUI_DS_THAM_GIA || noti.child_activity_type == this.action.PHAN_THI_OR_TIEU_BAN);
+      } else return false;
+    },
     getActivitiesReceive: function getActivitiesReceive() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -2756,7 +2763,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       return _constants__WEBPACK_IMPORTED_MODULE_1__["default"].HOAT_DONG;
     },
     canUploadProof: function canUploadProof() {
-      return (this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA || this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_DU) && (this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH || this.notifyInfo.status == this.status.STATUS_TU_CHOI);
+      return (this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA || this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_DU) && (this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH || this.notifyInfo.status == this.status.STATUS_TU_CHOI || this.notifyInfo.status == this.status.STATUS_VANG_MAT);
     },
     proofContent: function proofContent() {
       if (this.proof.length == 0) {
@@ -3256,9 +3263,27 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     convertDateTime: function convertDateTime(datetime) {
       return datetime ? _helpers_utils_datetimeUtils__WEBPACK_IMPORTED_MODULE_3__["default"].dateTimeVnFormat(datetime) : '';
+    },
+    activityText: function activityText(id_activity) {
+      switch (id_activity) {
+        case this.act.HOAT_DONG_NCKH:
+          return 'Nghiên cứu khoa học';
+          break;
+        case this.act.HOAT_DONG_NVSP:
+          return 'Nghiệp vụ Sư phạm';
+          break;
+        case this.act.HOAT_DONG_DOAN:
+          return 'Hoạt động Đoàn';
+          break;
+        default:
+          return 'Hoạt động khác';
+      }
     }
   }),
   computed: {
+    act: function act() {
+      return _constants__WEBPACK_IMPORTED_MODULE_2__["default"].LOAI_HOAT_DONG;
+    },
     type: function type() {
       return _constants__WEBPACK_IMPORTED_MODULE_2__["default"].HOAT_DONG;
     }
@@ -3899,7 +3924,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     modalTitle: function modalTitle() {
-      return this.createFlg ? 'Thêm Liên chi Đoàn mới' : 'Chỉnh sửa Liên chi Đoàn';
+      return this.createFlg ? 'Thêm Khoa mới' : 'Chỉnh sửa Liên chi Đoàn';
     },
     isValid: function isValid() {
       return this.tenKhoa;
@@ -4106,7 +4131,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     modalTitle: function modalTitle() {
-      return this.createFlg ? 'Thêm chi Đoàn mới' : 'Chỉnh sửa chi Đoàn';
+      return this.createFlg ? 'Thêm lớp mới' : 'Chỉnh sửa chi Đoàn';
     },
     isValid: function isValid() {
       return this.classCreateOrUpdate.class_name && this.classCreateOrUpdate.id_faculty && this.classCreateOrUpdate.id_class_type && this.classCreateOrUpdate.id_term;
@@ -4453,7 +4478,7 @@ var render = function render() {
     staticClass: "card-body"
   }, [_c("h1", {
     staticClass: "text-center"
-  }, [_vm._v("Login")]), _vm._v(" "), _c("hr"), _vm._v(" "), _c("form", {
+  }, [_vm._v("Đăng Nhập")]), _vm._v(" "), _c("hr"), _vm._v(" "), _c("form", {
     staticClass: "row",
     attrs: {
       method: "post"
@@ -4471,7 +4496,7 @@ var render = function render() {
     attrs: {
       "for": "email"
     }
-  }, [_vm._v("Username")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Tên đăng nhập")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -4498,7 +4523,7 @@ var render = function render() {
     attrs: {
       "for": "password"
     }
-  }, [_vm._v("Password")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Mật khẩu")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -4530,7 +4555,7 @@ var staticRenderFns = [function () {
     attrs: {
       type: "submit"
     }
-  }, [_vm._v("\n                                Login\n                            ")])]);
+  }, [_vm._v("\n                                Đăng nhập\n                            ")])]);
 }];
 render._withStripped = true;
 
@@ -5191,7 +5216,7 @@ var render = function render() {
           return _vm.viewNotify(_item);
         }
       }
-    }, [_vm._v("Xem chi tiết")]), _vm._v(" "), _item.status == _vm.status.STATUS_CHUA_HOAN_THANH && _vm.user.role == _vm.role.ROLE_CBL ? _c("button", {
+    }, [_vm._v("Xem chi tiết")]), _vm._v(" "), _vm.canForward(_item, _vm.user.role) ? _c("button", {
       staticClass: "btn btn-sm btn-primary mr-2",
       on: {
         click: function click($event) {
@@ -5573,7 +5598,7 @@ var render = function render() {
     staticClass: "form-group"
   }, [_c("label", {
     staticClass: "form-label"
-  }, [_vm._v("Ghi chú từ Bí thư chi Đoàn:")]), _vm._v(" "), _vm.notifyInfo.small_role_details ? _c("div", {
+  }, [_vm._v("Ghi chú từ Bí thư lớp:")]), _vm._v(" "), _vm.notifyInfo.small_role_details ? _c("div", {
     staticClass: "form-control-wrap",
     domProps: {
       innerHTML: _vm._s(_vm.notifyInfo.small_role_details)
@@ -5594,7 +5619,9 @@ var render = function render() {
     staticClass: "badge bg-danger"
   }, [_vm._v("Chưa hoàn thành")]) : _vm._e(), _vm._v(" "), _vm.notifyInfo.status == _vm.status.STATUS_TU_CHOI ? _c("span", {
     staticClass: "badge bg-danger"
-  }, [_vm._v("Minh chứng không được xét duyệt")]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Minh chứng không được xét duyệt")]) : _vm._e(), _vm._v(" "), _vm.notifyInfo.status == _vm.status.STATUS_VANG_MAT ? _c("span", {
+    staticClass: "badge bg-danger"
+  }, [_vm._v("Vắng mặt")]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "col-12"
   }, [_c("div", {
     staticClass: "form-group"
@@ -6238,7 +6265,7 @@ var render = function render() {
       attrs: {
         scope: "row"
       }
-    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.name))]), _vm._v(" "), _c("td", [_item.child_activity_type == _vm.type.TB_GUI_DS_THAM_DU ? _c("span", [_vm._v("Danh sách tham dự")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.type.TB_GUI_DS_THAM_GIA ? _c("span", [_vm._v("Danh sách tham gia")]) : _vm._e()]), _vm._v(" "), _c("td", [_c("span", [_vm._v(_vm._s(_vm.convertDateTime(_item.start_time)) + " đến " + _vm._s(_vm.convertDateTime(_item.end_time)))])]), _vm._v(" "), _vm._m(3, true), _vm._v(" "), _c("td", [_c("button", {
+    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.activityText(_item.id_activity)))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.name))]), _vm._v(" "), _c("td", [_item.child_activity_type == _vm.type.TB_GUI_DS_THAM_DU || _item.id_activity == _vm.act.HOAT_DONG_NCKH && _item.child_activity_type == _vm.type.PHAN_THI_OR_TIEU_BAN ? _c("span", [_vm._v("Danh sách tham dự")]) : _vm._e(), _vm._v(" "), _item.child_activity_type == _vm.type.TB_GUI_DS_THAM_GIA ? _c("span", [_vm._v("Danh sách tham gia")]) : _vm._e()]), _vm._v(" "), _c("td", [_c("span", [_vm._v(_vm._s(_vm.convertDateTime(_item.start_time)) + " đến " + _vm._s(_vm.convertDateTime(_item.end_time)))])]), _vm._v(" "), _vm._m(3, true), _vm._v(" "), _c("td", [_c("button", {
       staticClass: "btn btn-sm btn-primary",
       on: {
         click: function click($event) {
@@ -6292,11 +6319,15 @@ var staticRenderFns = [function () {
     attrs: {
       scope: "col"
     }
+  }, [_vm._v("Loại hoạt động")]), _vm._v(" "), _c("th", {
+    attrs: {
+      scope: "col"
+    }
   }, [_vm._v("Tên hoạt động")]), _vm._v(" "), _c("th", {
     attrs: {
       scope: "col"
     }
-  }, [_vm._v("Loại hoạt động")]), _vm._v(" "), _c("th", {
+  }, [_vm._v("Yêu cầu hoạt động")]), _vm._v(" "), _c("th", {
     attrs: {
       scope: "col"
     }
@@ -6826,7 +6857,7 @@ var render = function render() {
     staticClass: "icon ni ni-todo-fill"
   })]), _vm._v(" "), _c("span", {
     staticClass: "nk-menu-text"
-  }, [_vm._v("Quản lý Liên chi Đoàn")])])])]) : _vm._e(), _vm._v(" "), _vm.user.role == _vm.roles.ADMIN ? _c("router-link", {
+  }, [_vm._v("Quản lý khoa")])])])]) : _vm._e(), _vm._v(" "), _vm.user.role == _vm.roles.ADMIN ? _c("router-link", {
     attrs: {
       to: {
         name: "NhiemVu_List"
@@ -6845,7 +6876,7 @@ var render = function render() {
     staticClass: "icon ni ni-todo-fill"
   })]), _vm._v(" "), _c("span", {
     staticClass: "nk-menu-text"
-  }, [_vm._v("Quản lý Cán bộ Liên chi Đoàn")])])])]) : _vm._e(), _vm._v(" "), _vm.user.role == _vm.roles.ADMIN ? _c("router-link", {
+  }, [_vm._v("Quản lý Cán bộ khoa")])])])]) : _vm._e(), _vm._v(" "), _vm.user.role == _vm.roles.ADMIN ? _c("router-link", {
     attrs: {
       to: {
         name: "Lop"
@@ -6864,7 +6895,7 @@ var render = function render() {
     staticClass: "icon ni ni-todo-fill"
   })]), _vm._v(" "), _c("span", {
     staticClass: "nk-menu-text"
-  }, [_vm._v("Quản lý chi Đoàn")])])])]) : _vm._e(), _vm._v(" "), _vm.user.role != _vm.roles.ADMIN ? _c("router-link", {
+  }, [_vm._v("Quản lý lớp")])])])]) : _vm._e(), _vm._v(" "), _vm.user.role != _vm.roles.ADMIN ? _c("router-link", {
     attrs: {
       to: {
         name: "NhiemVu_List"
@@ -7219,7 +7250,7 @@ var render = function render() {
     }
   }, [_c("em", {
     staticClass: "icon ni ni-plus"
-  }), _vm._v(" "), _c("span", [_vm._v("Thêm Liên chi Đoàn")])])])])])])])])]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c("span", [_vm._v("Thêm Khoa")])])])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "nk-block nk-block-lg"
   }, [_vm._m(2), _vm._v(" "), _c("div", {
     staticClass: "card card-preview"
@@ -7258,7 +7289,7 @@ var staticRenderFns = [function () {
     staticClass: "nk-block-head-content"
   }, [_c("h3", {
     staticClass: "nk-block-title page-title"
-  }, [_vm._v("Quản lý Liên chi Đoàn")])]);
+  }, [_vm._v("Quản lý khoa")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -7280,7 +7311,7 @@ var staticRenderFns = [function () {
     staticClass: "nk-block-head-content"
   }, [_c("h5", {
     staticClass: "nk-block-title"
-  }, [_vm._v("Danh sách Liên chi Đoàn")])])]);
+  }, [_vm._v("Danh sách khoa")])])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -7292,7 +7323,7 @@ var staticRenderFns = [function () {
     attrs: {
       scope: "col"
     }
-  }, [_vm._v("Tên liên chi Đoàn")]), _vm._v(" "), _c("th")])]);
+  }, [_vm._v("Tên khoa")]), _vm._v(" "), _c("th")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -7363,7 +7394,7 @@ var render = function render() {
     staticClass: "form-group"
   }, [_c("label", {
     staticClass: "form-label"
-  }, [_vm._v("Tên Liên chi Đoàn")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Tên khoa")]), _vm._v(" "), _c("div", {
     staticClass: "form-control-wrap"
   }, [_c("input", {
     directives: [{
@@ -7374,7 +7405,7 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      placeholder: "Tên Liên chi Đoàn"
+      placeholder: "Tên khoa"
     },
     domProps: {
       value: _vm.ten_khoa_dao_tao
@@ -7456,7 +7487,7 @@ var render = function render() {
     }
   }, [_c("em", {
     staticClass: "icon ni ni-plus"
-  }), _vm._v(" "), _c("span", [_vm._v("Thêm chi Đoàn")])])])])])])])])]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c("span", [_vm._v("Thêm lớp")])])])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "nk-block nk-block-lg"
   }, [_vm._m(2), _vm._v(" "), _c("div", {
     staticClass: "card card-preview"
@@ -7480,7 +7511,7 @@ var render = function render() {
       }
     }, [_c("button", {
       staticClass: "btn btn-sm btn-primary"
-    }, [_vm._v("Danh sách Đoàn viên")])]), _vm._v(" "), _c("button", {
+    }, [_vm._v("Danh sách Sinh viên")])]), _vm._v(" "), _c("button", {
       staticClass: "btn btn-sm btn-info"
     }, [_vm._v("Sửa")]), _vm._v(" "), _c("button", {
       staticClass: "btn btn-sm btn-danger mr-2"
@@ -7511,7 +7542,7 @@ var staticRenderFns = [function () {
     staticClass: "nk-block-head-content"
   }, [_c("h3", {
     staticClass: "nk-block-title page-title"
-  }, [_vm._v("Quản lý chi Đoàn")])]);
+  }, [_vm._v("Quản lý lớp")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -7533,7 +7564,7 @@ var staticRenderFns = [function () {
     staticClass: "nk-block-head-content"
   }, [_c("h5", {
     staticClass: "nk-block-title"
-  }, [_vm._v("Danh sách chi Đoàn")])])]);
+  }, [_vm._v("Danh sách lớp")])])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -7545,7 +7576,7 @@ var staticRenderFns = [function () {
     attrs: {
       scope: "col"
     }
-  }, [_vm._v("Tên chi Đoàn")]), _vm._v(" "), _c("th")])]);
+  }, [_vm._v("Tên lớp")]), _vm._v(" "), _c("th")])]);
 }];
 render._withStripped = true;
 
@@ -7606,7 +7637,7 @@ var render = function render() {
     staticClass: "form-group"
   }, [_c("label", {
     staticClass: "form-label"
-  }, [_vm._v("Tên chi Đoàn")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Tên lớp")]), _vm._v(" "), _c("div", {
     staticClass: "form-control-wrap"
   }, [_c("input", {
     directives: [{
@@ -7617,7 +7648,7 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      placeholder: "Tên chi Đoàn"
+      placeholder: "Tên lớp"
     },
     domProps: {
       value: _vm.classCreateOrUpdate.class_name
@@ -7711,7 +7742,7 @@ var render = function render() {
     staticClass: "form-group"
   }, [_c("label", {
     staticClass: "form-label"
-  }, [_vm._v("Liên chi Đoàn")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Khoa")]), _vm._v(" "), _c("div", {
     staticClass: "form-control-wrap"
   }, [_c("select", {
     directives: [{
@@ -7736,7 +7767,7 @@ var render = function render() {
     domProps: {
       value: null
     }
-  }, [_vm._v("--Chọn liên chi Đoàn---")]), _vm._v(" "), _vm._l(_vm.faculties, function (option, ind) {
+  }, [_vm._v("--Chọn khoa---")]), _vm._v(" "), _vm._l(_vm.faculties, function (option, ind) {
     return _c("option", {
       key: ind,
       domProps: {
@@ -7815,17 +7846,17 @@ var render = function render() {
     }
   }, [_c("em", {
     staticClass: "icon ni ni-plus"
-  }), _vm._v(" "), _c("span", [_vm._v("Thêm Đoàn viên")])])])])])])])])]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c("span", [_vm._v("Thêm Sinh viên")])])])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "nk-block"
-  }, [_c("h4", [_vm._v("Chi Đoàn: "), _c("span", {
+  }, [_c("h4", [_vm._v("Lớp: "), _c("span", {
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.classInfo.class_name))])]), _vm._v(" "), _c("h4", [_vm._v("Liên chi Đoàn: "), _c("span", {
+  }, [_vm._v(_vm._s(_vm.classInfo.class_name))])]), _vm._v(" "), _c("h4", [_vm._v("Khoa: "), _c("span", {
     staticClass: "text-danger"
   }, [_vm._v(_vm._s(_vm.classInfo.faculty_name))])]), _vm._v(" "), _c("h4", [_vm._v("Khóa: "), _c("span", {
     staticClass: "text-danger"
   }, [_vm._v(_vm._s(_vm.classInfo.term_name))])]), _vm._v(" "), _c("h4", [_vm._v("Khối đào tạo: "), _c("span", {
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.classInfo.type_name))])]), _vm._v(" "), _c("h4", [_vm._v("Cán bộ chi Đoàn:\n                        "), _c("span", {
+  }, [_vm._v(_vm._s(_vm.classInfo.type_name))])]), _vm._v(" "), _c("h4", [_vm._v("Bí thư lớp:\n                        "), _c("span", {
     "class": _vm.cbStudent ? "text-danger" : "text-info"
   }, [_vm._v(_vm._s(_vm.cbStudent ? _vm.cbStudent.ho + " " + _vm.cbStudent.ten : "Chưa có"))]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-sm btn-outline-primary",
@@ -7836,22 +7867,22 @@ var render = function render() {
     }
   }, [_c("em", {
     staticClass: "icon ni ni-repeat"
-  })])])]), _vm._v(" "), _c("div", {
+  })])]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _c("div", {
     staticClass: "nk-block nk-block-lg"
-  }, [_vm._m(2), _vm._v(" "), _c("div", {
+  }, [_vm._m(3), _vm._v(" "), _c("div", {
     staticClass: "card card-preview"
   }, [_c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table"
-  }, [_vm._m(3), _vm._v(" "), _c("tbody", _vm._l(_vm.studentList, function (_item, index) {
+  }, [_vm._m(4), _vm._v(" "), _c("tbody", _vm._l(_vm.studentList, function (_item, index) {
     return _c("tr", {
       key: index
     }, [_c("th", {
       attrs: {
         scope: "row"
       }
-    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.username))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.ho + " " + _item.ten))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.email))]), _vm._v(" "), _vm._m(4, true)]);
+    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.username))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.ho + " " + _item.ten))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.email))]), _vm._v(" "), _vm._m(5, true)]);
   }), 0)])])]), _vm._v(" "), _vm.studentList.length == 0 ? _c("div", {
     staticClass: "text-center col-12 mt-5"
   }, [_vm._v("Không có dữ liệu.")]) : _vm._e()]), _vm._v(" "), _c("create-or-update-dialog", {
@@ -7889,7 +7920,7 @@ var staticRenderFns = [function () {
     staticClass: "nk-block-head-content"
   }, [_c("h3", {
     staticClass: "nk-block-title page-title"
-  }, [_vm._v("Quản lý Đoàn viên")])]);
+  }, [_vm._v("Quản lý Sinh viên")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -7905,13 +7936,23 @@ var staticRenderFns = [function () {
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
+  return _c("h4", [_vm._v("Lớp trưởng: "), _c("span", {
+    staticClass: "text-info"
+  }, [_vm._v("Chưa có ")]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-sm btn-outline-primary"
+  }, [_c("em", {
+    staticClass: "icon ni ni-repeat"
+  })])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
   return _c("div", {
     staticClass: "nk-block-head"
   }, [_c("div", {
     staticClass: "nk-block-head-content"
   }, [_c("h5", {
     staticClass: "nk-block-title"
-  }, [_vm._v("Danh sách chi Đoàn")])])]);
+  }, [_vm._v("Danh sách lớp")])])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -7923,11 +7964,11 @@ var staticRenderFns = [function () {
     attrs: {
       scope: "col"
     }
-  }, [_vm._v("Mã Đoàn viên")]), _vm._v(" "), _c("th", {
+  }, [_vm._v("Mã Sinh viên")]), _vm._v(" "), _c("th", {
     attrs: {
       scope: "col"
     }
-  }, [_vm._v("Tên Đoàn viên")]), _vm._v(" "), _c("th", {
+  }, [_vm._v("Tên Sinh  viên")]), _vm._v(" "), _c("th", {
     attrs: {
       scope: "col"
     }
@@ -14668,7 +14709,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.custom-ml-3[data-v-c0c449a6]{\n    margin-left: 0.75rem;\n}\n", ""]);
+exports.push([module.i, "\n.custom-ml-3[data-v-c0c449a6]{\r\n    margin-left: 0.75rem;\n}\r\n", ""]);
 
 // exports
 
@@ -14687,7 +14728,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../../node_mod
 
 
 // module
-exports.push([module.i, "\n.blue-text[data-v-5de7ae8d]{\r\n    color: #2828e7;\r\n    text-decoration: underline;\n}\r\n", ""]);
+exports.push([module.i, "\n.blue-text[data-v-5de7ae8d]{\n    color: #2828e7;\n    text-decoration: underline;\n}\n", ""]);
 
 // exports
 
@@ -84884,7 +84925,7 @@ var routes = [
   path: "/lien-chi-doan",
   component: _components_quanLy_khoa_Khoa__WEBPACK_IMPORTED_MODULE_6__["default"],
   meta: {
-    title: 'Quản lý Liên chi Đoàn',
+    title: 'Quản lý khoa',
     requiresAuth: true,
     adminAccess: true
   }
@@ -84895,7 +84936,7 @@ var routes = [
   path: "/chi-doan",
   component: _components_quanLy_lop_Classes__WEBPACK_IMPORTED_MODULE_7__["default"],
   meta: {
-    title: 'Quản lý chi Đoàn',
+    title: 'Quản lý lớp',
     requiresAuth: true,
     adminAccess: true
   }
@@ -84906,7 +84947,7 @@ var routes = [
   path: "/chi-doan-:id/danh-sach-doan-vien",
   component: _components_quanLy_sinhvien_Students__WEBPACK_IMPORTED_MODULE_8__["default"],
   meta: {
-    title: 'Quản lý Đoàn viên',
+    title: 'Quản lý Sinh viên',
     requiresAuth: true,
     adminAccess: true
   }
@@ -86443,8 +86484,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\WorkSpace\ctd\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\WorkSpace\ctd\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\KHÁNH\CONGTACDOAN\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

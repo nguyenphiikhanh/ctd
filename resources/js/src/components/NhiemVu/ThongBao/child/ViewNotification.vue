@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-12 mt-2" v-if="user.role == role.ROLE_SINH_VIEN">
                         <div class="form-group">
-                            <label class="form-label">Ghi chú từ Bí thư chi Đoàn:</label>
+                            <label class="form-label">Ghi chú từ Bí thư lớp:</label>
                             <div class="form-control-wrap" v-if="notifyInfo.small_role_details" v-html="notifyInfo.small_role_details"></div>
                             <div class="form-control-wrap" v-if="!notifyInfo.small_role_details">Không có ghi chú.</div>
                         </div>
@@ -49,6 +49,7 @@
                             <span class="badge bg-warning" v-if="notifyInfo.status == status.STATUS_CHO_DUYET">Đang chờ duyệt</span>
                             <span class="badge bg-danger" v-if="notifyInfo.status == status.STATUS_CHUA_HOAN_THANH">Chưa hoàn thành</span>
                             <span class="badge bg-danger" v-if="notifyInfo.status == status.STATUS_TU_CHOI">Minh chứng không được xét duyệt</span>
+                            <span class="badge bg-danger" v-if="notifyInfo.status == status.STATUS_VANG_MAT">Vắng mặt</span>
                         </div>
                     </div>
                     <div class="col-12">
@@ -149,8 +150,9 @@ export default {
         canUploadProof(){
             return (this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA
             || this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_DU)
-            && (this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH
-            || this.notifyInfo.status == this.status.STATUS_TU_CHOI);
+            && (this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH ||
+            this.notifyInfo.status == this.status.STATUS_TU_CHOI ||
+            this.notifyInfo.status == this.status.STATUS_VANG_MAT);
         },
         proofContent(){
             if(this.proof.length == 0){

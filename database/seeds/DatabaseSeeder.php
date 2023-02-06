@@ -14,12 +14,17 @@ class DatabaseSeeder extends Seeder
         $this->call([
             /** One time */
             // UserSeeder::class,
+
             /** any times */
-            ClassTypeSeeder::class,
-            TermSeeder::class,
-            FacultySeeder::class,
-            ClassSeeder::class,
-            ActivitySeeder::class
+            // ClassTypeSeeder::class,
+            // TermSeeder::class,
+            // FacultySeeder::class,
+            // ClassSeeder::class,
+            // ActivitySeeder::class,
+
+            TieuChiBigTypeSeeder::class,
+            LoaiTieuChiSeeder::class,
+            TieuChiSeeder::class,
         ]);
     }
 }

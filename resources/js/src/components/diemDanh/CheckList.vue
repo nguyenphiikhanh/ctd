@@ -22,8 +22,9 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">STT</th>
-                                        <th scope="col">Tên hoạt động</th>
                                         <th scope="col">Loại hoạt động</th>
+                                        <th scope="col">Tên hoạt động</th>
+                                        <th scope="col">Yêu cầu hoạt động</th>
                                         <th scope="col">Thời gian</th>
                                         <th scope="col">Trạng thái</th>
                                         <th ></th>
@@ -32,9 +33,10 @@
                                     <tbody>
                                     <tr v-for="(_item, index) in checkList" :key="index">
                                         <th scope="row">{{index + 1}}</th>
+                                        <td>{{ activityText(_item.id_activity) }}</td>
                                         <td>{{_item.name}}</td>
                                         <td>
-                                            <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_DU">Danh sách tham dự</span>
+                                            <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_DU || (_item.id_activity == act.HOAT_DONG_NCKH && _item.child_activity_type == type.PHAN_THI_OR_TIEU_BAN)">Danh sách tham dự</span>
                                             <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_GIA">Danh sách tham gia</span>
                                         </td>
                                         <td>
@@ -106,9 +108,26 @@ export default {
         },
         convertDateTime(datetime){
            return datetime ? datetimeUtils.dateTimeVnFormat(datetime) : '';
+        },
+        activityText(id_activity){
+            switch(id_activity){
+                case this.act.HOAT_DONG_NCKH:
+                    return 'Nghiên cứu khoa học';
+                    break;
+                case this.act.HOAT_DONG_NVSP:
+                    return 'Nghiệp vụ Sư phạm';
+                    break;
+                case this.act.HOAT_DONG_DOAN:
+                    return 'Hoạt động Đoàn';
+                    break;
+                default: return 'Hoạt động khác';
+            }
         }
     },
     computed:{
+        act(){
+            return constants.LOAI_HOAT_DONG;
+        },
         type(){
             return constants.HOAT_DONG;
         }

@@ -255,6 +255,8 @@ export default {
                     start_time: '',
                     end_time: '',
             };
+            this.doi_tuong_classes = [];
+            this.doi_tuong_students = [];
             this.$refs.fileUpload.value = null;
             this.hoat_dong_choose = null;
             this.files = [];

@@ -3,6 +3,7 @@
 namespace App\Http\Traits;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -12,6 +13,15 @@ trait UploadFileTrait{
     {
         try{
             DB::beginTransaction();
+            $oldFiles = DB::table($table)->where($column, $link_id)->get();
+            foreach($oldFiles as $delFile){
+                $del_path = public_path($delFile->file_path);
+                Log::debug($del_path);
+                if(File::exists($del_path)){
+                    unlink($del_path);
+                }
+            }
+            $oldFiles = DB::table($table)->where($column, $link_id)->delete();
             foreach($files as $file){
                 $fileNameOrigin = $file->getClientOriginalName();
                 $fileNameHash = Str::random(16) . '.' . $file->getClientOriginalExtension();
