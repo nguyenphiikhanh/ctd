@@ -53,7 +53,7 @@
                                         <td class="d-flex justify-content-end">
                                             <div>
                                             <button @click="viewNotify(_item)" class="btn btn-sm btn-info mr-2">Xem chi tiết</button>
-                                            <button v-if="canForward(_item, user.role)" @click="forwardChildAct(_item.id, _item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
+                                            <button v-if="canForward(_item, user.role)" @click="forwardChildAct(_item, _item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
                                                class="btn btn-sm btn-primary mr-2">{{_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI  || _item.child_activity_type == action.TB_GUI_DS_THAM_GIA || _item.child_activity_type == action.TB_GUI_DS_THAM_DU
                                                 ? 'Chọn danh sách' : 'Chuyển tiếp'}}</button>
                                             </div>
@@ -129,12 +129,12 @@ export default {
         ...mapActions({
             getActReceive: 'activity/getActivitiesReceive',
             forwardActivities: 'activity/forwardActivities',
-            getUserList: 'userModule/getUserByCanBoLop',
+            getUserList: 'userModule/getStudentByCanBoLop',
         }),
-        canForward(noti, user){
-            if(user.role == this.role.ROLE_CBL){
+        canForward(noti, userRole){
+            if(userRole == this.role.ROLE_CBL){
                 return noti.status == this.status.STATUS_CHUA_HOAN_THANH
-                && user.role == this.role.ROLE_CBL
+                && userRole == this.role.ROLE_CBL
                 && (noti.child_activity_type == this.action.TB_GUI_DS_THAM_DU ||
                 noti.child_activity_type == this.action.TB_GUI_DS_THAM_GIA ||
                 noti.child_activity_type == this.action.PHAN_THI_OR_TIEU_BAN);
@@ -144,13 +144,17 @@ export default {
         async getActivitiesReceive(){
             await this.getActReceive().then(res => this.notiList = res.data);
         },
-        async getUserListForward(readonly = null){
-            await this.getUserList(readonly).then(res => this.userList = res.data);
+        async getUserListForward(readonly = null, id_activities_details_assign = null){
+            const params = {
+                readonly: readonly,
+                id_activities_details_assign: id_activities_details_assign
+            }
+            await this.getUserList(params).then(res => this.userList = res.data);
         },
-        async forwardChildAct(id, readonly = false){
+        async forwardChildAct(noti, readonly = false){
             this.$loading(true)
-            this.id = id;
-            await this.getUserListForward(readonly ? readonly : null);
+            this.id = noti.id;
+            await this.getUserListForward(readonly ? readonly : null, noti.id_activities_details_assign);
             this.$loading(false);
             this.readonlyFlg = readonly;
             this.$nextTick(() => {

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Utils\RoleUtils;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -67,6 +68,60 @@ class StudentController extends AppBaseController
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.create',['atribute' => 'Sinh viên']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getStudentbyCanbolop(Request $request){
+        try{
+            $user = Auth::user();
+            $readonlyFlg = $request->get('readonly');
+            $id_activities_details_assign = $request->get('id_activities_details_assign');
+            $userList = DB::table('users')
+                ->where('id_class', $user->id_class);
+            if($readonlyFlg){
+                $userList->where('id', '!=', $user->id);
+                $userList = $userList->get();
+            }
+            else{
+                $act_detail = DB::table('activities_details')
+                    ->where('id', $id_activities_details_assign)
+                    ->first();
+                if(!$act_detail){
+                    return $this->sendError(__('message.failed.not_exist',['attibute' => 'Hoạt động']), Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
+                // Log::debug((array)$act_detail);
+                $userActs = DB::table('activities_details')
+                    ->rightJoin('user_activities','activities_details.id', 'user_activities.id_activities_details')
+                    ->whereRaw("start_time <= ? AND end_time >= ?",[$act_detail->end_time, $act_detail->start_time])
+                    ->select('user_activities.*', 'activities_details.name')
+                    ->get();
+                $userActIds = $userActs->pluck('id_user');
+                $userJoinActs = DB::table('activities_details')
+                    ->rightJoin('user_join_activities','activities_details.id', 'user_join_activities.id_activities_details')
+                    ->whereRaw("start_time <= ? AND end_time >= ?",[$act_detail->end_time, $act_detail->start_time])
+                    ->select('user_join_activities.*', 'activities_details.name')
+                    ->get();
+                $userJoinActIds = $userJoinActs->pluck('id_user');
+                // Log::debug($userActIds->toArray());
+                // Log::debug($userJoinActIds->toArray());
+                $userList = $userList->get();
+                foreach($userList as $userChoose){
+                    //check thi
+                    $userChoose->chooseFlg = true;
+                    if(in_array($userChoose->id, $userActIds->toArray())){
+                        $userChoose->chooseFlg = false;
+                    }
+                    // check tham gia
+                    if(in_array($userChoose->id, $userJoinActIds->toArray())){
+                        $userChoose->chooseFlg = false;
+                    }
+                }
+            }
+            return $this->sendResponse($userList,__('message.success.get_list',['atribute' => 'sinh viên']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'sinh viên']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
