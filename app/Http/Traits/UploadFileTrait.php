@@ -16,7 +16,6 @@ trait UploadFileTrait{
             $oldFiles = DB::table($table)->where($column, $link_id)->get();
             foreach($oldFiles as $delFile){
                 $del_path = public_path($delFile->file_path);
-                Log::debug($del_path);
                 if(File::exists($del_path)){
                     unlink($del_path);
                 }
