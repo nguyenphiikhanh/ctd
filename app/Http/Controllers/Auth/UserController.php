@@ -19,24 +19,6 @@ class UserController extends AppBaseController
         return $this->sendResponse($user,Response::HTTP_OK);
     }
 
-    public function getUserbyCanbolop(Request $request){
-        try{
-            $user = \Auth::user();
-            $readonlyFlg = $request->get('readonly');
-            Log::debug($readonlyFlg);
-            $userList = DB::table('users')
-                ->where('id_class', $user->id_class);
-            if($readonlyFlg){
-                $userList->where('id', '!=', $user->id);
-            }
-            $userList = $userList->get();
-            return $this->sendResponse($userList,__('message.success.get_list',['atribute' => 'sinh viên']));
-        }
-        catch(\Exception $e){
-            Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.get_list',['atribute' => 'sinh viên']),Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
     /**
      * Display a listing of the resource.
      *

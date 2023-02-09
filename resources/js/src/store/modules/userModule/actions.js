@@ -1,8 +1,8 @@
 import userServices from "../../../services/user.services";
 
 export default {
-    getUserByCanBoLop({commit, dispatch}, data){
-        return userServices.getUserByCanBoLop(data)
+    getStudentByCanBoLop({commit, dispatch}, data){
+        return userServices.getStudentByCanBoLop(data)
             .then(response => {
                 return Promise.resolve(response.data);
             })

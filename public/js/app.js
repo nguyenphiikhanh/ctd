@@ -2446,11 +2446,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
     getActReceive: 'activity/getActivitiesReceive',
     forwardActivities: 'activity/forwardActivities',
-    getUserList: 'userModule/getUserByCanBoLop'
+    getUserList: 'userModule/getStudentByCanBoLop'
   })), {}, {
-    canForward: function canForward(noti, user) {
-      if (user.role == this.role.ROLE_CBL) {
-        return noti.status == this.status.STATUS_CHUA_HOAN_THANH && user.role == this.role.ROLE_CBL && (noti.child_activity_type == this.action.TB_GUI_DS_THAM_DU || noti.child_activity_type == this.action.TB_GUI_DS_THAM_GIA || noti.child_activity_type == this.action.PHAN_THI_OR_TIEU_BAN);
+    canForward: function canForward(noti, userRole) {
+      if (userRole == this.role.ROLE_CBL) {
+        return noti.status == this.status.STATUS_CHUA_HOAN_THANH && userRole == this.role.ROLE_CBL && (noti.child_activity_type == this.action.TB_GUI_DS_THAM_DU || noti.child_activity_type == this.action.TB_GUI_DS_THAM_GIA || noti.child_activity_type == this.action.PHAN_THI_OR_TIEU_BAN);
       } else return false;
     },
     getActivitiesReceive: function getActivitiesReceive() {
@@ -2474,23 +2474,28 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       var _arguments = arguments,
         _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var readonly;
+        var readonly, id_activities_details_assign, params;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               readonly = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : null;
-              _context2.next = 3;
-              return _this2.getUserList(readonly).then(function (res) {
+              id_activities_details_assign = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : null;
+              params = {
+                readonly: readonly,
+                id_activities_details_assign: id_activities_details_assign
+              };
+              _context2.next = 5;
+              return _this2.getUserList(params).then(function (res) {
                 return _this2.userList = res.data;
               });
-            case 3:
+            case 5:
             case "end":
               return _context2.stop();
           }
         }, _callee2);
       }))();
     },
-    forwardChildAct: function forwardChildAct(id) {
+    forwardChildAct: function forwardChildAct(noti) {
       var _arguments2 = arguments,
         _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
@@ -2500,9 +2505,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             case 0:
               readonly = _arguments2.length > 1 && _arguments2[1] !== undefined ? _arguments2[1] : false;
               _this3.$loading(true);
-              _this3.id = id;
+              _this3.id = noti.id;
               _context3.next = 5;
-              return _this3.getUserListForward(readonly ? readonly : null);
+              return _this3.getUserListForward(readonly ? readonly : null, noti.id_activities_details_assign);
             case 5:
               _this3.$loading(false);
               _this3.readonlyFlg = readonly;
@@ -2642,7 +2647,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (val) {
         this.user_selected = [];
         this.userList.map(function (_item) {
-          return _this2.user_selected.push(_item.id);
+          if (_item.chooseFlg) {
+            _this2.user_selected.push(_item.id);
+          }
         });
       } else this.user_selected = [];
     },
@@ -5220,7 +5227,7 @@ var render = function render() {
       staticClass: "btn btn-sm btn-primary mr-2",
       on: {
         click: function click($event) {
-          return _vm.forwardChildAct(_item.id, _item.child_activity_type == _vm.action.THONG_BA0_KHONG_PHAN_HOI);
+          return _vm.forwardChildAct(_item, _item.child_activity_type == _vm.action.THONG_BA0_KHONG_PHAN_HOI);
         }
       }
     }, [_vm._v(_vm._s(_item.child_activity_type == _vm.action.THONG_BAO_C0_PHAN_HOI || _item.child_activity_type == _vm.action.TB_GUI_DS_THAM_GIA || _item.child_activity_type == _vm.action.TB_GUI_DS_THAM_DU ? "Chọn danh sách" : "Chuyển tiếp"))]) : _vm._e()])])]);
@@ -5404,7 +5411,7 @@ var render = function render() {
       "for": "check-all-flg"
     }
   }, [_vm._v("Chọn tất cả")])]), _vm._v(" "), _c("ul", {
-    staticClass: "custom-control-group col-10"
+    staticClass: "custom-control-group col-12"
   }, _vm._l(_vm.userList, function (option, index) {
     return _c("li", {
       key: index,
@@ -5420,6 +5427,7 @@ var render = function render() {
       }],
       staticClass: "custom-control-input",
       attrs: {
+        disabled: !option.chooseFlg,
         type: "checkbox",
         id: "user-".concat(index)
       },
@@ -5446,11 +5454,11 @@ var render = function render() {
         }
       }
     }), _vm._v(" "), _c("label", {
-      staticClass: "custom-control-label",
+      "class": "custom-control-label ".concat(!option.chooseFlg ? "text-danger" : "", " col-12"),
       attrs: {
         "for": "user-".concat(index)
       }
-    }, [_vm._v(_vm._s(option.ho + " " + option.ten) + " (Mã sinh viên: " + _vm._s(option.username) + ")")])])]);
+    }, [_vm._v("\n                                  " + _vm._s(option.ho + " " + option.ten) + " (Mã sinh viên: " + _vm._s(option.username) + ") " + _vm._s(!option.chooseFlg ? "- Trùng lịch tham gia hoạt động khác" : ""))])])]);
   }), 0)])]), _vm._v(" "), _c("div", {
     staticClass: "col-12 mt-2"
   }, [_c("div", {
@@ -85205,12 +85213,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _httpCommon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../httpCommon */ "./resources/js/src/httpCommon.js");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  getUserByCanBoLop: function getUserByCanBoLop() {
-    var readonly = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    return _httpCommon__WEBPACK_IMPORTED_MODULE_0__["default"].get("/get-user-classes-by-cbl", {
-      params: {
-        readonly: readonly
-      }
+  getStudentByCanBoLop: function getStudentByCanBoLop(params) {
+    return _httpCommon__WEBPACK_IMPORTED_MODULE_0__["default"].get("/student/class", {
+      params: params
     });
   }
 });
@@ -86369,10 +86374,10 @@ __webpack_require__.r(__webpack_exports__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  getUserByCanBoLop: function getUserByCanBoLop(_ref, data) {
+  getStudentByCanBoLop: function getStudentByCanBoLop(_ref, data) {
     var commit = _ref.commit,
       dispatch = _ref.dispatch;
-    return _services_user_services__WEBPACK_IMPORTED_MODULE_0__["default"].getUserByCanBoLop(data).then(function (response) {
+    return _services_user_services__WEBPACK_IMPORTED_MODULE_0__["default"].getStudentByCanBoLop(data).then(function (response) {
       return Promise.resolve(response.data);
     })["catch"](function (error) {
       if (Object.values(error.errors).length > 0) {

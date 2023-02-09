@@ -41,12 +41,13 @@ Route::prefix('v1')->group(function(){
         Route::post('/student','Auth\StudentController@store');
         Route::put('/student/cbSetting','Auth\StudentController@updateCbSetting');
         Route::get('/student/faculty/{id}','Auth\StudentController@getStudentByFaculty');
+        Route::get('/student/class','Auth\StudentController@getStudentbyCanbolop');
 
         // khối ngành đào tạo(Sư phạm vs Ngoài sư phạm)
         Route::get('/class-types','Auth\ClassTypeController@index');
 
         //user
-        Route::get('/get-user-classes-by-cbl','Auth\UserController@getUserbyCanbolop');
+
 
         // hoạt động
         Route::get('/activities','Auth\ActivityController@index');

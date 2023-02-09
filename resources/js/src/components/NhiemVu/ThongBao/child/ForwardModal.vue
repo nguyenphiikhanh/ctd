@@ -17,11 +17,13 @@
                         <input v-model="select_all" type="checkbox" class="custom-control-input" id="check-all-flg">
                         <label class="custom-control-label" for="check-all-flg">Chọn tất cả</label>
                     </div>
-                    <ul class="custom-control-group col-10">
+                    <ul class="custom-control-group col-12">
                         <li class="col-12" v-for="(option, index) in userList" :key="index">
                             <div class="custom-control custom-radio custom-control-pro no-control col-12">
-                                <input v-model="user_selected" type="checkbox" :value="option.id" class="custom-control-input" :id="`user-${index}`">
-                                <label class="custom-control-label" :for="`user-${index}`">{{option.ho + ' ' + option.ten}} (Mã sinh viên: {{option.username}})</label>
+                                <input :disabled="!option.chooseFlg" v-model="user_selected" type="checkbox" :value="option.id" class="custom-control-input" :id="`user-${index}`">
+                                <label :class="`custom-control-label ${!option.chooseFlg ? 'text-danger' : ''} col-12`"
+                                       :for="`user-${index}`">
+                                    {{option.ho + ' ' + option.ten}} (Mã sinh viên: {{option.username}}) {{ !option.chooseFlg ? '- Trùng lịch tham gia hoạt động khác' : ''}}</label>
                             </div>
                         </li>
                     </ul>
@@ -85,7 +87,11 @@ export default {
         select_all(val){
             if(val){
                 this.user_selected = [];
-                this.userList.map(_item => this.user_selected.push(_item.id));
+                this.userList.map(_item => {
+                    if(_item.chooseFlg){
+                        this.user_selected.push(_item.id)
+                    }
+                });
             } else this.user_selected = [];
         },
         user_selected(val){
