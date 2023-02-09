@@ -2048,15 +2048,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     isValid: function isValid() {
       if (this.hoat_dong_choose == this.loai_hoat_dong.HOAT_DONG_NCKH) {
         if (this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN) {
-          return this.activity_create.ten_hoat_dong && this.doi_tuong_students.length > 0;
+          return this.activity_create.ten_hoat_dong && this.doi_tuong_students.length > 0 && this.activity_create.start_time && this.activity_create.end_time;
         }
       } else {
         if (this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN) {
-          return this.activity_create.ten_hoat_dong;
+          return this.activity_create.ten_hoat_dong && this.activity_create.start_time && this.activity_create.end_time;
         } else if (this.thao_tac == this.hoat_dong.THONG_BAO_C0_PHAN_HOI) {
-          return this.loai_phan_hoi && this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong_classes.length > 0;
+          return this.loai_phan_hoi && this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong_classes.length > 0 && this.activity_create.start_time && this.activity_create.end_time;
         } else {
-          return this.activity_create.ten_hoat_dong && this.doi_tuong_classes.length > 0;
+          return this.activity_create.ten_hoat_dong && this.doi_tuong_classes.length > 0 && this.activity_create.start_time && this.activity_create.end_time;
         }
       }
     }
@@ -2163,6 +2163,16 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   watch: {
     hoat_dong_choose: function hoat_dong_choose() {
       this.thao_tac = null;
+      this.activity_create = {
+        ten_hoat_dong: '',
+        mota: '',
+        start_time: '',
+        end_time: ''
+      };
+      this.doi_tuong_classes = [];
+      this.doi_tuong_students = [];
+      this.$refs.fileUpload.value = null;
+      this.files = [];
     },
     thao_tac: function thao_tac(val) {
       var _this4 = this;
@@ -4248,15 +4258,22 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         username: '',
         password: '',
         email: ''
-      }
+      },
+      bt_change: true
     };
   },
   computed: {
-    cbStudent: function cbStudent() {
-      var cb = this.studentList.find(function (_item) {
+    btStudent: function btStudent() {
+      var bt = this.studentList.find(function (_item) {
         return _item.role == _constants__WEBPACK_IMPORTED_MODULE_4__["default"].roles.ROLE_CBL;
       });
-      return cb || null;
+      return bt || null;
+    },
+    ltStudent: function ltStudent() {
+      var lt = this.studentList.find(function (_item) {
+        return _item.role == _constants__WEBPACK_IMPORTED_MODULE_4__["default"].roles.ROLE_LOP_TRUONG;
+      });
+      return lt || null;
     }
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
@@ -4344,6 +4361,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       });
     },
     changeCbPopup: function changeCbPopup() {
+      var flg = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      this.bt_change = flg;
       this.$nextTick(function () {
         $('#cbSettings').modal('show');
       });
@@ -4387,7 +4406,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    id_cbl: {
+    btId: {
+      type: Number,
+      "default": null
+    },
+    ltId: {
       type: Number,
       "default": null
     },
@@ -4395,28 +4418,33 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       type: Number,
       "default": null
     },
+    choose_cbl: {
+      type: Boolean
+    },
     studentList: {
       type: Array
     }
   },
   data: function data() {
     return {
-      id: this.id_cbl
+      id_bt: this.btId,
+      id_lt: this.ltId
     };
   },
   computed: {
     modalTitle: function modalTitle() {
-      return 'Thay đổi Cán bộ chi Đoàn';
+      return this.choose_cbl ? 'Thay đổi Bí thư Lớp' : 'Thay đổi lớp trưởng';
     },
     isValid: function isValid() {
-      return this.id && this.id != this.id_cbl;
+      return this.id_bt && this.id_bt != this.btId || this.id_lt && this.id_lt != this.ltId;
     }
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
     changeCbSetting: 'student/changeCbSetting'
   })), {}, {
     closeModal: function closeModal() {
-      this.id = this.id_cbl;
+      this.id_bt = this.btId;
+      this.id_lt = this.ltId;
       this.$emit('closeModal');
     },
     onSave: function onSave() {
@@ -4431,7 +4459,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               });
               _this.$loading(true);
               data = {
-                cbId: _this.id,
+                btId: _this.id_bt,
+                ltId: _this.id_lt,
+                btChange: _this.choose_cbl,
                 id_class: _this.class_id
               };
               _context.next = 5;
@@ -7549,7 +7579,7 @@ var render = function render() {
       staticClass: "d-flex justify-content-end"
     }, [_c("div", [_c("router-link", {
       attrs: {
-        to: "chi-doan-".concat(_item.id, "/danh-sach-doan-vien"),
+        to: "lop-".concat(_item.id, "/danh-sach-sinh-vien"),
         target: "_blank"
       }
     }, [_c("button", {
@@ -7849,7 +7879,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 var render = function render() {
-  var _vm$cbStudent;
+  var _vm$btStudent, _vm$ltStudent;
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
@@ -7900,8 +7930,19 @@ var render = function render() {
   }, [_vm._v(_vm._s(_vm.classInfo.term_name))])]), _vm._v(" "), _c("h4", [_vm._v("Khối đào tạo: "), _c("span", {
     staticClass: "text-danger"
   }, [_vm._v(_vm._s(_vm.classInfo.type_name))])]), _vm._v(" "), _c("h4", [_vm._v("Bí thư lớp:\n                        "), _c("span", {
-    "class": _vm.cbStudent ? "text-danger" : "text-info"
-  }, [_vm._v(_vm._s(_vm.cbStudent ? _vm.cbStudent.ho + " " + _vm.cbStudent.ten : "Chưa có"))]), _vm._v(" "), _c("button", {
+    "class": _vm.btStudent ? "text-danger" : "text-info"
+  }, [_vm._v(_vm._s(_vm.btStudent ? _vm.btStudent.ho + " " + _vm.btStudent.ten : "Chưa có"))]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-sm btn-outline-primary",
+    on: {
+      click: function click($event) {
+        return _vm.changeCbPopup(true);
+      }
+    }
+  }, [_c("em", {
+    staticClass: "icon ni ni-repeat"
+  })])]), _vm._v(" "), _c("h4", [_vm._v("Lớp trưởng: "), _c("span", {
+    "class": _vm.ltStudent ? "text-danger" : "text-info"
+  }, [_vm._v(_vm._s(_vm.ltStudent ? _vm.ltStudent.ho + " " + _vm.ltStudent.ten : "Chưa có"))]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-sm btn-outline-primary",
     on: {
       click: function click($event) {
@@ -7910,22 +7951,22 @@ var render = function render() {
     }
   }, [_c("em", {
     staticClass: "icon ni ni-repeat"
-  })])]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _c("div", {
+  })])])]), _vm._v(" "), _c("div", {
     staticClass: "nk-block nk-block-lg"
-  }, [_vm._m(3), _vm._v(" "), _c("div", {
+  }, [_vm._m(2), _vm._v(" "), _c("div", {
     staticClass: "card card-preview"
   }, [_c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table"
-  }, [_vm._m(4), _vm._v(" "), _c("tbody", _vm._l(_vm.studentList, function (_item, index) {
+  }, [_vm._m(3), _vm._v(" "), _c("tbody", _vm._l(_vm.studentList, function (_item, index) {
     return _c("tr", {
       key: index
     }, [_c("th", {
       attrs: {
         scope: "row"
       }
-    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.username))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.ho + " " + _item.ten))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.email))]), _vm._v(" "), _vm._m(5, true)]);
+    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.username))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.ho + " " + _item.ten))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_item.email))]), _vm._v(" "), _vm._m(4, true)]);
   }), 0)])])]), _vm._v(" "), _vm.studentList.length == 0 ? _c("div", {
     staticClass: "text-center col-12 mt-5"
   }, [_vm._v("Không có dữ liệu.")]) : _vm._e()]), _vm._v(" "), _c("create-or-update-dialog", {
@@ -7942,8 +7983,10 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("CBSettings", {
     attrs: {
+      choose_cbl: _vm.bt_change,
       "student-list": _vm.studentList,
-      id_cbl: (_vm$cbStudent = _vm.cbStudent) === null || _vm$cbStudent === void 0 ? void 0 : _vm$cbStudent.id,
+      "bt-id": (_vm$btStudent = _vm.btStudent) === null || _vm$btStudent === void 0 ? void 0 : _vm$btStudent.id,
+      "lt-id": (_vm$ltStudent = _vm.ltStudent) === null || _vm$ltStudent === void 0 ? void 0 : _vm$ltStudent.id,
       class_id: Number(_vm.$route.params.id)
     },
     on: {
@@ -7979,23 +8022,13 @@ var staticRenderFns = [function () {
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("h4", [_vm._v("Lớp trưởng: "), _c("span", {
-    staticClass: "text-info"
-  }, [_vm._v("Chưa có ")]), _vm._v(" "), _c("button", {
-    staticClass: "btn btn-sm btn-outline-primary"
-  }, [_c("em", {
-    staticClass: "icon ni ni-repeat"
-  })])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
   return _c("div", {
     staticClass: "nk-block-head"
   }, [_c("div", {
     staticClass: "nk-block-head-content"
   }, [_c("h5", {
     staticClass: "nk-block-title"
-  }, [_vm._v("Danh sách lớp")])])]);
+  }, [_vm._v("Danh sách sinh viên")])])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -8083,8 +8116,8 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "col-12"
   }, [_c("label", {
-    staticClass: "h6 col-12"
-  }, [_vm._v("Chọn cán bộ chi Đoàn ")]), _vm._v(" "), _c("ul", {
+    staticClass: "h6 col-12 mb-2"
+  }, [_vm._v("Chọn cán bộ lớp")]), _vm._v(" "), _c("ul", {
     staticClass: "custom-control-group"
   }, _vm._l(_vm.studentList, function (option, ind) {
     return _c("li", {
@@ -8092,30 +8125,53 @@ var render = function render() {
       staticClass: "col-12"
     }, [_c("div", {
       staticClass: "custom-control custom-radio custom-control-pro no-control col-12"
-    }, [_c("input", {
+    }, [_vm.choose_cbl ? _c("input", {
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: _vm.id,
-        expression: "id"
+        value: _vm.id_bt,
+        expression: "id_bt"
       }],
       staticClass: "custom-control-input",
       attrs: {
-        disabled: option.id == _vm.id_cbl,
+        disabled: option.id == _vm.btId || option.id == _vm.ltId,
         type: "radio",
         name: "std-cbl",
         id: "student-".concat(ind)
       },
       domProps: {
         value: option.id,
-        checked: _vm._q(_vm.id, option.id)
+        checked: _vm._q(_vm.id_bt, option.id)
       },
       on: {
         change: function change($event) {
-          _vm.id = option.id;
+          _vm.id_bt = option.id;
         }
       }
-    }), _vm._v(" "), _c("label", {
+    }) : _vm._e(), _vm._v(" "), !_vm.choose_cbl ? _c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.id_lt,
+        expression: "id_lt"
+      }],
+      staticClass: "custom-control-input",
+      attrs: {
+        disabled: option.id == _vm.btId || option.id == _vm.ltId,
+        type: "radio",
+        name: "std-cbl",
+        id: "student-".concat(ind)
+      },
+      domProps: {
+        value: option.id,
+        checked: _vm._q(_vm.id_lt, option.id)
+      },
+      on: {
+        change: function change($event) {
+          _vm.id_lt = option.id;
+        }
+      }
+    }) : _vm._e(), _vm._v(" "), _c("label", {
       staticClass: "custom-control-label col-12",
       attrs: {
         "for": "student-".concat(ind)
@@ -84744,7 +84800,8 @@ __webpack_require__.r(__webpack_exports__);
   ADMIN: 0,
   ROLE_BI_THU_DOAN: 1,
   ROLE_CBL: 4,
-  ROLE_SINH_VIEN: 5
+  ROLE_SINH_VIEN: 5,
+  ROLE_LOP_TRUONG: 6
 });
 
 /***/ }),
@@ -84958,7 +85015,7 @@ var routes = [
 //khóa đào tạo
 {
   name: "KhoaDaoTao",
-  path: "/khoa-dao-tao",
+  path: "/quan-ly/khoa-dao-tao",
   component: _components_quanLy_KhoaDaoTao_KhoaDaoTao__WEBPACK_IMPORTED_MODULE_5__["default"],
   meta: {
     title: 'Quản lý khóa đào tạo',
@@ -84969,7 +85026,7 @@ var routes = [
 //liên chi Đoàn
 {
   name: "Khoa",
-  path: "/lien-chi-doan",
+  path: "//quan-ly/khoa",
   component: _components_quanLy_khoa_Khoa__WEBPACK_IMPORTED_MODULE_6__["default"],
   meta: {
     title: 'Quản lý khoa',
@@ -84980,7 +85037,7 @@ var routes = [
 // chi Đoàn
 {
   name: "Lop",
-  path: "/chi-doan",
+  path: "/quan-ly/lop",
   component: _components_quanLy_lop_Classes__WEBPACK_IMPORTED_MODULE_7__["default"],
   meta: {
     title: 'Quản lý lớp',
@@ -84991,7 +85048,7 @@ var routes = [
 // Đoàn viên
 {
   name: "SinhVien",
-  path: "/chi-doan-:id/danh-sach-doan-vien",
+  path: "/quan-ly/lop-:id/danh-sach-sinh-vien",
   component: _components_quanLy_sinhvien_Students__WEBPACK_IMPORTED_MODULE_8__["default"],
   meta: {
     title: 'Quản lý Sinh viên',

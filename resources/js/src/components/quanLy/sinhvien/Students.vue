@@ -31,17 +31,17 @@
                         <h4>Khóa: <span class="text-danger">{{ classInfo.term_name }}</span></h4>
                         <h4>Khối đào tạo: <span class="text-danger">{{ classInfo.type_name }}</span></h4>
                         <h4>Bí thư lớp:
-                            <span :class="cbStudent ? 'text-danger' : 'text-info'">{{ cbStudent ? cbStudent.ho + ' ' + cbStudent.ten : 'Chưa có' }}</span>
-                            <button @click="changeCbPopup()" class="btn btn-sm btn-outline-primary"><em class="icon ni ni-repeat"></em></button>
+                            <span :class="btStudent ? 'text-danger' : 'text-info'">{{ btStudent ? btStudent.ho + ' ' + btStudent.ten : 'Chưa có' }}</span>
+                            <button @click="changeCbPopup(true)" class="btn btn-sm btn-outline-primary"><em class="icon ni ni-repeat"></em></button>
                         </h4>
-                        <h4>Lớp trưởng: <span class="text-info">Chưa có </span>
-                        <button class="btn btn-sm btn-outline-primary"><em class="icon ni ni-repeat"></em></button>
+                        <h4>Lớp trưởng: <span :class="ltStudent ? 'text-danger' : 'text-info'">{{ ltStudent ? ltStudent.ho + ' ' + ltStudent.ten : 'Chưa có' }}</span>
+                        <button @click="changeCbPopup()" class="btn btn-sm btn-outline-primary"><em class="icon ni ni-repeat"></em></button>
                         </h4>
                     </div>
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
-                                <h5 class="nk-block-title">Danh sách lớp</h5>
+                                <h5 class="nk-block-title">Danh sách sinh viên</h5>
                             </div>
                         </div>
                         <div class="card card-preview">
@@ -77,7 +77,11 @@
                     </div><!-- nk-block -->
                     <create-or-update-dialog :createFlg="createFlg" :student-info="studentInfo"
                      @onSave="onSave" @closeModal="closeModal()" @changeObject="changeObject"/>
-                     <CBSettings @onSave="saveChangeCb()" @closeModal="closeModal()" :student-list="studentList" :id_cbl="cbStudent?.id" :class_id="Number($route.params.id)"/>
+                     <CBSettings :choose_cbl="bt_change" @onSave="saveChangeCb()" @closeModal="closeModal()"
+                     :student-list="studentList"
+                     :bt-id="btStudent?.id"
+                     :lt-id="ltStudent?.id"
+                     :class_id="Number($route.params.id)"/>
                 </div>
             </div>
         </div>
@@ -109,12 +113,17 @@ export default {
                 password: '',
                 email: '',
             },
+            bt_change: true
         }
     },
     computed:{
-        cbStudent(){
-            const cb = this.studentList.find(_item => _item.role == constants.roles.ROLE_CBL);
-            return cb || null;
+        btStudent(){
+            const bt = this.studentList.find(_item => _item.role == constants.roles.ROLE_CBL);
+            return bt || null;
+        },
+        ltStudent(){
+            const lt = this.studentList.find(_item => _item.role == constants.roles.ROLE_LOP_TRUONG);
+            return lt || null;
         }
     },
     methods:{
@@ -170,7 +179,8 @@ export default {
                 $('#cbSettings').modal('hide');
             });
         },
-        changeCbPopup(){
+        changeCbPopup(flg = null){
+            this.bt_change = flg;
             this.$nextTick(() => {
                 $('#cbSettings').modal('show');
             });

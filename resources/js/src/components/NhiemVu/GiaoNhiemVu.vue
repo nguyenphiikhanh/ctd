@@ -192,19 +192,23 @@ export default {
         isValid(){
             if(this.hoat_dong_choose == this.loai_hoat_dong.HOAT_DONG_NCKH){
                 if(this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){
-                    return this.activity_create.ten_hoat_dong && this.doi_tuong_students.length > 0;
+                    return this.activity_create.ten_hoat_dong && this.doi_tuong_students.length > 0
+                    && this.activity_create.start_time && this.activity_create.end_time;
                 }
             }
             else{
-            if(this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){
-                return this.activity_create.ten_hoat_dong;
-            }
-            else if(this.thao_tac == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){
-                return this.loai_phan_hoi && this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong_classes.length > 0;
-            }
-            else {
-                return this.activity_create.ten_hoat_dong && this.doi_tuong_classes.length > 0;
-            }
+                if(this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){
+                    return this.activity_create.ten_hoat_dong
+                    && this.activity_create.start_time && this.activity_create.end_time;
+                }
+                else if(this.thao_tac == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){
+                    return this.loai_phan_hoi && this.activity_create.ten_hoat_dong && this.hoat_dong_assign && this.doi_tuong_classes.length > 0
+                    && this.activity_create.start_time && this.activity_create.end_time;
+                }
+                else {
+                    return this.activity_create.ten_hoat_dong && this.doi_tuong_classes.length > 0
+                    && this.activity_create.start_time && this.activity_create.end_time;
+                }
             }
         }
     },
@@ -272,7 +276,17 @@ export default {
     },
     watch:{
         hoat_dong_choose(){
-            this.thao_tac = null;
+            this.thao_tac = null
+            this.activity_create = {
+                    ten_hoat_dong : '',
+                    mota: '',
+                    start_time: '',
+                    end_time: '',
+            };
+            this.doi_tuong_classes = [];
+            this.doi_tuong_students = [];
+            this.$refs.fileUpload.value = null;
+            this.files = [];
         },
         thao_tac(val){
             this.loai_phan_hoi = null;

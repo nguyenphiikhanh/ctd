@@ -14,6 +14,7 @@ use function PHPUnit\Framework\returnSelf;
     const ROLE_BI_THU_DOAN = 1;
     const ROLE_CVHT = 3;
     const ROLE_CBL = 4;
+    const ROLE_LOP_TRUONG = 6;
     const ROLE_SINHVIEN = 5;
 
     public static function getRoleName($roleFlg){
@@ -25,6 +26,8 @@ use function PHPUnit\Framework\returnSelf;
             case self::ROLE_CVHT: return 'Cố vấn học tập';
             break;
             case self::ROLE_CBL: return 'Bí thư lớp';
+            break;
+            case self::ROLE_LOP_TRUONG: return 'Lớp trưởng';
             break;
             default: return 'Sinh viên';
         }

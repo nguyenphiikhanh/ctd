@@ -17,6 +17,7 @@ class StudentController extends AppBaseController
     /**
      * Display a listing of the resource.
      *
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $class_id)
@@ -198,23 +199,37 @@ class StudentController extends AppBaseController
 
     public function updateCbSetting(Request $request){
         try{
-            $cbId = $request->get('cbId');
+            $bt_id = $request->get('btId');
+            $lt_id = $request->get('ltId');
+            $btChange = $request->get('btChange');
             $id_class = $request->get('id_class');
-            DB::transaction(function () use ($cbId, $id_class){
-                DB::table('users')->where('id_class', $id_class)
+            DB::connection('mysql')->transaction(function () use ($bt_id, $lt_id, $btChange, $id_class){
+                if($btChange){
+                    DB::table('users')->where('id_class', $id_class)
                     ->where('role', RoleUtils::ROLE_CBL)
                     ->update([
                         'role' => RoleUtils::ROLE_SINHVIEN
                     ]);
-                DB::table('users')->where('id', $cbId)->update([
-                    'role' => RoleUtils::ROLE_CBL,
-                ]);
+                    DB::table('users')->where('id', $bt_id)->update([
+                        'role' => RoleUtils::ROLE_CBL,
+                    ]);
+                }
+                else {
+                    DB::table('users')->where('id_class', $id_class)
+                    ->where('role', RoleUtils::ROLE_LOP_TRUONG)
+                    ->update([
+                        'role' => RoleUtils::ROLE_SINHVIEN
+                    ]);
+                    DB::table('users')->where('id', $lt_id)->update([
+                        'role' => RoleUtils::ROLE_LOP_TRUONG,
+                    ]);
+                }
             });
-            return $this->sendResponse('',__('message.success.update',['atribute' => 'cán bộ chi Đoàn']));
+            return $this->sendResponse('',__('message.success.update',['atribute' => 'cán bộ lớp']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.update',['atribute' => 'cán bộ chi Đoàn']), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.update',['atribute' => 'cán bộ lớp']), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -26,7 +26,7 @@ const routes = [
     //khóa đào tạo
     {
         name:"KhoaDaoTao",
-        path:"/khoa-dao-tao",
+        path:"/quan-ly/khoa-dao-tao",
         component: KhoaDaoTao,
         meta:{
             title: 'Quản lý khóa đào tạo',
@@ -37,7 +37,7 @@ const routes = [
     //liên chi Đoàn
     {
         name:"Khoa",
-        path:"/lien-chi-doan",
+        path:"//quan-ly/khoa",
         component: Khoa,
         meta:{
             title: 'Quản lý khoa',
@@ -48,7 +48,7 @@ const routes = [
     // chi Đoàn
     {
         name:"Lop",
-        path:"/chi-doan",
+        path:"/quan-ly/lop",
         component: Classes,
         meta:{
             title: 'Quản lý lớp',
@@ -59,7 +59,7 @@ const routes = [
     // Đoàn viên
     {
         name:"SinhVien",
-        path:"/chi-doan-:id/danh-sach-doan-vien",
+        path:"/quan-ly/lop-:id/danh-sach-sinh-vien",
         component: Students,
         meta:{
             title: 'Quản lý Sinh viên',
