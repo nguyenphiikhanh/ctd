@@ -24,18 +24,12 @@ class ClassesController extends AppBaseController
         //
         try{
             $user = Auth::user();
-            $className = $request->get('className');
             $classList = DB::table('classes')
             ->leftJoin('class_type', 'classes.id_class_type', 'class_type.id')
             ->leftJoin('terms', 'classes.id_term', 'terms.id')
             ->select('classes.id',
             DB::raw("CONCAT(classes.class_name,'(',terms.term_name,' - ', class_type.type_name ,')') as class_name"))
             ->where('id_faculty', $user->id_khoa);
-            if($className){
-                $classList->where('class_name', 'like', "%".$className."%")
-                ->orWhere('class_type.type_name', 'like', "%".$className."%")
-                ->orWhere('terms.term_name', 'like', "%".$className."%");
-            }
             $classList->orderByDesc('classes.class_name');
             $data = $classList->get();
             return $this->sendResponse($data,__('message.success.get_list',['atribute' => 'lớp']));

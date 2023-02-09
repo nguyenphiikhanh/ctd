@@ -525,7 +525,7 @@ class ChildActivityController extends AppBaseController
             $userActs = DB::table('child_activities')
                 ->join('activities_details', 'activities_details.id_child_activity', 'child_activities.id')
                 ->leftJoin('user_activities','user_activities.id_activities_details', 'activities_details.id')
-                ->leftJoin('users', 'user_activities.id_user', 'users.id')
+                ->join('users', 'user_activities.id_user', 'users.id')
                 ->leftJoin('user_receive_activities',function($leftJoin) use($id_child_act){
                     $leftJoin->on('user_receive_activities.id_child_activity', '=', 'child_activities.id');
                     $leftJoin->on('user_receive_activities.id_user', '=', 'user_activities.id_user');
