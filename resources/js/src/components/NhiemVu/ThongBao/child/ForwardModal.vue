@@ -23,7 +23,7 @@
                                 <input :disabled="!option.chooseFlg" v-model="user_selected" type="checkbox" :value="option.id" class="custom-control-input" :id="`user-${index}`">
                                 <label :class="`custom-control-label ${!option.chooseFlg ? 'text-danger' : ''} col-12`"
                                        :for="`user-${index}`">
-                                    {{option.ho + ' ' + option.ten}} (Mã sinh viên: {{option.username}}) {{ !option.chooseFlg ? '- Trùng lịch tham gia hoạt động khác' : ''}}</label>
+                                    {{option.ho + ' ' + option.ten}} (Mã sinh viên: {{option.username}})</label>
                             </div>
                         </li>
                     </ul>

@@ -30,4 +30,8 @@ namespace App\Http\Utils;
     const STATUS_TU_CHOI = 7;
     const STATUS_DUYET = 8;
     const STATUS_CHO_DUYET = 9;
+
+    // cờ boolean
+    const VALID_VALUE = 1;
+    const INVALID_VALUE = 0;
  }

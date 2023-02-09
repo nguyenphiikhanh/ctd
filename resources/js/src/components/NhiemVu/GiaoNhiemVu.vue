@@ -122,7 +122,7 @@
                                 </div>
 <!--                                đối tượng nhận-->
                                 <SetUpChildActivity @emitChange="changeDoiTuongClasses" v-if="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
-                                <SetupTieuBanNCKH @emitChange="changeDoiTuongStudents" v-if="hoat_dong_choose == loai_hoat_dong.HOAT_DONG_NCKH && thao_tac != null && thao_tac == hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
+                                <SetupTieuBanNCKH @emitChange="changeDoiTuongStudents" :start_time="activity_create.start_time" :end_time="activity_create.end_time" v-if="hoat_dong_choose == loai_hoat_dong.HOAT_DONG_NCKH && thao_tac != null && thao_tac == hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
 
                                 <div class="col-12 d-flex justify-content-center">
                                     <button v-if="isValid" @click="onSaveChildActivity()" class="btn btn-primary mb-3">Tạo nhiệm vụ</button>
