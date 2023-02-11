@@ -2,7 +2,7 @@
     <div class="nk-sidebar-menu" data-simplebar>
         <ul class="nk-menu">
             <router-link :to="{name: 'Home'}">
-                <li class="nk-menu-item">
+                <li :class="`nk-menu-item`">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-home-fill"></em></span>
                         <span class="nk-menu-text">Trang chủ</span>
@@ -94,5 +94,9 @@ export default {
 </script>
 
 <style scoped>
-
+.router-link-exact-active .nk-menu-link{
+    /* background: #ebeef2; */
+    color: #9769ff;
+    background: #ebeef2;
+}
 </style>
