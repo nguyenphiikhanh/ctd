@@ -1951,7 +1951,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   }),
   mounted: function mounted() {
-    document.title = "\u0110\u0103ng nh\u1EADp - ".concat("Hệ thốngSố hóa Công tác Đoàn Thanh niên - Trường Đại học Sư phạm Hà Nội");
+    document.title = "\u0110\u0103ng nh\u1EADp - ".concat("Hệ thống Số hóa Công tác Đoàn Thanh niên - Trường Đại học Sư phạm Hà Nội");
   },
   beforeCreate: function beforeCreate() {
     if (this.$store.getters['auth/isAuthenticated']) {
@@ -84951,7 +84951,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 });
 var roles = _constants__WEBPACK_IMPORTED_MODULE_3__["default"].roles;
 router.beforeEach(function (to, from, next) {
-  document.title = "".concat(to.meta.title, " - ").concat("Hệ thốngSố hóa Công tác Đoàn Thanh niên - Trường Đại học Sư phạm Hà Nội");
+  document.title = "".concat(to.meta.title, " - ").concat("Hệ thống Số hóa Công tác Đoàn Thanh niên - Trường Đại học Sư phạm Hà Nội");
   if (to.matched.some(function (record) {
     return record.meta.requiresAuth;
   }) && !_store__WEBPACK_IMPORTED_MODULE_2__["default"].getters["auth/isAuthenticated"]) {
