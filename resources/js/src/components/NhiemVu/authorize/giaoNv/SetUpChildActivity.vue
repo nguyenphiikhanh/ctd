@@ -11,16 +11,15 @@
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <small v-if="isSearching">Đang tìm kiếm...</small>
-                    <ul v-if="!isSearching" class="custom-control-group d-flex">
-                        <li v-for="(option, index) in classes" :key="index" class="col-4">
+                    <ul class="custom-control-group d-flex">
+                        <li v-for="(option, index) in classResources" :key="index" class="col-4">
                             <div class="custom-control custom-radio custom-control-pro no-control col-12">
                                 <input v-model="class_select" type="checkbox" :value="option.id" class="custom-control-input" :id="`class-${index}`">
                                 <label class="custom-control-label col-12" :for="`class-${index}`">{{option.class_name}}</label>
                             </div>
                         </li>
                     </ul>
-                    <div v-if="classes.length == 0" class="row text-center d-flex justify-content-center"><small>Không có dữ liệu.</small></div>
+                    <div v-if="classResources.length == 0" class="row text-center d-flex justify-content-center"><small>Không có dữ liệu.</small></div>
                 </div>
             </div>
         </div>
@@ -36,7 +35,6 @@ export default {
             classes: [],
             class_select: [],
             searchText: '',
-            isSearching: false,
         }
     },
     methods:{
@@ -46,15 +44,16 @@ export default {
         async getClasses(){
             await this.getClassList().then(res => this.classes = res.data);
         },
-        async searchClass(){
-            this.isSearching = true;
-            let data = {className: this.searchText};
-            await this.getClassList(data).then(res => this.classes = res.data);
-            this.isSearching = false;
-        }
     },
     computed:{
-
+        classResources(){
+            if(this.searchText){
+                return this.classes.filter((item)=>{
+                    return this.searchText.toLowerCase().split(' ').every(v => item.class_name.toLowerCase().includes(v))
+                })
+            }
+            else return this.classes;
+        }
     },
     async mounted() {
         asyncLoading(this.getClasses());

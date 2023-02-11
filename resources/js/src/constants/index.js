@@ -18,6 +18,10 @@ export default {
         TB_GUI_DS_THAM_DU: 6,
         TB_GUI_DS_THAM_GIA: 7,
     },
+    BOOL_VALUE:{
+        VALID_VALUE: 1,
+        INVALID_VALUE: 0,
+    },
 
     status,
     roles,

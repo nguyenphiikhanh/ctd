@@ -43,6 +43,9 @@
                         </table>
                     </div>
                 </div>
+                <p v-if="userList.length == 0" class="text-center">
+                    Không có dữ liệu.
+                </p>
                 <div class="modal-footer d-flex justify-content-center">
                     <button @click="closeModal()" class="btn btn-primary">Đóng</button>
                 </div>

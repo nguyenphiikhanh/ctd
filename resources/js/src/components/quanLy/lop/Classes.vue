@@ -47,7 +47,7 @@
                                         <td>{{_item.class_name}}</td>
                                         <td class="d-flex justify-content-end">
                                             <div>
-                                            <router-link :to="`chi-doan-${_item.id}/danh-sach-doan-vien`" target="_blank">
+                                            <router-link :to="`lop-${_item.id}/danh-sach-sinh-vien`" target="_blank">
                                                 <button class="btn btn-sm btn-primary">Danh sách Sinh viên</button>
                                             </router-link>
                                             <button class="btn btn-sm btn-info">Sửa</button>

@@ -17,6 +17,7 @@ class StudentController extends AppBaseController
     /**
      * Display a listing of the resource.
      *
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $class_id)
@@ -89,30 +90,22 @@ class StudentController extends AppBaseController
                 if(!$act_detail){
                     return $this->sendError(__('message.failed.not_exist',['attibute' => 'Hoạt động']), Response::HTTP_UNPROCESSABLE_ENTITY);
                 }
-                // Log::debug((array)$act_detail);
-                $userActs = DB::table('activities_details')
+                $userActIds = DB::table('activities_details')
                     ->rightJoin('user_activities','activities_details.id', 'user_activities.id_activities_details')
                     ->whereRaw("start_time <= ? AND end_time >= ?",[$act_detail->end_time, $act_detail->start_time])
                     ->select('user_activities.*', 'activities_details.name')
-                    ->get();
-                $userActIds = $userActs->pluck('id_user');
-                $userJoinActs = DB::table('activities_details')
+                    ->pluck('id_user');
+                $userJoinActIds = DB::table('activities_details')
                     ->rightJoin('user_join_activities','activities_details.id', 'user_join_activities.id_activities_details')
                     ->whereRaw("start_time <= ? AND end_time >= ?",[$act_detail->end_time, $act_detail->start_time])
                     ->select('user_join_activities.*', 'activities_details.name')
-                    ->get();
-                $userJoinActIds = $userJoinActs->pluck('id_user');
-                // Log::debug($userActIds->toArray());
-                // Log::debug($userJoinActIds->toArray());
+                    ->pluck('id_user');
+                $userIdsCheck = array_merge($userActIds->toArray(), $userJoinActIds->toArray());
                 $userList = $userList->get();
                 foreach($userList as $userChoose){
                     //check thi
                     $userChoose->chooseFlg = true;
-                    if(in_array($userChoose->id, $userActIds->toArray())){
-                        $userChoose->chooseFlg = false;
-                    }
-                    // check tham gia
-                    if(in_array($userChoose->id, $userJoinActIds->toArray())){
+                    if(in_array($userChoose->id, $userIdsCheck)){
                         $userChoose->chooseFlg = false;
                     }
                 }
@@ -127,11 +120,31 @@ class StudentController extends AppBaseController
 
     public function getStudentByFaculty(Request $request, $id_faculty){
         try{
-            $searchText = $request->get('searchText');
+            $start_time = $request->get('start_time');
+            $end_time = $request->get('end_time');
+            $userIdsCheck = [];
+            if($start_time && $end_time){
+            $userActIds = DB::table('activities_details')
+                ->rightJoin('user_activities','activities_details.id', 'user_activities.id_activities_details')
+                ->whereRaw("start_time <= ? AND end_time >= ?",[$end_time, $start_time])
+                ->select('user_activities.*', 'activities_details.name')
+                ->pluck('id_user');
+            $userJoinActIds = DB::table('activities_details')
+                ->rightJoin('user_join_activities','activities_details.id', 'user_join_activities.id_activities_details')
+                ->whereRaw("start_time <= ? AND end_time >= ?",[$end_time, $start_time])
+                ->select('user_join_activities.*', 'activities_details.name')
+                ->pluck('id_user');
+            $userIdsCheck = array_merge($userActIds->toArray(), $userJoinActIds->toArray());
+            }
+            $userIdsCheck = count($userIdsCheck) > 0 ? implode(',',$userIdsCheck) : 'null';
             $studentList = DB::table('users')
                 ->select('users.id as id',
                     DB::raw("CONCAT(users.ho, ' ', users.ten, ' - ', users.username,
                 ' (',classes.class_name,' - ', class_type.type_name,')') as name"),
+                    DB::raw("CASE
+                                WHEN users.id in (".$userIdsCheck.") THEN false
+                                ELSE true
+                             END as chooseFlg")
                 )
                 ->leftJoin('classes', 'classes.id', 'users.id_class')
                 ->leftJoin('class_type', 'classes.id_class_type', 'class_type.id')
@@ -140,10 +153,6 @@ class StudentController extends AppBaseController
                     $query->where('users.role', RoleUtils::ROLE_SINHVIEN)
                         ->orWhere('users.role', RoleUtils::ROLE_CBL);
                 });
-                if($searchText){
-                    $studentList->whereRaw("CONCAT(users.ho, ' ', users.ten, ' - ', users.username,
-                    ' (',classes.class_name,' - ', class_type.type_name,')') LIKE ?", ["%".$searchText."%"]);
-                }
                 $studentList->orderByDesc('classes.class_name');
                 $data = $studentList->get();
                 return $this->sendResponse($data,__('message.success.get_list',['atribute' => 'sinh viên']));
@@ -190,23 +199,37 @@ class StudentController extends AppBaseController
 
     public function updateCbSetting(Request $request){
         try{
-            $cbId = $request->get('cbId');
+            $bt_id = $request->get('btId');
+            $lt_id = $request->get('ltId');
+            $btChange = $request->get('btChange');
             $id_class = $request->get('id_class');
-            DB::transaction(function () use ($cbId, $id_class){
-                DB::table('users')->where('id_class', $id_class)
+            DB::connection('mysql')->transaction(function () use ($bt_id, $lt_id, $btChange, $id_class){
+                if($btChange){
+                    DB::table('users')->where('id_class', $id_class)
                     ->where('role', RoleUtils::ROLE_CBL)
                     ->update([
                         'role' => RoleUtils::ROLE_SINHVIEN
                     ]);
-                DB::table('users')->where('id', $cbId)->update([
-                    'role' => RoleUtils::ROLE_CBL,
-                ]);
+                    DB::table('users')->where('id', $bt_id)->update([
+                        'role' => RoleUtils::ROLE_CBL,
+                    ]);
+                }
+                else {
+                    DB::table('users')->where('id_class', $id_class)
+                    ->where('role', RoleUtils::ROLE_LOP_TRUONG)
+                    ->update([
+                        'role' => RoleUtils::ROLE_SINHVIEN
+                    ]);
+                    DB::table('users')->where('id', $lt_id)->update([
+                        'role' => RoleUtils::ROLE_LOP_TRUONG,
+                    ]);
+                }
             });
-            return $this->sendResponse('',__('message.success.update',['atribute' => 'cán bộ chi Đoàn']));
+            return $this->sendResponse('',__('message.success.update',['atribute' => 'cán bộ lớp']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.update',['atribute' => 'cán bộ chi Đoàn']), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.update',['atribute' => 'cán bộ lớp']), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -11,16 +11,15 @@
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <small v-if="isSearching">Đang tìm kiếm...</small>
-                    <ul v-if="!isSearching" class="custom-control-group d-flex">
-                        <li v-for="(option, index) in students" :key="index" class="col-4">
+                    <ul class="custom-control-group d-flex">
+                        <li v-for="(option, index) in studentRescources" :key="index" class="col-4">
                             <div class="custom-control custom-radio custom-control-pro no-control col-12">
-                                <input v-model="student_select" type="checkbox" :value="option.id" class="custom-control-input" :id="`student-${index}`">
-                                <label class="custom-control-label col-12" :for="`student-${index}`">{{option.name}}</label>
+                                <input :disabled="option.chooseFlg == chooseFlg.INVALID_VALUE" v-model="student_select" type="checkbox" :value="option.id" class="custom-control-input" :id="`student-${index}`">
+                                <label :class="`custom-control-label ${option.chooseFlg == chooseFlg.INVALID_VALUE ? 'text-danger' : ''} col-12`" :for="`student-${index}`">{{option.name}}</label>
                             </div>
                         </li>
                     </ul>
-                    <div v-if="students.length == 0" class="row text-center d-flex justify-content-center"><small>Không có dữ liệu.</small></div>
+                    <div v-if="studentRescources.length == 0" class="row text-center d-flex justify-content-center"><small>Không có dữ liệu.</small></div>
                 </div>
             </div>
         </div>
@@ -30,14 +29,16 @@
 <script>
 import {mapActions} from 'vuex'
 import { asyncLoading } from 'vuejs-loading-plugin';
+import datetimeUtils from '../../../../helpers/utils/datetimeUtils';
+import constants from '../../../../constants';
 export default {
+    props:["start_time", "end_time"],
     data(){
         return{
             auth_user: {},
             students: [],
             student_select: [],
             searchText: '',
-            isSearching: false,
         }
     },
     methods:{
@@ -50,16 +51,18 @@ export default {
             };
             await this.getStudentByFaculty(data).then(res => this.students = res.data);
         },
-        async searchStudent(){
-            this.isSearching = true;
-            const data = {
-                id_faculty: this.auth_user.id_khoa,
-                params: {
-                    searchText: this.searchText
-                }
-            };
-            await this.getStudentByFaculty(data).then(res => this.students = res.data);
-            this.isSearching = false;
+    },
+    computed:{
+        studentRescources(){
+            if(this.searchText){
+                return this.students.filter((item)=>{
+                    return this.searchText.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v))
+                })
+            }
+            else return this.students;
+        },
+        chooseFlg(){
+            return constants.BOOL_VALUE;
         }
     },
     async mounted() {
@@ -69,6 +72,34 @@ export default {
     watch:{
         student_select(val){
             this.$emit('emitChange', val);
+        },
+        async start_time(val){
+            if(this.end_time){
+                const data = {
+                    id_faculty: this.auth_user.id_khoa,
+                    params:{
+                        start_time: datetimeUtils.convertTimezoneToDatetime(this.start_time),
+                        end_time: datetimeUtils.convertTimezoneToDatetime(this.end_time)
+                    }
+                };
+                this.student_select = [];
+                this.searchText = '';
+                await this.getStudentByFaculty(data).then(res => this.students = res.data);
+            }
+        },
+        async end_time(val){
+            if(this.start_time){
+                const data = {
+                    id_faculty: this.auth_user.id_khoa,
+                    params:{
+                        start_time: datetimeUtils.convertTimezoneToDatetime(this.start_time),
+                        end_time: datetimeUtils.convertTimezoneToDatetime(this.end_time)
+                    }
+                };
+                this.student_select = [];
+                this.searchText = '';
+                await this.getStudentByFaculty(data).then(res => this.students = res.data);
+            }
         }
     }
 }
