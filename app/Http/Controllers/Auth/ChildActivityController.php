@@ -291,10 +291,18 @@ class ChildActivityController extends AppBaseController
             $activityChecklist = DB::table('user_receive_activities')
                 ->leftJoin('activities_details','user_receive_activities.id_activities_details_assign', 'activities_details.id')
                 ->leftJoin('child_activities','child_activities.id','user_receive_activities.id_child_activity')
+                ->leftJoin('users', 'users.id', 'user_receive_activities.id_user')
                 ->select('activities_details.*',
                 'child_activities.id_activity','child_activities.child_activity_type as child_activity_type')
-                ->where('user_receive_activities.id_user', $user->id)
-                ->where('user_receive_activities.status', AppUtils::STATUS_HOAN_THANH)
+                ->where(function($where) use($user) {
+                    $where->where('user_receive_activities.id_user', $user->id)
+                    ->where('user_receive_activities.status', AppUtils::STATUS_HOAN_THANH);
+                })
+                ->orWhere(function($query){
+                    $query->where('users.role', RoleUtils::ROLE_CBL)
+                        ->where('child_activities.child_activity_type', AppUtils::TB_GUI_DS_THAM_DU)
+                        ->orWhere('child_activities.child_activity_type', AppUtils::TB_GUI_DS_THAM_GIA);
+                })
                 ->get();
             $act_nckhs = DB::table('activities_details')
                 ->leftJoin('child_activities','child_activities.id','activities_details.id_child_activity')
