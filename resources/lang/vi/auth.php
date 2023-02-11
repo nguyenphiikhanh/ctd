@@ -15,6 +15,7 @@ return [
     'success' => 'Đăng nhập thành công',
     'failed' => 'Sai tên đăng nhập hoặc mật khẩu.',
     'unAuthenticated' => 'Hành động này yêu cầu xác thực người dùng, vui lòng đăng nhập để xác nhận.',
+    'unAuthorized' => 'Không có quyền dối với hành động này.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];

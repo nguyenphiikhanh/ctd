@@ -2,6 +2,10 @@ import authServices from "../../../services/auth.services";
 
 export default {
     login({commit, dispatch}, data){
+        const token = localStorage.getItem('token');
+        if(token){
+            location.href = '/';
+        }
         return authServices.login(data)
             .then(response => {
                 const data = response.data.data;
@@ -19,6 +23,7 @@ export default {
     logout({commit, dispatch}){
         commit('SET_TOKEN',null);
         commit('SET_USER_AUTH',null);
+        localStorage.clear();
         location.href = '/dang-nhap';
     }
 }

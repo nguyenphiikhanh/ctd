@@ -22,8 +22,20 @@ router.beforeEach((to, from, next) => {
             location.href = '/dang-nhap';
     }
 
-    if (to.matched.some(record => !record.meta.adminAccess) && store.getters['auth/user'].role == roles.ADMIN) { // block admin middleware
-        router.push({name: "Home"});
+    if(to.matched.some(record => record.path != '/dang-nhap')){
+        const role = store.getters['auth/user'].role;
+        console.log('role: ', role);
+        if (to.matched.some(record => !record.meta.adminAccess) && role == roles.ADMIN) { // block admin middleware
+            router.push({name: "Home"});
+        }
+
+        if (to.matched.some(record => !record.meta.btdAccess) && role == roles.ROLE_BI_THU_DOAN) { // block btDoan middleware
+            router.push({name: "Home"});
+        }
+
+        if (to.matched.some(record => !record.meta.cblAccess) && (role == roles.ROLE_LOP_TRUONG || role == roles.ROLE_CBL)) { // block cbl middleware
+            router.push({name: "Home"});
+        }
     }
 
     next();

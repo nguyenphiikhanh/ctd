@@ -20,6 +20,8 @@ const routes = [
             title: 'Nhiệm vụ',
             requiresAuth: true,
             adminAccess: true,
+            cblAccess: true,
+            btdAccess: true,
         }
     },
 
@@ -32,6 +34,8 @@ const routes = [
             title: 'Quản lý khóa đào tạo',
             requiresAuth: true,
             adminAccess: true,
+            cblAccess: false,
+            btdAccess: false,
         }
     },
     //liên chi Đoàn
@@ -43,6 +47,8 @@ const routes = [
             title: 'Quản lý khoa',
             requiresAuth: true,
             adminAccess: true,
+            cblAccess: false,
+            btdAccess: false,
         }
     },
     // chi Đoàn
@@ -54,6 +60,8 @@ const routes = [
             title: 'Quản lý lớp',
             requiresAuth: true,
             adminAccess: true,
+            cblAccess: false,
+            btdAccess: false,
         }
     },
     // Đoàn viên
@@ -65,6 +73,8 @@ const routes = [
             title: 'Quản lý Sinh viên',
             requiresAuth: true,
             adminAccess: true,
+            cblAccess: false,
+            btdAccess: false,
         }
     },
     // nhiệm vụ
@@ -76,6 +86,8 @@ const routes = [
             title: 'Nhiệm vụ',
             requiresAuth: true,
             adminAccess: false,
+            cblAccess: false,
+            btdAccess: true,
         }
     },
     {
@@ -86,6 +98,8 @@ const routes = [
             title: 'Tạo nhiệm vụ',
             requiresAuth: true,
             adminAccess: false,
+            cblAccess: false,
+            btdAccess: true,
         }
     },
     {
@@ -96,6 +110,8 @@ const routes = [
             title: 'Thông báo nhiệm vụ',
             requiresAuth: true,
             adminAccess: false,
+            cblAccess: true,
+            btdAccess: false,
         }
     },
 
@@ -108,6 +124,8 @@ const routes = [
             title: 'Điểm danh hoạt động',
             requiresAuth: true,
             adminAccess: false,
+            cblAccess: true,
+            btdAccess: false,
         }
     },
 ];

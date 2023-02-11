@@ -22,24 +22,31 @@ Route::prefix('v1')->group(function(){
         //logout
         Route::post('/logout', [AuthController::class, 'logout']);
         // admin
-        //khóa đào tạo
-        Route::get('/terms','Auth\TermController@index');
-        Route::post('/terms','Auth\TermController@store');
-        Route::put('/terms/{id}','Auth\TermController@update');
+        Route::middleware('role.admin')->group(function(){
+            //khóa đào tạo
+            Route::get('/terms','Auth\TermController@index');
+            Route::post('/terms','Auth\TermController@store');
+            Route::put('/terms/{id}','Auth\TermController@update');
 
-        //khoa
-        Route::get('/faculties','Auth\FacultyController@index');
-        Route::post('/faculties','Auth\FacultyController@store');
+            //khoa
+            Route::get('/faculties','Auth\FacultyController@index');
+            Route::post('/faculties','Auth\FacultyController@store');
+
+            // Sinh viên
+            Route::get('/students/class/{id}','Auth\StudentController@index');
+            Route::post('/student','Auth\StudentController@store');
+
+            // Lớp
+            Route::post('/classes','Auth\ClassesController@store');
+        });
 
         //Lớp
         Route::get('/class-list','Auth\ClassesController@index');
         Route::get('/classes','Auth\ClassesController@getClasses');
         Route::get('/class/{id}','Auth\ClassesController@show');
-        Route::post('/classes','Auth\ClassesController@store');
 
-        // Sinh viên
-        Route::get('/students/class/{id}','Auth\StudentController@index');
-        Route::post('/student','Auth\StudentController@store');
+
+        // sinh vieen
         Route::put('/student/cbSetting','Auth\StudentController@updateCbSetting');
         Route::get('/student/faculty/{id}','Auth\StudentController@getStudentByFaculty');
         Route::get('/student/class','Auth\StudentController@getStudentbyCanbolop');

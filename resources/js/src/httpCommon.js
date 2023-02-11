@@ -1,13 +1,19 @@
 import axios from 'axios';
 import store from "./store";
 
-let authToken = localStorage.getItem('token');
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + authToken;
-
 const instance = axios.create({
     baseURL: process.env.MIX_BASE_URL_API,
     withCredentials: true,
 });
+
+instance.interceptors.request.use(
+    (config) => {
+        const authToken = localStorage.getItem('token');
+        config.headers['Authorization'] = 'Bearer ' + authToken;
+        return config;
+    },(error) => {
+        return Promise.reject(error);
+    });
 
 instance.interceptors.response.use(
     (response)=>{
