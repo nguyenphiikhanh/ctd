@@ -31,8 +31,9 @@ import router from "./src/router";
 import VueLoading from "vuejs-loading-plugin"; // loading
 Vue.use(VueLoading, {
     dark: true,
-    text: 'Vui lòng đợi...',
-    background: '#fff',
+    loading: false,
+    text: 'Vui lòng chờ...',
+    background: "#ffffffa6",
 });
 
 import Toast from "vue-toastification"; // Toastify
