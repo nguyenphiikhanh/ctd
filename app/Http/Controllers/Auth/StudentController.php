@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
+use App\Http\Utils\AppUtils;
 use App\Http\Utils\RoleUtils;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -148,6 +149,8 @@ class StudentController extends AppBaseController
                 )
                 ->leftJoin('classes', 'classes.id', 'users.id_class')
                 ->leftJoin('class_type', 'classes.id_class_type', 'class_type.id')
+                ->leftJoin('terms','terms.id', 'classes.id_term')
+                ->where('terms.setting_flg', AppUtils::VALID_VALUE)
                 ->where('classes.id_faculty', $id_faculty)
                 ->where(function($query){
                     $query->where('users.role', RoleUtils::ROLE_SINHVIEN)

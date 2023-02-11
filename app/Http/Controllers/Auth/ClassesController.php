@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
+use App\Http\Utils\AppUtils;
 use App\Http\Utils\RoleUtils;
 use App\Models\Classes;
 use Illuminate\Http\Request;
@@ -29,7 +30,8 @@ class ClassesController extends AppBaseController
             ->leftJoin('terms', 'classes.id_term', 'terms.id')
             ->select('classes.id',
             DB::raw("CONCAT(classes.class_name,'(',terms.term_name,' - ', class_type.type_name ,')') as class_name"))
-            ->where('id_faculty', $user->id_khoa);
+            ->where('id_faculty', $user->id_khoa)
+            ->where('terms.setting_flg', AppUtils::VALID_VALUE);
             $classList->orderByDesc('classes.class_name');
             $data = $classList->get();
             return $this->sendResponse($data,__('message.success.get_list',['atribute' => 'lớp']));
