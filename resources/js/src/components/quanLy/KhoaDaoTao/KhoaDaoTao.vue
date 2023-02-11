@@ -49,6 +49,7 @@
                                             <div>
                                             <button class="btn btn-sm btn-info">Sửa</button>
                                             <button class="btn btn-sm btn-danger mr-2">Xóa</button>
+                                            <button @click="turnOffconfirm(_item)" :class="`btn btn-sm btn-${_item.setting_flg == stateCheck.STATE_INVALID ? 'success' : 'warning'} mr-2`">{{ _item.setting_flg == stateCheck.STATE_INVALID ? 'Mở' : 'Tắt' }} xét duyệt</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -69,6 +70,7 @@
 import { asyncLoading } from 'vuejs-loading-plugin';
 import { mapActions } from 'vuex';
 import createOrUpdateDialog from './child/CreateOrUpdateKhoaDaoTao.vue';
+
 export default {
     components:{
         createOrUpdateDialog,
@@ -81,10 +83,19 @@ export default {
             tenKhoa: ''
         }
     },
+    computed:{
+        stateCheck(){
+            return {
+                STATE_INVALID: 0,
+                STATE_VALID: 1
+            }
+        }
+    },
     methods:{
         ...mapActions({
             getTermList: 'khoaDaoTao/getTermList',
             createTerm: 'khoaDaoTao/createTerm',
+            updateTerm: 'khoaDaoTao/updateTerm',
         }),
         async getTermListData(){
             const params = {};
@@ -119,6 +130,23 @@ export default {
             this.$loading(false);
             this.closeModal();
             await asyncLoading(this.getTermListData());
+        },
+        turnOffconfirm(obj_khoa){
+            this.$swal.fire({
+                title: obj_khoa.setting_flg == this.stateCheck.STATE_VALID ? 'Tắt xét duyệt cho khóa này?' : 'Mở xét duyệt cho khóa này?',
+                showCancelButton: true,
+                text: obj_khoa.setting_flg == this.stateCheck.STATE_VALID ? 'Chú ý: Sau khi tắt xét duyệt sẽ không thể thực hiện giao nhiệm vụ cũng như cập nhật điểm rèn luyện cho sinh viên trong khóa.' : '',
+                cancelButtonText: 'Đóng',
+                confirmButtonColor: obj_khoa.setting_flg == this.stateCheck.STATE_VALID ? 'red' : '#98c379',
+                confirmButtonText: obj_khoa.setting_flg == this.stateCheck.STATE_VALID ? 'Tắt' : 'Mở',
+                }).then(async (result) => {
+                if (result.isConfirmed) {
+                    let data = JSON.parse(JSON.stringify({...obj_khoa}));
+                    data.setting_flg = !data.setting_flg;
+                    await asyncLoading(this.updateTerm(data));
+                    await asyncLoading(this.getTermListData());
+                }
+            })
         },
         closeModal(){
             this.$nextTick(() => {

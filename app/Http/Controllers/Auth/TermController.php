@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TermRequest;
+use App\Models\Term;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -79,6 +80,25 @@ class TermController extends AppBaseController
     public function update(Request $request, $id)
     {
         //
+        try{
+            $term = Term::find($id);
+            if(!$term){
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'Khóa đào tạo']), Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            $term_name = $request->input('term_name');
+            $setting_flg = $request->setting_flg;
+            Log::debug($setting_flg);
+            $term->update([
+                'term_name' => $term_name,
+                'setting_flg' => $setting_flg
+            ]);
+            return $this->sendResponse('',__('message.success.update',['atribute' => 'Khóa đào tạo']));
+        }
+        catch(\Exception $e){
+            Log::debug($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.create',['atribute' => 'khóa đào tạo']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

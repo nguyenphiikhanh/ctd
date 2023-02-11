@@ -37,7 +37,7 @@ const routes = [
     //liên chi Đoàn
     {
         name:"Khoa",
-        path:"//quan-ly/khoa",
+        path:"/quan-ly/khoa",
         component: Khoa,
         meta:{
             title: 'Quản lý khoa',

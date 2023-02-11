@@ -6,5 +6,8 @@ export default {
     },
     createTerm(data){
         return http.post('/terms', data);
+    },
+    updateTerm(term){
+        return http.put(`/terms/${term.id}`, term);
     }
 }

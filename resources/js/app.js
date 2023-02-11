@@ -45,6 +45,10 @@ Vue.use(Toast, {
 
 import 'vue2-datepicker/index.css'; // Datepicker
 
+import VueSweetalert2 from 'vue-sweetalert2'; // Sweetalert2
+import 'sweetalert2/dist/sweetalert2.min.css';
+Vue.use(VueSweetalert2);
+
 const app = new Vue({
     store,
     router,

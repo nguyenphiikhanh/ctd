@@ -25,6 +25,7 @@ Route::prefix('v1')->group(function(){
         //khóa đào tạo
         Route::get('/terms','Auth\TermController@index');
         Route::post('/terms','Auth\TermController@store');
+        Route::put('/terms/{id}','Auth\TermController@update');
 
         //khoa
         Route::get('/faculties','Auth\FacultyController@index');
