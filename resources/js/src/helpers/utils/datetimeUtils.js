@@ -26,6 +26,6 @@ export default{
         let mi = '' + tz.getMinutes();
         if(mi.length < 2) mi = '0' + mi;
         let s = '00';
-        return `${h}:${mi} ${d}/${m}/${y}`;
+        return `${h}:${mi} ngày ${d}/${m}/${y}`;
     }
 }

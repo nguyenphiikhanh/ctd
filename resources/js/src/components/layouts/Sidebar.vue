@@ -41,7 +41,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role != roles.ADMIN" :to="{name: 'NhiemVu_List'}">
+            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'NhiemVu_List'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
@@ -49,7 +49,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role != roles.ADMIN" :to="{name: 'Notifications'}">
+            <router-link v-if="user.role != roles.ADMIN && user.role != roles.ROLE_BI_THU_DOAN" :to="{name: 'Notifications'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-bell-fill"></em></span>
@@ -57,7 +57,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role != roles.ADMIN" :to="{name: 'CheckList'}">
+            <router-link v-if="user.role == roles.ROLE_LOP_TRUONG || user.role == roles.ROLE_CBL" :to="{name: 'CheckList'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-list-check"></em></span>

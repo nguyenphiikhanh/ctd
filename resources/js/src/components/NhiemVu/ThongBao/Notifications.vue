@@ -32,7 +32,7 @@
                                     <tbody>
                                     <tr v-for="(_item, index) in notiList" :key="index">
                                         <th scope="row">{{index + 1}}</th>
-                                        <td>{{_item.created_at}}</td>
+                                        <td>{{ convertDateTime(_item.start_time) }}</td>
                                         <td>{{_item.name}}</td>
                                         <td>
                                             <span class="tb-odr-status">
@@ -131,6 +131,9 @@ export default {
             forwardActivities: 'activity/forwardActivities',
             getUserList: 'userModule/getStudentByCanBoLop',
         }),
+        convertDateTime(datetime){
+           return datetime ? datetimeUtils.dateTimeVnFormat(datetime) : '';
+        },
         canForward(noti, userRole){
             if(userRole == this.role.ROLE_CBL){
                 return noti.status == this.status.STATUS_CHUA_HOAN_THANH
@@ -184,7 +187,6 @@ export default {
             this.$nextTick(() => {
                 $('#viewNotification').modal('show');
             });
-            console.log('view to upload proof',this.child_act_info);
         },
         closeForward(){
             this.$nextTick(() => {
