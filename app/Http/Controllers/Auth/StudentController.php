@@ -79,10 +79,14 @@ class StudentController extends AppBaseController
             $readonlyFlg = $request->get('readonly');
             $id_activities_details_assign = $request->get('id_activities_details_assign');
             $userList = DB::table('users')
+                ->select('id','ho','ten','username')
                 ->where('id_class', $user->id_class);
             if($readonlyFlg){
                 $userList->where('id', '!=', $user->id);
                 $userList = $userList->get();
+                foreach($userList as $userChoose){
+                    $userChoose->chooseFlg = true;
+                }
             }
             else{
                 $act_detail = DB::table('activities_details')

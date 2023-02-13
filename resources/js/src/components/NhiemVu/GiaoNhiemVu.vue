@@ -184,17 +184,13 @@ export default {
         ten_hoat_dong(){
             if(this.hoat_dong_choose == 1) {
                 return 'Tạo tiểu ban';
-            } else if (this.hoat_dong_choose == 2){
-                return 'Tạo phần thi';
             }
             else return 'Tạo hoạt động';
         },
         isValid(){
-            if(this.hoat_dong_choose == this.loai_hoat_dong.HOAT_DONG_NCKH){
-                if(this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){
-                    return this.activity_create.ten_hoat_dong && this.doi_tuong_students.length > 0
-                    && this.activity_create.start_time && this.activity_create.end_time;
-                }
+            if(this.hoat_dong_choose == this.loai_hoat_dong.HOAT_DONG_NCKH && this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){
+                return this.activity_create.ten_hoat_dong && this.doi_tuong_students.length > 0
+                && this.activity_create.start_time && this.activity_create.end_time;
             }
             else{
                 if(this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){
@@ -207,7 +203,6 @@ export default {
                 }
                 else {
                     return this.activity_create.ten_hoat_dong && this.doi_tuong_classes.length > 0
-                    && this.activity_create.start_time && this.activity_create.end_time;
                 }
             }
         }
@@ -260,6 +255,7 @@ export default {
                     end_time: '',
             };
             this.doi_tuong_classes = [];
+            this.hoat_dong_assign = null;
             this.doi_tuong_students = [];
             this.$refs.fileUpload.value = null;
             this.hoat_dong_choose = null;

@@ -140,7 +140,8 @@ export default {
                 && userRole == this.role.ROLE_CBL
                 && (noti.child_activity_type == this.action.TB_GUI_DS_THAM_DU ||
                 noti.child_activity_type == this.action.TB_GUI_DS_THAM_GIA ||
-                noti.child_activity_type == this.action.PHAN_THI_OR_TIEU_BAN);
+                noti.child_activity_type == this.action.PHAN_THI_OR_TIEU_BAN ||
+                noti.child_activity_type == this.action.THONG_BA0_KHONG_PHAN_HOI);
             }
             else return false;
         },
