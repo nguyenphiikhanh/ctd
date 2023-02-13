@@ -27,17 +27,19 @@
                                 <td>{{user.username}}</td>
                                 <td>{{user.fullname}}</td>
                                 <td>
-                                    <select v-if="user.status != statuses.STATUS_CHO_DUYET && user.status != statuses.STATUS_DUYET && user.status != statuses.STATUS_TU_CHOI" v-model="user.status" @change="onUpdateStatus(user)" class="form-control w-90">
+                                    <span v-if="!canUpdate(user)" class="text-success">Đã hoàn thành</span>
+                                    <select v-if="canUpdate(user) && (user.status != statuses.STATUS_CHO_DUYET && user.status != statuses.STATUS_DUYET && user.status != statuses.STATUS_TU_CHOI)" v-model="user.status" @change="onUpdateStatus(user)" class="form-control w-90">
                                         <option :value="statuses.STATUS_CHUA_HOAN_THANH">Chưa hoàn thành</option>
                                         <option :value="statuses.STATUS_HOAN_THANH">Hoàn thành</option>
                                         <option :value="statuses.STATUS_VANG_MAT">Vắng mặt</option>
                                     </select>
-                                    <span v-if="user.status == statuses.STATUS_CHO_DUYET" class="text-warning">Chờ xét duyệt</span>
-                                    <span v-if="user.status == statuses.STATUS_DUYET" class="text-success">Đã xét duyệt</span>
-                                    <span v-if="user.status == statuses.STATUS_TU_CHOI" class="text-danger">Không duyệt minh chứng</span>
+                                    <span v-if="canUpdate(user) && (user.status == statuses.STATUS_CHO_DUYET)" class="text-warning">Chờ xét duyệt</span>
+                                    <span v-if="canUpdate(user) && (user.status == statuses.STATUS_DUYET)" class="text-success">Đã xét duyệt</span>
+                                    <span v-if="canUpdate(user) && (user.status == statuses.STATUS_TU_CHOI)" class="text-danger">Không duyệt minh chứng</span>
                                 </td>
                                 <td>
-                                    <input v-model="user.note" @keyup.enter="$event.target.blur()" @blur="onUpdateStatus(user)" class="form-control" placeholder="Ghi chú">
+                                    <input v-if="canUpdate(user)" v-model="user.note" @keyup.enter="$event.target.blur()" @blur="onUpdateStatus(user)" class="form-control" placeholder="Ghi chú">
+                                    <input v-if="!canUpdate(user)" class="form-control" disabled placeholder="Không thể cập nhật">
                                 </td>
                                 <td class="d-flex justify-content-center">
                                     <div v-if="user.status == statuses.STATUS_CHO_DUYET">
@@ -114,6 +116,12 @@ export default {
             }
             await this.updateUserCheckListStatus(data).then(() => this.$emit('confirmed',this.activity));
         },
+        canUpdate(user){
+            if(this.activity.child_activity_type == this.types.TB_GUI_DS_THAM_DU){
+                return user.award == this.awards.NO_AWARDS;
+            }
+            return true;
+        },
         closeModal(){
             this.$emit('onClose')
         },
@@ -132,7 +140,10 @@ export default {
         },
         statuses(){
             return constants.status;
-        }
+        },
+        awards(){
+            return constants.awards;
+        },
     },
 }
 </script>

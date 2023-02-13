@@ -337,6 +337,7 @@ class ChildActivityController extends AppBaseController
             && ($child_activity_type == AppUtils::TB_GUI_DS_THAM_DU || $child_activity_type == AppUtils::PHAN_THI_OR_TIEU_BAN)){
                 $userChecklist = DB::table('user_activities')
                     ->select('users.id as id',DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"),
+                    'user_activities.award as award',
                     'users.username','user_activities.note', 'user_receive_activities.status')
                     ->leftJoin('activities_details','activities_details.id', 'user_activities.id_activities_details')
                     ->leftJoin('users','user_activities.id_user', 'users.id')
