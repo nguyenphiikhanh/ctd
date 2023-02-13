@@ -100,7 +100,7 @@ class ClassesController extends AppBaseController
                 ->leftJoin('class_type', 'class_type.id', 'classes.id_class_type')
                 ->where('classes.id', $id)->first();
             if(!$classInfo){
-                return $this->sendError(__('message.failed.not_exist',['attibute' => 'Chi Đoàn'], Response::HTTP_UNPROCESSABLE_ENTITY));
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'lớp'], Response::HTTP_UNPROCESSABLE_ENTITY));
             }
             return $this->sendResponse($classInfo,__('message.success.show',['atribute' => 'lớp']));
         }
