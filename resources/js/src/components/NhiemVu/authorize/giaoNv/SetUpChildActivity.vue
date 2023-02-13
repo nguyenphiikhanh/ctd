@@ -5,7 +5,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <div class="form-control-wrap">
-                        <input type="text" class="form-control" v-model="searchText" @input="searchClass()" placeholder="Tìm kiếm">
+                        <input type="text" class="form-control" v-model="searchText" placeholder="Tìm kiếm">
                     </div>
                 </div>
             </div>

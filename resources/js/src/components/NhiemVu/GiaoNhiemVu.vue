@@ -86,9 +86,22 @@
                                             <div class="form-control-wrap">
                                                 <div class="input-daterange date-picker-range input-group">
                                                     <div class="input-group-addon">Từ</div>
-                                                    <date-picker v-model="activity_create.start_time" :show-second="false" format="HH:mm DD-MM-YYYY" type="datetime"></date-picker>
+                                                    <date-picker v-model="activity_create.start_time"
+                                                    :show-second="false"
+                                                    :confirm="true"
+                                                     format="HH:mm DD-MM-YYYY" type="datetime"
+                                                     placeholder="Chọn thời gian bắt đầu"
+                                                     ref="startTime"
+                                                     @confirm="timeValidate()">
+                                                    </date-picker>
                                                     <div class="input-group-addon">Đến</div>
-                                                    <date-picker v-model="activity_create.end_time" :show-second="false" format="HH:mm DD-MM-YYYY" type="datetime"></date-picker>
+                                                    <date-picker v-model="activity_create.end_time"
+                                                    :show-second="false"
+                                                    :confirm="true"
+                                                     format="HH:mm DD-MM-YYYY" type="datetime"
+                                                     placeholder="Chọn thời gian kết thúc"
+                                                     @confirm="timeValidate()">
+                                                    </date-picker>
                                                 </div>
                                             </div>
                                         </div>
@@ -114,7 +127,7 @@
                                             <div class="form-group">
                                                 <label class="form-label">Tài liệu kèm theo</label>
                                                 <div class="form-control-wrap">
-                                                    <input type="file" ref="fileUpload" @change="uploadFileChange($event.target.files)" multiple class="form-control">
+                                                    <input type="file" :key="fileKey" @change="uploadFileChange($event.target.files)" multiple class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -125,7 +138,7 @@
                                 <SetupTieuBanNCKH @emitChange="changeDoiTuongStudents" :start_time="activity_create.start_time" :end_time="activity_create.end_time" v-if="hoat_dong_choose == loai_hoat_dong.HOAT_DONG_NCKH && thao_tac != null && thao_tac == hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
 
                                 <div class="col-12 d-flex justify-content-center">
-                                    <button v-if="isValid" @click="onSaveChildActivity()" class="btn btn-primary mb-3">Tạo nhiệm vụ</button>
+                                    <button v-if="isValid && isTimeValid" @click="onSaveChildActivity()" class="btn btn-primary mb-3">Tạo nhiệm vụ</button>
                                 </div>
                             </div>
                             </div>
@@ -144,6 +157,8 @@ import SetupTieuBanNCKH from "./authorize/giaoNv/SetupTieuBanNCKH.vue";
 import {mapActions} from "vuex";
 import { asyncLoading } from 'vuejs-loading-plugin';
 import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/locale/vi'
+DatePicker.locale('vi');
 import { VueEditor } from "vue2-editor";
 
 export default {
@@ -172,6 +187,7 @@ export default {
             doi_tuong_students: [],
             hoat_dong_assign: null,
             files: [],
+            fileKey: 0
         }
     },
     computed:{
@@ -186,6 +202,14 @@ export default {
                 return 'Tạo tiểu ban';
             }
             else return 'Tạo hoạt động';
+        },
+        isTimeValid(){
+            if(this.activity_create.start_time && this.activity_create.end_time){
+                const startTime = new Date(datetimeUtils.convertTimezoneToDatetime(this.activity_create.start_time));
+                const endTime = new Date(datetimeUtils.convertTimezoneToDatetime(this.activity_create.end_time));
+                return (startTime < endTime);
+            }
+            else return false;
         },
         isValid(){
             if(this.hoat_dong_choose == this.loai_hoat_dong.HOAT_DONG_NCKH && this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){
@@ -203,6 +227,7 @@ export default {
                 }
                 else {
                     return this.activity_create.ten_hoat_dong && this.doi_tuong_classes.length > 0
+                    && this.activity_create.start_time && this.activity_create.end_time;
                 }
             }
         }
@@ -247,6 +272,19 @@ export default {
             this.resetForm();
             this.$loading(false);
         },
+        timeValidate(){
+           if(this.activity_create.start_time && this.activity_create.end_time){
+            const startTime = new Date(datetimeUtils.convertTimezoneToDatetime(this.activity_create.start_time));
+            const endTime = new Date(datetimeUtils.convertTimezoneToDatetime(this.activity_create.end_time));
+            if(startTime > endTime){
+                this.$swal.fire(
+                'Lỗi dữ liệu!',
+                'Vui lòng chọn thời gian hợp lệ.',
+                'error'
+                )
+            }
+           }
+        },
         resetForm(){
             this.activity_create = {
                     ten_hoat_dong : '',
@@ -257,7 +295,7 @@ export default {
             this.doi_tuong_classes = [];
             this.hoat_dong_assign = null;
             this.doi_tuong_students = [];
-            this.$refs.fileUpload.value = null;
+            this.fileKey++;
             this.hoat_dong_choose = null;
             this.files = [];
         },
@@ -281,11 +319,12 @@ export default {
             };
             this.doi_tuong_classes = [];
             this.doi_tuong_students = [];
-            this.$refs.fileUpload.value = null;
+            this.fileKey++;
             this.files = [];
         },
         thao_tac(val){
             this.loai_phan_hoi = null;
+            this.fileKey++;
             if(val == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){
                 let queryParams = {
                     activity: this.hoat_dong_choose

@@ -24,7 +24,6 @@ router.beforeEach((to, from, next) => {
 
     if(to.matched.some(record => record.path != '/dang-nhap')){
         const role = store.getters['auth/user'].role;
-        console.log('role: ', role);
         if (to.matched.some(record => !record.meta.adminAccess) && role == roles.ADMIN) { // block admin middleware
             router.push({name: "Home"});
         }
