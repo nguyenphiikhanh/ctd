@@ -9,7 +9,8 @@
                 <div class="modal-body">
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="h5 ml-auto col-10">{{childActInfo.name}}</label>
+                            <label class="h5 ml-auto col-10">{{childActInfo.name}}</label><br>
+                            <label class="form-label">Thời gian</label><br>
                             <label class="form-label">Thời gian bắt đầu:&nbsp;</label><span>{{childActInfo.start_time}}</span><br>
                             <label class="form-label">Thời gian kết thúc:&nbsp;</label><span>{{childActInfo.end_time}}</span>
                         </div>
