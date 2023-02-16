@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
 class ChildActivityController extends AppBaseController
@@ -615,7 +616,27 @@ class ChildActivityController extends AppBaseController
                     'start_time' => $start_time,
                     'end_time' => $end_time
                 ]);
+                DB::table('activities_details')
+                    ->where('id_child_activity', $childAct->id)
+                    ->update([
+                        'start_time' => $start_time,
+                        'end_time' => $end_time
+                    ]);
+                $act_detail = DB::table('activities_details')
+                    ->where('id_child_activity', $childAct->id)->first();
+                DB::table('user_activities')
+                    ->where('id_activities_details', $act_detail->id)
+                    ->delete();
+                DB::table('user_join_activities')
+                    ->where('id_activities_details', $act_detail->id)
+                    ->delete();
+                DB::table('user_receive_activities')
+                    ->where('id_activities_details_assign', $act_detail->id)
+                    ->update([
+                        'status' => AppUtils::STATUS_CHUA_HOAN_THANH
+                    ]);
             });
+            return $this->sendResponse('',__('message.success.update',['atribute' => 'hoạt động']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());

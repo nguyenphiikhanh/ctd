@@ -11,23 +11,23 @@
                         <div class="form-group">
                             <label class="h5 ml-auto col-10">{{actInfo.name}}</label><br>
                             <label class="form-label">Thời gian</label>
-                            <div v-if="actInfo.child_activity_type == childActType.PHAN_THI_OR_TIEU_BAN" class="d-inline">
-                                <span v-if="!editFlg" @click="onEdit()" class="btn btn-sm-success text-success"><em class="ni ni-edit"></em>Thay đổi</span>
-                                <span v-if="editFlg" @click="onUpdate()" class="btn btn-sm-success text-success"><em class="ni ni-check"></em>Lưu</span>
-                                <span v-if="editFlg" @click="onCancel()" class="btn btn-sm-secondary text-secondary">Hủy</span>
+                            <div v-if="canEdit" class="d-inline">
+                                <span v-if="!editFlg" @click="onEdit()" class="btn btn-sm text-success"><em class="ni ni-edit"></em>Thay đổi</span>
+                                <span v-if="editFlg" @click="onUpdate()" class="btn btn-sm text-success"><em class="ni ni-check"></em>Lưu</span>
+                                <span v-if="editFlg" @click="onCancel()" class="btn btn-sm text-danger">Hủy</span>
                             </div><br>
                             <label class="form-label">Thời gian bắt đầu:&nbsp;</label>
                             <span v-if="!editFlg">{{actInfo.start_time}}</span>
-                            <date-picker v-else v-model="act_info.start_time"
+                            <date-picker v-if="editFlg" v-model="act_info.start_time"
                                                     :show-second="false"
                                                     :confirm="true"
                                                      format="HH:mm DD-MM-YYYY" type="datetime"
-                                                     placeholder="Chọn thời gian kết thúc">
+                                                     placeholder="Chọn thời gian bắt đầu">
                                                     </date-picker>
                             <br>
                             <label class="form-label">Thời gian kết thúc:&nbsp;</label>
                             <span v-if="!editFlg">{{actInfo.end_time}}</span>
-                            <date-picker v-else v-model="act_info.end_time"
+                            <date-picker v-if="editFlg" v-model="act_info.end_time"
                                                     :show-second="false"
                                                     :confirm="true"
                                                      format="HH:mm DD-MM-YYYY" type="datetime"
@@ -82,7 +82,10 @@ export default {
     data(){
         return{
             editFlg: false,
-            act_info: {},
+            act_info: {
+                start_time: '',
+                end_time: '',
+            },
         }
     },
     computed:{
@@ -90,33 +93,81 @@ export default {
             return constants.HOAT_DONG;
         },
         actInfo(){
-            this.act_info = JSON.parse(JSON.stringify(this.childActInfo));
-            this.act_info.start_time = this.act_info.start_time ? dateTimeUtils.dateTimeVnFormat(this.act_info.start_time) : '';
-            this.act_info.end_time = this.act_info.end_time ? dateTimeUtils.dateTimeVnFormat(this.act_info.end_time) : '';
-            return this.act_info;
+            let info = JSON.parse(JSON.stringify(this.childActInfo));
+            info.start_time = info.start_time ? dateTimeUtils.dateTimeVnFormat(info.start_time) : '';
+            info.end_time = info.end_time ? dateTimeUtils.dateTimeVnFormat(info.end_time) : '';
+            return info;
+        },
+        canEdit(){
+            const now = new Date();
+            const endTime = new Date(this.childActInfo.end_time);
+            return this.actInfo.child_activity_type == this.childActType.PHAN_THI_OR_TIEU_BAN
+                && now < endTime; // quá thời gian hiện tại thì không được cập nhật
         }
     },
     methods:{
         ...mapActions({
-
+            updateChildActivity: "activity/updateChildActivity",
         }),
         onEdit(){
             this.editFlg = true
             this.act_info.start_time = '';
-            console.log('st time editing: ', this.act_info.start_time);
             this.act_info.end_time = '';
-            console.log('st time editing: ', this.act_info.end_time);
         },
         onUpdate(){
-            console.log(this.act_info.start_time);
-            console.log(this.act_info.end_time);
+            if(!this.act_info.start_time || !this.act_info.end_time){
+                this.$swal.fire(
+                'Lỗi dữ liệu!',
+                'Vui lòng chọn thời gian hợp lệ.',
+                'error'
+                )
+            }
+            else {
+                if(this.act_info.start_time > this.act_info.end_time){
+                    this.$swal.fire(
+                    'Lỗi dữ liệu!',
+                    'Vui lòng chọn thời gian hợp lệ.',
+                    'error'
+                    )
+                }
+                else {
+                    this.$swal.fire({
+                    title: 'Chú ý!',
+                    text: 'Thay đổi thời gian sẽ làm thay đổi thông báo đến các lớp. Để tránh trùng lặp về thời gian, các lớp sẽ phải chọn lại danh sách dự thi và danh sách người tham gia cho hoạt động này.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Tiếp tục',
+                    confirmButtonColor: '#98c379',
+                    cancelButtonText: 'Hủy'
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            this.$nextTick(() => {
+                                $('#viewChildAct').modal('hide');
+                            });
+                            const start_time = dateTimeUtils.convertTimezoneToDatetime(this.act_info.start_time);
+                            const end_time = dateTimeUtils.convertTimezoneToDatetime(this.act_info.end_time);
+                            const data = {
+                                id: this.childActInfo.id,
+                                start_time: start_time,
+                                end_time: end_time,
+                            }
+                            this.$loading(true);
+                            await this.updateChildActivity(data);
+                            this.$loading(false);
+                            this.onCancel();
+                            this.$emit('onUpdate');
+                        }
+                    })
+                }
+            }
         },
         onCancel(){
             this.editFlg = false;
-            this.act_info = JSON.parse(JSON.stringify(this.childActInfo));
+            this.act_info.start_time = '';
+            this.act_info.end_time = '';
         },
         closeModal(){
-            this.editFlg = false;
+            this.onCancel();
             this.$emit('closeModal');
         },
     },

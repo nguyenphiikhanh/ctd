@@ -71,7 +71,7 @@
                         <div v-if="child_activities.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
                 </div>
-                <ViewChildActivity :childActInfo="child_act_view" @closeModal="closeModal()"/>
+                <ViewChildActivity :childActInfo="child_act_view" @onUpdate="onUpdateChildActivity()" @closeModal="closeModal()"/>
                 <ViewUserActivity :user-list="user_acts" @closeModal="closeModal()"/>
             </div>
         </div>
@@ -98,6 +98,7 @@ export default {
                 files: [],
             },
             user_acts: [],
+            key: 0,
         }
     },
     computed:{
@@ -118,10 +119,13 @@ export default {
         },
         viewAct(act){
             this.child_act_view = act;
-            console.log('view act item', act);
             this.$nextTick(() => {
                 $('#viewChildAct').modal('show');
             });
+        },
+        async onUpdateChildActivity(){
+            await this.getChildActList();
+            this.closeModal();
         },
         closeModal(){
             this.$nextTick(() => {
