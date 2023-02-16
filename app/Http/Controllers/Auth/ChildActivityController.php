@@ -603,7 +603,24 @@ class ChildActivityController extends AppBaseController
     public function update(UpdateChildActivityRequest $request, $id)
     {
         //
-        Log::debug($id);
+        try{
+            $childAct = ChildActivity::find($id);
+            if(!$childAct){
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'Hoạt động']));
+            }
+            $start_time = $request->get('start_time');
+            $end_time = $request->get('end_time');
+            DB::connection('mysql')->transaction(function() use ($childAct, $start_time, $end_time){
+                $childAct->update([
+                    'start_time' => $start_time,
+                    'end_time' => $end_time
+                ]);
+            });
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'hoạt động']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

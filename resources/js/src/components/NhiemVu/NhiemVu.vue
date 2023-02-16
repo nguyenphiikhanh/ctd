@@ -116,8 +116,9 @@ export default {
         async getChildActList(){
             await this.getChildActivities().then(res => this.child_activities = [...res.data]);
         },
-        viewAct(_item){
-            this.child_act_view = _item;
+        viewAct(act){
+            this.child_act_view = act;
+            console.log('view act item', act);
             this.$nextTick(() => {
                 $('#viewChildAct').modal('show');
             });
