@@ -136,7 +136,14 @@
 <!--                                đối tượng nhận-->
                                 <SetUpChildActivity @emitChange="changeDoiTuongClasses" v-if="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
                                 <SetupTieuBanNCKH @emitChange="changeDoiTuongStudents" :start_time="activity_create.start_time" :end_time="activity_create.end_time" v-if="hoat_dong_choose == loai_hoat_dong.HOAT_DONG_NCKH && thao_tac != null && thao_tac == hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
+                                <!-- <div class="col-12" v-if="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN">
+                                    <div class="form-group">
+                                        <label class="form-label">Danh sách đã chọn</label>
+                                        <div class="form-control-wrap">
 
+                                        </div>
+                                    </div>
+                                </div> -->
                                 <div class="col-12 d-flex justify-content-center">
                                     <button v-if="isValid && isTimeValid" @click="onSaveChildActivity()" class="btn btn-primary mb-3">Tạo nhiệm vụ</button>
                                 </div>
@@ -319,11 +326,15 @@ export default {
             };
             this.doi_tuong_classes = [];
             this.doi_tuong_students = [];
+            this.hoat_dong_assign = null;
             this.fileKey++;
             this.files = [];
         },
         thao_tac(val){
             this.loai_phan_hoi = null;
+            this.hoat_dong_assign = null;
+            this.doi_tuong_classes = [];
+            this.doi_tuong_students = [];
             this.fileKey++;
             if(val == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){
                 let queryParams = {

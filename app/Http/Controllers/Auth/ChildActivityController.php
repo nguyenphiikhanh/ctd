@@ -4,17 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AppBaseController;
 use App\Models\ChildActivity;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateChildActivityRequest;
 use App\Http\Traits\UploadFileTrait;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\RoleUtils;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
 class ChildActivityController extends AppBaseController
@@ -175,7 +172,7 @@ class ChildActivityController extends AppBaseController
                         ->where('user_receive_activities.id_child_activity', $act->id_child_activity)
                         ->where('user_receive_activities.child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU)
                         ->first();
-                    $act->note = $user_act->note;
+                    $act->note = $user_act ? $user_act->note : '';
                 }
                 if($act->child_activity_type == AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA){
                     $user_act = DB::table('user_join_activities')
@@ -186,7 +183,7 @@ class ChildActivityController extends AppBaseController
                     ->where('user_receive_activities.id_child_activity', $act->id_child_activity)
                     ->where('user_receive_activities.child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU)
                     ->first();
-                    $act->note = $user_act->note;
+                    $act->note = $user_act ? $user_act->note : '';
                 }
                 $attackFiles = DB::table('child_activity_files')->where('id_child_activity', $act->id_child_activity)->get();
                 $act->files = $attackFiles;
@@ -230,14 +227,16 @@ class ChildActivityController extends AppBaseController
             ->where('user_receive_activities.id',$id)->where('id_user', $user->id)->first();
             if($readonlyFlg){  // thông báo không phản hồi
                 foreach($assignTo as $student_id){
-                    DB::table('user_receive_activities')->insert([
-                        'created_by' => $user->id,
-                        'id_child_activity' => $notiFromCbl->id_child_activity,
-                        'child_activity_type' => AppUtils::THONG_BA0_KHONG_PHAN_HOI,
-                        'id_user' => $student_id,
-                        'small_role_details' => $small_role_details,
-                        'status' => AppUtils::STATUS_HOAN_THANH,
-                    ]);
+                    if($student_id != $user->id){  // ko cần gửi thông báo cho chính mình
+                        DB::table('user_receive_activities')->insert([
+                            'created_by' => $user->id,
+                            'id_child_activity' => $notiFromCbl->id_child_activity,
+                            'child_activity_type' => AppUtils::THONG_BA0_KHONG_PHAN_HOI,
+                            'id_user' => $student_id,
+                            'small_role_details' => $small_role_details,
+                            'status' => AppUtils::STATUS_HOAN_THANH,
+                        ]);
+                    }
                 }
             }
             else{ // thông báo có phản hồi
@@ -247,16 +246,14 @@ class ChildActivityController extends AppBaseController
                 }
                 $act_detail = DB::table('activities_details')->where('id', $notiFromCbl->id_activities_details_assign)->first();
                 foreach($assignTo as $student_id){
-                    if($student_id != $user->id){
-                        DB::table('user_receive_activities')->insert([
-                            'created_by' => $user->id,
-                            'id_child_activity' => $act_detail->id_child_activity,
-                            'child_activity_type' => $action_flg,
-                            'id_user' => $student_id,
-                            'small_role_details' => $small_role_details,
-                            'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
-                        ]);
-                    }
+                    DB::table('user_receive_activities')->insert([
+                        'created_by' => $user->id,
+                        'id_child_activity' => $act_detail->id_child_activity,
+                        'child_activity_type' => $action_flg,
+                        'id_user' => $student_id,
+                        'small_role_details' => $small_role_details,
+                        'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                    ]);
 
                     if($notiFromCbl->child_activity_type == AppUtils::TB_GUI_DS_THAM_DU){
                         DB::table('user_activities')->insert([
@@ -291,20 +288,21 @@ class ChildActivityController extends AppBaseController
         try{
             $user = $request->user();
             $activityChecklist = DB::table('user_receive_activities')
-                ->leftJoin('activities_details','user_receive_activities.id_activities_details_assign', 'activities_details.id')
-                ->leftJoin('child_activities','child_activities.id','user_receive_activities.id_child_activity')
-                ->leftJoin('users', 'users.id', 'user_receive_activities.id_user')
+                ->join('activities_details','user_receive_activities.id_activities_details_assign', 'activities_details.id')
+                ->join('child_activities','child_activities.id','user_receive_activities.id_child_activity')
+                ->join('users', 'users.id', 'user_receive_activities.id_user')
                 ->select('activities_details.*',
                 'child_activities.id_activity','child_activities.child_activity_type as child_activity_type')
                 ->where(function($where) use($user) {
                     $where->where('user_receive_activities.id_user', $user->id)
                     ->where('user_receive_activities.status', AppUtils::STATUS_HOAN_THANH);
                 })
-                ->orWhere(function($query){
-                    $query->where('users.role', RoleUtils::ROLE_CBL)
-                        ->where('child_activities.child_activity_type', AppUtils::TB_GUI_DS_THAM_DU)
-                        ->orWhere('child_activities.child_activity_type', AppUtils::TB_GUI_DS_THAM_GIA);
-                })
+                // ->orWhere(function($query){
+                //     $query->where('users.role', RoleUtils::ROLE_CBL)
+                //         ->where('child_activities.child_activity_type', AppUtils::TB_GUI_DS_THAM_DU)
+                //         ->orWhere('child_activities.child_activity_type', AppUtils::TB_GUI_DS_THAM_GIA)
+                //         ->where('user_receive_activities.status', AppUtils::STATUS_HOAN_THANH);
+                // })
                 ->get();
             $act_nckhs = DB::table('activities_details')
                 ->leftJoin('child_activities','child_activities.id','activities_details.id_child_activity')
@@ -635,6 +633,10 @@ class ChildActivityController extends AppBaseController
                     ->update([
                         'status' => AppUtils::STATUS_CHUA_HOAN_THANH
                     ]);
+                DB::table('user_receive_activities')
+                    ->where('id_child_activity', $act_detail->id_child_activity)
+                    ->whereNull('id_activities_details_assign')
+                    ->delete();
             });
             return $this->sendResponse('',__('message.success.update',['atribute' => 'hoạt động']));
         }
