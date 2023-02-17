@@ -158,7 +158,8 @@ class StudentController extends AppBaseController
                 ->where('classes.id_faculty', $id_faculty)
                 ->where(function($query){
                     $query->where('users.role', RoleUtils::ROLE_SINHVIEN)
-                        ->orWhere('users.role', RoleUtils::ROLE_CBL);
+                        ->orWhere('users.role', RoleUtils::ROLE_CBL)
+                        ->orWhere('users.role', RoleUtils::ROLE_LOP_TRUONG);
                 });
                 $studentList->orderByDesc('classes.class_name');
                 $data = $studentList->get();
