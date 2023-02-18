@@ -6,8 +6,9 @@ import CheckList from "../components/diemDanh/CheckList";
 import KhoaDaoTao from "../components/quanLy/KhoaDaoTao/KhoaDaoTao";
 import Khoa from "../components/quanLy/khoa/Khoa";
 import Classes from "../components/quanLy/lop/Classes";
-import Students from "../components/quanLy/sinhvien/Students"
-import Year from '../components/quanLy/namHoc/Year'
+import Students from "../components/quanLy/sinhvien/Students";
+import Year from '../components/quanLy/namHoc/Year';
+import StudyTime from '../components/quanLy/hocKy/StudyTime';
 
 const routes = [
     // dashboard
@@ -83,6 +84,19 @@ const routes = [
         component: Year,
         meta:{
             title: 'Quản lý Năm học',
+            requiresAuth: true,
+            adminAccess: true,
+            cblAccess: false,
+            btdAccess: false,
+        }
+    },
+    // kì học
+    {
+        name:"StudyTime",
+        path:"/quan-ly/ki-hoc",
+        component: StudyTime,
+        meta:{
+            title: 'Quản lý kì học',
             requiresAuth: true,
             adminAccess: true,
             cblAccess: false,

@@ -50,6 +50,14 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
+            <router-link v-if="user.role == roles.ADMIN" :to="{name: 'StudyTime'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
+                        <span class="nk-menu-text">Quản lý kì học</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
 
             <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'NhiemVu_List'}">
                 <li class="nk-menu-item">

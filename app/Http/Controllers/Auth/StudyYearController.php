@@ -52,6 +52,16 @@ class StudyYearController extends AppBaseController
         }
     }
 
+    public function getLastestStudyYear(){
+        try{
+            $lastestYear = StudyYear::latest()->first();
+            return $this->sendResponse($lastestYear, __(''));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'năm học']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
     /**
      * Display the specified resource.
      *

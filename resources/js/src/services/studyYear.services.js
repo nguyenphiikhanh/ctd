@@ -12,5 +12,9 @@ export default {
 
     updateStudyYear(id, data){
         return http.put(`years/${id}`, data);
+    },
+
+    getLastestStudyYear(){
+        return http.get('/years/lastest');
     }
 }

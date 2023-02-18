@@ -8,6 +8,7 @@ use App\Http\Utils\ResponseUtils;
 use App\Models\StudyTime;
 use App\Models\StudyYear;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class StudyTimeController extends AppBaseController
@@ -22,11 +23,22 @@ class StudyTimeController extends AppBaseController
         //
         try{
             $studyTimes = StudyTime::orderByDesc('id')->get();
-            return $this->sendResponse($studyTimes, __('message.success.get_list',['atribute' => 'năm học']));
+            return $this->sendResponse($studyTimes, __('message.success.get_list',['atribute' => 'kỳ học']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.get_list',['atribute' => 'năm học']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'kỳ học']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getStudyTerm(){
+        try{
+            $studyTerms = DB::table('study_terms')->get();
+            return $this->sendResponse($studyTerms, __('message.success.get_list',['atribute' => 'kỳ học']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'kỳ học']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

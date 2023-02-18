@@ -47,6 +47,7 @@ Route::prefix('v1')->group(function(){
 
             // Năm học
             Route::get('/years', 'Auth\StudyYearController@index');
+            Route::get('/years/lastest', 'Auth\StudyYearController@getLastestStudyYear');
             Route::post('/years', 'Auth\StudyYearController@store');
             Route::put('/years/{id}', 'Auth\StudyYearController@update');
 
@@ -54,6 +55,7 @@ Route::prefix('v1')->group(function(){
             Route::get('/study-times', 'Auth\StudyTimeController@index');
             Route::post('/study-times', 'Auth\StudyTimeController@store');
             Route::put('/study-times/{id}', 'Auth\StudyTimeController@update');
+            Route::get('/study-terms', 'Auth\StudyTimeController@getStudyTerm');
         });
 
         // bql Đoàn khoa

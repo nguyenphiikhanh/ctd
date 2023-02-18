@@ -95,7 +95,6 @@ export default {
                 this.id = year.id;
                 this.yearName = year.year_name;
             }
-            console.log(year);
             this.$nextTick(() => {
                 $('#createOrUpdateDialog').modal('show');
             });

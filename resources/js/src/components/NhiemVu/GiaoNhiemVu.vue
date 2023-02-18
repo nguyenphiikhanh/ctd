@@ -91,7 +91,6 @@
                                                     :confirm="true"
                                                      format="HH:mm DD-MM-YYYY" type="datetime"
                                                      placeholder="Chọn thời gian bắt đầu"
-                                                     ref="startTime"
                                                      @confirm="timeValidate()">
                                                     </date-picker>
                                                     <div class="input-group-addon">Đến</div>
