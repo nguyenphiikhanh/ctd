@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" tabindex="-1" data-bs-backdrop="static" id="cbSettings">
+    <div class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" id="cbSettings">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">

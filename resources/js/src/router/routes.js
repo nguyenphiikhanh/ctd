@@ -1,5 +1,3 @@
-
-
 import NhiemVu from "../components/NhiemVu/NhiemVu";
 import GiaoNhiemVu from "../components/NhiemVu/GiaoNhiemVu";
 import AdminDashBoard from "../components/dashboards/AdminDashBoard";
@@ -9,6 +7,7 @@ import KhoaDaoTao from "../components/quanLy/KhoaDaoTao/KhoaDaoTao";
 import Khoa from "../components/quanLy/khoa/Khoa";
 import Classes from "../components/quanLy/lop/Classes";
 import Students from "../components/quanLy/sinhvien/Students"
+import Year from '../components/quanLy/namHoc/Year'
 
 const routes = [
     // dashboard
@@ -38,7 +37,7 @@ const routes = [
             btdAccess: false,
         }
     },
-    //liên chi Đoàn
+    //khoa
     {
         name:"Khoa",
         path:"/quan-ly/khoa",
@@ -51,7 +50,7 @@ const routes = [
             btdAccess: false,
         }
     },
-    // chi Đoàn
+    // lớp
     {
         name:"Lop",
         path:"/quan-ly/lop",
@@ -64,7 +63,7 @@ const routes = [
             btdAccess: false,
         }
     },
-    // Đoàn viên
+    // sinh viên
     {
         name:"SinhVien",
         path:"/quan-ly/lop-:id/danh-sach-sinh-vien",
@@ -77,6 +76,20 @@ const routes = [
             btdAccess: false,
         }
     },
+    // Năm học
+    {
+        name:"Year",
+        path:"/quan-ly/nam-hoc",
+        component: Year,
+        meta:{
+            title: 'Quản lý Năm học',
+            requiresAuth: true,
+            adminAccess: true,
+            cblAccess: false,
+            btdAccess: false,
+        }
+    },
+
     // nhiệm vụ
     {
         name:"NhiemVu_List",

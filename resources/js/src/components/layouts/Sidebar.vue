@@ -9,6 +9,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
+
             <router-link v-if="user.role == roles.ADMIN" :to="{name: 'KhoaDaoTao'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
@@ -41,6 +42,15 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
+            <router-link v-if="user.role == roles.ADMIN" :to="{name: 'Year'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
+                        <span class="nk-menu-text">Quản lý năm học</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+
             <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'NhiemVu_List'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
@@ -49,6 +59,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
+
             <router-link v-if="user.role != roles.ADMIN && user.role != roles.ROLE_BI_THU_DOAN" :to="{name: 'Notifications'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">

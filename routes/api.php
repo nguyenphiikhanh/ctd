@@ -44,6 +44,11 @@ Route::prefix('v1')->group(function(){
             Route::post('/classes','Auth\ClassesController@store');
             Route::get('/classes','Auth\ClassesController@getClasses');
             Route::get('/class/{id}','Auth\ClassesController@show');
+
+            // Năm học
+            Route::get('/years', 'Auth\StudyYearController@index');
+            Route::post('/years', 'Auth\StudyYearController@store');
+            Route::put('/years/{id}', 'Auth\StudyYearController@update');
         });
 
         // bql Đoàn khoa
