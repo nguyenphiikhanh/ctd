@@ -76,6 +76,7 @@ class ChildActivityController extends AppBaseController
                     'child_activity_type' => $responseType ? $responseType : $action,
                     'end_time' => $end_time,
                     'created_by' => $user->id,
+                    'created_at' => now()
                 ]);
                 // phan thi or tieu ban
                 $id_act_details = null;
@@ -98,11 +99,13 @@ class ChildActivityController extends AppBaseController
                                 'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
                                 'id_activities_details_assign' => $assignChildActivity,
                                 'created_by' => $user->id,
+                                'created_at' => now()
                             ]);
                             DB::table('user_activities')->insert([
                                 'id_user' => $student,
                                 'id_activities_details' => $id_act_details,
                                 'created_by' => $user->id,
+                                'created_at' => now()
                             ]);
                         }
                     }
@@ -119,6 +122,7 @@ class ChildActivityController extends AppBaseController
                             'child_activity_type' => $responseType ? $responseType : $action,
                             'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
                             'created_by' => $user->id,
+                            'created_at' => now()
                         ]);
                     }
                 }
@@ -134,6 +138,7 @@ class ChildActivityController extends AppBaseController
                             'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
                             'id_activities_details_assign' => $assignChildActivity,
                             'created_by' => $user->id,
+                            'created_at' => now()
                         ]);
                     }
                 }
@@ -235,6 +240,7 @@ class ChildActivityController extends AppBaseController
                             'id_user' => $student_id,
                             'small_role_details' => $small_role_details,
                             'status' => AppUtils::STATUS_HOAN_THANH,
+                            'created_at' => now()
                         ]);
                     }
                 }
@@ -253,6 +259,7 @@ class ChildActivityController extends AppBaseController
                         'id_user' => $student_id,
                         'small_role_details' => $small_role_details,
                         'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                        'created_at' => now()
                     ]);
 
                     if($notiFromCbl->child_activity_type == AppUtils::TB_GUI_DS_THAM_DU){
@@ -260,6 +267,7 @@ class ChildActivityController extends AppBaseController
                             'id_activities_details' => $act_detail->id,
                             'id_user' => $student_id,
                             'created_by' => $user->id,
+                            'created_at' => now()
                         ]);
                     } else {
                         DB::table('user_join_activities')->insert([
@@ -267,6 +275,7 @@ class ChildActivityController extends AppBaseController
                             'id_user' => $student_id,
                             'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
                             'created_by' => $user->id,
+                            'created_at' => now()
                         ]);
                     }
                 }
@@ -287,6 +296,7 @@ class ChildActivityController extends AppBaseController
     public function getActivitiesForCheckList(Request $request){
         try{
             $user = $request->user();
+            // hđ # NCKH
             $activityChecklist = DB::table('user_receive_activities')
                 ->join('activities_details','user_receive_activities.id_activities_details_assign', 'activities_details.id')
                 ->join('child_activities','child_activities.id','user_receive_activities.id_child_activity')
@@ -312,32 +322,22 @@ class ChildActivityController extends AppBaseController
                 });
             }
             $activityChecklist = $activityChecklist->get();
+            //
             $act_nckhs = DB::table('activities_details')
                 ->join('child_activities','child_activities.id','activities_details.id_child_activity')
-                ->rightJoin('user_receive_activities', 'user_receive_activities.id_activities_details_assign', 'activities_details.id')
-                ->rightJoin('users', 'users.id', 'user_receive_activities.id_user')
                 ->select('activities_details.*',
                 'child_activities.id_activity','child_activities.child_activity_type as child_activity_type')
                 ->where('child_activities.id_activity', AppUtils::HOAT_DONG_NCKH)
-                // ->where('users.id_class', $user->id_class)
                 ->get();
-            // $act_nckhs = DB::table('activities_details')
-            //     ->join('child_activities','child_activities.id','activities_details.id_child_activity')
-            //     ->leftJoin('user_receive_activities', function($leftJoin){
-            //         $leftJoin->on('user_receive_activities.id_activities_details_assign', 'activities_details.id');
-            //         $leftJoin->where('user_receive_activities.child_activity_type', AppUtils::PHAN_THI_OR_TIEU_BAN);
-            //     })
-            //     ->leftJoin('users', function($leftJoin) use ($user){
-            //         $leftJoin->on('users.id', 'user_receive_activities.id_user');
-            //         $leftJoin->where('users.id_class', $user->id_class);
-            //     })
-            //     ->select('activities_details.*',
-            //     'child_activities.id_activity','child_activities.child_activity_type as child_activity_type')
-            //     ->where('child_activities.id_activity', AppUtils::HOAT_DONG_NCKH)
-            //     ->where('users.id', '!=', $user->id)
-            //     ->get();
             foreach($act_nckhs as $act){
-                $activityChecklist[] = $act;
+                $userActivitiesIds = DB::table('user_activities')
+                            ->join('users','users.id', 'user_activities.id_user')
+                            ->where('id_activities_details', $act->id)
+                            ->where('users.id_class', $user->id_class)
+                            ->get();
+                if(count($userActivitiesIds)){
+                    $activityChecklist[] = $act;
+                }
             }
             return $this->sendResponse($activityChecklist, __('message.success.get_list',['atribute' => 'hoạt động']));
         }
