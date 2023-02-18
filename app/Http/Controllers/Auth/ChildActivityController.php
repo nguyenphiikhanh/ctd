@@ -292,7 +292,8 @@ class ChildActivityController extends AppBaseController
                 ->join('child_activities','child_activities.id','user_receive_activities.id_child_activity')
                 ->join('users', 'users.id', 'user_receive_activities.id_user')
                 ->select('activities_details.*',
-                'child_activities.id_activity','child_activities.child_activity_type as child_activity_type');
+                'child_activities.id_activity','child_activities.child_activity_type as child_activity_type')
+                ->orderByDesc('user_receive_activities.created_at');
             if($user->role == RoleUtils::ROLE_CBL){
                 $activityChecklist->where(function($where) use($user) {
                     $where->where('user_receive_activities.id_user', $user->id)
@@ -311,6 +312,15 @@ class ChildActivityController extends AppBaseController
                 });
             }
             $activityChecklist = $activityChecklist->get();
+            $act_nckhs = DB::table('activities_details')
+                ->join('child_activities','child_activities.id','activities_details.id_child_activity')
+                ->rightJoin('user_receive_activities', 'user_receive_activities.id_activities_details_assign', 'activities_details.id')
+                ->rightJoin('users', 'users.id', 'user_receive_activities.id_user')
+                ->select('activities_details.*',
+                'child_activities.id_activity','child_activities.child_activity_type as child_activity_type')
+                ->where('child_activities.id_activity', AppUtils::HOAT_DONG_NCKH)
+                // ->where('users.id_class', $user->id_class)
+                ->get();
             // $act_nckhs = DB::table('activities_details')
             //     ->join('child_activities','child_activities.id','activities_details.id_child_activity')
             //     ->leftJoin('user_receive_activities', function($leftJoin){
@@ -324,10 +334,11 @@ class ChildActivityController extends AppBaseController
             //     ->select('activities_details.*',
             //     'child_activities.id_activity','child_activities.child_activity_type as child_activity_type')
             //     ->where('child_activities.id_activity', AppUtils::HOAT_DONG_NCKH)
+            //     ->where('users.id', '!=', $user->id)
             //     ->get();
-            // foreach($act_nckhs as $act){
-            //     $activityChecklist[] = $act;
-            // }
+            foreach($act_nckhs as $act){
+                $activityChecklist[] = $act;
+            }
             return $this->sendResponse($activityChecklist, __('message.success.get_list',['atribute' => 'hoạt động']));
         }
         catch(\Exception $e){
@@ -355,7 +366,6 @@ class ChildActivityController extends AppBaseController
                     ->where('user_receive_activities.id_child_activity', $act_detail->id_child_activity)
                     ->where('user_receive_activities.child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU)
                     ->where('users.id_class', $user->id_class)
-                    ->where('users.id', '!=', $user->id)
                     ->get();
             }
             if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
@@ -369,7 +379,6 @@ class ChildActivityController extends AppBaseController
                     ->where('user_receive_activities.id_child_activity', $act_detail->id_child_activity)
                     ->where('user_receive_activities.child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA)
                     ->where('users.id_class', $user->id_class)
-                    ->where('users.id', '!=', $user->id)
                     ->get();
             }
 

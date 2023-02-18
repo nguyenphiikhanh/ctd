@@ -36,16 +36,16 @@
                                     <select v-if="!canUpdate(user) || authUser.id == user.id" disabled class="form-control w-90">
                                         <option>Không thể cập nhật</option>
                                     </select>
-                                    <span v-if="canUpdate(user) && (user.status == statuses.STATUS_CHO_DUYET)" class="text-warning">Chờ xét duyệt</span>
-                                    <span v-if="canUpdate(user) && (user.status == statuses.STATUS_DUYET)" class="text-success">Đã xét duyệt</span>
-                                    <span v-if="canUpdate(user) && (user.status == statuses.STATUS_TU_CHOI)" class="text-danger">Không duyệt minh chứng</span>
+                                    <span v-if="canUpdate(user) && authUser.id != user.id && (user.status == statuses.STATUS_CHO_DUYET)" class="text-warning">Chờ xét duyệt</span>
+                                    <span v-if="canUpdate(user) && authUser.id != user.id && (user.status == statuses.STATUS_DUYET)" class="text-success">Đã xét duyệt</span>
+                                    <span v-if="canUpdate(user) && authUser.id != user.id && (user.status == statuses.STATUS_TU_CHOI)" class="text-danger">Không duyệt minh chứng</span>
                                 </td>
                                 <td>
                                     <input v-if="canUpdate(user) && authUser.id != user.id" v-model="user.note" @keyup.enter="$event.target.blur()" @blur="onUpdateStatus(user)" class="form-control" placeholder="Ghi chú">
                                     <input v-if="!canUpdate(user) || authUser.id == user.id" class="form-control" disabled placeholder="Không thể cập nhật">
                                 </td>
                                 <td class="d-flex justify-content-center">
-                                    <div v-if="user.status == statuses.STATUS_CHO_DUYET">
+                                    <div v-if="user.status == statuses.STATUS_CHO_DUYET && authUser.id != user.id">
                                         <button class="btn btn-info ml-auto" @click="onViewProof(user)">Xem minh chứng</button>
                                         <button class="btn btn-success" @click="onConfirmProof(user)">Duyệt</button>
                                         <button class="btn btn-danger"  @click="onConfirmProof(user, false)">Từ chối</button>
