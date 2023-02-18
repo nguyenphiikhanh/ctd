@@ -22,9 +22,10 @@ class DatabaseSeeder extends Seeder
             // ClassSeeder::class,
             // ActivitySeeder::class,
 
-            TieuChiBigTypeSeeder::class,
-            LoaiTieuChiSeeder::class,
-            TieuChiSeeder::class,
+            // TieuChiBigTypeSeeder::class,
+            // LoaiTieuChiSeeder::class,
+            // TieuChiSeeder::class,
+            // StudyTermSeeder::class,
         ]);
     }
 }
