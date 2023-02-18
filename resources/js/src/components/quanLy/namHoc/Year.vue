@@ -106,7 +106,7 @@ export default {
         async onSave(createFlg){
             this.$loading(true);
             let data = {
-                year_name: this.yearName,
+                year_name: this.yearName.replaceAll(' ', ''),
             };
             this.$nextTick(() => {
                     $('#createOrUpdateDialog').modal('hide');
@@ -117,7 +117,6 @@ export default {
             }
             else{
                 data.id = this.id;
-                console.log('data',data);
                 await this.updateStudyYear(data);
             }
             this.$loading(false);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StudyYearRequest;
 use App\Models\StudyYear;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -35,11 +36,11 @@ class StudyYearController extends AppBaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StudyYearRequest $request)
     {
         //
         try{
-            $year_name = $request->year_name;
+            $year_name = str_replace(' ', '', $request->year_name);
             StudyYear::create([
                 'year_name' => $year_name,
             ]);
@@ -69,7 +70,7 @@ class StudyYearController extends AppBaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StudyYearRequest $request, $id)
     {
         //
         try{
@@ -78,7 +79,7 @@ class StudyYearController extends AppBaseController
                 return $this->sendError(__('message.failed.not_exist',['attibute' => 'Năm học']), Response::HTTP_UNPROCESSABLE_ENTITY);
                 return;
             }
-            $year_name = $request->year_name;
+            $year_name = str_replace(' ', '', $request->year_name);
             $year->update([
                 'year_name' => $year_name,
             ]);
