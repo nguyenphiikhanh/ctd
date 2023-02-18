@@ -23,23 +23,26 @@
                             </thead>
                             <tbody>
                             <tr v-for="(user, index) in listUser" :key="index">
-                                <th scope="row">{{index + 1}}</th>
-                                <td>{{user.username}}</td>
-                                <td>{{user.fullname}}</td>
+                                <th scope="row"><span :class="authUser.id == user.id ? 'text-warning' : ''">{{index + 1}}</span></th>
+                                <td><span :class="authUser.id == user.id ? 'text-warning' : ''">{{user.username}}</span></td>
+                                <td><span :class="authUser.id == user.id ? 'text-warning' : ''">{{user.fullname}}</span></td>
                                 <td>
                                     <span v-if="!canUpdate(user)" class="text-success">Đã hoàn thành</span>
-                                    <select v-if="canUpdate(user) && (user.status != statuses.STATUS_CHO_DUYET && user.status != statuses.STATUS_DUYET && user.status != statuses.STATUS_TU_CHOI)" v-model="user.status" @change="onUpdateStatus(user)" class="form-control w-90">
+                                    <select v-if="canUpdate(user) && authUser.id != user.id && (user.status != statuses.STATUS_CHO_DUYET && user.status != statuses.STATUS_DUYET && user.status != statuses.STATUS_TU_CHOI)" v-model="user.status" @change="onUpdateStatus(user)" class="form-control w-90">
                                         <option :value="statuses.STATUS_CHUA_HOAN_THANH">Chưa hoàn thành</option>
                                         <option :value="statuses.STATUS_HOAN_THANH">Hoàn thành</option>
                                         <option :value="statuses.STATUS_VANG_MAT">Vắng mặt</option>
+                                    </select>
+                                    <select v-if="!canUpdate(user) || authUser.id == user.id" disabled class="form-control w-90">
+                                        <option>Không thể cập nhật</option>
                                     </select>
                                     <span v-if="canUpdate(user) && (user.status == statuses.STATUS_CHO_DUYET)" class="text-warning">Chờ xét duyệt</span>
                                     <span v-if="canUpdate(user) && (user.status == statuses.STATUS_DUYET)" class="text-success">Đã xét duyệt</span>
                                     <span v-if="canUpdate(user) && (user.status == statuses.STATUS_TU_CHOI)" class="text-danger">Không duyệt minh chứng</span>
                                 </td>
                                 <td>
-                                    <input v-if="canUpdate(user)" v-model="user.note" @keyup.enter="$event.target.blur()" @blur="onUpdateStatus(user)" class="form-control" placeholder="Ghi chú">
-                                    <input v-if="!canUpdate(user)" class="form-control" disabled placeholder="Không thể cập nhật">
+                                    <input v-if="canUpdate(user) && authUser.id != user.id" v-model="user.note" @keyup.enter="$event.target.blur()" @blur="onUpdateStatus(user)" class="form-control" placeholder="Ghi chú">
+                                    <input v-if="!canUpdate(user) || authUser.id == user.id" class="form-control" disabled placeholder="Không thể cập nhật">
                                 </td>
                                 <td class="d-flex justify-content-center">
                                     <div v-if="user.status == statuses.STATUS_CHO_DUYET">
@@ -144,6 +147,9 @@ export default {
         awards(){
             return constants.awards;
         },
+        authUser(){
+            return this.$store.getters['auth/user'];
+        }
     },
 }
 </script>
