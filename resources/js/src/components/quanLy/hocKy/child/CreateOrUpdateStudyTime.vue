@@ -60,6 +60,8 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/locale/vi'
 DatePicker.locale('vi');
 import dateTimeUtils from '../../../../helpers/utils/datetimeUtils';
+import {mapActions} from "vuex";
+import datetimeUtils from "../../../../helpers/utils/datetimeUtils";
 
 export default {
     components:{
@@ -109,11 +111,13 @@ export default {
         }
     },
     methods:{
+        ...mapActions({
+            createStudyTime: 'studyTime/createStudyTime'
+        }),
         closeModal(){
             this.$emit('closeModal');
         },
         timeValidate(){
-            console.log(this.studyTimeCreateOrEdit.start_time);
             if(this.studyTimeCreateOrEdit.start_time && this.studyTimeCreateOrEdit.end_time){
             const startTime = new Date(dateTimeUtils.convertTimezoneToDatetime(this.studyTimeCreateOrEdit.start_time));
             const endTime = new Date(dateTimeUtils.convertTimezoneToDatetime(this.studyTimeCreateOrEdit.end_time));
@@ -126,8 +130,17 @@ export default {
             }
            }
         },
-        onSave(){
+        async onSave(){
+            this.$nextTick(() => {
+                $('#createOrUpdateDialog').modal('hide');
+            });
+            this.$loading(true);
+            let data = JSON.parse(JSON.stringify(this.studyTimeCreateOrEdit));
+            data.start_time = datetimeUtils.convertTimezoneToDatetime(data.start_time);
+            data.end_time = datetimeUtils.convertTimezoneToDatetime(data.end_time);
+            await this.createStudyTime(data);
             this.$emit('onSave', this.createFlg);
+            this.$loading(false);
         }
     }
 

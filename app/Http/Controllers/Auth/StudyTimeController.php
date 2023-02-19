@@ -22,7 +22,11 @@ class StudyTimeController extends AppBaseController
     {
         //
         try{
-            $studyTimes = StudyTime::orderByDesc('id')->get();
+            $studyTimes = StudyTime::select('study_times.start_time','study_times.end_time',
+                            DB::raw("CONCAT(study_terms.name,' - năm học ',study_years.year_name) as name"))
+                            ->leftJoin('study_years', 'study_years.id', 'study_times.id_study_year')
+                            ->leftJoin('study_terms', 'study_terms.id', 'study_times.id_study_term')
+                            ->orderByDesc('study_times.id')->get();
             return $this->sendResponse($studyTimes, __('message.success.get_list',['atribute' => 'kỳ học']));
         }
         catch(\Exception $e){
@@ -54,9 +58,13 @@ class StudyTimeController extends AppBaseController
         try{
             $lastStudyYear = StudyYear::latest()->first();
             $id_study_term = $request->get('id_study_term');
+            $start_time = $request->get('start_time');
+            $end_time = $request->get('end_time');
             StudyTime::create([
                 'id_study_year' => $lastStudyYear->id,
-                'id_study_term' => $id_study_term
+                'id_study_term' => $id_study_term,
+                'start_time' => $start_time,
+                'end_time' => $end_time
             ]);
             return $this->sendResponse('', __('message.success.create',['atribute' => 'kỳ học']));
         }

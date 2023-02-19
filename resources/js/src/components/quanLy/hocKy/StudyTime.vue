@@ -47,12 +47,12 @@
                                     <tbody>
                                     <tr v-for="(_item, index) in studyTimeList" :key="index">
                                         <th scope="row">{{index + 1}}</th>
-                                        <td>{{_item.year_name}}</td>
-                                        <td>{{_item.start_time}}</td>
-                                        <td>{{_item.end_time}}</td>
+                                        <td>{{_item.name}}</td>
+                                        <td>{{time_convert(_item.start_time)}}</td>
+                                        <td>{{time_convert(_item.end_time)}}</td>
                                         <td class="d-flex justify-content-end">
                                             <div>
-                                                <button @click="showPopup(false, _item)" class="btn btn-sm btn-info">Sửa</button>
+<!--                                                <button @click="showPopup(false, _item)" class="btn btn-sm btn-info">Sửa</button>-->
                                                 <button class="btn btn-sm btn-info">Xét điểm rèn luyện</button>
                                             </div>
                                         </td>
@@ -65,7 +65,7 @@
                     </div><!-- nk-block -->
                     <create-or-update-dialog :createFlg="createFlg" :studyTime="studyTime"
                     :current-study-year="lastestStudyYear" :study-term="studyTermList"
-                    @onSave="onSave" @closeModal="closeModal()" @changeData="changeData"/>
+                    @onSave="onSave" @closeModal="closeModal()"/>
                 </div>
             </div>
         </div>
@@ -76,6 +76,7 @@
 import { asyncLoading } from 'vuejs-loading-plugin';
 import { mapActions } from 'vuex';
 import createOrUpdateDialog from './child/CreateOrUpdateStudyTime.vue';
+import datetimeUtils from "../../../helpers/utils/datetimeUtils";
 export default {
     components:{
         createOrUpdateDialog,
@@ -99,7 +100,7 @@ export default {
         ...mapActions({
             getLastestStudyYear: 'studyYear/getLastestStudyYear',
             getStudyTimes: 'studyTime/getStudyTime',
-            getStudyTerms: 'studyTime/getStudyTerm'
+            getStudyTerms: 'studyTime/getStudyTerm',
         }),
         async getStudyTimeList(){
             await this.getStudyTimes().then(res => this.studyTimeList = [...res.data]);
@@ -113,27 +114,18 @@ export default {
                 $('#createOrUpdateDialog').modal('show');
             });
         },
-        changeData(val){
-            this.studyTime = val;
-            console.log('std time', this.studyTime);
-        },
         async onSave(createFlg){
-            this.$loading(true);
-            let data = {};
-            this.$nextTick(() => {
-                    $('#createOrUpdateDialog').modal('hide');
-                });
             if(createFlg){
-                await this.createStudyYear(data);
                 await this.getStudyTimeList();
             }
             else{
-                data.id = this.id;
-                await this.updateStudyYear(data);
             }
             this.$loading(false);
             this.closeModal();
             await asyncLoading(this.getStudyTimeList());
+        },
+        time_convert(tz = null){
+            return tz ? datetimeUtils.dateTimeVnFormat(tz) : '';
         },
         closeModal(){
             this.$nextTick(() => {
