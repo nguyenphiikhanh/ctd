@@ -9,10 +9,10 @@
         <div class="modal-body">
             <div class="col-12">
                 <div class="form-group">
-                    <label class="form-label">Mã Đoàn viên</label>
-                    <small class="text-warning">(Mã đoàn viên là tài khoản đăng nhập)</small>
+                    <label class="form-label">Mã sinh viên</label>
+                    <small class="text-warning">(Mã sinh viên là tài khoản đăng nhập)</small>
                     <div class="form-control-wrap">
-                        <input  v-model="studentCreateOrUpdate.username" class="form-control" placeholder="Mã Đoàn viên">
+                        <input  v-model="studentCreateOrUpdate.username" class="form-control" placeholder="Mã Sinh viên">
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-2">
+            <div class="col-12 mt-2" v-if="createFlg">
                 <div class="form-group">
                     <label class="form-label">Mật khẩu đăng nhập</label>
                     <div class="form-control-wrap">
@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="modal-footer d-flex justify-content-center">
-            <button :disabled="!isValid" @click="onSave()" class="btn btn-primary">Thêm</button>
+            <button :disabled="!isValid" @click="onSave()" class="btn btn-primary">{{createFlg ? 'Thêm' : 'Lưu'}}</button>
         </div>
       </div>
     </div>
@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
     props:{
         createFlg:{type: Boolean, default: false},
@@ -66,26 +68,44 @@ export default {
     computed:{
         studentCreateOrUpdate:{
             get(){
-                return this.studentInfo;
+                return this.createFlg ? this.studentInfo : JSON.parse(JSON.stringify(this.studentInfo));
             },
             set(val){
                 this.$emit('changeObject', val);
             }
         },
         modalTitle(){
-            return this.createFlg ? 'Thêm Đoàn viên mới' : 'Chỉnh sửa thông tin Đoàn viên';
+            return this.createFlg ? 'Thêm sinh viên mới' : 'Chỉnh sửa thông tin sinh viên';
         },
         isValid(){
-            return this.studentCreateOrUpdate.username && this.studentCreateOrUpdate.ho
-            && this.studentCreateOrUpdate.ten && this.studentCreateOrUpdate.email
-            && this.studentCreateOrUpdate.password;
+            if(this.createFlg){
+                return this.studentCreateOrUpdate.username && this.studentCreateOrUpdate.ho
+                    && this.studentCreateOrUpdate.ten && this.studentCreateOrUpdate.email
+                    && this.studentCreateOrUpdate.password;
+            }
+            else{
+                return this.studentCreateOrUpdate.username && this.studentCreateOrUpdate.ho
+                    && this.studentCreateOrUpdate.ten && this.studentCreateOrUpdate.email;
+            }
         }
     },
     methods:{
+        ...mapActions({
+            updateStudent: 'student/updateStudent'
+        }),
         closeModal(){
             this.$emit('closeModal');
         },
-        onSave(){
+        async onSave(){
+            this.$nextTick(() => {
+                $('#createOrUpdateDialog').modal('hide');
+            });
+            if(!this.createFlg){
+                this.$loading(true);
+                const data = this.studentCreateOrUpdate;
+                await this.updateStudent(data);
+                this.$loading(false);
+            }
             this.$emit('onSave', this.createFlg);
         }
     }

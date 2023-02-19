@@ -51,7 +51,7 @@
                                     <tr>
                                         <th scope="col">STT</th>
                                         <th scope="col">Mã Sinh viên</th>
-                                        <th scope="col">Tên Sinh  viên</th>
+                                        <th scope="col">Tên Sinh viên</th>
                                         <th scope="col">Địa chỉ Email</th>
                                         <th></th>
                                     </tr>
@@ -64,7 +64,7 @@
                                         <td>{{_item.email}}</td>
                                         <td class="d-flex justify-content-end">
                                             <div>
-                                            <button class="btn btn-sm btn-info">Sửa</button>
+                                            <button class="btn btn-sm btn-info" @click="showPopup(false, _item)">Sửa</button>
                                             <button class="btn btn-sm btn-danger mr-2">Xóa</button>
                                             </div>
                                         </td>
@@ -136,9 +136,10 @@ export default {
             const class_id = this.$route.params.id;
             await this.getStudentByClass(class_id).then(res => this.studentList = [...res.data]);
         },
-        showPopup(createFlg = true){
+        showPopup(createFlg = true, studentInfo = {}){
             if(!createFlg){
                 this.createFlg = createFlg;
+                this.studentInfo = studentInfo;
             }
 
             this.$nextTick(() => {
@@ -150,9 +151,6 @@ export default {
         },
         async onSave(createFlg){
             this.studentInfo.id_class = this.$route.params.id;
-            this.$nextTick(() => {
-                $('#createOrUpdateDialog').modal('hide');
-            });
             this.$loading(true);
             if(createFlg){
                 await this.createStudent(this.studentInfo);

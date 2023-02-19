@@ -9,6 +9,10 @@ export default {
         return http.post('/student', data);
     },
 
+    updateStudent(id, data){
+        return http.put(`/student/${id}`, data);
+    },
+
     changeCbSetting(data){
         return http.put('/student/cbSetting', data);
     },

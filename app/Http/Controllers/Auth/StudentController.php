@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StudentRequest;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\RoleUtils;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +45,7 @@ class StudentController extends AppBaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StudentRequest $request)
     {
         //
         try{
@@ -189,9 +191,31 @@ class StudentController extends AppBaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StudentRequest $request, $id)
     {
         //
+        try{
+            $student = User::find($id);
+            if(!$student){
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'sinh viên']), Response::HTTP_UNPROCESSABLE_ENTITY);
+                return;
+            }
+            $ho = $request->get('ho');
+            $ten = $request->get('ten');
+            $username = $request->get('username');
+            $email = $request->get('email');
+            $student->update([
+                'username' => $username,
+                'email' => $email,
+                'ho' => $ho,
+                'ten' => $ten,
+            ]);
+            return $this->sendResponse('', __('message.success.update',['atribute' => 'sinh viên']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'sinh viên']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
