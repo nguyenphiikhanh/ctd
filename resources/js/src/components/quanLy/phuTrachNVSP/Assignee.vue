@@ -6,7 +6,7 @@
                     <div class="nk-block-head nk-block-head-sm">
                         <div class="nk-block-between">
                             <div class="nk-block-head-content">
-                                <h3 class="nk-block-title page-title">Quản lý phụ trách viên</h3>
+                                <h3 class="nk-block-title page-title">Quản lý phụ trách viên(Hoạt động <span class="text-danger">Nghiệp vụ Sư phạm</span>)</h3>
                             </div><!-- .nk-block-head-content -->
                             <div class="nk-block-head-content">
                                 <div class="toggle-wrap nk-block-tools-toggle">

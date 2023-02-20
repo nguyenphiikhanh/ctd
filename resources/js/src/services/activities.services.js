@@ -14,8 +14,8 @@ export default {
     updateChildActivity(id, data){
         return http.put(`/child_activities/${id}`, data);
     },
-    getChildActivities(){
-        return http.get('/child-activities');
+    getChildActivities(data){
+        return http.get('/child-activities', {params: data});
     },
     getActivitiesReceive(){
         return http.get('/receive-activities');

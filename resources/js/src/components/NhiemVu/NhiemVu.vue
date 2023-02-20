@@ -41,15 +41,30 @@
                                 <h5 class="nk-block-title">Danh sách nhiệm vụ</h5>
                             </div>
                         </div>
+                        <ul class="nav nav-tabs mb-3">
+                            <li class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_NCKH, 1)">
+                                <a class="nav-link active" data-toggle="tab" href="#nckh"><em class="ni ni-view-list"></em> Nghiên cứu khoa học</a>
+                            </li>
+                            <li class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_NVSP, 2)">
+                                <a class="nav-link" data-toggle="tab" href="#nvsp"><em class="ni ni-view-list"></em> Nghiệp vụ Sư phạm</a>
+                            </li>
+                            <li class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_DOAN, 3)">
+                                <a class="nav-link" data-toggle="tab" href="#doan"><em class="ni ni-view-list"></em> Hoạt động Đoàn</a>
+                            </li>
+                            <li class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_KHAC, 4)">
+                                <a class="nav-link" data-toggle="tab" href="#khac"><em class="ni ni-view-list"></em> Hoạt động Khác</a>
+                            </li>
+                        </ul>
                         <div class="card card-preview">
                             <div class="table-responsive">
                                 <table class="table table-striped">
-                                    <thead>
+                                    <thead class="p-3">
                                     <tr>
                                         <th scope="col">STT</th>
                                         <th scope="col">Tên hoạt động</th>
                                         <th scope="col">Loại hoạt động</th>
                                         <th scope="col">Yêu cầu</th>
+                                        <th v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP" scope="col">Người phụ trách</th>
                                         <th ></th>
                                     </tr>
                                     </thead>
@@ -59,6 +74,10 @@
                                         <td>{{_item.name}}</td>
                                         <td><span>{{ activity_type(_item.id_activity) }}</span></td>
                                         <td><span>{{ requirement(_item.id_activity, _item.child_activity_type) }}</span></td>
+                                        <td v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP">
+                                            <span class="text-warning">Chưa có</span>
+                                            <button class="btn btn-sm btn-warning"><em class="ni ni-repeat"></em></button>
+                                        </td>
                                         <td>
                                             <button @click="viewAct(_item)" class="btn btn-sm btn-info">Chi tiết</button>
                                             <button @click="showUserActivityList(_item.id)" v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN" class="btn btn-sm btn-primary">Danh sách</button>
@@ -81,7 +100,6 @@
 <script>
 
 import {mapActions} from "vuex";
-import {asyncLoading} from "vuejs-loading-plugin";
 import constants from "../../constants";
 import ViewChildActivity from "./authorize/child/ViewChildActivity.vue";
 import ViewUserActivity from "./authorize/child/ViewUserActivity.vue";
@@ -93,6 +111,8 @@ export default {
     },
     data(){
         return{
+            activity:  1,
+            current_tab: 1,
             child_activities: [],
             child_act_view: {
                 files: [],
@@ -114,8 +134,17 @@ export default {
             getChildActivities: "activity/getChildActivities",
             getUserActivities: "activity/getUserActivities",
         }),
-        async getChildActList(){
-            await this.getChildActivities().then(res => this.child_activities = [...res.data]);
+        async getChildActList(activity = this.loai_hoat_dong.HOAT_DONG_NCKH, current_tab = null){
+            if(this.current_tab == current_tab) return;
+            this.current_tab = current_tab || 1;
+            this.$loading(true);
+            this.activity = activity;
+            let params = {
+                id_activity: this.activity,
+            }
+            await this.getChildActivities(params).then(res => this.child_activities = [...res.data]);
+            console.log(this.child_activities);
+            this.$loading(false);
         },
         viewAct(act){
             this.child_act_view = act;
@@ -210,8 +239,8 @@ export default {
             }
         }
     },
-    mounted() {
-        asyncLoading(this.getChildActList());
+    async mounted() {
+        await this.getChildActList();
     }
 }
 </script>

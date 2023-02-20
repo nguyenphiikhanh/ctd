@@ -101,8 +101,8 @@ export default {
                 } else dispatch("alert/alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
             })
     },
-    getChildActivities({commit, dispatch}){
-        return activitiesServices.getChildActivities()
+    getChildActivities({commit, dispatch}, data){
+        return activitiesServices.getChildActivities(data)
             .then(response => {
                 return Promise.resolve(response.data);
             })

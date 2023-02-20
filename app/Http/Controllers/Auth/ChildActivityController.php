@@ -21,13 +21,17 @@ class ChildActivityController extends AppBaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         try{
+            $id_activity = $request->get('id_activity');
             $child_activities = DB::table('child_activities')
-                ->orderByDesc('child_activities.created_at')
-                ->get();
+                ->orderByDesc('child_activities.created_at');
+            if($id_activity){
+                $child_activities->where('id_activity', $id_activity);
+            }
+            $child_activities = $child_activities->get();
             foreach($child_activities as $child_act){
                 $child_act->files = DB::table('child_activity_files')
                     ->where('id_child_activity', $child_act->id)->get();
