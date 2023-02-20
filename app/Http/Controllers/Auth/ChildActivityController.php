@@ -27,10 +27,10 @@ class ChildActivityController extends AppBaseController
         try{
             $id_activity = $request->get('id_activity');
             $child_activities = DB::table('child_activities')
+                ->leftJoin('users', 'users.id', 'child_activities.id_user_assignee')
+                ->select('child_activities.*', DB::raw("CONCAT(users.ho,' ',users.ten) as user_assign_name"))
+                ->where('id_activity', $id_activity)
                 ->orderByDesc('child_activities.created_at');
-            if($id_activity){
-                $child_activities->where('id_activity', $id_activity);
-            }
             $child_activities = $child_activities->get();
             foreach($child_activities as $child_act){
                 $child_act->files = DB::table('child_activity_files')
@@ -668,14 +668,22 @@ class ChildActivityController extends AppBaseController
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+
+    public function changeAssigneeSetting(Request $request, $id){
+        try{
+            $childAct = ChildActivity::find($id);
+            if(!$childAct){
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'hoạt động']));
+                return;
+            }
+            $id_user_assignee = $request->get('id_user_assignee');
+            $childAct->update([
+                'id_user_assignee' => $id_user_assignee,
+            ]);
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'phụ trách']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

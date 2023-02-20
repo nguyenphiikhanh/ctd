@@ -57,5 +57,9 @@ export default {
 
     updateUserActivityAward(id, data){
         return http.put(`/user-activity/${id}/update`, data);
+    },
+
+    changeAssigneeSetting(id, data){
+        return http.put(`/child-activity/${id}/change-assignee`, data);
     }
 }

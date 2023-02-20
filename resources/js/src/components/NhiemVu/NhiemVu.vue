@@ -13,14 +13,6 @@
                                     <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="more-options"><em class="icon ni ni-more-v"></em></a>
                                     <div class="toggle-expand-content" data-content="more-options">
                                         <ul class="nk-block-tools g-3">
-                                            <li>
-                                                <div class="form-control-wrap">
-                                                    <div class="form-icon form-icon-right">
-                                                        <em class="btn icon ni ni-search"></em>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="default-04" placeholder="Tìm kiếm">
-                                                </div>
-                                            </li>
                                             <li class="nk-block-tools-opt">
                                                 <router-link :to="{name: 'NhiemVu_Create'}">
                                                     <button type="button" class="btn btn-primary d-none d-md-inline-flex">
@@ -64,7 +56,7 @@
                                         <th scope="col">Tên hoạt động</th>
                                         <th scope="col">Loại hoạt động</th>
                                         <th scope="col">Yêu cầu</th>
-                                        <th v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP" scope="col">Người phụ trách</th>
+                                        <th v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP || activity == loai_hoat_dong.HOAT_DONG_NCKH" scope="col">Người phụ trách</th>
                                         <th ></th>
                                     </tr>
                                     </thead>
@@ -74,9 +66,9 @@
                                         <td>{{_item.name}}</td>
                                         <td><span>{{ activity_type(_item.id_activity) }}</span></td>
                                         <td><span>{{ requirement(_item.id_activity, _item.child_activity_type) }}</span></td>
-                                        <td v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP">
-                                            <span class="text-warning">Chưa có</span>
-                                            <button class="btn btn-sm btn-warning"><em class="ni ni-repeat"></em></button>
+                                        <td v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP || activity == loai_hoat_dong.HOAT_DONG_NCKH">
+                                            <span :class="_item.id_user_assignee ? 'text-primary' : 'text-warning'">{{ _item.id_user_assignee ? _item.user_assign_name : 'Chưa có'}}</span>
+                                            <button @click="changeAssignee(_item)" class="btn btn-sm btn-warning"><em class="ni ni-repeat"></em></button>
                                         </td>
                                         <td>
                                             <button @click="viewAct(_item)" class="btn btn-sm btn-info">Chi tiết</button>
@@ -92,6 +84,9 @@
                 </div>
                 <ViewChildActivity :childActInfo="child_act_view" @onUpdate="onUpdateChildActivity()" @closeModal="closeModal()"/>
                 <ViewUserActivity :user-list="user_acts" @closeModal="closeModal()"/>
+                <UpdateAssignee :assignees="assignees" :child-act="child_act_view"
+                @onSave="getChildActList(activity, current_tab, true)"
+                @closeModal="closeModal()"/>
             </div>
         </div>
     </div>
@@ -103,11 +98,13 @@ import {mapActions} from "vuex";
 import constants from "../../constants";
 import ViewChildActivity from "./authorize/child/ViewChildActivity.vue";
 import ViewUserActivity from "./authorize/child/ViewUserActivity.vue";
+import UpdateAssignee from './authorize/phuTrach/UpdateAssignee.vue';
 
 export default {
     components:{
         ViewChildActivity,
-        ViewUserActivity
+        ViewUserActivity,
+        UpdateAssignee,
     },
     data(){
         return{
@@ -119,6 +116,7 @@ export default {
             },
             user_acts: [],
             key: 0,
+            assignees: [],
         }
     },
     computed:{
@@ -133,9 +131,10 @@ export default {
         ...mapActions({
             getChildActivities: "activity/getChildActivities",
             getUserActivities: "activity/getUserActivities",
+            getAssignee: 'userModule/getAssignees',
         }),
-        async getChildActList(activity = this.loai_hoat_dong.HOAT_DONG_NCKH, current_tab = null){
-            if(this.current_tab == current_tab) return;
+        async getChildActList(activity = this.loai_hoat_dong.HOAT_DONG_NCKH, current_tab = null, reGet = false){
+            if(this.current_tab == current_tab && !reGet) return;
             this.current_tab = current_tab || 1;
             this.$loading(true);
             this.activity = activity;
@@ -143,7 +142,6 @@ export default {
                 id_activity: this.activity,
             }
             await this.getChildActivities(params).then(res => this.child_activities = [...res.data]);
-            console.log(this.child_activities);
             this.$loading(false);
         },
         viewAct(act){
@@ -152,14 +150,24 @@ export default {
                 $('#viewChildAct').modal('show');
             });
         },
+        changeAssignee(act){
+            this.child_act_view = act;
+            this.$nextTick(() => {
+                $('#assigneeSetting').modal('show');
+            });
+        },
         async onUpdateChildActivity(){
             await this.getChildActList();
             this.closeModal();
         },
         closeModal(){
+            this.child_act_view = {
+                files: [],
+            }
             this.$nextTick(() => {
                 $('#viewChildAct').modal('hide');
                 $('#viewUserAct').modal('hide');
+                $('#assigneeSetting').modal('hide');
             });
         },
         async showUserActivityList(child_act_id){
@@ -241,6 +249,9 @@ export default {
     },
     async mounted() {
         await this.getChildActList();
+        this.$loading(true);
+        await this.getAssignee().then(res => this.assignees = [...res.data]);
+        this.$loading(false);
     }
 }
 </script>

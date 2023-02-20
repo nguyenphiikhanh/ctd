@@ -123,8 +123,8 @@ export default {
             const endTime = new Date(dateTimeUtils.convertTimezoneToDatetime(this.studyTimeCreateOrEdit.end_time));
             if(startTime > endTime){
                 this.$swal.fire(
-                'Lỗi dữ liệu!',
-                'Vui lòng chọn thời gian hợp lệ.',
+                'Vui lòng chọn thời gian hợp lệ.!',
+                '',
                 'error'
                 )
             }

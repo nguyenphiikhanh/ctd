@@ -24,27 +24,12 @@ Route::prefix('v1')->group(function(){
         // admin
         Route::middleware('role.admin')->group(function(){
             //khóa đào tạo
-            Route::get('/terms','Auth\TermController@index');
             Route::post('/terms','Auth\TermController@store');
             Route::put('/terms/{id}','Auth\TermController@update');
-
-            // khối ngành đào tạo(Sư phạm vs Ngoài sư phạm)
-            Route::get('/class-types','Auth\ClassTypeController@index');
 
             //khoa
             Route::get('/faculties','Auth\FacultyController@index');
             Route::post('/faculties','Auth\FacultyController@store');
-
-            // Sinh viên
-            Route::get('/students/class/{id}','Auth\StudentController@index');
-            Route::post('/student','Auth\StudentController@store');
-            Route::put('/student/cbSetting','Auth\StudentController@updateCbSetting');
-            Route::put('/student/{id}','Auth\StudentController@update');
-
-            // Lớp
-            Route::post('/classes','Auth\ClassesController@store');
-            Route::get('/classes','Auth\ClassesController@getClasses');
-            Route::get('/class/{id}','Auth\ClassesController@show');
 
             // Năm học
             Route::get('/years', 'Auth\StudyYearController@index');
@@ -61,10 +46,20 @@ Route::prefix('v1')->group(function(){
 
         // bql Đoàn khoa
         Route::middleware('role.faculty')->group(function(){
+            // khối ngành đào tạo(Sư phạm vs Ngoài sư phạm)
+            Route::get('/class-types','Auth\ClassTypeController@index');
+
             //Lớp
             Route::get('/class-list','Auth\ClassesController@index');
+            Route::post('/classes','Auth\ClassesController@store');
+            Route::get('/classes','Auth\ClassesController@getClasses');
+            Route::get('/class/{id}','Auth\ClassesController@show');
 
-            // sinh vien
+            // Sinh viên
+            Route::get('/students/class/{id}','Auth\StudentController@index');
+            Route::post('/student','Auth\StudentController@store');
+            Route::put('/student/cbSetting','Auth\StudentController@updateCbSetting');
+            Route::put('/student/{id}','Auth\StudentController@update');
             Route::get('/student/faculty/{id}','Auth\StudentController@getStudentByFaculty');
 
             //Hoạt động
@@ -72,6 +67,7 @@ Route::prefix('v1')->group(function(){
             Route::get('/child-activities','Auth\ChildActivityController@index');
             Route::post('/child-activities','Auth\ChildActivityController@store');
             Route::put('/child_activities/{id}','Auth\ChildActivityController@update');
+            Route::put('/child-activity/{id}/change-assignee','Auth\ChildActivityController@changeAssigneeSetting');
 
             //update giải thưởng
             Route::put('/user-activity/{id}/update','Auth\ChildActivityController@awardUpdate');
@@ -99,8 +95,8 @@ Route::prefix('v1')->group(function(){
             Route::get('/checkList-activities-users/{activity_details_id}','Auth\ChildActivityController@getUserForCheckList');
             Route::put('/checkList-for-user/{id_user}/{act_id}','Auth\ChildActivityController@updateUserCheckList');
         });
-
-
+        //khóa đào tạo
+        Route::get('/terms','Auth\TermController@index');
         // danh sách user dự thi(phần thi NVSP hoặc tiểu ban NCKH)
         Route::get('/child-activity/{id}/users','Auth\ChildActivityController@getUserActivity');
         // hoạt động

@@ -284,8 +284,8 @@ export default {
             const endTime = new Date(datetimeUtils.convertTimezoneToDatetime(this.activity_create.end_time));
             if(startTime > endTime){
                 this.$swal.fire(
-                'Lỗi dữ liệu!',
-                'Vui lòng chọn thời gian hợp lệ.',
+                'Vui lòng chọn thời gian hợp lệ!',
+                '',
                 'error'
                 )
             }

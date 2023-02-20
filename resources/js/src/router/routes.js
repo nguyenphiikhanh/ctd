@@ -52,32 +52,6 @@ const routes = [
             btdAccess: false,
         }
     },
-    // lớp
-    {
-        name:"Lop",
-        path:"/quan-ly/lop",
-        component: Classes,
-        meta:{
-            title: 'Quản lý lớp',
-            requiresAuth: true,
-            adminAccess: true,
-            cblAccess: false,
-            btdAccess: false,
-        }
-    },
-    // sinh viên
-    {
-        name:"SinhVien",
-        path:"/quan-ly/lop-:id/danh-sach-sinh-vien",
-        component: Students,
-        meta:{
-            title: 'Quản lý Sinh viên',
-            requiresAuth: true,
-            adminAccess: true,
-            cblAccess: false,
-            btdAccess: false,
-        }
-    },
     // Năm học
     {
         name:"Year",
@@ -137,6 +111,32 @@ const routes = [
         component: Assignee,
         meta:{
             title: 'Quản lý phụ trách viên',
+            requiresAuth: true,
+            adminAccess: false,
+            cblAccess: false,
+            btdAccess: true,
+        }
+    },
+       // lớp
+       {
+        name:"Lop",
+        path:"/quan-ly/lop",
+        component: Classes,
+        meta:{
+            title: 'Quản lý lớp',
+            requiresAuth: true,
+            adminAccess: false,
+            cblAccess: false,
+            btdAccess: true,
+        }
+    },
+    // sinh viên
+    {
+        name:"SinhVien",
+        path:"/quan-ly/lop-:id/danh-sach-sinh-vien",
+        component: Students,
+        meta:{
+            title: 'Quản lý Sinh viên',
             requiresAuth: true,
             adminAccess: false,
             cblAccess: false,
