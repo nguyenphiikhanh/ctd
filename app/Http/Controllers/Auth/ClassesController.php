@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AppBaseController;
-use App\Http\Controllers\Controller;
 use App\Http\Utils\AppUtils;
-use App\Http\Utils\RoleUtils;
-use App\Models\Classes;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +41,9 @@ class ClassesController extends AppBaseController
 
     public function getClasses(Request $request){
         try{
-            $classList = DB::table('classes')->get();
+            $user = Auth::user();
+            $classList = DB::table('classes')->where('id_faculty', $user->id_khoa)
+                ->orderBy('class_name')->get();
             return $this->sendResponse($classList,__('message.success.get_list',['atribute' => 'lớp']));
         }
         catch(\Exception $e){
@@ -62,13 +61,13 @@ class ClassesController extends AppBaseController
     {
         //
         try{
+            $user = Auth::user();
             $class_name = $request->get('class_name');
-            $id_faculty = $request->get('id_faculty');
             $id_class_type = $request->get('id_class_type');
             $id_term = $request->get('id_term');
             DB::table('classes')->insert([
                 'class_name' => $class_name,
-                'id_faculty' => $id_faculty,
+                'id_faculty' => $user->id_khoa,
                 'id_class_type' => $id_class_type,
                 'id_term' => $id_term,
                 'created_at' => now(),

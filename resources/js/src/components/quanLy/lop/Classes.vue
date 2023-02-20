@@ -61,7 +61,7 @@
                         </div><!-- .card -->
                         <div v-if="classList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
-                    <create-or-update-dialog :createFlg="createFlg" :terms="terms" :faculties="faculties" :classTypes="classTypes" :classObject="classObject"
+                    <create-or-update-dialog :createFlg="createFlg" :terms="terms" :classTypes="classTypes" :classObject="classObject"
                      @onSave="onSave" @closeModal="closeModal()" @changeObject="changeObject"/>
                 </div>
             </div>
@@ -90,7 +90,6 @@ export default {
                 id_term: null,
                 id_user_cvht: null,
             },
-            faculties: [],
             terms: [],
         }
     },
@@ -98,7 +97,6 @@ export default {
         ...mapActions({
             getClasses: 'classes/getClasses',
             getClassTypes: 'classes/getClassTypes',
-            getFacultyList: 'khoa/getFacultyList',
             getTermList: 'khoaDaoTao/getTermList',
             createClass: 'classes/createClass'
         }),
@@ -147,7 +145,6 @@ export default {
         const data = {
             getAllFlg: true
         }
-        asyncLoading(this.getFacultyList(data).then(res => this.faculties = [...res.data]));
         asyncLoading(this.getTermList(data).then(res => this.terms = [...res.data]));
     }
 }

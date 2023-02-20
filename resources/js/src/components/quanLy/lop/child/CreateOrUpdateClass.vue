@@ -37,17 +37,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-2">
-                <div class="form-group">
-                    <label class="form-label">Khoa</label>
-                    <div class="form-control-wrap">
-                        <select v-model="classCreateOrUpdate.id_faculty" class="form-control">
-                            <option :value="null">--Chọn khoa---</option>
-                            <option v-for="option, ind in faculties" :key="ind" :value="option.id">{{option.faculty_name}}</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="modal-footer d-flex justify-content-center">
             <button :disabled="!isValid" @click="onSave()" class="btn btn-primary">Thêm</button>
@@ -63,7 +52,6 @@ export default {
         createFlg:{type: Boolean, default: false},
         classObject: {type: Object, default: {}},
         classTypes: {type: Array, default: []},
-        faculties: {type: Array},
         terms:{type: Array}
     },
     computed:{
@@ -79,8 +67,8 @@ export default {
             return this.createFlg ? 'Thêm lớp mới' : 'Chỉnh sửa chi Đoàn';
         },
         isValid(){
-            return this.classCreateOrUpdate.class_name && this.classCreateOrUpdate.id_faculty
-            && this.classCreateOrUpdate.id_class_type && this.classCreateOrUpdate.id_term;
+            return this.classCreateOrUpdate.class_name && this.classCreateOrUpdate.id_class_type
+            && this.classCreateOrUpdate.id_term;
         }
     },
     methods:{

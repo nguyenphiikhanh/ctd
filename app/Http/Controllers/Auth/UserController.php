@@ -25,6 +25,7 @@ class UserController extends AppBaseController
         try{
             $user = Auth::user();
             $assignees = DB::table('users')
+                ->select('id','username', 'email', 'ho', 'ten')
                 ->where('role', RoleUtils::ROLE_PHU_TRACH_NVSP)
                 ->where('id_khoa', $user->id_khoa)
                 ->get();
