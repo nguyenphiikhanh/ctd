@@ -75,6 +75,11 @@ Route::prefix('v1')->group(function(){
 
             //update giải thưởng
             Route::put('/user-activity/{id}/update','Auth\ChildActivityController@awardUpdate');
+
+            // Phụ trách phần thi
+            Route::get('/user/assign-act','Auth\UserController@getUserAssigneeActivities');
+            Route::post('/user/assign-act','Auth\UserController@storeUserAssignActivities');
+            Route::put('/user/assign-act/{id}','Auth\UserController@updateUserAssignActivities');
         });
 
         Route::middleware('role.cbOrStudent')->group(function(){

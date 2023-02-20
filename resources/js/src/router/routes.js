@@ -9,6 +9,7 @@ import Classes from "../components/quanLy/lop/Classes";
 import Students from "../components/quanLy/sinhvien/Students";
 import Year from '../components/quanLy/namHoc/Year';
 import StudyTime from '../components/quanLy/hocKy/StudyTime';
+import Assignee from '../components/quanLy/phuTrachNVSP/Assignee';
 
 const routes = [
     // dashboard
@@ -129,6 +130,21 @@ const routes = [
             btdAccess: true,
         }
     },
+    //quản lý người phụ trách
+    {
+        name:"Assignee",
+        path:"/quan-ly/phu-trach-vien",
+        component: Assignee,
+        meta:{
+            title: 'Quản lý phụ trách viên',
+            requiresAuth: true,
+            adminAccess: false,
+            cblAccess: false,
+            btdAccess: true,
+        }
+    },
+
+    // ds nhiệm vụ và thông báo
     {
         name:"Notifications",
         path:"/thong-bao-nhiem-vu",

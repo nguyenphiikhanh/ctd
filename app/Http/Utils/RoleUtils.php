@@ -14,8 +14,10 @@ use function PHPUnit\Framework\returnSelf;
     const ROLE_BI_THU_DOAN = 1;
     const ROLE_CVHT = 3;
     const ROLE_CBL = 4;
-    const ROLE_LOP_TRUONG = 6;
     const ROLE_SINHVIEN = 5;
+    const ROLE_LOP_TRUONG = 6;
+    const ROLE_PHU_TRACH_NVSP = 7;
+
 
     public static function getRoleName($roleFlg){
         switch($roleFlg){

@@ -67,6 +67,14 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
+            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'Assignee'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
+                        <span class="nk-menu-text">Phụ trách viên</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
 
             <router-link v-if="user.role != roles.ADMIN && user.role != roles.ROLE_BI_THU_DOAN" :to="{name: 'Notifications'}">
                 <li class="nk-menu-item">
