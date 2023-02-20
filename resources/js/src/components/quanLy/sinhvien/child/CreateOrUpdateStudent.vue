@@ -2,7 +2,8 @@
     <div class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" id="createOrUpdateDialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">
+        <form action="" @submit.prevent="onSave()">
+            <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">
           <em class="icon ni ni-cross"></em>
         </a>
         <div class="modal-header"><h5 class="modal-title">{{modalTitle}}</h5></div>
@@ -50,8 +51,9 @@
             </div>
         </div>
         <div class="modal-footer d-flex justify-content-center">
-            <button :disabled="!isValid" @click="onSave()" class="btn btn-primary">{{createFlg ? 'Thêm' : 'Lưu'}}</button>
+            <button :disabled="!isValid" type="submit" class="btn btn-primary">{{createFlg ? 'Thêm' : 'Lưu'}}</button>
         </div>
+        </form>
       </div>
     </div>
   </div>
