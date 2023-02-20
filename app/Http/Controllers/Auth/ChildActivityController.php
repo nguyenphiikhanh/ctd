@@ -343,6 +343,12 @@ class ChildActivityController extends AppBaseController
                     $activityChecklist[] = $act;
                 }
             }
+            $activityChecklist = $activityChecklist->toArray();
+            usort($activityChecklist, function($a, $b){
+                $aTime = strtotime($a->created_at);
+                $bTime = strtotime($b->created_at);
+                return $bTime - $aTime;
+            });
             return $this->sendResponse($activityChecklist, __('message.success.get_list',['atribute' => 'hoạt động']));
         }
         catch(\Exception $e){

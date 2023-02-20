@@ -56,7 +56,7 @@
                                         <th scope="col">Tên hoạt động</th>
                                         <th scope="col">Loại hoạt động</th>
                                         <th scope="col">Yêu cầu</th>
-                                        <th v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP || activity == loai_hoat_dong.HOAT_DONG_NCKH" scope="col">Người phụ trách</th>
+                                        <th v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP || activity == loai_hoat_dong.HOAT_DONG_NCKH" scope="col">Phụ trách viên</th>
                                         <th ></th>
                                     </tr>
                                     </thead>
