@@ -41,6 +41,7 @@
                                         <th scope="col">Học kì</th>
                                         <th scope="col">Thời gian bắt đầu</th>
                                         <th scope="col">Thời gian kết thúc</th>
+                                        <th scope="col">Xét điểm rèn luyện</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -50,6 +51,11 @@
                                         <td>{{_item.name}}</td>
                                         <td>{{time_convert(_item.start_time)}}</td>
                                         <td>{{time_convert(_item.end_time)}}</td>
+                                        <td>
+                                            <span :class="_item.status == status.INVALID_VALUE ? 'text-warning' : 'text-success'">
+                                                {{ _item.status == status.INVALID_VALUE ? 'Chưa xét duyệt' : 'Đã xét duyệt' }}
+                                            </span>
+                                        </td>
                                         <td class="d-flex justify-content-end">
                                             <div>
 <!--                                                <button @click="showPopup(false, _item)" class="btn btn-sm btn-info">Sửa</button>-->
@@ -77,6 +83,7 @@ import { asyncLoading } from 'vuejs-loading-plugin';
 import { mapActions } from 'vuex';
 import createOrUpdateDialog from './child/CreateOrUpdateStudyTime.vue';
 import datetimeUtils from "../../../helpers/utils/datetimeUtils";
+import constants from '../../../constants';
 export default {
     components:{
         createOrUpdateDialog,
@@ -94,6 +101,11 @@ export default {
                 end_time: '',
             },
             lastestStudyYear: {}
+        }
+    },
+    computed:{
+        status(){
+            return constants.BOOL_VALUE;
         }
     },
     methods:{

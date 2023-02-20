@@ -22,7 +22,7 @@ class StudyTimeController extends AppBaseController
     {
         //
         try{
-            $studyTimes = StudyTime::select('study_times.start_time','study_times.end_time',
+            $studyTimes = StudyTime::select('study_times.start_time','study_times.end_time','study_times.status',
                             DB::raw("CONCAT(study_terms.name,' - năm học ',study_years.year_name) as name"))
                             ->leftJoin('study_years', 'study_years.id', 'study_times.id_study_year')
                             ->leftJoin('study_terms', 'study_terms.id', 'study_times.id_study_term')
