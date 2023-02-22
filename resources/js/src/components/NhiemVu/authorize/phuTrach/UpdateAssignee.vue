@@ -8,7 +8,7 @@
         <div class="modal-header"><h5 class="modal-title">Chọn cán bộ phụ trách</h5></div>
         <div class="modal-body">
             <div class="col-12">
-                <label class="h6 col-12 mb-2">Chọn cán bộ trách</label>
+                <label class="h6 col-12 mb-2">Chọn cán bộ phụ trách</label>
                 <ul class="custom-control-group">
                     <li v-for="(option, ind) in assignees" :key="ind" class="col-12">
                         <div class="custom-control custom-radio custom-control-pro no-control col-12">
