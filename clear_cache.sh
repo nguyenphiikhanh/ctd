@@ -1,4 +1,4 @@
-echo "Cong Tac Doan - Dev Environment Deploying..."
+echo "Cong Tac Doan - Production Environment Deploying..."
 
 echo "pulling from origin..."
 git fetch --all && git reset --hard origin/CONGTACDOAN-deployment && git pull
@@ -9,7 +9,7 @@ php artisan migrate
 echo "production UI building..."
 npm run prod
 
-echo "optimzing..."
+echo "optimizing..."
 php artisan optimize:clear
 
 echo "Changing Owner"
