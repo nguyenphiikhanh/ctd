@@ -18,7 +18,7 @@ const routes = [
         path:"/",
         component: AdminDashBoard,
         meta:{
-            title: 'Nhiệm vụ',
+            title: 'Trang chủ',
             requiresAuth: true,
             adminAccess: true,
             cblAccess: true,

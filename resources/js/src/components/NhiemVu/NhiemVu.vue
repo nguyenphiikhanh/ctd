@@ -35,16 +35,16 @@
                         </div>
                         <ul class="nav nav-tabs mb-3">
                             <li class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_NCKH, 1)">
-                                <a class="nav-link active" data-toggle="tab" href="#nckh"><em class="ni ni-view-list"></em> Nghiên cứu khoa học</a>
+                                <a :class="`nav-link ${current_tab == loai_hoat_dong.HOAT_DONG_NCKH ? 'active' : ''}`" data-toggle="tab" href="#nckh"><em class="ni ni-view-list"></em> Nghiên cứu khoa học</a>
                             </li>
                             <li class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_NVSP, 2)">
-                                <a class="nav-link" data-toggle="tab" href="#nvsp"><em class="ni ni-view-list"></em> Nghiệp vụ Sư phạm</a>
+                                <a :class="`nav-link ${current_tab == loai_hoat_dong.HOAT_DONG_NVSP ? 'active' : ''}`" data-toggle="tab" href="#nvsp"><em class="ni ni-view-list"></em> Nghiệp vụ Sư phạm</a>
                             </li>
                             <li class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_DOAN, 3)">
-                                <a class="nav-link" data-toggle="tab" href="#doan"><em class="ni ni-view-list"></em> Hoạt động Đoàn</a>
+                                <a :class="`nav-link ${current_tab == loai_hoat_dong.HOAT_DONG_DOAN ? 'active' : ''}`" data-toggle="tab" href="#doan"><em class="ni ni-view-list"></em> Hoạt động Đoàn</a>
                             </li>
                             <li class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_KHAC, 4)">
-                                <a class="nav-link" data-toggle="tab" href="#khac"><em class="ni ni-view-list"></em> Hoạt động Khác</a>
+                                <a :class="`nav-link ${current_tab == loai_hoat_dong.HOAT_DONG_KHAC ? 'active' : ''}`" data-toggle="tab" href="#khac"><em class="ni ni-view-list"></em> Hoạt động Khác</a>
                             </li>
                         </ul>
                         <div class="card card-preview">
@@ -56,7 +56,7 @@
                                         <th scope="col">Tên hoạt động</th>
                                         <th scope="col">Loại hoạt động</th>
                                         <th scope="col">Yêu cầu</th>
-                                        <th v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP || activity == loai_hoat_dong.HOAT_DONG_NCKH" scope="col">Người phụ trách</th>
+                                        <th v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP" scope="col">Phụ trách viên</th>
                                         <th ></th>
                                     </tr>
                                     </thead>
@@ -66,9 +66,9 @@
                                         <td>{{_item.name}}</td>
                                         <td><span>{{ activity_type(_item.id_activity) }}</span></td>
                                         <td><span>{{ requirement(_item.id_activity, _item.child_activity_type) }}</span></td>
-                                        <td v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP || activity == loai_hoat_dong.HOAT_DONG_NCKH">
+                                        <td v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP">
                                             <span :class="_item.id_user_assignee ? 'text-primary' : 'text-warning'">{{ _item.id_user_assignee ? _item.user_assign_name : 'Chưa có'}}</span>
-                                            <button @click="changeAssignee(_item)" class="btn btn-sm btn-warning"><em class="ni ni-repeat"></em></button>
+                                            <button v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN" @click="changeAssignee(_item)" class="btn btn-sm btn-warning"><em class="ni ni-repeat"></em></button>
                                         </td>
                                         <td>
                                             <button @click="viewAct(_item)" class="btn btn-sm btn-info">Chi tiết</button>
@@ -142,6 +142,7 @@ export default {
                 id_activity: this.activity,
             }
             await this.getChildActivities(params).then(res => this.child_activities = [...res.data]);
+            localStorage.setItem('child_act_current_tab', this.current_tab);
             this.$loading(false);
         },
         viewAct(act){
@@ -248,8 +249,10 @@ export default {
         }
     },
     async mounted() {
-        await this.getChildActList();
         this.$loading(true);
+        const current_tab = localStorage.getItem('child_act_current_tab');
+        if(current_tab) this.current_tab = current_tab;
+        await this.getChildActList(this.current_tab, this.current_tab, true);
         await this.getAssignee().then(res => this.assignees = [...res.data]);
         this.$loading(false);
     }
