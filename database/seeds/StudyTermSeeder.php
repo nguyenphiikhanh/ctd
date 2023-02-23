@@ -21,9 +21,5 @@ class StudyTermSeeder extends Seeder
             ['id' => 2],
             ['name' => 'Học kì II']
         );
-        DB::table('study_terms')->updateOrInsert(
-            ['id' => 3],
-            ['name' => 'Học kì III']
-        );
     }
 }

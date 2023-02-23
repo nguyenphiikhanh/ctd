@@ -46,6 +46,9 @@
                             <li v-if="user.role == roles.ROLE_BI_THU_DOAN" class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_KHAC, 4)">
                                 <a :class="`nav-link ${current_tab == loai_hoat_dong.HOAT_DONG_KHAC ? 'active' : ''}`" data-toggle="tab" href="#khac"><em class="ni ni-view-list"></em> Hoạt động Khác</a>
                             </li>
+                            <li v-if="user.role == roles.ROLE_BI_THU_DOAN && current_tab == 2" class="nav-item">
+                                <button class="btn btn-sm btn-success"><em class="ni ni-col-4s"></em>Tổng hợp điểm tuần NVSP</button>
+                            </li>
                         </ul>
                         <div class="card card-preview">
                             <div class="table-responsive">

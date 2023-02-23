@@ -85,6 +85,7 @@ class ChildActivityController extends AppBaseController
                         $parChildAct = ChildActivity::find($actDetail->id_child_activity);
                     }
                 };
+                $lastestStudyTime = DB::table('study_times')->lastest()->first();
                 $child_act = ChildActivity::create([
                     'name' => $name,
                     'id_activity' => $activity,
@@ -96,6 +97,7 @@ class ChildActivityController extends AppBaseController
                     'created_at' => now(),
                     'id_user_assignee' => $parChildAct ? $parChildAct->id_user_assignee : $user->id,
                     'id_child_activity_assign' => $actDetail ? $actDetail->id_child_activity : null,
+                    'id_study_time' => $lastestStudyTime->id,
                 ]);
                 // phan thi or tieu ban
                 $id_act_details = null;
