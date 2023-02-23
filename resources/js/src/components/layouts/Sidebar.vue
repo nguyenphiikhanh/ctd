@@ -51,7 +51,7 @@
                 </li><!-- .nk-menu-item -->
             </router-link>
 
-            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'NhiemVu_List'}">
+            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN || user.role == roles.ROLE_PHU_TRACH_NVSP" :to="{name: 'NhiemVu_List'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
@@ -76,7 +76,7 @@
                 </li><!-- .nk-menu-item -->
             </router-link>
 
-            <router-link v-if="user.role != roles.ADMIN && user.role != roles.ROLE_BI_THU_DOAN" :to="{name: 'Notifications'}">
+            <router-link v-if="user.role == roles.ROLE_LOP_TRUONG || user.role == roles.ROLE_CBL || user.role == roles.ROLE_SINH_VIEN" :to="{name: 'Notifications'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-bell-fill"></em></span>
@@ -122,7 +122,6 @@ export default {
 
 <style scoped>
 .router-link-exact-active .nk-menu-link{
-    /* background: #ebeef2; */
     color: #9769ff;
     background: #ebeef2;
 }

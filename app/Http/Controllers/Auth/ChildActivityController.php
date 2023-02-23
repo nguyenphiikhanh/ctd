@@ -25,12 +25,16 @@ class ChildActivityController extends AppBaseController
     {
         //
         try{
+            $user = Auth::user();
             $id_activity = $request->get('id_activity');
             $child_activities = DB::table('child_activities')
                 ->leftJoin('users', 'users.id', 'child_activities.id_user_assignee')
                 ->select('child_activities.*', DB::raw("CONCAT(users.ho,' ',users.ten) as user_assign_name"))
                 ->where('id_activity', $id_activity)
                 ->orderByDesc('child_activities.created_at');
+                if($user->role == RoleUtils::ROLE_PHU_TRACH_NVSP){
+                    $child_activities->where('id_user_assignee', $user->id);
+                }
             $child_activities = $child_activities->get();
             foreach($child_activities as $child_act){
                 $child_act->files = DB::table('child_activity_files')
@@ -71,10 +75,15 @@ class ChildActivityController extends AppBaseController
                 $assignToClasses = $request->get('assignToClasses',[]);
                 $assignToStudents = $request->get('assignToStudents',[]);
                 $id_activities_details_assign = $request->get('id_activities_details_assign');
+                $school_flg = $request->get('school_flg');
                 $files = $request->file('files',[]);
                 $actDetail = null;
+                $parChildAct = null;
                 if($id_activities_details_assign){
                     $actDetail = DB::table('activities_details')->where('id', $id_activities_details_assign)->first();
+                    if($actDetail){
+                        $parChildAct = ChildActivity::find($actDetail->id_child_activity);
+                    }
                 };
                 $child_act = ChildActivity::create([
                     'name' => $name,
@@ -85,8 +94,8 @@ class ChildActivityController extends AppBaseController
                     'end_time' => $end_time,
                     'created_by' => $user->id,
                     'created_at' => now(),
-                    'id_user_assignee' => $user->id,
-                    'id_child_activity_assign' => $actDetail->id_child_activity,
+                    'id_user_assignee' => $parChildAct ? $parChildAct->id_user_assignee : $user->id,
+                    'id_child_activity_assign' => $actDetail ? $actDetail->id_child_activity : null,
                 ]);
                 // phan thi or tieu ban
                 $id_act_details = null;

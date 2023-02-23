@@ -35,6 +35,10 @@ router.beforeEach((to, from, next) => {
         if (to.matched.some(record => !record.meta.cblAccess) && (role == roles.ROLE_LOP_TRUONG || role == roles.ROLE_CBL)) { // block cbl middleware
             router.push({name: "Home"});
         }
+
+        if (to.matched.some(record => !record.meta.ptAccess) && role == roles.ROLE_PHU_TRACH_NVSP) { // block pt middleware
+            router.push({name: "Home"});
+        }
     }
 
     next();

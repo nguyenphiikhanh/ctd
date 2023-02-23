@@ -31,6 +31,7 @@ use function PHPUnit\Framework\returnSelf;
             break;
             case self::ROLE_LOP_TRUONG: return 'Lớp trưởng';
             break;
+            case self::ROLE_PHU_TRACH_NVSP: return 'Phụ trách NVSP';
             default: return 'Sinh viên';
         }
     }

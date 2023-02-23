@@ -34,16 +34,16 @@
                             </div>
                         </div>
                         <ul class="nav nav-tabs mb-3">
-                            <li class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_NCKH, 1)">
+                            <li v-if="user.role == roles.ROLE_BI_THU_DOAN" class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_NCKH, 1)">
                                 <a :class="`nav-link ${current_tab == loai_hoat_dong.HOAT_DONG_NCKH ? 'active' : ''}`" data-toggle="tab" href="#nckh"><em class="ni ni-view-list"></em> Nghiên cứu khoa học</a>
                             </li>
                             <li class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_NVSP, 2)">
                                 <a :class="`nav-link ${current_tab == loai_hoat_dong.HOAT_DONG_NVSP ? 'active' : ''}`" data-toggle="tab" href="#nvsp"><em class="ni ni-view-list"></em> Nghiệp vụ Sư phạm</a>
                             </li>
-                            <li class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_DOAN, 3)">
+                            <li v-if="user.role == roles.ROLE_BI_THU_DOAN" class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_DOAN, 3)">
                                 <a :class="`nav-link ${current_tab == loai_hoat_dong.HOAT_DONG_DOAN ? 'active' : ''}`" data-toggle="tab" href="#doan"><em class="ni ni-view-list"></em> Hoạt động Đoàn</a>
                             </li>
-                            <li class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_KHAC, 4)">
+                            <li v-if="user.role == roles.ROLE_BI_THU_DOAN" class="nav-item" @click="getChildActList(loai_hoat_dong.HOAT_DONG_KHAC, 4)">
                                 <a :class="`nav-link ${current_tab == loai_hoat_dong.HOAT_DONG_KHAC ? 'active' : ''}`" data-toggle="tab" href="#khac"><em class="ni ni-view-list"></em> Hoạt động Khác</a>
                             </li>
                         </ul>
@@ -68,7 +68,7 @@
                                         <td><span>{{ requirement(_item.id_activity, _item.child_activity_type) }}</span></td>
                                         <td v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP">
                                             <span :class="_item.id_user_assignee ? 'text-primary' : 'text-warning'">{{ _item.id_user_assignee ? _item.user_assign_name : 'Chưa có'}}</span>
-                                            <button v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN" @click="changeAssignee(_item)" class="btn btn-sm btn-warning"><em class="ni ni-repeat"></em></button>
+                                            <button v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN && user.role == roles.ROLE_BI_THU_DOAN" @click="changeAssignee(_item)" class="btn btn-sm btn-warning"><em class="ni ni-repeat"></em></button>
                                         </td>
                                         <td>
                                             <button @click="viewAct(_item)" class="btn btn-sm btn-info">Chi tiết</button>
@@ -125,6 +125,12 @@ export default {
         },
         action(){
             return constants.HOAT_DONG;
+        },
+        roles(){
+            return constants.roles;
+        },
+        user(){
+            return this.$store.getters['auth/user'];
         }
     },
     methods:{
@@ -250,8 +256,13 @@ export default {
     },
     async mounted() {
         this.$loading(true);
-        const current_tab = localStorage.getItem('child_act_current_tab');
-        if(current_tab) this.current_tab = current_tab;
+        if(this.user.role == this.roles.ROLE_PHU_TRACH_NVSP){
+            this.current_tab = this.loai_hoat_dong.HOAT_DONG_NVSP;
+        }
+        else{
+            const current_tab = localStorage.getItem('child_act_current_tab');
+            if(current_tab) this.current_tab = current_tab;
+        }
         await this.getChildActList(this.current_tab, this.current_tab, true);
         await this.getAssignee().then(res => this.assignees = [...res.data]);
         this.$loading(false);

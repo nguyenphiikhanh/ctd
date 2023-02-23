@@ -23,6 +23,7 @@ const routes = [
             adminAccess: true,
             cblAccess: true,
             btdAccess: true,
+            ptAccess: true,
         }
     },
 
@@ -37,6 +38,7 @@ const routes = [
             adminAccess: true,
             cblAccess: false,
             btdAccess: false,
+            ptAccess: false,
         }
     },
     //khoa
@@ -50,6 +52,7 @@ const routes = [
             adminAccess: true,
             cblAccess: false,
             btdAccess: false,
+            ptAccess: false,
         }
     },
     // Năm học
@@ -63,6 +66,7 @@ const routes = [
             adminAccess: true,
             cblAccess: false,
             btdAccess: false,
+            ptAccess: false,
         }
     },
     // kì học
@@ -76,6 +80,7 @@ const routes = [
             adminAccess: true,
             cblAccess: false,
             btdAccess: false,
+            ptAccess: false,
         }
     },
 
@@ -90,6 +95,7 @@ const routes = [
             adminAccess: false,
             cblAccess: false,
             btdAccess: true,
+            ptAccess: true,
         }
     },
     {
@@ -102,6 +108,7 @@ const routes = [
             adminAccess: false,
             cblAccess: false,
             btdAccess: true,
+            ptAccess: true,
         }
     },
     //quản lý người phụ trách
@@ -128,6 +135,7 @@ const routes = [
             adminAccess: false,
             cblAccess: false,
             btdAccess: true,
+            ptAccess: false,
         }
     },
     // sinh viên
@@ -141,6 +149,7 @@ const routes = [
             adminAccess: false,
             cblAccess: false,
             btdAccess: true,
+            ptAccess: false,
         }
     },
 
@@ -155,6 +164,7 @@ const routes = [
             adminAccess: false,
             cblAccess: true,
             btdAccess: false,
+            ptAccess: false,
         }
     },
 
@@ -169,6 +179,7 @@ const routes = [
             adminAccess: false,
             cblAccess: true,
             btdAccess: false,
+            ptAccess: false,
         }
     },
 ];
