@@ -263,7 +263,7 @@ export default {
             formData.append('details', this.activity_create.mota);
             formData.append('start_time', this.activity_create.start_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.start_time) : '');
             formData.append('end_time', this.activity_create.end_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.end_time) : '');
-            formData.append('assignChildActivity', this.hoat_dong_assign || '');
+            formData.append('id_activities_details_assign', this.hoat_dong_assign || '');
             for(let i = 0; i < this.doi_tuong_classes.length; i++){
                 formData.append('assignToClasses[]', this.doi_tuong_classes[i]);
             }

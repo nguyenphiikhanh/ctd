@@ -70,8 +70,12 @@ class ChildActivityController extends AppBaseController
                 $end_time = $request->get('end_time');
                 $assignToClasses = $request->get('assignToClasses',[]);
                 $assignToStudents = $request->get('assignToStudents',[]);
-                $assignChildActivity = $request->get('assignChildActivity');
+                $id_activities_details_assign = $request->get('id_activities_details_assign');
                 $files = $request->file('files',[]);
+                $actDetail = null;
+                if($id_activities_details_assign){
+                    $actDetail = DB::table('activities_details')->where('id', $id_activities_details_assign)->first();
+                };
                 $child_act = ChildActivity::create([
                     'name' => $name,
                     'id_activity' => $activity,
@@ -80,7 +84,9 @@ class ChildActivityController extends AppBaseController
                     'child_activity_type' => $responseType ? $responseType : $action,
                     'end_time' => $end_time,
                     'created_by' => $user->id,
-                    'created_at' => now()
+                    'created_at' => now(),
+                    'id_user_assignee' => $user->id,
+                    'id_child_activity_assign' => $actDetail->id_child_activity,
                 ]);
                 // phan thi or tieu ban
                 $id_act_details = null;
@@ -101,7 +107,7 @@ class ChildActivityController extends AppBaseController
                                 'id_child_activity' => $child_act->id,
                                 'child_activity_type' => AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU,
                                 'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
-                                'id_activities_details_assign' => $assignChildActivity,
+                                'id_activities_details_assign' => $id_activities_details_assign,
                                 'created_by' => $user->id,
                                 'created_at' => now()
                             ]);
@@ -140,7 +146,7 @@ class ChildActivityController extends AppBaseController
                             'id_child_activity' => $child_act->id,
                             'child_activity_type' => $responseType ? $responseType : $action,
                             'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
-                            'id_activities_details_assign' => $assignChildActivity,
+                            'id_activities_details_assign' => $id_activities_details_assign,
                             'created_by' => $user->id,
                             'created_at' => now()
                         ]);
@@ -153,7 +159,6 @@ class ChildActivityController extends AppBaseController
         }
         catch(\Exception $e){
             Log::error('Error while write data!');
-            // DB::rollBack();
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.create',['atribute' => 'hoạt động']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -683,13 +688,17 @@ class ChildActivityController extends AppBaseController
                 return;
             }
             $id_user_assignee = $request->get('id_user_assignee');
-            $childAct->update([
-                'id_user_assignee' => $id_user_assignee,
-            ]);
-        }
+            DB::table('child_activities')
+                ->where('id', $childAct->id)
+                ->orWhere('id_child_activity_assign', $childAct->id)
+                ->update([
+                    'id_user_assignee' => $id_user_assignee,
+                ]);
+            return $this->sendResponse('', __('message.success.update',['atribute' => 'hoạt động']));
+            }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.update',['atribute' => 'phụ trách']), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.update',['atribute' => 'hoạt động']), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
