@@ -18,8 +18,8 @@
                         </div><!-- .nk-block-head -->
                         <div class="nk-block nk-block-lg">
                             <div class="card card-bordered">
-                                <div class="card-inner">
-                                    <h6 class="title mt-4">Loại nhiệm vụ </h6>
+                                <div class="card-inner" v-if="user.role == roles.ROLE_BI_THU_DOAN">
+                                    <h6 class="title mt-4">Loại nhiệm vụ</h6>
                                     <ul class="custom-control-group">
                                         <li v-for="(act, index) in activitiy_list" :key="index">
                                             <div class="custom-control custom-radio custom-control-pro no-control">
@@ -32,7 +32,7 @@
                                 <div v-if="hoat_dong_choose" class="card-inner">
                                     <h6 class="title mb-3 mt-4">Hoạt động</h6>
                                     <ul class="custom-control-group">
-                                        <li>
+                                        <li v-if="user.role == roles.ROLE_BI_THU_DOAN">
                                             <div class="custom-control custom-radio custom-control-pro no-control">
                                                 <input v-model="thao_tac" type="radio" :value="hoat_dong.PHAN_THI_OR_TIEU_BAN" class="custom-control-input" name="thao-tac" id="hd-1">
                                                 <label class="custom-control-label" for="hd-1">{{ten_hoat_dong}}</label>
@@ -68,6 +68,12 @@
                                             </div>
                                         </li>
                                     </ul>
+                                </div>
+                                <div v-if="hoat_dong_choose == loai_hoat_dong.HOAT_DONG_NVSP && thao_tac == hoat_dong.PHAN_THI_OR_TIEU_BAN" class="card-inner">
+                                    <div class="custom-control custom-control custom-switch">
+                                        <input v-model="school_flg" type="checkbox" class="custom-control-input" id="school_flg">
+                                        <label class="custom-control-label" for="school_flg">Hoạt động của trường</label>
+                                    </div>
                                 </div>
 <!--                                thông tin nhiệm vụ-->
                                 <div v-if="thao_tac" class="card-inner">
@@ -166,6 +172,7 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/locale/vi'
 DatePicker.locale('vi');
 import { VueEditor } from "vue2-editor";
+import roles from '../../constants/roles';
 
 export default {
     components:{
@@ -185,6 +192,7 @@ export default {
             //todo activities
             hoat_dong_choose: null,
             thao_tac: null,
+            school_flg: false,
             loai_phan_hoi: '',
             //
             activitiy_list: [],
@@ -236,6 +244,12 @@ export default {
                     && this.activity_create.start_time && this.activity_create.end_time;
                 }
             }
+        },
+        roles(){
+            return constants.roles;
+        },
+        user(){
+            return this.$store.getters['auth/user'];
         }
     },
     methods:{
@@ -260,6 +274,7 @@ export default {
             formData.append('name', this.activity_create.ten_hoat_dong);
             formData.append('action', this.thao_tac || '');
             formData.append('responseType', this.loai_phan_hoi || '');
+            formData.append('school_flg', this.school_flg || '');
             formData.append('details', this.activity_create.mota);
             formData.append('start_time', this.activity_create.start_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.start_time) : '');
             formData.append('end_time', this.activity_create.end_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.end_time) : '');
@@ -301,8 +316,10 @@ export default {
             this.doi_tuong_classes = [];
             this.hoat_dong_assign = null;
             this.doi_tuong_students = [];
+            this.school_flg = false;
             this.fileKey++;
-            this.hoat_dong_choose = null;
+            this.thao_tac = null;
+            this.hoat_dong_choose = this.user.role == roles.ROLE_PHU_TRACH_NVSP ? this.loai_hoat_dong.HOAT_DONG_NVSP : null;
             this.files = [];
         },
 
@@ -312,6 +329,9 @@ export default {
 
     },
     async mounted() {
+        if(this.user.role == this.roles.ROLE_PHU_TRACH_NVSP){
+            this.hoat_dong_choose = this.loai_hoat_dong.HOAT_DONG_NVSP;
+        }
         await asyncLoading(this.getActivitiyList());
     },
     watch:{
@@ -325,6 +345,7 @@ export default {
             };
             this.doi_tuong_classes = [];
             this.doi_tuong_students = [];
+            this.school_flg = false;
             this.hoat_dong_assign = null;
             this.fileKey++;
             this.files = [];
@@ -333,6 +354,7 @@ export default {
             this.loai_phan_hoi = null;
             this.hoat_dong_assign = null;
             this.doi_tuong_classes = [];
+            this.school_flg = false;
             this.doi_tuong_students = [];
             this.fileKey++;
             if(val == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){

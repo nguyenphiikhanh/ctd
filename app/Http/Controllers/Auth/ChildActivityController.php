@@ -107,6 +107,7 @@ class ChildActivityController extends AppBaseController
                         'end_time' => $end_time,
                         'created_at' => now(),
                         'details' => $details,
+                        'school_flg' => $school_flg ? AppUtils::VALID_VALUE : AppUtils::INVALID_VALUE,
                     ]);
                     // NKCH => chọn ds thi
                     if($activity == AppUtils::HOAT_DONG_NCKH){
@@ -226,8 +227,11 @@ class ChildActivityController extends AppBaseController
             $childActivitiesCreated = DB::table('child_activities')
                 ->join('activities_details','child_activities.id','activities_details.id_child_activity')
                 ->select('activities_details.*', 'child_activities.name as name')
-                ->where('child_activities.id_activity', $activity)
-                ->get();
+                ->where('child_activities.id_activity', $activity);
+            if($user->role == RoleUtils::ROLE_PHU_TRACH_NVSP){
+                $childActivitiesCreated->where('child_activities.id_user_assignee', $user->id);
+            }
+            $childActivitiesCreated = $childActivitiesCreated->get();
             return $this->sendResponse($childActivitiesCreated, __('message.success.get_list',['atribute' => 'hoạt động']));
         }
         catch(\Exception $e){
