@@ -47,7 +47,7 @@
                                 <a :class="`nav-link ${current_tab == loai_hoat_dong.HOAT_DONG_KHAC ? 'active' : ''}`" data-toggle="tab" href="#khac"><em class="ni ni-view-list"></em> Hoạt động Khác</a>
                             </li>
                             <li v-if="user.role == roles.ROLE_BI_THU_DOAN && current_tab == 2" class="nav-item">
-                                <button class="btn btn-sm btn-success"><em class="ni ni-col-4s"></em>Tổng hợp điểm tuần NVSP</button>
+                                <button @click="confirmCollectPoint()" class="btn btn-sm btn-success"><em class="ni ni-col-4s"></em>Tổng hợp điểm tuần NVSP</button>
                             </li>
                         </ul>
                         <div class="card card-preview">
@@ -141,6 +141,7 @@ export default {
             getChildActivities: "activity/getChildActivities",
             getUserActivities: "activity/getUserActivities",
             getAssignee: 'userModule/getAssignees',
+            nvspCreatePoint: 'points/nvspCreatePoint',
         }),
         async getChildActList(activity = this.loai_hoat_dong.HOAT_DONG_NCKH, current_tab = null, reGet = false){
             if(this.current_tab == current_tab && !reGet) return;
@@ -255,7 +256,30 @@ export default {
                             break;
                     }
             }
-        }
+        },
+        confirmCollectPoint(){
+            this.$swal.fire({
+                title: 'Tổng hợp điểm Nghiệp vụ Sư phạm?',
+                text: "Điểm cho tuần lễ Nghiệp vụ Sư phạm sẽ được hệ thống tự động tính và bạn sẽ không thể thao tác cập nhật các hoạt động.\nChú ý: quá trình này có thể mất nhiều thời gian với dữ liệu lớn.",
+                showCancelButton: true,
+                confirmButtonColor: '#1abe92',
+                confirmButtonText: 'Tổng hợp điểm',
+                cancelButtonText: 'Đóng',
+                }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await this.nvspCreatePoint().then(() => {
+                        Swal.fire('Quá trình tính điểm đang diễn ra...',
+                                'Xem trạng thái của quá trình này trong mục Quản lý điểm NVSP.',
+                                 'success')
+                    })
+                    .catch(() => {
+                        Swal.fire('Quá trình tính điểm đang diễn ra...',
+                                'Xem trạng thái của quá trình này trong mục Quản lý điểm NVSP.',
+                                 'error')
+                    })
+                }
+                })
+        },
     },
     async mounted() {
         this.$loading(true);

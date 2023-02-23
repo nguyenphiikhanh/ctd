@@ -13,6 +13,7 @@ import khoa from './modules/khoa';
 import student from './modules/students';
 import studyYear from './modules/studyYear';
 import studyTime from './modules/studyTime';
+import points from './modules/points';
 
 Vue.use(Vuex)
 
@@ -30,7 +31,8 @@ const store = new Vuex.Store({
         khoa,
         student,
         studyYear,
-        studyTime
+        studyTime,
+        points,
     }
 });
 
