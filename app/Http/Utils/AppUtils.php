@@ -23,6 +23,11 @@ namespace App\Http\Utils;
     const TB_GUI_DS_THAM_DU = 6;
     const TB_GUI_DS_THAM_GIA = 7;
 
+    // level hđ
+    const LEVEL_KHOA = 1;
+    const LEVEL_TRUONG = 2;
+    const LEVEL_TOA_DAM = 3;
+
     // trạng thái nhiệm vụ(status)
     const STATUS_CHUA_HOAN_THANH = 0;
     const STATUS_HOAN_THANH = 1;

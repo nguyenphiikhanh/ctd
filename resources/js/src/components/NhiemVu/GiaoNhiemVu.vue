@@ -70,10 +70,50 @@
                                     </ul>
                                 </div>
                                 <div v-if="hoat_dong_choose == loai_hoat_dong.HOAT_DONG_NVSP && thao_tac == hoat_dong.PHAN_THI_OR_TIEU_BAN" class="card-inner">
-                                    <div class="custom-control custom-control custom-switch">
-                                        <input v-model="school_flg" type="checkbox" class="custom-control-input" id="school_flg">
-                                        <label class="custom-control-label" for="school_flg">Hoạt động của trường</label>
-                                    </div>
+                                    <h6 class="title mb-3 mt-4">Mức độ hoạt động</h6>
+                                    <ul class="custom-control-group">
+                                        <li>
+                                            <div class="custom-control custom-radio custom-control-pro no-control">
+                                                <input v-model="level" type="radio" :value="actLevel.KHOA" class="custom-control-input" id="lvKhoa">
+                                                <label class="custom-control-label" for="lvKhoa">NVSP cấp Khoa</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-radio custom-control-pro no-control">
+                                                <input v-model="level" type="radio" :value="actLevel.TRUONG" class="custom-control-input" id="lvTruong">
+                                                <label class="custom-control-label" for="lvTruong">NVSP cấp Trường</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-radio custom-control-pro no-control">
+                                                <input v-model="level" type="radio" :value="actLevel.TOA_DAM" class="custom-control-input" id="toaDam">
+                                                <label class="custom-control-label" for="toaDam">Tọa đàm NVSP</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div v-if="hoat_dong_choose == loai_hoat_dong.HOAT_DONG_NVSP && thao_tac == hoat_dong.PHAN_THI_OR_TIEU_BAN" class="card-inner">
+                                    <h6 class="title mb-3 mt-4">Hình thức dự thi(Nếu có)</h6>
+                                    <ul class="custom-control-group">
+                                        <li>
+                                            <div class="custom-control custom-radio custom-control-pro no-control">
+                                                <input v-model="level" type="radio" :value="actLevel.KHOA" class="custom-control-input" id="lvKhoa">
+                                                <label class="custom-control-label" for="lvKhoa">NVSP cấp Khoa</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-radio custom-control-pro no-control">
+                                                <input v-model="level" type="radio" :value="actLevel.TRUONG" class="custom-control-input" id="lvTruong">
+                                                <label class="custom-control-label" for="lvTruong">NVSP cấp Trường</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-radio custom-control-pro no-control">
+                                                <input v-model="level" type="radio" :value="actLevel.TOA_DAM" class="custom-control-input" id="toaDam">
+                                                <label class="custom-control-label" for="toaDam">Tọa đàm NVSP</label>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
 <!--                                thông tin nhiệm vụ-->
                                 <div v-if="thao_tac" class="card-inner">
@@ -141,14 +181,6 @@
 <!--                                đối tượng nhận-->
                                 <SetUpChildActivity @emitChange="changeDoiTuongClasses" v-if="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
                                 <SetupTieuBanNCKH @emitChange="changeDoiTuongStudents" :start_time="activity_create.start_time" :end_time="activity_create.end_time" v-if="hoat_dong_choose == loai_hoat_dong.HOAT_DONG_NCKH && thao_tac != null && thao_tac == hoat_dong.PHAN_THI_OR_TIEU_BAN"/>
-                                <!-- <div class="col-12" v-if="thao_tac != null && thao_tac != hoat_dong.PHAN_THI_OR_TIEU_BAN">
-                                    <div class="form-group">
-                                        <label class="form-label">Danh sách đã chọn</label>
-                                        <div class="form-control-wrap">
-
-                                        </div>
-                                    </div>
-                                </div> -->
                                 <div class="col-12 d-flex justify-content-center">
                                     <button v-if="isValid && isTimeValid" @click="onSaveChildActivity()" class="btn btn-primary mb-3">Tạo nhiệm vụ</button>
                                 </div>
@@ -192,8 +224,9 @@ export default {
             //todo activities
             hoat_dong_choose: null,
             thao_tac: null,
-            school_flg: false,
+            level: constants.LEVEL.KHOA,
             loai_phan_hoi: '',
+            hinh_thuc_thi: null,
             //
             activitiy_list: [],
             activity_responsiable_list: [],
@@ -250,6 +283,9 @@ export default {
         },
         user(){
             return this.$store.getters['auth/user'];
+        },
+        actLevel(){
+            return constants.LEVEL;
         }
     },
     methods:{
@@ -274,7 +310,7 @@ export default {
             formData.append('name', this.activity_create.ten_hoat_dong);
             formData.append('action', this.thao_tac || '');
             formData.append('responseType', this.loai_phan_hoi || '');
-            formData.append('school_flg', this.school_flg || '');
+            formData.append('level', this.level);
             formData.append('details', this.activity_create.mota);
             formData.append('start_time', this.activity_create.start_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.start_time) : '');
             formData.append('end_time', this.activity_create.end_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.end_time) : '');
@@ -315,8 +351,9 @@ export default {
             };
             this.doi_tuong_classes = [];
             this.hoat_dong_assign = null;
+            this.hinh_thuc_thi = null;
             this.doi_tuong_students = [];
-            this.school_flg = false;
+            this.level = this.actLevel.KHOA;
             this.fileKey++;
             this.thao_tac = null;
             this.hoat_dong_choose = this.user.role == roles.ROLE_PHU_TRACH_NVSP ? this.loai_hoat_dong.HOAT_DONG_NVSP : null;
@@ -345,7 +382,7 @@ export default {
             };
             this.doi_tuong_classes = [];
             this.doi_tuong_students = [];
-            this.school_flg = false;
+            this.level = this.actLevel.KHOA;
             this.hoat_dong_assign = null;
             this.fileKey++;
             this.files = [];
@@ -354,7 +391,7 @@ export default {
             this.loai_phan_hoi = null;
             this.hoat_dong_assign = null;
             this.doi_tuong_classes = [];
-            this.school_flg = false;
+            this.level = this.actLevel.KHOA;
             this.doi_tuong_students = [];
             this.fileKey++;
             if(val == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){

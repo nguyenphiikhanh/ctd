@@ -75,7 +75,7 @@ class ChildActivityController extends AppBaseController
                 $assignToClasses = $request->get('assignToClasses',[]);
                 $assignToStudents = $request->get('assignToStudents',[]);
                 $id_activities_details_assign = $request->get('id_activities_details_assign');
-                $school_flg = $request->get('school_flg');
+                $level = $request->get('level', AppUtils::LEVEL_KHOA);
                 $files = $request->file('files',[]);
                 $actDetail = null;
                 $parChildAct = null;
@@ -109,7 +109,7 @@ class ChildActivityController extends AppBaseController
                         'end_time' => $end_time,
                         'created_at' => now(),
                         'details' => $details,
-                        'school_flg' => $school_flg ? AppUtils::VALID_VALUE : AppUtils::INVALID_VALUE,
+                        'level' => $level,
                     ]);
                     // NKCH => chọn ds thi
                     if($activity == AppUtils::HOAT_DONG_NCKH){

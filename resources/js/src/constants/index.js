@@ -23,6 +23,12 @@ export default {
         INVALID_VALUE: 0,
     },
 
+    LEVEL:{
+        KHOA: 1,
+        TRUONG: 2,
+        TOA_DAM: 3,
+    },
+
     status,
     roles,
     awards
