@@ -29,6 +29,11 @@ export default {
         TOA_DAM: 3,
     },
 
+    HINH_THUC_THI:{
+        THI_NHOM: 0,
+        THI_CA_NHAN: 1
+    },
+
     status,
     roles,
     awards

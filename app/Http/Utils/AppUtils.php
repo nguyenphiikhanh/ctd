@@ -39,4 +39,8 @@ namespace App\Http\Utils;
     // cờ boolean
     const VALID_VALUE = 1;
     const INVALID_VALUE = 0;
+
+    // hình thức dự thi
+    const THI_NHOM = 0;
+    const THI_CA_NHAN = 1;
  }

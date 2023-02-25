@@ -93,24 +93,18 @@
                                     </ul>
                                 </div>
                                 <div v-if="hoat_dong_choose == loai_hoat_dong.HOAT_DONG_NVSP && thao_tac == hoat_dong.PHAN_THI_OR_TIEU_BAN" class="card-inner">
-                                    <h6 class="title mb-3 mt-4">Hình thức dự thi(Nếu có)</h6>
+                                    <h6 class="title mb-3 mt-4">Hình thức dự thi(Nếu có phần thi)</h6>
                                     <ul class="custom-control-group">
                                         <li>
                                             <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input v-model="level" type="radio" :value="actLevel.KHOA" class="custom-control-input" id="lvKhoa">
-                                                <label class="custom-control-label" for="lvKhoa">NVSP cấp Khoa</label>
+                                                <input v-model="hinh_thuc_thi" type="radio" :value="hinh_thuc_du_thi.THI_NHOM" class="custom-control-input" id="join-gr">
+                                                <label class="custom-control-label" for="join-gr">Dự thi theo nhóm</label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input v-model="level" type="radio" :value="actLevel.TRUONG" class="custom-control-input" id="lvTruong">
-                                                <label class="custom-control-label" for="lvTruong">NVSP cấp Trường</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="custom-control custom-radio custom-control-pro no-control">
-                                                <input v-model="level" type="radio" :value="actLevel.TOA_DAM" class="custom-control-input" id="toaDam">
-                                                <label class="custom-control-label" for="toaDam">Tọa đàm NVSP</label>
+                                                <input v-model="hinh_thuc_thi" type="radio" :value="hinh_thuc_du_thi.THI_CA_NHAN" class="custom-control-input" id="join-ps">
+                                                <label class="custom-control-label" for="join-ps">Dự thi cá nhân</label>
                                             </div>
                                         </li>
                                     </ul>
@@ -226,7 +220,7 @@ export default {
             thao_tac: null,
             level: constants.LEVEL.KHOA,
             loai_phan_hoi: '',
-            hinh_thuc_thi: null,
+            hinh_thuc_thi: constants.HINH_THUC_THI.THI_NHOM,
             //
             activitiy_list: [],
             activity_responsiable_list: [],
@@ -286,6 +280,9 @@ export default {
         },
         actLevel(){
             return constants.LEVEL;
+        },
+        hinh_thuc_du_thi(){
+            return constants.HINH_THUC_THI;
         }
     },
     methods:{
@@ -315,6 +312,8 @@ export default {
             formData.append('start_time', this.activity_create.start_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.start_time) : '');
             formData.append('end_time', this.activity_create.end_time ? datetimeUtils.convertTimezoneToDatetime(this.activity_create.end_time) : '');
             formData.append('id_activities_details_assign', this.hoat_dong_assign || '');
+            formData.append('level', this.level);
+            formData.append('join_type', this.hinh_thuc_thi);
             for(let i = 0; i < this.doi_tuong_classes.length; i++){
                 formData.append('assignToClasses[]', this.doi_tuong_classes[i]);
             }
@@ -354,6 +353,7 @@ export default {
             this.hinh_thuc_thi = null;
             this.doi_tuong_students = [];
             this.level = this.actLevel.KHOA;
+            this.hinh_thuc_thi = this.hinh_thuc_du_thi.THI_NHOM;
             this.fileKey++;
             this.thao_tac = null;
             this.hoat_dong_choose = this.user.role == roles.ROLE_PHU_TRACH_NVSP ? this.loai_hoat_dong.HOAT_DONG_NVSP : null;
@@ -383,6 +383,7 @@ export default {
             this.doi_tuong_classes = [];
             this.doi_tuong_students = [];
             this.level = this.actLevel.KHOA;
+            this.hinh_thuc_thi = this.hinh_thuc_du_thi.THI_NHOM;
             this.hoat_dong_assign = null;
             this.fileKey++;
             this.files = [];
@@ -392,6 +393,7 @@ export default {
             this.hoat_dong_assign = null;
             this.doi_tuong_classes = [];
             this.level = this.actLevel.KHOA;
+            this.hinh_thuc_thi = this.hinh_thuc_du_thi.THI_NHOM;
             this.doi_tuong_students = [];
             this.fileKey++;
             if(val == this.hoat_dong.THONG_BAO_C0_PHAN_HOI){

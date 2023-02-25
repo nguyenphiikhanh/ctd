@@ -76,6 +76,7 @@ class ChildActivityController extends AppBaseController
                 $assignToStudents = $request->get('assignToStudents',[]);
                 $id_activities_details_assign = $request->get('id_activities_details_assign');
                 $level = $request->get('level', AppUtils::LEVEL_KHOA);
+                $join_type = $request->get('join_type', AppUtils::THI_NHOM);
                 $files = $request->file('files',[]);
                 $actDetail = null;
                 $parChildAct = null;
@@ -85,7 +86,7 @@ class ChildActivityController extends AppBaseController
                         $parChildAct = ChildActivity::find($actDetail->id_child_activity);
                     }
                 };
-                $lastestStudyTime = DB::table('study_times')->lastest()->first();
+                $latestStudyTime = DB::table('study_times')->latest()->first();
                 $child_act = ChildActivity::create([
                     'name' => $name,
                     'id_activity' => $activity,
@@ -97,7 +98,7 @@ class ChildActivityController extends AppBaseController
                     'created_at' => now(),
                     'id_user_assignee' => $parChildAct ? $parChildAct->id_user_assignee : $user->id,
                     'id_child_activity_assign' => $actDetail ? $actDetail->id_child_activity : null,
-                    'id_study_time' => $lastestStudyTime->id,
+                    'id_study_time' => $latestStudyTime->id,
                 ]);
                 // phan thi or tieu ban
                 $id_act_details = null;
@@ -110,6 +111,7 @@ class ChildActivityController extends AppBaseController
                         'created_at' => now(),
                         'details' => $details,
                         'level' => $level,
+                        'join_type' => $join_type
                     ]);
                     // NKCH => chọn ds thi
                     if($activity == AppUtils::HOAT_DONG_NCKH){
