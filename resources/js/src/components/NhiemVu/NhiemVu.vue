@@ -257,6 +257,9 @@ export default {
                     }
             }
         },
+        statusText(child_act){
+
+        },
         confirmCollectPoint(){
             this.$swal.fire({
                 title: 'Tổng hợp điểm Nghiệp vụ Sư phạm?',
@@ -267,17 +270,10 @@ export default {
                 cancelButtonText: 'Đóng',
                 }).then(async (result) => {
                 if (result.isConfirmed) {
-                    await this.nvspCreatePoint().then(() => {
-                        Swal.fire('Quá trình tính điểm đang diễn ra...',
-                                'Xem trạng thái của quá trình này trong mục Quản lý điểm NVSP.',
-                                 'success')
-                    })
-                    .catch(() => {
-                        Swal.fire('Quá trình tính điểm đang diễn ra...',
-                                'Xem trạng thái của quá trình này trong mục Quản lý điểm NVSP.',
-                                 'error')
-                    })
-                }
+                    this.$loading(true);
+                    await this.nvspCreatePoint();
+                    this.$loading(false);
+                    }
                 })
         },
     },

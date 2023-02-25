@@ -76,6 +76,9 @@ Route::prefix('v1')->group(function(){
             Route::get('/user/assign-act','Auth\UserController@getUserAssigneeActivities');
             Route::post('/user/assign-act','Auth\UserController@storeUserAssignActivities');
             Route::put('/user/assign-act/{id}','Auth\UserController@updateUserAssignActivities');
+
+            // Tổng hợp điểm
+            Route::post('/points/nvsp','Auth\PointController@nvspCreatePoint'); // điểm tuần NVSP
         });
 
         Route::middleware('role.cbOrStudent')->group(function(){

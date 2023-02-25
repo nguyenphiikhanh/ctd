@@ -92,7 +92,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div v-if="hoat_dong_choose == loai_hoat_dong.HOAT_DONG_NVSP && thao_tac == hoat_dong.PHAN_THI_OR_TIEU_BAN" class="card-inner">
+                                <div v-if="hoat_dong_choose == loai_hoat_dong.HOAT_DONG_NVSP && thao_tac == hoat_dong.PHAN_THI_OR_TIEU_BAN && level != actLevel.TOA_DAM" class="card-inner">
                                     <h6 class="title mb-3 mt-4">Hình thức dự thi(Nếu có phần thi)</h6>
                                     <ul class="custom-control-group">
                                         <li>
@@ -401,6 +401,11 @@ export default {
                     activity: this.hoat_dong_choose
                 };
                 asyncLoading(this.getActivityResponsiable(queryParams).then((res) => this.activity_responsiable_list = res.data));
+            }
+        },
+        level(val){
+            if(val == this.actLevel.TOA_DAM){
+                this.hinh_thuc_thi = this.hinh_thuc_du_thi.THI_NHOM;
             }
         }
     },
