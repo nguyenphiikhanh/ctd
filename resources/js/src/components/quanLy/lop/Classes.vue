@@ -38,6 +38,8 @@
                                     <tr>
                                         <th scope="col">STT</th>
                                         <th scope="col">Tên lớp</th>
+                                        <th scope="col">Khối</th>
+                                        <th scope="col">Khóa đào tạo</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -45,6 +47,8 @@
                                     <tr v-for="(_item, index) in classList" :key="index">
                                         <th scope="row">{{index + 1}}</th>
                                         <td>{{_item.class_name}}</td>
+                                        <td>{{_item.type_name}}</td>
+                                        <td>{{_item.term_name}}</td>
                                         <td class="d-flex justify-content-end">
                                             <div>
                                             <router-link :to="`lop-${_item.id}/danh-sach-sinh-vien`" target="_blank">
