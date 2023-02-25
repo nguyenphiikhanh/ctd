@@ -40,6 +40,7 @@
                                         <th scope="col">Tên lớp</th>
                                         <th scope="col">Khối</th>
                                         <th scope="col">Khóa đào tạo</th>
+                                        <th scope="col">Số lượng sinh viên</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -49,6 +50,7 @@
                                         <td>{{_item.class_name}}</td>
                                         <td>{{_item.type_name}}</td>
                                         <td>{{_item.term_name}}</td>
+                                        <td>{{_item.student_count}}</td>
                                         <td class="d-flex justify-content-end">
                                             <div>
                                             <router-link :to="`lop-${_item.id}/danh-sach-sinh-vien`" target="_blank">

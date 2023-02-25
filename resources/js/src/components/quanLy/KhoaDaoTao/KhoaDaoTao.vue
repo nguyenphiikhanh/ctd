@@ -38,6 +38,7 @@
                                     <tr>
                                         <th scope="col">STT</th>
                                         <th scope="col">Tên khóa đào tạo</th>
+                                        <th scope="col">Số lượng sinh viên</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -45,6 +46,8 @@
                                     <tr v-for="(_item, index) in listKhoaDaoTao" :key="index">
                                         <th scope="row">{{index + 1}}</th>
                                         <td>{{_item.term_name}}</td>
+                                        <td>{{_item.student_count}}</td>
+
                                         <td class="d-flex justify-content-end">
                                             <div>
                                             <button class="btn btn-sm btn-info">Sửa</button>

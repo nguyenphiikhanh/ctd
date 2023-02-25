@@ -23,11 +23,16 @@ class TermController extends AppBaseController
         //
         try{
             $getAllFlg = $request->get('getAllFlg');
+            $termList = DB::table('terms')
+                    ->join('classes', 'classes.id_term', 'terms.id')
+                    ->join('users', 'users.id_class', 'classes.id')
+                    ->select('terms.id', 'terms.term_name', DB::raw("COUNT(users.id) as student_count"))
+                    ->groupBy('terms.id', 'terms.term_name');
             if($getAllFlg){
-                $termList = DB::table('terms')->get();
+                $termList = $termList->get();
             }
             else{
-                $termList = DB::table('terms')->get();
+                $termList = $termList->get();
             }
             return $this->sendResponse($termList, __('message.success.get_list',['atribute' => 'khóa đào tạo']));
         }
@@ -88,7 +93,6 @@ class TermController extends AppBaseController
 
             $term_name = $request->input('term_name');
             $setting_flg = $request->setting_flg;
-            Log::debug($setting_flg);
             $term->update([
                 'term_name' => $term_name,
                 'setting_flg' => $setting_flg

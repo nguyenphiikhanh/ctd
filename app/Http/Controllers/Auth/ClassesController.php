@@ -45,8 +45,10 @@ class ClassesController extends AppBaseController
             $classList = DB::table('classes')->where('id_faculty', $user->id_khoa)
                 ->leftJoin('terms', 'terms.id', 'classes.id_term')
                 ->leftJoin('class_type', 'class_type.id', 'classes.id_class_type')
-                ->select('classes.*', 'terms.term_name', 'class_type.type_name')
+                ->rightJoin('users', 'users.id_class', 'classes.id')
+                ->select('classes.id','classes.class_name', 'terms.term_name', 'class_type.type_name',DB::raw("COUNT(users.id) as student_count"))
                 ->where('terms.setting_flg', AppUtils::VALID_VALUE)
+                ->groupBy('classes.id','classes.class_name', 'terms.term_name', 'class_type.type_name')
                 ->orderBy('class_name')->get();
             return $this->sendResponse($classList,__('message.success.get_list',['atribute' => 'lớp']));
         }
