@@ -15,7 +15,7 @@ class AddColumnNvspDataStoredIntoStudyYearsTable extends Migration
     {
         Schema::table('study_years', function (Blueprint $table) {
             //
-            $table->tinyInteger('nvsp_data_stored')->default(0)->comment('Dữ liệu NVSP. 1: Đã tổng hợp, 2: Chưa tổng hợp');
+            $table->tinyInteger('nvsp_data_stored')->default(0)->comment('Dữ liệu NVSP. 1: Đã tổng hợp, 0: Chưa tổng hợp');
         });
     }
 
