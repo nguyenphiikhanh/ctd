@@ -24,6 +24,19 @@ class PointController extends AppBaseController
         //
     }
 
+    public function getNvspPointByStudyYear(Request $request){
+        $id_class = $request->id_class;
+        $id_study_year = $request->id_study_year;
+        $nvspPoints = DB::table('nvsp_points')
+            ->join('users','users.id', 'nvsp_points.id_user')
+            ->select('nvsp_points.*', DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"),'users.username')
+            ->where('users.id_class', $id_class)
+            ->where('nvsp_points.id_study_year', $id_study_year)
+            ->orderBy('users.ten')
+            ->get();
+       return $this->sendResponse($nvspPoints, __('message.success.get_list',['atribute' => 'điểm rèn luyện NVSP']));
+    }
+
     public function nvspCreatePoint(){
         try{
             $studyTime = StudyTime::join('study_years', 'study_times.id_study_year', 'study_years.id')
@@ -108,12 +121,12 @@ class PointController extends AppBaseController
                                 ->first();
                             if($act_receive->status == AppUtils::STATUS_CHO_DUYET || $act_receive->status == AppUtils::STATUS_CHUA_HOAN_THANH
                             || $act_receive->status == AppUtils::STATUS_TU_CHOI || $act_receive->status == AppUtils::STATUS_VANG_MAT){
-                                DB::table('nvsp_points')->insert([  // vắng thi
+                                DB::table('nvsp_points')->insert([  // không hoàn thành
                                     'id_study_year' => $studyTime->id_study_year,
                                     'id_user' => $studentId,
                                     'level' => NvspUtils::LEVEL_KHONG_DAT,
                                     'level_text' => NvspUtils::TEXT_LEVEL_KHONG_DAT,
-                                    'note' => 'Chưa hoàn thành hoặc vắng mặt trong một phần thi được giao'
+                                    'note' => 'Chưa hoàn thành hoặc vắng thi'
                                 ]);
                             }
                             else{
@@ -171,6 +184,7 @@ class PointController extends AppBaseController
             return $this->sendError(__('message.failed.update', ['atribute' => 'điểm rèn luyện NVSP']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
 
     /**
      * Store a newly created resource in storage.

@@ -32,7 +32,6 @@ Route::prefix('v1')->group(function(){
             Route::post('/faculties','Auth\FacultyController@store');
 
             // Năm học
-            Route::get('/years', 'Auth\StudyYearController@index');
             Route::get('/years/lastest', 'Auth\StudyYearController@getLastestStudyYear');
             Route::post('/years', 'Auth\StudyYearController@store');
             Route::put('/years/{id}', 'Auth\StudyYearController@update');
@@ -78,7 +77,9 @@ Route::prefix('v1')->group(function(){
             Route::put('/user/assign-act/{id}','Auth\UserController@updateUserAssignActivities');
 
             // Tổng hợp điểm
+            Route::get('/points/nvsp','Auth\PointController@getNvspPointByStudyYear');
             Route::post('/points/nvsp','Auth\PointController@nvspCreatePoint'); // điểm tuần NVSP
+
         });
 
         Route::middleware('role.cbOrStudent')->group(function(){
@@ -98,6 +99,10 @@ Route::prefix('v1')->group(function(){
             Route::get('/checkList-activities-users/{activity_details_id}','Auth\ChildActivityController@getUserForCheckList');
             Route::put('/checkList-for-user/{id_user}/{act_id}','Auth\ChildActivityController@updateUserCheckList');
         });
+
+
+        // Năm học
+        Route::get('/years', 'Auth\StudyYearController@index');
         //khóa đào tạo
         Route::get('/terms','Auth\TermController@index');
         // danh sách user dự thi(phần thi NVSP hoặc tiểu ban NCKH)

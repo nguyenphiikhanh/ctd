@@ -10,6 +10,7 @@ import Students from "../components/quanLy/sinhvien/Students";
 import Year from '../components/quanLy/namHoc/Year';
 import StudyTime from '../components/quanLy/hocKy/StudyTime';
 import Assignee from '../components/quanLy/phuTrachNVSP/Assignee';
+import ClassList from "../components/quanLy/diemNVSP/ClassList";
 
 const routes = [
     // dashboard
@@ -152,7 +153,20 @@ const routes = [
             ptAccess: false,
         }
     },
-
+    // Điểm rèn luyện tuần NVSP
+    {
+        name:"NvspPoint",
+        path:"/quan-ly/diem-nvsp",
+        component: ClassList,
+        meta:{
+            title: 'Quản lý Điểm NVSP',
+            requiresAuth: true,
+            adminAccess: true,
+            cblAccess: false,
+            btdAccess: true,
+            ptAccess: false,
+        }
+    },
     // ds nhiệm vụ và thông báo
     {
         name:"Notifications",
