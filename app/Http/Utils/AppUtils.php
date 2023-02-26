@@ -43,4 +43,10 @@ namespace App\Http\Utils;
     // hình thức dự thi
     const THI_NHOM = 0;
     const THI_CA_NHAN = 1;
+
+    const GIAI_NHAT = 1;
+    const GIAI_NHI = 2;
+    const GIAI_BA = 3;
+    const GIAI_KHUYEN_KHICH = 4;
+
  }
