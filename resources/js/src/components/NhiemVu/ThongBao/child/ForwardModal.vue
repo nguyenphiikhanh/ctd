@@ -116,6 +116,8 @@ export default {
             select_all: false,
             small_role_details: '',
             userActTeams: [],
+            memberList: [],
+            memberSelected: [],
         }
     },
     methods:{
@@ -177,6 +179,7 @@ export default {
         }
     },
     async mounted(){
+        this.memberList = JSON.parse(JSON.stringify(this.userList));
         if(this.act.child_activity_type == this.action.TB_GUI_DS_THAM_DU){
 
         }
