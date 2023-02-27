@@ -52,7 +52,7 @@
                         </ul>
                         <div class="card card-preview">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table table-bordered">
                                     <thead class="p-3">
                                     <tr>
                                         <th scope="col">STT</th>
@@ -71,11 +71,15 @@
                                         <td><span>{{ requirement(_item.id_activity, _item.child_activity_type) }}</span></td>
                                         <td v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP">
                                             <span :class="_item.id_user_assignee ? 'text-primary' : 'text-warning'">{{ _item.id_user_assignee ? _item.user_assign_name : 'Chưa có'}}</span>
-                                            <button v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN && user.role == roles.ROLE_BI_THU_DOAN" @click="changeAssignee(_item)" class="btn btn-sm btn-warning"><em class="ni ni-repeat"></em></button>
+                                            <button v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN && user.role == roles.ROLE_BI_THU_DOAN"
+                                             @click="changeAssignee(_item)"
+                                             class="btn btn-sm btn-warning"><em class="ni ni-repeat"></em></button>
                                         </td>
                                         <td>
-                                            <button @click="viewAct(_item)" class="btn btn-sm btn-info">Chi tiết</button>
-                                            <button @click="showUserActivityList(_item.id)" v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN" class="btn btn-sm btn-primary">Danh sách</button>
+                                            <button @click="viewAct(_item)" class="btn btn-sm btn-info"><em class="icon ni ni-eye"></em>Chi tiết</button>
+                                            <button @click="showUserActivityList(_item.id)"
+                                            v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN"
+                                            class="btn btn-sm btn-primary"><em class="icon ni ni-list"></em>Danh sách</button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -227,7 +231,7 @@ export default {
                 case this.loai_hoat_dong.HOAT_DONG_NVSP:
                     switch (child_activity_type) {
                         case this.action.PHAN_THI_OR_TIEU_BAN:
-                            return 'Phần thi';
+                            return 'Hoạt động';
                             break;
                         case this.action.TB_GUI_DS_THAM_DU:
                             return 'Gửi danh sách dự thi';

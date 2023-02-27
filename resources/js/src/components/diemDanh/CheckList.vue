@@ -18,7 +18,7 @@
                         </div>
                         <div class="card card-preview">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table table-bordered">
                                     <thead>
                                     <tr>
                                         <th scope="col">STT</th>
@@ -37,7 +37,7 @@
                                         <td>{{_item.name}}</td>
                                         <td>
                                             <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_DU || (_item.id_activity == act.HOAT_DONG_NCKH && _item.child_activity_type == type.PHAN_THI_OR_TIEU_BAN)">Danh sách dự thi</span>
-                                            <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_GIA">Danh sách tham gia</span>
+                                            <span v-if="_item.child_activity_type == type.TB_GUI_DS_THAM_GIA">Có mặt tham dự</span>
                                         </td>
                                         <td>
                                             <span>{{ convertDateTime(_item.start_time) }} đến {{ convertDateTime(_item.end_time) }}</span>

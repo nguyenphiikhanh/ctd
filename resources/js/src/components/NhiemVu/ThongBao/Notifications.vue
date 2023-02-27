@@ -18,7 +18,7 @@
                         </div>
                         <div class="card card-preview">
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table table-bordered">
                                     <thead>
                                     <tr>
                                         <th scope="col">STT</th>
@@ -45,17 +45,25 @@
                                         </td>
                                         <td>
                                             <span v-if="_item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI">Thông báo</span>
-                                            <span v-if="_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_GIA">Tham gia</span>
-                                            <span v-if="_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_DU">Tham dự</span>
-                                            <span v-if="_item.child_activity_type == action.TB_GUI_DS_THAM_DU">Gửi danh sách tham dự</span>
-                                            <span v-if="_item.child_activity_type == action.TB_GUI_DS_THAM_GIA">Gửi danh sách tham gia</span>
+                                            <span v-if="_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_GIA">Có mặt</span>
+                                            <span v-if="_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_DU">Dự thi</span>
+                                            <span v-if="_item.child_activity_type == action.TB_GUI_DS_THAM_DU">Gửi danh sách thí sinh dự thi</span>
+                                            <span v-if="_item.child_activity_type == action.TB_GUI_DS_THAM_GIA">Gửi danh sách có mặt tham dự</span>
                                         </td>
                                         <td class="d-flex justify-content-end">
                                             <div>
-                                            <button @click="viewNotify(_item)" class="btn btn-sm btn-info mr-2">Xem chi tiết</button>
-                                            <button v-if="canForward(_item, user.role)" @click="forwardChildAct(_item, _item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
-                                               class="btn btn-sm btn-primary mr-2">{{_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI  || _item.child_activity_type == action.TB_GUI_DS_THAM_GIA || _item.child_activity_type == action.TB_GUI_DS_THAM_DU
-                                                ? 'Chọn danh sách' : 'Chuyển tiếp'}}</button>
+                                                <button @click="viewNotify(_item)" class="btn btn-sm btn-info mr-2"><em class="ni ni-eye"></em>Xem chi tiết</button>
+                                                <button v-if="canForward(_item, user.role)"
+                                                @click="forwardChildAct(_item, _item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
+                                                class="btn btn-sm btn-primary mr-2"><em class="icon ni ni-check-c"></em>
+                                                {{_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI
+                                                || _item.child_activity_type == action.TB_GUI_DS_THAM_GIA
+                                                || _item.child_activity_type == action.TB_GUI_DS_THAM_DU
+                                                    ? 'Chọn danh sách' : 'Chuyển tiếp'}}</button>
+                                                <button v-if="_item.status == status.STATUS_HOAN_THANH
+                                                && (_item.child_activity_type == action.TB_GUI_DS_THAM_GIA || _item.child_activity_type == action.TB_GUI_DS_THAM_DU)"
+                                                @click="updateUserList(_item)"
+                                                class="btn btn-sm btn-warning mr-2"><em class="ni ni-edit"></em>Chỉnh sửa</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -165,6 +173,7 @@ export default {
                 $('#forwardModal').modal('show');
             });
         },
+
         async onForward(){
             let data = {
                 id: this.id,

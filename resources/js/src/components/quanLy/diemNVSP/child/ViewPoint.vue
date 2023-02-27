@@ -14,7 +14,7 @@
                         </select>
                     </div>
                     <div class="col-12">
-                        <table class="table table-striped">
+                        <table class="table table-bordered">
                             <thead>
                             <tr>
                                 <th scope="col">STT</th>
