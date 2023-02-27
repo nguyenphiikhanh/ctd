@@ -47,7 +47,8 @@
                                             <span v-if="_item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI">Thông báo</span>
                                             <span v-if="_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_GIA">Có mặt</span>
                                             <span v-if="_item.child_activity_type == action.THONG_BAO_C0_PHAN_HOI_THAM_DU">Dự thi</span>
-                                            <span v-if="_item.child_activity_type == action.TB_GUI_DS_THAM_DU">Gửi danh sách thí sinh dự thi</span>
+                                            <span v-if="_item.child_activity_type == action.TB_GUI_DS_THAM_DU">Gửi danh sách thí sinh dự thi
+                                                <small class="text-primary">{{ joinTypeConvert(_item) }}</small></span>
                                             <span v-if="_item.child_activity_type == action.TB_GUI_DS_THAM_GIA">Gửi danh sách có mặt tham dự</span>
                                         </td>
                                         <td class="d-flex justify-content-end">
@@ -62,7 +63,7 @@
                                                     ? 'Chọn danh sách' : 'Chuyển tiếp'}}</button>
                                                 <button v-if="_item.status == status.STATUS_HOAN_THANH
                                                 && (_item.child_activity_type == action.TB_GUI_DS_THAM_GIA || _item.child_activity_type == action.TB_GUI_DS_THAM_DU)"
-                                                @click="updateUserList(_item)"
+                                                @click="forwardChildAct(_item, _item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
                                                 class="btn btn-sm btn-warning mr-2"><em class="ni ni-edit"></em>Chỉnh sửa</button>
                                             </div>
                                         </td>
@@ -73,7 +74,11 @@
                         </div><!-- .card -->
                         <div v-if="notiList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
-                    <forward-modal :userList="userList" :readonly="readonlyFlg" @forward="onForward()" @closeModal="closeForward()" @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/>
+                    <forward-modal :userList="userList" :readonly="readonlyFlg"
+                    :act="child_act_info" :key="viewKey"
+                    @forward="onForward()" @closeModal="closeForward()"
+                    @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/>
+                    <!-- <update-forward-modal :userList="userList" :readonly="readonlyFlg" @forward="onUpdateForward()" @closeModal="closeForward()" @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/> -->
                     <view-notification :notify-info="child_act_info" @closeModal="closeForward()" @proofUploaded="getActivitiesReceive()"/>
                 </div>
             </div>
@@ -88,12 +93,14 @@ import { asyncLoading } from 'vuejs-loading-plugin';
 import constants from '../../../constants';
 import ForwardModal from './child/ForwardModal.vue';
 import ViewNotification from "./child/ViewNotification.vue";
+import UpdateForwardModal from "./child/UpdateForwardModal.vue";
 import datetimeUtils from '../../../helpers/utils/datetimeUtils';
 
 export default {
     components:{
         ForwardModal,
         ViewNotification,
+        UpdateForwardModal
     },
     data(){
         return{
@@ -116,7 +123,8 @@ export default {
                         file_path: '',
                     }
                 ],
-            }
+            },
+            viewKey: 0,
         }
     },
     computed:{
@@ -131,6 +139,12 @@ export default {
         },
         user(){
             return this.$store.getters['auth/user'];
+        },
+        level(){
+            return constants.LEVEL;
+        },
+        joinType(){
+            return constants.HINH_THUC_THI;
         }
     },
     methods:{
@@ -166,9 +180,11 @@ export default {
         async forwardChildAct(noti, readonly = false){
             this.$loading(true)
             this.id = noti.id;
+            this.child_act_info = noti;
             await this.getUserListForward(readonly ? readonly : null, noti.id_activities_details_assign);
             this.$loading(false);
             this.readonlyFlg = readonly;
+            this.viewKey++;
             this.$nextTick(() => {
                 $('#forwardModal').modal('show');
             });
@@ -197,6 +213,11 @@ export default {
             this.$nextTick(() => {
                 $('#viewNotification').modal('show');
             });
+        },
+        joinTypeConvert(act){
+            if(act.level != this.level.TOA_DAM && act.child_activity_type == this.action.TB_GUI_DS_THAM_DU){
+                return act.join_type == this.joinType.THI_CA_NHAN ? '(cá nhân)' : '(nhóm)';
+            } else return '';
         },
         closeForward(){
             this.$nextTick(() => {

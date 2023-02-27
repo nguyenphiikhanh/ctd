@@ -68,7 +68,8 @@
                                         <th scope="row">{{ index + 1 }}</th>
                                         <td>{{_item.name}}</td>
                                         <td><span>{{ activity_type(_item.id_activity) }}</span></td>
-                                        <td><span>{{ requirement(_item.id_activity, _item.child_activity_type) }}</span></td>
+                                        <td><span>{{ requirement(_item.id_activity, _item.child_activity_type) }}
+                                            <small class="text-danger">{{ joinTypeConvert(_item) }}</small></span></td>
                                         <td v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP">
                                             <span :class="_item.id_user_assignee ? 'text-primary' : 'text-warning'">{{ _item.id_user_assignee ? _item.user_assign_name : 'Chưa có'}}</span>
                                             <button v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN && user.role == roles.ROLE_BI_THU_DOAN"
@@ -78,7 +79,7 @@
                                         <td>
                                             <button @click="viewAct(_item)" class="btn btn-sm btn-info"><em class="icon ni ni-eye"></em>Chi tiết</button>
                                             <button @click="showUserActivityList(_item.id)"
-                                            v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN"
+                                            v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN || _item.child_activity_type == action.TB_GUI_DS_THAM_GIA"
                                             class="btn btn-sm btn-primary"><em class="icon ni ni-list"></em>Danh sách</button>
                                         </td>
                                     </tr>
@@ -138,6 +139,12 @@ export default {
         },
         user(){
             return this.$store.getters['auth/user'];
+        },
+        actLevel(){
+            return constants.LEVEL;
+        },
+        joinType(){
+            return constants.HINH_THUC_THI;
         }
     },
     methods:{
@@ -218,10 +225,10 @@ export default {
                             return 'Tiểu ban';
                             break;
                         case this.action.TB_GUI_DS_THAM_DU:
-                            return 'Gửi danh sách dự thi';
+                            return 'Danh sách dự thi';
                             break;
                         case this.action.TB_GUI_DS_THAM_GIA:
-                            return 'Gửi danh sách tham gia';
+                            return 'Danh sách có mặt tham dự';
                             break;
                         case this.action.THONG_BA0_KHONG_PHAN_HOI:
                             return 'Thông báo';
@@ -234,10 +241,10 @@ export default {
                             return 'Hoạt động';
                             break;
                         case this.action.TB_GUI_DS_THAM_DU:
-                            return 'Gửi danh sách dự thi';
+                            return 'Danh sách dự thi';
                             break;
                         case this.action.TB_GUI_DS_THAM_GIA:
-                            return 'Gửi danh sách tham gia';
+                            return 'Danh sách có mặt tham dự';
                             break;
                         case this.action.THONG_BA0_KHONG_PHAN_HOI:
                             return 'Thông báo';
@@ -250,10 +257,10 @@ export default {
                             return 'Hoạt động';
                             break;
                         case this.action.TB_GUI_DS_THAM_DU:
-                            return 'Gửi danh sách dự thi';
+                            return 'Danh sách dự thi';
                             break;
                         case this.action.TB_GUI_DS_THAM_GIA:
-                            return 'Gửi danh sách tham gia';
+                            return 'Danh sách có mặt tham dự';
                             break;
                         case this.action.THONG_BA0_KHONG_PHAN_HOI:
                             return 'Thông báo';
@@ -280,6 +287,15 @@ export default {
                     }
                 })
         },
+        joinTypeConvert(act){
+            if(act.level == this.actLevel.TOA_DAM){
+                return '(Tọa đàm NVSP)';
+            } else if(act.join_type == this.joinType.THI_NHOM){
+                return '(Thi theo nhóm)';
+            } else if(act.join_type == this.joinType.THI_CA_NHAN){
+                return '(Thi cá nhân)'
+            }
+        }
     },
     async mounted() {
         this.$loading(true);

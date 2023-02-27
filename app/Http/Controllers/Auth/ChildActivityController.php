@@ -29,7 +29,8 @@ class ChildActivityController extends AppBaseController
             $id_activity = $request->get('id_activity');
             $child_activities = DB::table('child_activities')
                 ->leftJoin('users', 'users.id', 'child_activities.id_user_assignee')
-                ->select('child_activities.*', DB::raw("CONCAT(users.ho,' ',users.ten) as user_assign_name"))
+                ->leftJoin('activities_details', 'activities_details.id_child_activity', 'child_activities.id')
+                ->select('child_activities.*', DB::raw("CONCAT(users.ho,' ',users.ten) as user_assign_name"), 'activities_details.join_type', 'activities_details.level')
                 ->where('id_activity', $id_activity)
                 ->orderByDesc('child_activities.created_at');
                 if($user->role == RoleUtils::ROLE_PHU_TRACH_NVSP){
@@ -183,10 +184,12 @@ class ChildActivityController extends AppBaseController
             $user = Auth::user();
             $actRecriveList = DB::table('user_receive_activities')->where('id_user', $user->id)
                 ->leftJoin('child_activities', 'child_activities.id','user_receive_activities.id_child_activity')
+                ->leftJoin('activities_details', 'activities_details.id', 'user_receive_activities.id_activities_details_assign')
                 ->select(
                     'user_receive_activities.*', 'child_activities.name as name',
                     'child_activities.created_at as created_at', 'child_activities.details as details',
                     'child_activities.start_time as start_time', 'child_activities.end_time as end_time',
+                    'activities_details.level', 'activities_details.join_type'
                 )
                 ->get();
             foreach($actRecriveList as $act){
