@@ -113,67 +113,83 @@ class PointController extends AppBaseController
                         continue;
                     }
                     else {
-                        foreach($user_activities as $act){
+                        $noJoinActs = array_filter($user_activities->toArray(), function($act){
                             $act_receive = DB::table('user_receive_activities')
-                                ->where('id_user', $act->id_user)
-                                ->where('id_child_activity',$act->id_child_activity)
-                                ->where('child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU)
-                                ->first();
-                            if($act_receive->status == AppUtils::STATUS_CHO_DUYET || $act_receive->status == AppUtils::STATUS_CHUA_HOAN_THANH
-                            || $act_receive->status == AppUtils::STATUS_TU_CHOI || $act_receive->status == AppUtils::STATUS_VANG_MAT){
-                                DB::table('nvsp_points')->insert([  // không hoàn thành
-                                    'id_study_year' => $studyTime->id_study_year,
-                                    'id_user' => $studentId,
-                                    'level' => NvspUtils::LEVEL_KHONG_DAT,
-                                    'level_text' => NvspUtils::TEXT_LEVEL_KHONG_DAT,
-                                    'note' => 'Chưa hoàn thành hoặc vắng thi'
-                                ]);
-                            }
-                            else{
-                                if($act->level == AppUtils::LEVEL_TRUONG){ //dự thi cấp trường
-                                    DB::table('nvsp_points')->insert([
-                                        'id_study_year' => $studyTime->id_study_year,
-                                        'id_user' => $studentId,
-                                        'level' => NvspUtils::LEVEL_GIOI,
-                                        'level_text' => NvspUtils::TEXT_LEVEL_GIOI,
-                                        'note' => 'Tham gia đội thi cấp trường',
-                                        'join_type' => $act->join_type == AppUtils::THI_NHOM  ? 'Thi theo đội' : 'Thi cá nhân',
-                                    ]);
-                                }
-                                else{
-                                    if($act->award == AppUtils::GIAI_NHAT){ // đạt giải nhất
-                                        DB::table('nvsp_points')->insert([
-                                            'id_study_year' => $studyTime->id_study_year,
-                                            'id_user' => $studentId,
-                                            'level' => NvspUtils::LEVEL_GIOI,
-                                            'level_text' => NvspUtils::TEXT_LEVEL_GIOI,
-                                            'note' => 'Đạt giải Nhất cấp Khoa',
-                                            'join_type' => $act->join_type == AppUtils::THI_NHOM  ? 'Thi theo đội' : 'Thi cá nhân',
-                                        ]);
-                                    }
-                                    elseif($act->award == AppUtils::GIAI_NHI || $act->award == AppUtils::GIAI_BA){
-                                        DB::table('nvsp_points')->insert([ //đạt nhì hoặc giải ba
-                                            'id_study_year' => $studyTime->id_study_year,
-                                            'id_user' => $studentId,
-                                            'level' => NvspUtils::LEVEL_KHA,
-                                            'level_text' => NvspUtils::TEXT_LEVEL_KHA,
-                                            'note' => 'Đạt giải Ba, giải Nhì cấp Khoa',
-                                            'join_type' => $act->join_type == AppUtils::THI_NHOM  ? 'Thi theo đội' : 'Thi cá nhân',
-                                        ]);
-                                    }
-                                    else{
-                                        DB::table('nvsp_points')->insert([ // tham gia thi đầy đủ
-                                            'id_study_year' => $studyTime->id_study_year,
-                                            'id_user' => $studentId,
-                                            'level' => NvspUtils::LEVEL_TRUNG_BINH,
-                                            'level_text' => NvspUtils::TEXT_LEVEL_TRUNG_BINH,
-                                            'note' => 'Tham gia dự thi đầy đủ các phần thi',
-                                            'join_type' => $act->join_type == AppUtils::THI_NHOM  ? 'Thi theo đội' : 'Thi cá nhân',
-                                        ]);
-                                    }
-                                }
-                            }
+                            ->where('id_user', $act->id_user)
+                            ->where('id_child_activity',$act->id_child_activity)
+                            ->where('child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU)
+                            ->first();
+                        return $act_receive->status == AppUtils::STATUS_CHO_DUYET || $act_receive->status == AppUtils::STATUS_CHUA_HOAN_THANH
+                            || $act_receive->status == AppUtils::STATUS_TU_CHOI || $act_receive->status == AppUtils::STATUS_VANG_MAT;
+                        });
+                        if(count($noJoinActs)) {
+                            DB::table('nvsp_points')->insert([  // không hoàn thành
+                                'id_study_year' => $studyTime->id_study_year,
+                                'id_user' => $studentId,
+                                'level' => NvspUtils::LEVEL_KHONG_DAT,
+                                'level_text' => NvspUtils::TEXT_LEVEL_KHONG_DAT,
+                                'note' => 'Chưa hoàn thành hoặc vắng thi'
+                            ]);
+                            continue;
                         }
+                        $schoolJoins = array_filter($user_activities->toArray(), function($act){
+                            return $act->level == AppUtils::LEVEL_TRUONG; //dự thi cấp trường
+                        });
+                        if(count($schoolJoins)){
+                            $personAwards = array_filter($schoolJoins, function($item){
+                                return $item->join_type == AppUtils::THI_CA_NHAN;
+                            });
+                            DB::table('nvsp_points')->insert([
+                                'id_study_year' => $studyTime->id_study_year,
+                                'id_user' => $studentId,
+                                'level' => NvspUtils::LEVEL_GIOI,
+                                'level_text' => NvspUtils::TEXT_LEVEL_GIOI,
+                                'note' => 'Tham gia đội thi cấp trường',
+                                'join_type' => count($personAwards)  ? 'Thi cá nhân' : 'Thi theo đội',
+                            ]);
+                            continue;
+                        }
+                        $firstAwards = array_filter($user_activities->toArray(), function($act){
+                            return $act->award == AppUtils::GIAI_NHAT; //đạt giải nhất
+                        });
+                        if(count($firstAwards)){
+                            $personAwards = array_filter($firstAwards, function($item){
+                                return $item->join_type == AppUtils::THI_CA_NHAN;
+                            });
+                            DB::table('nvsp_points')->insert([
+                                'id_study_year' => $studyTime->id_study_year,
+                                'id_user' => $studentId,
+                                'level' => NvspUtils::LEVEL_GIOI,
+                                'level_text' => NvspUtils::TEXT_LEVEL_GIOI,
+                                'note' => 'Đạt giải Nhất cấp Khoa',
+                                'join_type' => count($personAwards)  ? 'Thi cá nhân' : 'Thi theo đội',
+                            ]);
+                            continue;
+                        }
+                        $secondOrThirdAwards = array_filter($user_activities->toArray(), function($act){
+                            return $act->award == AppUtils::GIAI_NHI || $act->award == AppUtils::GIAI_BA; //đạt giải nhì hoặc giải ba
+                        });
+                        if(count($secondOrThirdAwards)){
+                            $personAwards = array_filter($secondOrThirdAwards, function($item){
+                                return $item->join_type == AppUtils::THI_CA_NHAN;
+                            });
+                            DB::table('nvsp_points')->insert([
+                                'id_study_year' => $studyTime->id_study_year,
+                                'id_user' => $studentId,
+                                'level' => NvspUtils::LEVEL_KHA,
+                                'level_text' => NvspUtils::TEXT_LEVEL_KHA,
+                                'note' => 'Đạt giải Ba, giải Nhì cấp Khoa',
+                                'join_type' => count($personAwards)  ? 'Thi cá nhân' : 'Thi theo đội',
+                            ]);
+                            continue;
+                        }
+                        DB::table('nvsp_points')->insert([ // tham gia thi đầy đủ
+                            'id_study_year' => $studyTime->id_study_year,
+                            'id_user' => $studentId,
+                            'level' => NvspUtils::LEVEL_TRUNG_BINH,
+                            'level_text' => NvspUtils::TEXT_LEVEL_TRUNG_BINH,
+                            'note' => 'Tham gia dự thi đầy đủ các phần thi',
+                        ]);
                     }
                 }
             });
