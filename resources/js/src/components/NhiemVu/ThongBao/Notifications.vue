@@ -76,7 +76,7 @@
                     </div><!-- nk-block -->
                     <forward-modal :userList="userList" :readonly="readonlyFlg"
                     :act="child_act_info" :key="viewKey"
-                    @forward="onForward()" @closeModal="closeForward()"
+                    @forward="onForward" @closeModal="closeForward()"
                     @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/>
                     <!-- <update-forward-modal :userList="userList" :readonly="readonlyFlg" @forward="onUpdateForward()" @closeModal="closeForward()" @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/> -->
                     <view-notification :notify-info="child_act_info" @closeModal="closeForward()" @proofUploaded="getActivitiesReceive()"/>
@@ -190,12 +190,13 @@ export default {
             });
         },
 
-        async onForward(){
+        async onForward(team_flg = false){
             let data = {
                 id: this.id,
                 assignTo: this.user_selected,
                 readonlyFlg: this.readonlyFlg ? true : null,
                 small_role_details: this.small_role_details,
+                team_flg: team_flg ? team_flg : null,
             }
             await asyncLoading(this.forwardActivities(data));
             asyncLoading(this.getActivitiesReceive());
