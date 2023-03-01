@@ -190,13 +190,14 @@ export default {
             });
         },
 
-        async onForward(team_flg = false){
+        async onForward(team_flg = false, teams = []){
             let data = {
                 id: this.id,
                 assignTo: this.user_selected,
                 readonlyFlg: this.readonlyFlg ? true : null,
                 small_role_details: this.small_role_details,
                 team_flg: team_flg ? team_flg : null,
+                teams: teams
             }
             await asyncLoading(this.forwardActivities(data));
             asyncLoading(this.getActivitiesReceive());
