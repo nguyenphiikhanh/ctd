@@ -8,6 +8,9 @@ namespace App\Http\Utils;
  */
 
  class AppUtils{
+    // Bản ghi phân trang
+    const ITEM_PER_PAGE = 15;
+
    // Loại nhiệm vụ(activities)
    const HOAT_DONG_NCKH = 1;
    const HOAT_DONG_NVSP = 2;
