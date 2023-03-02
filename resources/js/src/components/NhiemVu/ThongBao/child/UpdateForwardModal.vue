@@ -109,7 +109,9 @@ import { mapActions } from 'vuex';
               });
           },
           async forward(){
-            //   await this.$emit('forward', this.act.child_activity_type == this.action.TB_GUI_DS_THAM_DU && this.act.join_type == this.joinType.THI_NHOM, this.userActTeams);
+              await this.$emit('forward', this.act.id,
+               this.act.child_activity_type == this.action.TB_GUI_DS_THAM_DU && this.act.join_type == this.joinType.THI_NHOM,
+                this.userActTeams);
               this.closeModal();
           },
           changeDetails(){

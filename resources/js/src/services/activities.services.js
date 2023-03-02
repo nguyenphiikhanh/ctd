@@ -69,5 +69,9 @@ export default {
             team_flg: data.team_flg
         }
         return http.get(`/activities-details/${id}/users`, {params: params});
+    },
+
+    updateUserForwarded(id, data){
+        return http.put(`/activities-details/${id}/users`, data);
     }
 }

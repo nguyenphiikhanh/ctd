@@ -91,8 +91,8 @@ Route::prefix('v1')->group(function(){
             Route::get('/child-activity-responsiable','Auth\ChildActivityController@getActivityResponsiable');
 
             // người dự thi, tham gia hoạt động
-            Route::get('//activities-details/{id}/users','Auth\ActivityDetailController@getUser');
-
+            Route::get('/activities-details/{id}/users','Auth\ActivityDetailController@getUser');
+            Route::put('/activities-details/{id}/users','Auth\ActivityDetailController@updateUser');
 
             //minh chứng
             Route::get('/prooves','Auth\ChildActivityController@getProoves');

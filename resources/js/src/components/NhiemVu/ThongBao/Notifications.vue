@@ -80,6 +80,7 @@
                     @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/>
                     <update-forward-modal :userList="userList" :readonly="readonlyFlg"
                     :act="child_act_info" :key="editKey"
+                    @forward="onUpdate"
                      @closeModal="closeModal()"
                     @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/>
                     <view-notification :notify-info="child_act_info" @closeModal="closeModal()" @proofUploaded="getActivitiesReceive()"/>
@@ -216,6 +217,16 @@ export default {
             this.$nextTick(() => {
                 $('#updateForwardModal').modal('show');
             });
+        },
+        onUpdate(id, team_flg = false, teams = [] ){
+            let data = {
+                id: id,
+                assignTo: this.user_selected,
+                readonlyFlg: this.readonlyFlg ? true : null,
+                small_role_details: this.small_role_details,
+                team_flg: team_flg ? team_flg : null,
+                teams: teams
+            }
         },
         selectUser(val){
             this.user_selected = [...val];
