@@ -7,7 +7,7 @@
           </a>
           <div class="modal-header"><h5 class="modal-title">{{modalTitle}}</h5></div>
           <div v-if="act.child_activity_type != action.TB_GUI_DS_THAM_DU || act.join_type == joinType.THI_CA_NHAN" class="modal-body">
-            <p v-if="userList.length == 0" class="text-center">
+            <p v-if="memberList.length == 0" class="text-center">
               Không có dữ liệu.
             </p>
               <div class="col-12">
@@ -23,6 +23,14 @@
                               </div>
                           </li>
                       </ul>
+                  </div>
+              </div>
+              <div v-if="user_selected.length > 0" class="col-12 mt-2">
+                  <div class="form-group">
+                      <label class="form-label" for="cp1-profile-description">Ghi chú</label>
+                      <div class="form-control-wrap">
+                          <textarea @input="changeDetails()" v-model="small_role_details" class="form-control form-control-sm quill-basic" placeholder="Thêm ghi chú"></textarea>
+                      </div>
                   </div>
               </div>
           </div>
@@ -58,9 +66,17 @@
                       </button>
                   </div>
               </template>
+              <div v-if="user_selected.length > 0" class="col-12 mt-2">
+                  <div class="form-group">
+                      <label class="form-label" for="cp1-profile-description">Ghi chú</label>
+                      <div class="form-control-wrap">
+                          <textarea @input="changeDetails()" v-model="small_role_details" class="form-control form-control-sm quill-basic" placeholder="Thêm ghi chú"></textarea>
+                      </div>
+                  </div>
+              </div>
           </div>
           <div class="modal-footer d-flex justify-content-center">
-              <button v-if="user_selected.length > 0 && validTeam" @click="forward()" class="btn btn-primary">Chuyển tiếp</button>
+              <button v-if="user_selected.length > 0 && validTeam" @click="updateForward()" class="btn btn-primary">Chuyển tiếp</button>
           </div>
         </div>
         <EditMemberPopup :user-list="memberList" :key="viewKey"
@@ -108,8 +124,8 @@ import { mapActions } from 'vuex';
                   $('#editMemberPopup').modal('hide');
               });
           },
-          async forward(){
-              await this.$emit('forward', this.act.id,
+          async updateForward(){
+              await this.$emit('updateForward', this.act.id,
                this.act.child_activity_type == this.action.TB_GUI_DS_THAM_DU && this.act.join_type == this.joinType.THI_NHOM,
                 this.userActTeams);
               this.closeModal();
