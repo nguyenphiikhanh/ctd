@@ -24,7 +24,7 @@
                                 <th scope="row">{{index + 1}}</th>
                                 <td>{{user.username}}</td>
                                 <td>{{user.fullname}}</td>
-                                <td>{{user.class_name}}</td>
+                                <td>{{`${user.class_name} ${user.team_name ? '('+ user.team_name  + ')' : ''} `}}</td>
                                 <td>
                                     <span :class="`text-${classText(user.status)}`">{{ statusText(user.status) }}</span>
                                 </td>

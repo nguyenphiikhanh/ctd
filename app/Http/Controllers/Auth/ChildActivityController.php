@@ -620,6 +620,7 @@ class ChildActivityController extends AppBaseController
                 ->join('activities_details', 'activities_details.id_child_activity', 'child_activities.id')
                 ->leftJoin('user_activities','user_activities.id_activities_details', 'activities_details.id')
                 ->join('users', 'user_activities.id_user', 'users.id')
+                ->leftJoin('user_activities_teams','user_activities_teams.id', 'user_activities.id_user_activities_teams')
                 ->leftJoin('user_receive_activities',function($leftJoin) use($id_child_act){
                     $leftJoin->on('user_receive_activities.id_child_activity', '=', 'child_activities.id');
                     $leftJoin->on('user_receive_activities.id_user', '=', 'user_activities.id_user');
@@ -630,9 +631,11 @@ class ChildActivityController extends AppBaseController
                 'classes.class_name',
                 'user_receive_activities.status as status',
                 'user_activities.id as id_user_activity',
-                'user_activities.award as award')
+                'user_activities.award as award',
+                'user_activities_teams.team_name')
                 ->where('child_activities.id', $id_child_act)
                 ->orderBy('classes.class_name')
+                ->orderBy('user_activities_teams.team_name')
                 ->get();
 
             return $this->sendResponse($userActs, __('message.success.get_list',['atribute' => 'người dự thi']));

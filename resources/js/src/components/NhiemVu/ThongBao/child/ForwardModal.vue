@@ -92,7 +92,7 @@
 
 <script>
 import constants from '../../../../constants';
-import AddMemBerPopup from "./addMember/AddMemBerPopup.vue";
+import AddMemBerPopup from "./addMember/AddMemBerPopup";
 export default {
     components: {AddMemBerPopup},
 
