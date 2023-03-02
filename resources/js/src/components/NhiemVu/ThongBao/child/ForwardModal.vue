@@ -80,7 +80,7 @@
             </div>
         </div>
         <div class="modal-footer d-flex justify-content-center">
-            <button v-if="user_selected.length > 0" @click="forward()" class="btn btn-primary">Chuyển tiếp</button>
+            <button v-if="user_selected.length > 0 && validTeam" @click="forward()" class="btn btn-primary">Chuyển tiếp</button>
         </div>
       </div>
         <AddMemBerPopup :user-list="memberList" :key="viewKey"
@@ -196,6 +196,9 @@ export default {
         },
         joinType(){
             return constants.HINH_THUC_THI;
+        },
+        validTeam(){
+            return this.userActTeams.length > 0 ? !this.userActTeams.some(team => !team.members.length > 0) : true;
         }
     },
     watch:{

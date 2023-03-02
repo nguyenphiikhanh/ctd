@@ -60,13 +60,13 @@
               </template>
           </div>
           <div class="modal-footer d-flex justify-content-center">
-              <button v-if="user_selected.length > 0" @click="forward()" class="btn btn-primary">Chuyển tiếp</button>
+              <button v-if="user_selected.length > 0 && validTeam" @click="forward()" class="btn btn-primary">Chuyển tiếp</button>
           </div>
         </div>
-          <AddMemBerPopup :user-list="memberList"
+      </div>
+      <AddMemBerPopup :user-list="memberList" :key="viewKey"
                           @closeModal="closeAddMemberModal()"
                           @saved="onAddMembers"/>
-      </div>
     </div>
   </template>
 
@@ -90,7 +90,7 @@ import { mapActions } from 'vuex';
               userActTeams: [],
               memberList: [],
               index: 0,
-              viewKey: 1,
+              viewKey: 99,
           }
       },
       methods:{
@@ -109,7 +109,7 @@ import { mapActions } from 'vuex';
               });
           },
           async forward(){
-              await this.$emit('forward', this.act.child_activity_type == this.action.TB_GUI_DS_THAM_DU && this.act.join_type == this.joinType.THI_NHOM, this.userActTeams);
+            //   await this.$emit('forward', this.act.child_activity_type == this.action.TB_GUI_DS_THAM_DU && this.act.join_type == this.joinType.THI_NHOM, this.userActTeams);
               this.closeModal();
           },
           changeDetails(){
@@ -180,7 +180,10 @@ import { mapActions } from 'vuex';
           },
           joinType(){
               return constants.HINH_THUC_THI;
-          }
+          },
+          validTeam(){
+            return this.userActTeams.length > 0 ? !this.userActTeams.some(team => !team.members.length > 0) : true;
+        }
       },
       watch:{
           user_selected(val){
@@ -188,21 +191,37 @@ import { mapActions } from 'vuex';
           }
       },
       async mounted(){
-          this.memberList = JSON.parse(JSON.stringify(this.userList));
+        this.memberList = JSON.parse(JSON.stringify(this.userList));
         if(this.act.id){
           const data = {
             id: this.act.id_activities_details_assign,
-            child_activity_type: this.act.child_activity_type
+            child_activity_type: this.act.child_activity_type,
+            team_flg: this.act.child_activity_type == this.action.TB_GUI_DS_THAM_DU && this.act.join_type == this.joinType.THI_NHOM ? true : null,
           }
           await this.fetchUserForwarded(data).then(res => {
-            [...res.data].map(user => {
-                this.user_selected.push(user.id);
-                this.memberList.map(_item => {
+            if(this.act.child_activity_type != this.action.TB_GUI_DS_THAM_DU || this.act.join_type == this.joinType.THI_CA_NHAN){
+                [...res.data].map(user => { // thi ca nhan
+                    this.user_selected.push(user.id);
+                    this.memberList.map(_item => {
                       if(_item.id == user.id){
                           _item.chooseFlg = true;
                       }
                   });
-            })
+                })
+            }
+            else{
+                this.userActTeams = [...res.data];
+                [...this.userActTeams].map(team => { // thi nhom\
+                    team.members.map(user => {
+                    this.user_selected.push(user.id);
+                    this.memberList.map(_item => {
+                      if(_item.id == user.id){
+                          _item.chooseFlg = false;
+                      }
+                    });
+                    })
+                })
+            }
           });
         }
       }

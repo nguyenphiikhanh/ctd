@@ -127,8 +127,8 @@ export default {
                     }
                 ],
             },
-            fwKey: 0,
-            editKey: 1
+            fwKey: 999,
+            editKey: 9999
         }
     },
     computed:{

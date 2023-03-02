@@ -174,7 +174,7 @@ export default {
     },
 
     fetchUserForwarded({commit, dispatch}, data){
-        return activitiesServices.fetchUserForwarded(data.id, data.child_activity_type)
+        return activitiesServices.fetchUserForwarded(data.id, data)
             .then(response => {
                 return Promise.resolve(response.data);
             })

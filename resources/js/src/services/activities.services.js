@@ -63,9 +63,10 @@ export default {
         return http.put(`/child-activity/${id}/change-assignee`, data);
     },
 
-    fetchUserForwarded(id, child_activity_type){
+    fetchUserForwarded(id, data){
         const params = {
-            child_activity_type: child_activity_type
+            child_activity_type: data.child_activity_type,
+            team_flg: data.team_flg
         }
         return http.get(`/activities-details/${id}/users`, {params: params});
     }
