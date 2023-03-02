@@ -24,7 +24,7 @@ class ActivityDetailController extends AppBaseController
             $child_activity_type = $request->get('child_activity_type');
             $team_flg = $request->get('team_flg');
             $userList = [];
-            if($child_activity_type = AppUtils::TB_GUI_DS_THAM_DU){
+            if($child_activity_type == AppUtils::TB_GUI_DS_THAM_DU){
                 if($team_flg){ // thi đội
                     $teams = DB::table('user_activities_teams')
                             ->where('id_activities_details', $id)
@@ -57,6 +57,17 @@ class ActivityDetailController extends AppBaseController
                     ->get();
             }
             return $this->sendResponse($userList, __('message.success.get_list',['atribute' => 'người dự thi hoặc có mặt']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'người dự thi hoặc có mặt']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function updateUser(Request $request, $id){
+        $user = Auth::user();
+        try{
+
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());

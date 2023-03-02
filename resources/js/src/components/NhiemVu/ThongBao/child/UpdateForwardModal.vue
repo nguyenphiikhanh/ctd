@@ -63,19 +63,19 @@
               <button v-if="user_selected.length > 0 && validTeam" @click="forward()" class="btn btn-primary">Chuyển tiếp</button>
           </div>
         </div>
+        <EditMemberPopup :user-list="memberList" :key="viewKey"
+                        @closeModal="closeAddMemberModal()"
+                        @saved="onAddMembers"/>
       </div>
-      <AddMemBerPopup :user-list="memberList" :key="viewKey"
-                          @closeModal="closeAddMemberModal()"
-                          @saved="onAddMembers"/>
     </div>
   </template>
 
   <script>
 import { mapActions } from 'vuex';
   import constants from '../../../../constants';
-  import AddMemBerPopup from "./addMember/AddMemBerPopup";
+  import EditMemberPopup from "./userSelect/EditMemberPopup.vue";
   export default {
-      components: {AddMemBerPopup},
+      components: {EditMemberPopup},
 
       props:{
           readonly: {type: Boolean, default: true},
@@ -90,7 +90,7 @@ import { mapActions } from 'vuex';
               userActTeams: [],
               memberList: [],
               index: 0,
-              viewKey: 99,
+              viewKey: 0,
           }
       },
       methods:{
@@ -105,7 +105,7 @@ import { mapActions } from 'vuex';
           },
           closeAddMemberModal(){
               this.$nextTick(() => {
-                  $('#addMemberPopup').modal('hide');
+                  $('#editMemberPopup').modal('hide');
               });
           },
           async forward(){
@@ -126,7 +126,7 @@ import { mapActions } from 'vuex';
               this.index = index;
               this.viewKey++;
               this.$nextTick(() => {
-                  $('#addMemberPopup').modal('show');
+                  $('#editMemberPopup').modal('show');
               });
           },
           onAddMembers(members){
@@ -141,7 +141,7 @@ import { mapActions } from 'vuex';
                   this.user_selected.push(id);
               })
               this.$nextTick(() => {
-                $('#addMemberPopup').modal('hide');
+                $('#editMemberPopup').modal('hide');
             });
           },
           removeMember(teamIndex, memberIndex){
