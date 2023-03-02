@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" tabindex="-1" data-bs-backdrop="static" id="forwardModal">
+    <div class="modal fade" tabindex="-1" data-bs-backdrop="static" id="updateForwardModal">
       <div class="modal-dialog modal-dialog-top modal-dialog-scrollable" role="document">
         <div class="modal-content">
           <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">
@@ -13,28 +13,16 @@
               <div class="col-12">
                   <div class="form-group">
                       <label class="h5 ml-auto col-10">Chọn sinh viên</label>
-                      <div v-if="readonly" class="custom-control custom-checkbox my-2">
-                          <input v-model="select_all" type="checkbox" class="custom-control-input" id="check-all-flg">
-                          <label class="custom-control-label" for="check-all-flg">Chọn tất cả</label>
-                      </div>
                       <ul class="custom-control-group col-12">
-                          <li class="col-12" v-for="(option, index) in userList" :key="index">
+                          <li class="col-12" v-for="(option, index) in memberList" :key="index">
                               <div class="custom-control custom-radio custom-control-pro no-control col-12">
-                                  <input :disabled="!option.chooseFlg" v-model="user_selected" type="checkbox" :value="option.id" class="custom-control-input" :id="`user-${index}`">
+                                  <input :disabled="!option.chooseFlg" v-model="user_selected" type="checkbox" :value="option.id" class="custom-control-input" :id="`user-personal-${index}`">
                                   <label :class="`custom-control-label ${!option.chooseFlg ? 'text-danger' : ''} col-12`"
-                                         :for="`user-${index}`">
+                                         :for="`user-personal-${index}`">
                                       {{option.ho + ' ' + option.ten}} (Mã sinh viên: {{option.username}})</label>
                               </div>
                           </li>
                       </ul>
-                  </div>
-              </div>
-              <div class="col-12 mt-2">
-                  <div class="form-group">
-                      <label class="form-label" for="cp1-profile-description">Ghi chú</label>
-                      <div class="form-control-wrap">
-                          <textarea @input="changeDetails()" v-model="small_role_details" class="form-control form-control-sm quill-basic" placeholder="Thêm ghi chú"></textarea>
-                      </div>
                   </div>
               </div>
           </div>
@@ -70,20 +58,12 @@
                       </button>
                   </div>
               </template>
-              <div v-if="user_selected.length > 0" class="col-12 mt-2">
-                  <div class="form-group">
-                      <label class="form-label" for="cp1-profile-description">Ghi chú</label>
-                      <div class="form-control-wrap">
-                          <textarea @input="changeDetails()" v-model="small_role_details" class="form-control form-control-sm quill-basic" placeholder="Thêm ghi chú"></textarea>
-                      </div>
-                  </div>
-              </div>
           </div>
           <div class="modal-footer d-flex justify-content-center">
               <button v-if="user_selected.length > 0" @click="forward()" class="btn btn-primary">Chuyển tiếp</button>
           </div>
         </div>
-          <AddMemBerPopup :user-list="memberList" :key="viewKey"
+          <AddMemBerPopup :user-list="memberList"
                           @closeModal="closeAddMemberModal()"
                           @saved="onAddMembers"/>
       </div>
@@ -91,6 +71,7 @@
   </template>
 
   <script>
+import { mapActions } from 'vuex';
   import constants from '../../../../constants';
   import AddMemBerPopup from "./addMember/AddMemBerPopup";
   export default {
@@ -108,12 +89,14 @@
               small_role_details: '',
               userActTeams: [],
               memberList: [],
-              memberSelected: [],
               index: 0,
-              viewKey: 0,
+              viewKey: 1,
           }
       },
       methods:{
+        ...mapActions({
+            fetchUserForwarded: 'activity/fetchUserForwarded',
+        }),
           closeModal(){
               this.user_selected = [];
               this.select_all = false;
@@ -200,25 +183,28 @@
           }
       },
       watch:{
-          select_all(val){
-              if(val){
-                  this.user_selected = [];
-                  this.userList.map(_item => {
-                      if(_item.chooseFlg){
-                          this.user_selected.push(_item.id)
-                      }
-                  });
-              } else this.user_selected = [];
-          },
           user_selected(val){
               this.$emit('changeSelected', val);
           }
       },
       async mounted(){
           this.memberList = JSON.parse(JSON.stringify(this.userList));
-          if(this.act.child_activity_type == this.action.TB_GUI_DS_THAM_DU){
-
+        if(this.act.id){
+          const data = {
+            id: this.act.id_activities_details_assign,
+            child_activity_type: this.act.child_activity_type
           }
+          await this.fetchUserForwarded(data).then(res => {
+            [...res.data].map(user => {
+                this.user_selected.push(user.id);
+                this.memberList.map(_item => {
+                      if(_item.id == user.id){
+                          _item.chooseFlg = true;
+                      }
+                  });
+            })
+          });
+        }
       }
   };
   </script>

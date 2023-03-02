@@ -61,5 +61,12 @@ export default {
 
     changeAssigneeSetting(id, data){
         return http.put(`/child-activity/${id}/change-assignee`, data);
+    },
+
+    fetchUserForwarded(id, child_activity_type){
+        const params = {
+            child_activity_type: child_activity_type
+        }
+        return http.get(`/activities-details/${id}/users`, {params: params});
     }
 }

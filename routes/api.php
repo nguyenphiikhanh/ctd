@@ -90,6 +90,10 @@ Route::prefix('v1')->group(function(){
             Route::post('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');
             Route::get('/child-activity-responsiable','Auth\ChildActivityController@getActivityResponsiable');
 
+            // người dự thi, tham gia hoạt động
+            Route::get('//activities-details/{id}/users','Auth\ActivityDetailController@getUser');
+
+
             //minh chứng
             Route::get('/prooves','Auth\ChildActivityController@getProoves');
             Route::post('/proof/store','Auth\ChildActivityController@storeProof'); // upload minh chứng

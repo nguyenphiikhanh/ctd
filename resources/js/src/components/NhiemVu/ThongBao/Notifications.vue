@@ -63,7 +63,7 @@
                                                     ? 'Chọn danh sách' : 'Chuyển tiếp'}}</button>
                                                 <button v-if="_item.status == status.STATUS_HOAN_THANH
                                                 && (_item.child_activity_type == action.TB_GUI_DS_THAM_GIA || _item.child_activity_type == action.TB_GUI_DS_THAM_DU)"
-                                                @click="forwardChildAct(_item, _item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
+                                                @click="editUserJoin(_item, _item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
                                                 class="btn btn-sm btn-warning mr-2"><em class="ni ni-edit"></em>Chỉnh sửa</button>
                                             </div>
                                         </td>
@@ -75,11 +75,14 @@
                         <div v-if="notiList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
                     <forward-modal :userList="userList" :readonly="readonlyFlg"
-                    :act="child_act_info" :key="viewKey"
-                    @forward="onForward" @closeModal="closeForward()"
+                    :act="child_act_info" :key="fwKey"
+                    @forward="onForward" @closeModal="closeModal()"
                     @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/>
-                    <!-- <update-forward-modal :userList="userList" :readonly="readonlyFlg" @forward="onUpdateForward()" @closeModal="closeForward()" @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/> -->
-                    <view-notification :notify-info="child_act_info" @closeModal="closeForward()" @proofUploaded="getActivitiesReceive()"/>
+                    <update-forward-modal :userList="userList" :readonly="readonlyFlg"
+                    :act="child_act_info" :key="editKey"
+                     @closeModal="closeModal()"
+                    @changeSelected="selectUser" @changeDetails="changeSmallRoleDetails"/>
+                    <view-notification :notify-info="child_act_info" @closeModal="closeModal()" @proofUploaded="getActivitiesReceive()"/>
                 </div>
             </div>
         </div>
@@ -124,7 +127,8 @@ export default {
                     }
                 ],
             },
-            viewKey: 0,
+            fwKey: 0,
+            editKey: 1
         }
     },
     computed:{
@@ -184,7 +188,7 @@ export default {
             await this.getUserListForward(readonly ? readonly : null, noti.id_activities_details_assign);
             this.$loading(false);
             this.readonlyFlg = readonly;
-            this.viewKey++;
+            this.fwKey++;
             this.$nextTick(() => {
                 $('#forwardModal').modal('show');
             });
@@ -201,6 +205,17 @@ export default {
             }
             await asyncLoading(this.forwardActivities(data));
             asyncLoading(this.getActivitiesReceive());
+        },
+        async editUserJoin(noti, readonly = false){
+            this.child_act_info = noti;
+            this.readonlyFlg = readonly;
+            this.$loading(true);
+            await this.getUserListForward(readonly ? readonly : null, noti.id_activities_details_assign);
+            this.$loading(false);
+            this.editKey++;
+            this.$nextTick(() => {
+                $('#updateForwardModal').modal('show');
+            });
         },
         selectUser(val){
             this.user_selected = [...val];
@@ -221,10 +236,11 @@ export default {
                 return act.join_type == this.joinType.THI_CA_NHAN ? '(cá nhân)' : '(nhóm)';
             } else return '';
         },
-        closeForward(){
+        closeModal(){
             this.$nextTick(() => {
                 $('#forwardModal').modal('hide');
                 $('#viewNotification').modal('hide');
+                $('#updateForwardModal').modal('hide');
             })
         }
     },
