@@ -17,7 +17,7 @@ namespace App\Http\Utils;
         20,
         21,
         22,
-        21,
+        23,
         24,
         25,
         31,

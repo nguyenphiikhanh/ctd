@@ -14,6 +14,7 @@ import student from './modules/students';
 import studyYear from './modules/studyYear';
 import studyTime from './modules/studyTime';
 import points from './modules/points';
+import tieuChi from './modules/tieuChi';
 
 Vue.use(Vuex)
 
@@ -33,6 +34,7 @@ const store = new Vuex.Store({
         studyYear,
         studyTime,
         points,
+        tieuChi
     }
 });
 

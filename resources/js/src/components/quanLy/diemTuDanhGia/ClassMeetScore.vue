@@ -59,7 +59,6 @@
                                         <th scope="col">Khối</th>
                                         <th scope="col">Khóa đào tạo</th>
                                         <th scope="col">Số lượng sinh viên</th>
-                                        <th scope="col">Đã hoàn thành</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -70,7 +69,6 @@
                                         <td>{{_item.type_name}}</td>
                                         <td>{{_item.term_name}}</td>
                                         <td>{{_item.student_count}}</td>
-                                        <td>0%</td>
                                         <td class="d-flex justify-content-end">
                                             <div>
                                                 <button @click="showPopup(_item)" class="btn btn-sm btn-primary">
@@ -85,7 +83,9 @@
                         </div><!-- .card -->
                         <div v-if="classList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
-                    <ViewClassMeetScore :study-time-list="studyTimeList" :class-view="classView" :score-list="scoreList" :key="viewKey" @closeModal="closeModal()"/>
+                    <ViewClassMeetScore :study-time-list="studyTimeList" :class-view="classView" :score-list="scoreList"
+                     :key="viewKey" :tc-list="tcList"
+                     @closeModal="closeModal()"/>
                 </div>
             </div>
         </div>
@@ -116,7 +116,8 @@ export default {
             scoreList: [],
             studyTimeList: [],
             studyTime: null,
-            viewKey: 1
+            viewKey: 1,
+            tcList: [],
         }
     },
     computed:{
@@ -134,6 +135,7 @@ export default {
             getNvspPointByStudyYear: "points/getNvspPointByStudyYear",
             getCurrentStudyTime: 'studyTime/getCurrentStudyTime',
             updateFacultyTimeSetting: 'studyTime/updateFacultyTimeSetting',
+            getListTcSelf: 'tieuChi/getListTcSelf',
         }),
         async getClassListData(){
             const params = {};
@@ -184,6 +186,7 @@ export default {
             this.studyTimeList = [...res.data];
             this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity)
         })
+        await this.getListTcSelf().then(res => this.tcList = [...res.data]);
         this.viewKey++;
     }
 }

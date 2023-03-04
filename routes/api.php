@@ -118,6 +118,8 @@ Route::prefix('v1')->group(function(){
         Route::get('/study-times', 'Auth\StudyTimeController@index');
         // setting họp xét lớp cho kì học
         Route::get('/study-times/current', 'Auth\StudyTimeController@getCurrentStudyTimeFacultySettings');
+        // Tiêu chí
+        Route::get('/tieu-chi/self', 'Auth\TcController@getTcSelf');
     });
 });
 
