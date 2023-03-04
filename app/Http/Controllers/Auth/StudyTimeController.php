@@ -6,6 +6,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Utils\ResponseUtils;
 use App\Http\Utils\RoleUtils;
+use App\Http\Utils\TcUtils;
 use App\Models\Faculty;
 use App\Models\StudyTime;
 use App\Models\StudyYear;
@@ -120,27 +121,35 @@ class StudyTimeController extends AppBaseController
             DB::connection('mysql')->transaction(function() use ($user, $setting, $request, $id_study_time){
                 if(!$setting){
                     $studentIds = DB::table('users')
-                        ->join('classes'. 'classes.id', 'users.id_class')
+                        ->join('classes', 'classes.id', 'users.id_class')
                         ->join('faculties','faculties.id', 'classes.id_faculty')
+                        ->where('faculties.id', $user->id_khoa)
                         ->where('users.role', RoleUtils::ROLE_CBL)
-                        ->orWhere('users.roles', RoleUtils::ROLE_SINHVIEN)
+                        ->orWhere('users.role', RoleUtils::ROLE_SINHVIEN)
+                        ->orWhere('users.role', RoleUtils::ROLE_LOP_TRUONG)
                         ->pluck('users.id');
-                        Log::debug(count($studentIds));
-                    // $createData = [];
-                    // foreach($studentIds as $id){
-                    //     $createData[] = [
-                    //         'id_fa'
-                    //     ];
-                    // }
+                    foreach($studentIds as $id){
+                        $createData = [];
+                        $tcIds = TcUtils::TIEU_CHI_HOP_XET_IDS;
+                        Log::debug(count($tcIds));
+                        foreach($tcIds as $tcId){
+                            $createData[] = [
+                                'id_study_time' => $id_study_time,
+                                'id_tieu_chi' => $tcId,
+                                'id_user' => $id
+                            ];
+                        }
+                        DB::table('student_class_meet_score')->insert($createData);
+                    }
                 }
-                // $end_time_class_meet = $request->get('end_time_class_meet');
-                // DB::table('class_meet_faculty_settings')
-                //     ->updateOrInsert(
-                //         ['id_faculty', $user->id_khoa, 'id_study_time' => $id_study_time],
-                //         [
-                //             'end_time_class_meet' => $end_time_class_meet,
-                //         ]
-                //     );
+                $end_time_class_meet = $request->get('end_time_class_meet');
+                DB::table('class_meet_faculty_settings')
+                    ->updateOrInsert(
+                        ['id_faculty' => $user->id_khoa, 'id_study_time' => $id_study_time],
+                        [
+                            'end_time_class_meet' => $end_time_class_meet,
+                        ]
+                    );
             });
             return $this->sendResponse('', __('message.success.update',['atribute' => 'kỳ đánh giá']));
         }
