@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Utils\ResponseUtils;
+use App\Http\Utils\RoleUtils;
+use App\Models\Faculty;
 use App\Models\StudyTime;
 use App\Models\StudyYear;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -71,6 +74,39 @@ class StudyTimeController extends AppBaseController
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.create',['atribute' => 'kỳ học']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getCurrentStudyTimeFacultySettings(){
+        try{
+            $user = Auth::user();
+            $id_faculty = null;
+            if($user->role == RoleUtils::ROLE_BI_THU_DOAN){
+                $id_faculty = $user->id_khoa;
+            }
+            else{
+                $faculty = DB::table('users')
+                    ->join('classes','classes.id', 'users.id_class')
+                    ->join('faculties', 'faculties.id', 'classes.id_faculty')
+                    ->where('users.id', $user->id)
+                    ->first();
+                $id_faculty = $faculty->id;
+            }
+            $studyTimeCurrent = DB::table('study_times')
+                ->join('study_years', 'study_years.id', 'study_times.id_study_year')
+                ->join('study_terms', 'study_terms.id', 'study_times.id_study_term')
+                ->leftJoin('class_meet_faculty_settings', function($leftJoin) use ($id_faculty){
+                    $leftJoin->on('class_meet_faculty_settings.id_study_time','study_times.id')
+                        ->where('id_faculty', $id_faculty);
+                })
+                ->select('study_times.id','study_years.year_name', 'study_terms.name','class_meet_faculty_settings.end_time_class_meet')
+                ->latest('study_times.id')
+                ->first();
+            return $this->sendResponse($studyTimeCurrent, __('message.success.show',['atribute' => 'kỳ học']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.show',['atribute' => 'kỳ học']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -11,6 +11,7 @@ import Year from '../components/quanLy/namHoc/Year';
 import StudyTime from '../components/quanLy/hocKy/StudyTime';
 import Assignee from '../components/quanLy/phuTrachNVSP/Assignee';
 import ClassList from "../components/quanLy/diemNVSP/ClassList";
+import ClassMeetScore from '../components/quanLy/diemTuDanhGia/ClassMeetScore';
 
 const routes = [
     // dashboard
@@ -167,6 +168,21 @@ const routes = [
             ptAccess: false,
         }
     },
+    // Điểm họp xét lớp
+    {
+        name:"ClassMeetScore",
+        path:"/quan-ly/diem-hop-xet-lop",
+        component: ClassMeetScore,
+        meta:{
+            title: 'Quản lý Điểm họp đánh giá lớp',
+            requiresAuth: true,
+            adminAccess: true,
+            cblAccess: false,
+            btdAccess: true,
+            ptAccess: false,
+        }
+    },
+
     // ds nhiệm vụ và thông báo
     {
         name:"Notifications",

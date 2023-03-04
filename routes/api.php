@@ -37,7 +37,6 @@ Route::prefix('v1')->group(function(){
             Route::put('/years/{id}', 'Auth\StudyYearController@update');
 
             // Kỳ học
-            Route::get('/study-times', 'Auth\StudyTimeController@index');
             Route::post('/study-times', 'Auth\StudyTimeController@store');
             Route::put('/study-times/{id}', 'Auth\StudyTimeController@update');
             Route::get('/study-terms', 'Auth\StudyTimeController@getStudyTerm');
@@ -113,6 +112,10 @@ Route::prefix('v1')->group(function(){
         Route::get('/child-activity/{id}/users','Auth\ChildActivityController@getUserActivity');
         // hoạt động
         Route::get('/receive-activities','Auth\ChildActivityController@getActivitiesReceive');
+        // kì học
+        Route::get('/study-times', 'Auth\StudyTimeController@index');
+        // setting họp xét lớp cho kì học
+        Route::get('/study-times/current', 'Auth\StudyTimeController@getCurrentStudyTimeFacultySettings');
     });
 });
 

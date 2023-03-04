@@ -11,5 +11,9 @@ export default {
             id_study_year: id_study_year
         }
         return http.get(`points/nvsp`, {params : data});
+    },
+
+    updateClassEndMeetTime(id, time){
+        return http.put(`point/class-meet/${id}`, time);
     }
 }

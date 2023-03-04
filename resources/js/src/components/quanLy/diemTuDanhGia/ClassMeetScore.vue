@@ -1,0 +1,181 @@
+<template>
+    <div class="nk-content ">
+        <div class="container-fluid">
+            <div class="nk-content-inner">
+                <div class="nk-content-body">
+                    <div class="nk-block-head nk-block-head-sm">
+                        <div class="nk-block-between">
+                            <div class="nk-block-head-content">
+                                <h3 class="nk-block-title page-title">Điểm rèn luyện đánh giá cá nhân theo lớp
+                                    <span>(<small class="text-danger">{{ `${currentStudyTime.name} - năm học ${currentStudyTime.year_name}` }}</small>)</span>
+                                </h3>
+                                <h4>Thời gian kết thúc:
+                                    <span class="text-danger">{{ currentStudyTime.end_time_class_meet ? convertVnTime(currentStudyTime.end_time_class_meet) : 'Chưa mở đánh giá' }}</span>
+                                </h4>
+                                <h4 class="d-inline">Trạng thái:
+                                    <span :class="currentStudyTime.end_time_class_meet && new Date(currentStudyTime.end_time_class_meet) >= new Date() ? 'text-success' : 'text-danger'">
+                                        {{ currentStudyTime.end_time_class_meet ? new Date(currentStudyTime.end_time_class_meet) >= new Date() ? 'Đang diễn ra' : 'Đã kết thúc' : 'Chưa mở đánh giá' }}
+                                    </span>
+                                    <div class="dropdown">
+                                        <button v-if="currentStudyTime.end_time_class_meet && new Date(currentStudyTime.end_time_class_meet) < new Date()"
+                                            id="dropdownReopenTimeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                            class="btn btn-sm btn-success dropdown-toggle">
+                                            <em class="icon ni ni-curve-up-left"></em>Mở lại
+                                        </button>
+                                        <button v-else-if="!currentStudyTime.end_time_class_meet" @click="updateClassMeet(true)"
+                                            id="dropdownReopenTimeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                            class="btn btn-sm btn-success dropdown-toggle">
+                                            <em class="icon ni ni-curve-up-left"></em>Mở
+                                        </button>
+                                        <button v-else class="btn btn-sm btn-danger">
+                                            <em class="icon ni ni-cross-circle"></em>Kết thúc
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownReopenTimeButton">
+                                            <a class="dropdown-item" href="#" @click="addHourToEndMeet(timeReopen.ONE_HOUR)">1 giờ</a>
+                                            <a class="dropdown-item" href="#" @click="addHourToEndMeet(timeReopen.SIX_HOUR)">6 giờ</a>
+                                            <a class="dropdown-item" href="#" @click="addHourToEndMeet(timeReopen.ONE_DAY)">24 giờ</a>
+                                            <a class="dropdown-item" href="#" @click="addHourToEndMeet(timeReopen.THREE_DAY)">3 ngày</a>
+                                            <a class="dropdown-item" href="#" @click="addHourToEndMeet(timeReopen.ONE_WEEK)">7 ngày</a>
+                                            <a class="dropdown-item" href="#" @click="addHourToEndMeet(timeReopen.THIRTY_DAYS)">30 ngày</a>
+                                        </div>
+
+                                    </div>
+                                </h4>
+                            </div><!-- .nk-block-head-content -->
+                        </div><!-- .nk-block-between -->
+                    </div><!-- .nk-block-head -->
+                    <div class="nk-block nk-block-lg">
+                        <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <h5 class="nk-block-title">Danh sách lớp</h5>
+                            </div>
+                        </div>
+                        <div class="card card-preview">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">STT</th>
+                                        <th scope="col">Tên lớp</th>
+                                        <th scope="col">Khối</th>
+                                        <th scope="col">Khóa đào tạo</th>
+                                        <th scope="col">Số lượng sinh viên</th>
+                                        <th scope="col">Đã hoàn thành</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="(_item, index) in classList" :key="index">
+                                        <th scope="row">{{index + 1}}</th>
+                                        <td>{{_item.class_name}}</td>
+                                        <td>{{_item.type_name}}</td>
+                                        <td>{{_item.term_name}}</td>
+                                        <td>{{_item.student_count}}</td>
+                                        <td>0%</td>
+                                        <td class="d-flex justify-content-end">
+                                            <div>
+                                                <button @click="showPopup(_item)" class="btn btn-sm btn-primary">
+                                                    <em class="icon ni ni-eye"></em>Xem đánh giá
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!-- .card -->
+                        <div v-if="classList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
+                    </div><!-- nk-block -->
+                    <ViewClassMeetScore :study-time-list="studyTimeList" :class-view="classView" :score-list="scoreList" :key="viewKey" @closeModal="closeModal()"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import { asyncLoading } from 'vuejs-loading-plugin';
+import { mapActions } from 'vuex';
+import ViewClassMeetScore from "./child/ViewClassMeetScore.vue";
+import datetimeUtils from '../../../helpers/utils/datetimeUtils';
+import {timeReopen} from '../../../constants/timeRepopen';
+export default {
+    components:{
+        ViewClassMeetScore,
+    },
+    data(){
+        return{
+            classList: [],
+            classView:{
+                id: null,
+                class_name: '',
+                id_class_type: null,
+                id_faculty: null,
+                id_term: null,
+                id_user_cvht: null,
+            },
+            scoreList: [],
+            studyTimeList: [],
+            studyTime: null,
+            viewKey: 1
+        }
+    },
+    computed:{
+        currentStudyTime(){
+            return this.$store.getters['studyTime/getStudyTimeCurrent'];
+        },
+        reOpenTime(){
+            return timeReopen;
+        }
+    },
+    methods:{
+        ...mapActions({
+            getClasses: 'classes/getClasses',
+            getStudyTime: 'studyTime/getStudyTime',
+            getNvspPointByStudyYear: "points/getNvspPointByStudyYear",
+        }),
+        async getClassListData(){
+            const params = {};
+            await this.getClasses(params).then(res => this.classList = [...res.data]);
+        },
+        convertVnTime(time){
+            return time ? datetimeUtils.dateTimeVnFormat(time) : null;
+        },
+        async showPopup(_class){
+            this.$loading(true);
+            this.classView = _class;
+            let data = {
+                id_class: this.classView.id,
+                id_study_year: this.studyYear
+            }
+            await this.getNvspPointByStudyYear(data).then(res => this.scoreList = [...res.data]);
+            this.$loading(false);
+            this.$nextTick(() => {
+                $('#viewClassMeetScore').modal('show');
+            });
+            this.viewKey++;
+        },
+        updateClassMeet(createFlg = false ,hours = ''){
+
+        },
+        closeModal(){
+            this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity)
+            this.$nextTick(() => {
+                $('#viewClassMeetScore').modal('hide');
+            });
+        },
+    },
+    async mounted(){
+        asyncLoading(this.getClassListData());
+        await this.getStudyTime().then(res => {
+            this.studyTimeList = [...res.data];
+            this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity)
+        })
+        this.viewKey++;
+    }
+}
+</script>
+
+<style>
+
+</style>

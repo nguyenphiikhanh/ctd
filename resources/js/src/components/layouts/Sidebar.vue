@@ -83,11 +83,11 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'NvspPoint'}">
+            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'ClassMeetScore'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
-                        <span class="nk-menu-text">Quản lý điểm Tự đánh giá</span>
+                        <span class="nk-menu-text">Quản lý đánh giá lớp</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
@@ -120,6 +120,7 @@ export default {
     methods:{
       ...mapActions({
           getNotifyList: 'activity/getActivitiesReceive',
+          getCurrentStudyTime: 'studyTime/getCurrentStudyTime'
       }),
     },
     computed:{
@@ -132,6 +133,7 @@ export default {
     },
     async mounted() {
         await asyncLoading(this.getNotifyList());
+        await this.getCurrentStudyTime();
     }
 }
 </script>
