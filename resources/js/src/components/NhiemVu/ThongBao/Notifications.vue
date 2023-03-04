@@ -61,7 +61,7 @@
                                                 || _item.child_activity_type == action.TB_GUI_DS_THAM_GIA
                                                 || _item.child_activity_type == action.TB_GUI_DS_THAM_DU
                                                     ? 'Chọn danh sách' : 'Chuyển tiếp'}}</button>
-                                                <button v-if="_item.status == status.STATUS_HOAN_THANH
+                                                <button v-if="_item.status == status.STATUS_HOAN_THANH && user.role == role.ROLE_CBL
                                                 && (_item.child_activity_type == action.TB_GUI_DS_THAM_GIA || _item.child_activity_type == action.TB_GUI_DS_THAM_DU)"
                                                 @click="editUserJoin(_item, _item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
                                                 class="btn btn-sm btn-warning mr-2"><em class="ni ni-edit"></em>Chỉnh sửa</button>
