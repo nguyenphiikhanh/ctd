@@ -28,6 +28,7 @@ class ActivityDetailController extends AppBaseController
                 if($team_flg){ // thi đội
                     $teams = DB::table('user_activities_teams')
                             ->where('id_activities_details', $id)
+                            ->where('id_class', $user->id_class)
                             ->orderBy('id')->get();
                     foreach($teams as $team){
                         $members = DB::table('user_activities')
