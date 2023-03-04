@@ -79,6 +79,8 @@ Route::prefix('v1')->group(function(){
             Route::get('/points/nvsp','Auth\PointController@getNvspPointByStudyYear');
             Route::post('/points/nvsp','Auth\PointController@nvspCreatePoint'); // điểm tuần NVSP
 
+            // Họp xét lớp
+            Route::put('/study-times/{id}/faculty-setting','Auth\StudyTimeController@createOrUpdateFalcultyClassMeetSettings');
         });
 
         Route::middleware('role.cbOrStudent')->group(function(){

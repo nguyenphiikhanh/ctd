@@ -110,6 +110,46 @@ class StudyTimeController extends AppBaseController
         }
     }
 
+    public function createOrUpdateFalcultyClassMeetSettings(Request $request, $id_study_time){
+        try{
+            $user = Auth::user();
+            $setting = DB::table('class_meet_faculty_settings')
+                ->where('id_faculty', $user->id_khoa)
+                ->where('id_study_time', $id_study_time)
+                ->first();
+            DB::connection('mysql')->transaction(function() use ($user, $setting, $request, $id_study_time){
+                if(!$setting){
+                    $studentIds = DB::table('users')
+                        ->join('classes'. 'classes.id', 'users.id_class')
+                        ->join('faculties','faculties.id', 'classes.id_faculty')
+                        ->where('users.role', RoleUtils::ROLE_CBL)
+                        ->orWhere('users.roles', RoleUtils::ROLE_SINHVIEN)
+                        ->pluck('users.id');
+                        Log::debug(count($studentIds));
+                    // $createData = [];
+                    // foreach($studentIds as $id){
+                    //     $createData[] = [
+                    //         'id_fa'
+                    //     ];
+                    // }
+                }
+                // $end_time_class_meet = $request->get('end_time_class_meet');
+                // DB::table('class_meet_faculty_settings')
+                //     ->updateOrInsert(
+                //         ['id_faculty', $user->id_khoa, 'id_study_time' => $id_study_time],
+                //         [
+                //             'end_time_class_meet' => $end_time_class_meet,
+                //         ]
+                //     );
+            });
+            return $this->sendResponse('', __('message.success.update',['atribute' => 'kỳ đánh giá']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'kỳ đánh giá']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     /**
      * Display the specified resource.
      *

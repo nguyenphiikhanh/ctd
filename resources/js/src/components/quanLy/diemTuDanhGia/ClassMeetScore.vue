@@ -22,21 +22,20 @@
                                             class="btn btn-sm btn-success dropdown-toggle">
                                             <em class="icon ni ni-curve-up-left"></em>Mở lại
                                         </button>
-                                        <button v-else-if="!currentStudyTime.end_time_class_meet" @click="updateClassMeet(true)"
-                                            id="dropdownReopenTimeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                            class="btn btn-sm btn-success dropdown-toggle">
-                                            <em class="icon ni ni-curve-up-left"></em>Mở
+                                        <button v-else-if="!currentStudyTime.end_time_class_meet" @click="updateClassMeet(reOpenTime.THIRTY_DAYS)"
+                                            class="btn btn-sm btn-success">
+                                            <em class="icon ni ni-plus-c"></em>Mở
                                         </button>
-                                        <button v-else class="btn btn-sm btn-danger">
+                                        <button v-else class="btn btn-sm btn-danger" @click="updateClassMeet()">
                                             <em class="icon ni ni-cross-circle"></em>Kết thúc
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownReopenTimeButton">
-                                            <a class="dropdown-item" href="#" @click="addHourToEndMeet(timeReopen.ONE_HOUR)">1 giờ</a>
-                                            <a class="dropdown-item" href="#" @click="addHourToEndMeet(timeReopen.SIX_HOUR)">6 giờ</a>
-                                            <a class="dropdown-item" href="#" @click="addHourToEndMeet(timeReopen.ONE_DAY)">24 giờ</a>
-                                            <a class="dropdown-item" href="#" @click="addHourToEndMeet(timeReopen.THREE_DAY)">3 ngày</a>
-                                            <a class="dropdown-item" href="#" @click="addHourToEndMeet(timeReopen.ONE_WEEK)">7 ngày</a>
-                                            <a class="dropdown-item" href="#" @click="addHourToEndMeet(timeReopen.THIRTY_DAYS)">30 ngày</a>
+                                            <a class="dropdown-item" href="#" @click="updateClassMeet(reOpenTime.ONE_HOUR)">1 giờ</a>
+                                            <a class="dropdown-item" href="#" @click="updateClassMeet(reOpenTime.SIX_HOUR)">6 giờ</a>
+                                            <a class="dropdown-item" href="#" @click="updateClassMeet(reOpenTime.ONE_DAY)">24 giờ</a>
+                                            <a class="dropdown-item" href="#" @click="updateClassMeet(reOpenTime.THREE_DAY)">3 ngày</a>
+                                            <a class="dropdown-item" href="#" @click="updateClassMeet(reOpenTime.ONE_WEEK)">7 ngày</a>
+                                            <a class="dropdown-item" href="#" @click="updateClassMeet(reOpenTime.THIRTY_DAYS)">30 ngày</a>
                                         </div>
 
                                     </div>
@@ -98,7 +97,7 @@ import { asyncLoading } from 'vuejs-loading-plugin';
 import { mapActions } from 'vuex';
 import ViewClassMeetScore from "./child/ViewClassMeetScore.vue";
 import datetimeUtils from '../../../helpers/utils/datetimeUtils';
-import {timeReopen} from '../../../constants/timeRepopen';
+import constants from '../../../constants';
 export default {
     components:{
         ViewClassMeetScore,
@@ -125,7 +124,7 @@ export default {
             return this.$store.getters['studyTime/getStudyTimeCurrent'];
         },
         reOpenTime(){
-            return timeReopen;
+            return constants.timeReopen;
         }
     },
     methods:{
@@ -133,6 +132,8 @@ export default {
             getClasses: 'classes/getClasses',
             getStudyTime: 'studyTime/getStudyTime',
             getNvspPointByStudyYear: "points/getNvspPointByStudyYear",
+            getCurrentStudyTime: 'studyTime/getCurrentStudyTime',
+            updateFacultyTimeSetting: 'studyTime/updateFacultyTimeSetting',
         }),
         async getClassListData(){
             const params = {};
@@ -155,8 +156,20 @@ export default {
             });
             this.viewKey++;
         },
-        updateClassMeet(createFlg = false ,hours = ''){
-
+        async updateClassMeet(hours = 0){
+            Date.prototype.addHours = function(h){
+                this.setHours(this.getHours()+h);
+                return this;
+            }
+            const endTimeMeet = datetimeUtils.convertTimezoneToDatetime(new Date().addHours(hours));
+            this.$loading(true);
+            const data = {
+                id: this.currentStudyTime.id,
+                end_time_class_meet: endTimeMeet
+            }
+            await this.updateFacultyTimeSetting(data);
+            await this.getCurrentStudyTime();
+            this.$loading(false);
         },
         closeModal(){
             this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity)

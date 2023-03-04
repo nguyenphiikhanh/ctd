@@ -1,4 +1,4 @@
-export const timeReopen = {
+export default {
     ONE_HOUR: 1,
     SIX_HOUR: 6,
     ONE_DAY: 24,
