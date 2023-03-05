@@ -348,7 +348,6 @@ class ChildActivityController extends AppBaseController
             return $this->sendResponse('',__('message.success.forward'));
         }
         catch(\Exception $e){
-            DB::rollBack();
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.forward'),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -469,62 +468,61 @@ class ChildActivityController extends AppBaseController
                 return;
             }
             $userUpdate = null;
-            DB::connection('mysql')->beginTransaction();
-            if($child_activity_type
-            && ($child_activity_type == AppUtils::TB_GUI_DS_THAM_DU || $child_activity_type == AppUtils::PHAN_THI_OR_TIEU_BAN)){
-                $userUpdate = DB::table('user_activities')
-                    ->where('id_user', $user_id)
-                    ->where('id_activities_details',$activity_details_id)->first();
-            }
-            if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
-                $userUpdate = DB::table('user_join_activities')
-                    ->where('id_user', $user_id)
-                    ->where('id_activities_details',$activity_details_id)->first();
-            }
-
-            if(!$userUpdate){
-                return $this->sendError(__('message.failed.not_exist',['attibute' => 'Bản ghi điểm danh']),Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
-            else{
-                if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
-                    DB::table('user_join_activities')
-                        ->where('id_user', $user_id)
-                        ->where('id_activities_details',$activity_details_id)
-                        ->update([
-                            'status' => $status,
-                            'note' => $note
-                        ]);
-                    DB::table('user_receive_activities')
-                    ->where('id_user',$user_id)
-                    ->where('id_child_activity', $act_detail->id_child_activity)
-                    ->where('child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA)
-                    ->update([
-                        'status' => $status
-                    ]);
-                }
-
+            DB::connection('mysql')->transaction(function() use ($child_activity_type, $status, $note, $act_detail, $userUpdate, $user_id, $activity_details_id){
                 if($child_activity_type
                 && ($child_activity_type == AppUtils::TB_GUI_DS_THAM_DU || $child_activity_type == AppUtils::PHAN_THI_OR_TIEU_BAN)){
-                    DB::table('user_activities')
+                    $userUpdate = DB::table('user_activities')
                         ->where('id_user', $user_id)
-                        ->where('id_activities_details',$activity_details_id)
-                        ->update([
-                            'note' => $note
-                        ]);
-                    DB::table('user_receive_activities')
-                    ->where('id_user',$user_id)
-                    ->where('id_child_activity', $act_detail->id_child_activity)
-                    ->where('child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU)
-                    ->update([
-                        'status' => $status
-                    ]);
+                        ->where('id_activities_details',$activity_details_id)->first();
                 }
-                DB::commit();
-                return $this->sendResponse('',__('message.success.update',['atribute' => 'điểm danh']));
-            }
+                if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
+                    $userUpdate = DB::table('user_join_activities')
+                        ->where('id_user', $user_id)
+                        ->where('id_activities_details',$activity_details_id)->first();
+                }
+
+                if(!$userUpdate){
+                    return $this->sendError(__('message.failed.not_exist',['attibute' => 'Bản ghi điểm danh']),Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
+                else{
+                    if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
+                        DB::table('user_join_activities')
+                            ->where('id_user', $user_id)
+                            ->where('id_activities_details',$activity_details_id)
+                            ->update([
+                                'status' => $status,
+                                'note' => $note
+                            ]);
+                        DB::table('user_receive_activities')
+                        ->where('id_user',$user_id)
+                        ->where('id_child_activity', $act_detail->id_child_activity)
+                        ->where('child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA)
+                        ->update([
+                            'status' => $status
+                        ]);
+                    }
+
+                    if($child_activity_type
+                    && ($child_activity_type == AppUtils::TB_GUI_DS_THAM_DU || $child_activity_type == AppUtils::PHAN_THI_OR_TIEU_BAN)){
+                        DB::table('user_activities')
+                            ->where('id_user', $user_id)
+                            ->where('id_activities_details',$activity_details_id)
+                            ->update([
+                                'note' => $note
+                            ]);
+                        DB::table('user_receive_activities')
+                        ->where('id_user',$user_id)
+                        ->where('id_child_activity', $act_detail->id_child_activity)
+                        ->where('child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU)
+                        ->update([
+                            'status' => $status
+                        ]);
+                    }
+                    return $this->sendResponse('',__('message.success.update',['atribute' => 'điểm danh']));
+                }
+            });
         }
         catch(\Exception $e){
-            DB::rollBack();
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.update',['atribute' => 'điểm danh']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -539,8 +537,8 @@ class ChildActivityController extends AppBaseController
             $id_child_activity = $request->id_child_activity;
             $child_activity_type = $request->child_activity_type;
             $act_details = DB::table('activities_details')->where('id_child_activity', $id_child_activity)->first();
-            DB::connection('mysql')->beginTransaction();
-            DB::table('user_receive_activities')
+            DB::connection('mysql')->transaction(function() use($user, $id, $files, $child_activity_type, $act_details, $id_child_activity){
+                DB::table('user_receive_activities')
                 ->where('id', $id)
                 ->where('id_child_activity', $id_child_activity)
                 ->where('id_user', $user->id)
@@ -566,11 +564,10 @@ class ChildActivityController extends AppBaseController
                     ->first();
                     $this->storageMultipleFile($files, 'user_join_activity_prooves', 'id_user_join_activities' , $user_join_act->id, 'join_proof');
             }
-            DB::commit();
+            });
             return $this->sendResponse('',__('message.success.create',['atribute' => 'minh chứng']));
         }
         catch(\Exception $e){
-            DB::rollBack();
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.create',['atribute' => 'minh chứng']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
