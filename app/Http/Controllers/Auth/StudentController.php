@@ -237,14 +237,22 @@ class StudentController extends AppBaseController
             $id_class = $request->get('id_class');
             DB::connection('mysql')->transaction(function () use ($bt_id, $lt_id, $btChange, $id_class){
                 if($btChange){
+                    $btOld = DB::table('users')->where('id_class', $id_class)
+                        ->where('role', RoleUtils::ROLE_CBL)
+                        ->first();
                     DB::table('users')->where('id_class', $id_class)
-                    ->where('role', RoleUtils::ROLE_CBL)
-                    ->update([
-                        'role' => RoleUtils::ROLE_SINHVIEN
-                    ]);
+                        ->where('role', RoleUtils::ROLE_CBL)
+                        ->update([
+                            'role' => RoleUtils::ROLE_SINHVIEN
+                        ]);
                     DB::table('users')->where('id', $bt_id)->update([
                         'role' => RoleUtils::ROLE_CBL,
                     ]);
+                    DB::table('user_receive_activities')->where('id_user', $btOld->id) // change noti to new user
+                        ->whereNotNull('id_activities_details_assign')
+                        ->update([
+                            'id_user' => $bt_id
+                        ]);
                 }
                 else {
                     DB::table('users')->where('id_class', $id_class)
