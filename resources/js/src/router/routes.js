@@ -12,6 +12,7 @@ import StudyTime from '../components/quanLy/hocKy/StudyTime';
 import Assignee from '../components/quanLy/phuTrachNVSP/Assignee';
 import ClassList from "../components/quanLy/diemNVSP/ClassList";
 import ClassMeetScore from '../components/quanLy/diemTuDanhGia/ClassMeetScore';
+import SelfCheckPoint from "../components/DanhGia/SelfCheckPoint";
 
 const routes = [
     // dashboard
@@ -26,6 +27,7 @@ const routes = [
             cblAccess: true,
             btdAccess: true,
             ptAccess: true,
+            studentAccess: true,
         }
     },
 
@@ -41,6 +43,7 @@ const routes = [
             cblAccess: false,
             btdAccess: false,
             ptAccess: false,
+            studentAccess: false,
         }
     },
     //khoa
@@ -55,6 +58,7 @@ const routes = [
             cblAccess: false,
             btdAccess: false,
             ptAccess: false,
+            studentAccess: false,
         }
     },
     // Năm học
@@ -69,6 +73,7 @@ const routes = [
             cblAccess: false,
             btdAccess: false,
             ptAccess: false,
+            studentAccess: false,
         }
     },
     // kì học
@@ -83,6 +88,7 @@ const routes = [
             cblAccess: false,
             btdAccess: false,
             ptAccess: false,
+            studentAccess: false,
         }
     },
 
@@ -98,6 +104,7 @@ const routes = [
             cblAccess: false,
             btdAccess: true,
             ptAccess: true,
+            studentAccess: false,
         }
     },
     {
@@ -111,6 +118,7 @@ const routes = [
             cblAccess: false,
             btdAccess: true,
             ptAccess: true,
+            studentAccess: false,
         }
     },
     //quản lý người phụ trách
@@ -124,6 +132,7 @@ const routes = [
             adminAccess: false,
             cblAccess: false,
             btdAccess: true,
+            studentAccess: false,
         }
     },
        // lớp
@@ -138,6 +147,7 @@ const routes = [
             cblAccess: false,
             btdAccess: true,
             ptAccess: false,
+            studentAccess: false,
         }
     },
     // sinh viên
@@ -152,6 +162,7 @@ const routes = [
             cblAccess: false,
             btdAccess: true,
             ptAccess: false,
+            studentAccess: false,
         }
     },
     // Điểm rèn luyện tuần NVSP
@@ -166,6 +177,7 @@ const routes = [
             cblAccess: false,
             btdAccess: true,
             ptAccess: false,
+            studentAccess: false,
         }
     },
     // Điểm họp xét lớp
@@ -180,6 +192,7 @@ const routes = [
             cblAccess: false,
             btdAccess: true,
             ptAccess: false,
+            studentAccess: false,
         }
     },
 
@@ -195,6 +208,22 @@ const routes = [
             cblAccess: true,
             btdAccess: false,
             ptAccess: false,
+            studentAccess: true,
+        }
+    },
+    // Đánh giá cá nhân
+    {
+        name:"PersonalCheckpoint",
+        path:"/danh-gia/ca-nhan",
+        component: SelfCheckPoint,
+        meta:{
+            title: 'Thông báo nhiệm vụ',
+            requiresAuth: true,
+            adminAccess: false,
+            cblAccess: true,
+            btdAccess: false,
+            ptAccess: false,
+            studentAccess: true,
         }
     },
 
@@ -210,6 +239,7 @@ const routes = [
             cblAccess: true,
             btdAccess: false,
             ptAccess: false,
+            studentAccess: false,
         }
     },
 ];

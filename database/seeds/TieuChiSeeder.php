@@ -368,7 +368,7 @@ class TieuChiSeeder extends Seeder
                 'max_score' => 1,
                 'id_loai_tieu_chi' => 11,
                 'type' => null,
-                'note' => '(-1 điêm/ vi phạm)'
+                'note' => '(-1 điểm/ vi phạm)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
