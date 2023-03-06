@@ -131,7 +131,6 @@ class StudyTimeController extends AppBaseController
                     foreach($studentIds as $id){
                         $createData = [];
                         $tcIds = TcUtils::TIEU_CHI_HOP_XET_IDS;
-                        Log::debug(count($tcIds));
                         foreach($tcIds as $tcId){
                             $createData[] = [
                                 'id_study_time' => $id_study_time,

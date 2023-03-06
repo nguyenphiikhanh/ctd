@@ -52,6 +52,8 @@ Route::prefix('v1')->group(function(){
             Route::post('/classes','Auth\ClassesController@store');
             Route::get('/classes','Auth\ClassesController@getClasses');
             Route::get('/class/{id}','Auth\ClassesController@show');
+            Route::put('/class/{id}/update-cvht','Auth\ClassesController@changeCvhtSetting');
+
 
             // Sinh viên
             Route::get('/students/class/{id}','Auth\StudentController@index');
@@ -74,6 +76,11 @@ Route::prefix('v1')->group(function(){
             Route::get('/user/assign-act','Auth\UserController@getUserAssigneeActivities');
             Route::post('/user/assign-act','Auth\UserController@storeUserAssignActivities');
             Route::put('/user/assign-act/{id}','Auth\UserController@updateUserAssignActivities');
+
+            // Cố vấn học tập
+            Route::get('/user/cvht','Auth\UserController@getUserCvht');
+            Route::post('/user/cvht','Auth\UserController@storeUserCvht');
+            Route::put('/user/cvht/{id}','Auth\UserController@updateUserCvht');
 
             // Tổng hợp điểm
             Route::get('/points/nvsp','Auth\PointController@getNvspPointByStudyYear');

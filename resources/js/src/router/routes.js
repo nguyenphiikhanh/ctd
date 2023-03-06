@@ -13,6 +13,8 @@ import Assignee from '../components/quanLy/phuTrachNVSP/Assignee';
 import ClassList from "../components/quanLy/diemNVSP/ClassList";
 import ClassMeetScore from '../components/quanLy/diemTuDanhGia/ClassMeetScore';
 import SelfCheckPoint from "../components/DanhGia/SelfCheckPoint";
+import CbTeacherCheckpoint from '../components/DanhGia/CbTeacherCheckpoint';
+import Cvht from '../components/quanLy/cvht/Cvht';
 
 const routes = [
     // dashboard
@@ -28,6 +30,7 @@ const routes = [
             btdAccess: true,
             ptAccess: true,
             studentAccess: true,
+            cvAccess: true,
         }
     },
 
@@ -44,6 +47,7 @@ const routes = [
             btdAccess: false,
             ptAccess: false,
             studentAccess: false,
+            cvAccess: false,
         }
     },
     //khoa
@@ -59,6 +63,7 @@ const routes = [
             btdAccess: false,
             ptAccess: false,
             studentAccess: false,
+            cvAccess: false,
         }
     },
     // Năm học
@@ -74,6 +79,7 @@ const routes = [
             btdAccess: false,
             ptAccess: false,
             studentAccess: false,
+            cvAccess: false,
         }
     },
     // kì học
@@ -89,6 +95,7 @@ const routes = [
             btdAccess: false,
             ptAccess: false,
             studentAccess: false,
+            cvAccess: false,
         }
     },
 
@@ -105,6 +112,7 @@ const routes = [
             btdAccess: true,
             ptAccess: true,
             studentAccess: false,
+            cvAccess: false,
         }
     },
     {
@@ -119,6 +127,7 @@ const routes = [
             btdAccess: true,
             ptAccess: true,
             studentAccess: false,
+            cvAccess: false,
         }
     },
     //quản lý người phụ trách
@@ -133,8 +142,24 @@ const routes = [
             cblAccess: false,
             btdAccess: true,
             studentAccess: false,
+            cvAccess: false,
         }
     },
+        //quản lý cố vấn học tập
+        {
+            name:"Cvht",
+            path:"/quan-ly/co-van-hoc-tap",
+            component: Cvht,
+            meta:{
+                title: 'Quản lý Cố vấn học tập',
+                requiresAuth: true,
+                adminAccess: false,
+                cblAccess: false,
+                btdAccess: true,
+                studentAccess: false,
+                cvAccess: false,
+            }
+        },
        // lớp
        {
         name:"Lop",
@@ -148,6 +173,7 @@ const routes = [
             btdAccess: true,
             ptAccess: false,
             studentAccess: false,
+            cvAccess: false,
         }
     },
     // sinh viên
@@ -163,6 +189,7 @@ const routes = [
             btdAccess: true,
             ptAccess: false,
             studentAccess: false,
+            cvAccess: false,
         }
     },
     // Điểm rèn luyện tuần NVSP
@@ -178,6 +205,7 @@ const routes = [
             btdAccess: true,
             ptAccess: false,
             studentAccess: false,
+            cvAccess: true,
         }
     },
     // Điểm họp xét lớp
@@ -193,6 +221,7 @@ const routes = [
             btdAccess: true,
             ptAccess: false,
             studentAccess: false,
+            cvAccess: false,
         }
     },
 
@@ -209,6 +238,7 @@ const routes = [
             btdAccess: false,
             ptAccess: false,
             studentAccess: true,
+            cvAccess: false,
         }
     },
     // Đánh giá cá nhân
@@ -224,6 +254,23 @@ const routes = [
             btdAccess: false,
             ptAccess: false,
             studentAccess: true,
+            cvAccess: false,
+        }
+    },
+    // Đánh giá họp xét lớp
+    {
+        name:"CbTeacherCheckpoint",
+        path:"/danh-gia/lop",
+        component: CbTeacherCheckpoint,
+        meta:{
+            title: 'Họp đánh giá lớp',
+            requiresAuth: true,
+            adminAccess: false,
+            cblAccess: true,
+            btdAccess: false,
+            ptAccess: false,
+            studentAccess: false,
+            cvAccess: true,
         }
     },
 

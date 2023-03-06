@@ -55,7 +55,7 @@
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
-                        <span class="nk-menu-text">Nhiệm vụ</span>
+                        <span class="nk-menu-text">Nhiệm vụ & thông báo</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
@@ -64,6 +64,14 @@
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
                         <span class="nk-menu-text">Phụ trách viên</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'Cvht'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
+                        <span class="nk-menu-text">Cố vấn học tập</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
@@ -79,7 +87,7 @@
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
-                        <span class="nk-menu-text">Quản lý điểm NVSP</span>
+                        <span class="nk-menu-text">Xem điểm tuần NVSP</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
@@ -87,7 +95,7 @@
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
-                        <span class="nk-menu-text">Quản lý đánh giá lớp</span>
+                        <span class="nk-menu-text">Xem đánh giá lớp</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
@@ -96,7 +104,8 @@
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-bell-fill"></em></span>
-                        <span class="nk-menu-text">Thông báo nhiệm vụ</span><span class="nk-menu-badge">{{$store.getters['activity/activityReceiveCount']}}</span>
+                        <span class="nk-menu-text">Nhiệm vụ & thông báo</span>
+                        <span class="nk-menu-badge">{{$store.getters['activity/activityReceiveCount']}}</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
@@ -111,8 +120,16 @@
             <router-link v-if="user.role == roles.ROLE_LOP_TRUONG || user.role == roles.ROLE_CBL || user.role == roles.ROLE_SINH_VIEN" :to="{name: 'PersonalCheckpoint'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
-                        <span class="nk-menu-icon"><em class="icon ni ni-pen2"></em></em></span>
+                        <span class="nk-menu-icon"><em class="icon ni ni-pen2"></em></span>
                         <span class="nk-menu-text">Đánh giá cá nhân</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+            <router-link v-if="user.role == roles.ROLE_CBL || user.role == roles.ROLE_CVHT" :to="{name: 'CbTeacherCheckpoint'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                        <span class="nk-menu-text">Họp đánh giá lớp</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>

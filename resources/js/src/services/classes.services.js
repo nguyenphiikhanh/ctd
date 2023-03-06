@@ -16,6 +16,9 @@ export default {
     },
     getClassInfo(id){
         return http.get(`/class/${id}`);
-    }
+    },
 
+    changeCvhtSetting(id, data){
+        return http.put(`class/${id}/update-cvht`, data);
+    }
 }
