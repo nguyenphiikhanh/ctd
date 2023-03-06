@@ -107,7 +107,8 @@ export default {
                 const data = {
                     id_study_time: this.tcList[index].id_study_time,
                     id_tieu_chi: this.tcList[index].id_tieu_chi,
-                    score: score
+                    score: score,
+                    person_flg: true
                 }
                 await this.updatePersonClassMeetScore(data);
             }

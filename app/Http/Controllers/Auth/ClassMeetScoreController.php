@@ -6,6 +6,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\ResponseUtils;
+use App\Http\Utils\RoleUtils;
 use App\Models\Classes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,13 +38,37 @@ class ClassMeetScoreController extends AppBaseController
         try{
             $user = Auth::user();
             $score = $request->get('score');
-            DB::table('student_class_meet_score')
+            $personFlg = $request->get('person_flg');
+            $id_user = $request->get('id_user');
+            if($personFlg){
+                DB::table('student_class_meet_score')
                 ->where('id_study_time', $id_study_time)
                 ->where('id_tieu_chi', $id_tieu_chi)
                 ->where('id_user', $user->id)
                 ->update([
                     'self_score' => $score
                 ]);
+            }
+            else{ //danh gia lop
+                if($user->role == RoleUtils::ROLE_CVHT){ // điểm cvht chấm
+                    DB::table('student_class_meet_score')
+                    ->where('id_study_time', $id_study_time)
+                    ->where('id_tieu_chi', $id_tieu_chi)
+                    ->where('id_user', $id_user)
+                    ->update([
+                        'cvht_score' => $score
+                    ]);
+                }
+                else{ // điểm cbl chấm
+                    DB::table('student_class_meet_score')
+                    ->where('id_study_time', $id_study_time)
+                    ->where('id_tieu_chi', $id_tieu_chi)
+                    ->where('id_user', $id_user)
+                    ->update([
+                        'cbl_score' => $score
+                    ]);
+                }
+            }
             return $this->sendResponse('', __('message.success.update',['atribute' => 'điểm rèn luyện']));
         }
         catch(\Exception $e){
@@ -66,6 +91,8 @@ class ClassMeetScoreController extends AppBaseController
                     ->get();
                 foreach($studentLists as $student){
                     $scoreList = DB::table('student_class_meet_score')
+                        ->join('tieu_chi', 'tieu_chi.id', 'student_class_meet_score.id_tieu_chi')
+                        ->select('student_class_meet_score.*', 'tieu_chi.max_score')
                         ->where('id_study_time', $id_study_time)
                         ->where('id_user', $student->id)
                         ->orderBy('id_tieu_chi')

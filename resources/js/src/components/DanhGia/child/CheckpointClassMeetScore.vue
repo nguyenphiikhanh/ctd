@@ -53,14 +53,14 @@
                                     <p>{{ score.cbl_score  }}</p>
                                 </td>
                                 <td style="height: 35px; width: 239px; text-align: center;">
-                                    <div class="form-group">
+                                    <div class="form-group" style="width: 150px;">
                                         <div class="form-control-wrap number-spinner-wrap">
                                             <button @click="decrement(userIndex, scoreIndex, Number(score.max_score) === score.max_score && score.max_score % 1 !== 0 ? 0.5 : 1 )" class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>
                                             <input type="number" class="form-control number-spinner"
-                                            :id="`score-spin-${userIndex + scoreIndex + 1}`"
+                                            :id="`${generateUid()}`"
                                             :min="0"
                                             :max="score.max_score"
-                                            v-model="score.cvht_score"
+                                            :value="score.cvht_score"
                                             @change="updateValue(userIndex, scoreIndex, $event.target.value)">
                                             <button @click="increment(userIndex, scoreIndex, Number(score.max_score) === score.max_score && score.max_score % 1 !== 0 ? 0.5 : 1 )" class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>
                                         </div>
@@ -105,7 +105,7 @@ export default {
     },
     methods:{
         ...mapActions({
-
+            updatePersonClassMeetScore: 'classMeet/updatePersonClassMeetScore',
         }),
         viewTcList(){
             this.$nextTick(() => {
@@ -126,10 +126,10 @@ export default {
                 const data = {
                     id_study_time: originScore.id_study_time,
                     id_tieu_chi: originScore.id_tieu_chi,
+                    id_user: originScore.id_user,
                     score: score
                 }
-                console.log(data);
-                // await this.updatePersonClassMeetScore(data);
+                await this.updatePersonClassMeetScore(data);
             }
         },
         async increment(userIndex, scoreIndex, step) {
@@ -144,6 +144,13 @@ export default {
             let originScore = scores[scoreIndex];
             originScore.cvht_score = originScore.cvht_score == 0 ? 0 : +originScore.cvht_score - step;
             await this.updateValue(userIndex, scoreIndex, originScore.cvht_score);
+        },
+        generateUid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0,
+                    v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
         },
         closeModal(){
             this.$emit('closeModal');
