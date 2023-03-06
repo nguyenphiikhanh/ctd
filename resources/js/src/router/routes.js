@@ -15,6 +15,8 @@ import ClassMeetScore from '../components/quanLy/diemTuDanhGia/ClassMeetScore';
 import SelfCheckPoint from "../components/DanhGia/SelfCheckPoint";
 import TeacherCheckpoint from '../components/DanhGia/TeacherCheckpoint';
 import Cvht from '../components/quanLy/cvht/Cvht';
+import CbCheckpoint from "../components/DanhGia/CbCheckpoint";
+import cbCheckpoint from "../components/DanhGia/CbCheckpoint";
 
 const routes = [
     // dashboard
@@ -271,6 +273,21 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: true,
+        }
+    },
+    {
+        name:"CbCheckpoint",
+        path:"/cb/danh-gia-lop",
+        component: cbCheckpoint,
+        meta:{
+            title: 'Họp đánh giá lớp',
+            requiresAuth: true,
+            adminAccess: false,
+            cblAccess: true,
+            btdAccess: false,
+            ptAccess: false,
+            studentAccess: false,
+            cvAccess: false,
         }
     },
 

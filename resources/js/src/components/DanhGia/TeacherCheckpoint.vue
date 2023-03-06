@@ -103,9 +103,6 @@ export default {
         currentStudyTime(){
             return this.$store.getters['studyTime/getStudyTimeCurrent'];
         },
-        reOpenTime(){
-            return constants.timeReopen;
-        }
     },
     methods:{
         ...mapActions({
