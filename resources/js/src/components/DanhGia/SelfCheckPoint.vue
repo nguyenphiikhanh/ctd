@@ -39,16 +39,21 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="(tc, index) in tcList">
+                                    <tr v-for="(tc, index) in tcList" :key="index">
                                         <th scope="row">{{index+1}}</th>
                                         <td>{{tc.name}}</td>
                                         <td>{{tc.max_score}}</td>
                                         <td>
                                             <div class="form-group">
                                                 <div class="form-control-wrap number-spinner-wrap">
-                                                    <button @click="decrement(index, Number(tc.self_score) === tc.self_score && tc.self_score % 1 !== 0 ? 0.5 : 1 )" class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>
-                                                    <input type="number" class="form-control number-spinner" :id="`score-spin-${index+1}`" :value="tc.self_score" @focusout="updateValue(index, $event.target.value)">
-                                                    <button @click="increment(index, Number(tc.self_score) === tc.self_score && tc.self_score % 1 !== 0 ? 0.5 : 1 )" class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>
+                                                    <button @click="decrement(index, Number(tc.max_score) === tc.max_score && tc.max_score % 1 !== 0 ? 0.5 : 1 )" class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>
+                                                    <input type="number" class="form-control number-spinner"
+                                                    :id="`score-spin-${index+1}`"
+                                                    :min="0"
+                                                    :max="tc.max_score"
+                                                    :value="tc.self_score"
+                                                    @change="updateValue(index, $event.target.value)">
+                                                    <button @click="increment(index, Number(tc.max_score) === tc.max_score && tc.max_score % 1 !== 0 ? 0.5 : 1 )" class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>
                                                 </div>
                                             </div>
                                         </td>
@@ -66,6 +71,7 @@
 </template>
 
 <script>
+import { watch } from 'vue';
 import { mapActions } from 'vuex';
 import datetimeUtils from "../../helpers/utils/datetimeUtils";
 export default {
@@ -83,19 +89,35 @@ export default {
     },
     methods:{
         ...mapActions({
-            // getStudyTime: 'studyTime/getStudyTime',
             getCurrentStudyTime: 'studyTime/getCurrentStudyTime',
             getClassMeetScore: 'classMeet/getClassMeetScore',
+            updatePersonClassMeetScore: 'classMeet/updatePersonClassMeetScore',
         }),
-        updateValue(index, score){
-            this.tcList[index].self_score = score;
-            console.log(score);
+        async updateValue(index, score){
+            if(score < 0 || score > this.tcList[index].max_score){
+                this.$swal.fire(
+                'Điểm không hợp lệ!',
+                '',
+                'error'
+                )
+            } else {
+                this.tcList[index].self_score = score;
+                const data = {
+                    id_study_time: this.tcList[index].id_study_time,
+                    id_tieu_chi: this.tcList[index].id_tieu_chi,
+                    score: score
+                }
+                await this.updatePersonClassMeetScore(data);
+            }
         },
-        increment(index, step) {
-            this.tcList[index].self_score == this.tcList[index].max_score ? this.tcList[index].self_score : this.tcList[index].self_score += step;
+        async increment(index, step) {
+            this.tcList[index].self_score = Number(this.tcList[index].self_score) == Number(this.tcList[index].max_score) ?
+            Number(this.tcList[index].self_score) : +this.tcList[index].self_score + step;
+            await this.updateValue(index, this.tcList[index].self_score)
         },
-        decrement(index, step) {
-            this.tcList[index].self_score == 0 ? 0 : this.tcList[index].self_score -= step;
+        async decrement(index, step) {
+            this.tcList[index].self_score = this.tcList[index].self_score == 0 ? 0 : +this.tcList[index].self_score - step;
+            await this.updateValue(index, this.tcList[index].self_score);
         },
         convertVnTime(time){
             return time ? datetimeUtils.dateTimeVnFormat(time) : null;
@@ -103,24 +125,11 @@ export default {
     },
     async mounted(){
         this.$loading(true);
-        // await this.getStudyTime().then(res => {
-        //     this.studyTimeList = [...res.data];
-        //     this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity)
-        // })
         await this.getClassMeetScore(this.currentStudyTime.id).then(res => this.tcList = [...res.data]);
         this.$loading(false);
-    }
+    },
 }
 </script>
 
 <style scoped>
-input.show-arrows::-webkit-outer-spin-button,
-input.show-arrows::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input.show-arrows[type="number"] {
-    -moz-appearance: textfield;
-}
 </style>

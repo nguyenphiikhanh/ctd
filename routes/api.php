@@ -122,6 +122,7 @@ Route::prefix('v1')->group(function(){
         Route::get('/tieu-chi/self', 'Auth\TcController@getTcSelf');
         // Điểm đánh giá cá nhân
         Route::get('/class-meet-score/{id_study_time}', 'Auth\ClassMeetScoreController@getClassMeetScore');
+        Route::put('/class-meet-score/{id_study_time}/student-person-tc/{id}', 'Auth\ClassMeetScoreController@updatePersonClassMeetScore');
 
     });
 });
