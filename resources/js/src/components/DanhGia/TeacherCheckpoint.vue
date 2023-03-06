@@ -62,7 +62,7 @@
                             </div>
                         </div><!-- .card -->
                     </div><!-- nk-block -->
-                    <CheckpointClassMeetScore :study-time-list="studyTimeList" :class-view="classView" :score-list="scoreList"
+                    <CheckpointClassMeetScore :class-view="classView" :score-list="scoreList"
                      :key="viewKey" :tc-list="tcList"
                      @closeModal="closeModal()"/>
                 </div>
@@ -110,11 +110,8 @@ export default {
     methods:{
         ...mapActions({
             getClasses: 'classes/getClasses',
-            getStudyTime: 'studyTime/getStudyTime',
-            getNvspPointByStudyYear: "points/getNvspPointByStudyYear",
-            getCurrentStudyTime: 'studyTime/getCurrentStudyTime',
-            updateFacultyTimeSetting: 'studyTime/updateFacultyTimeSetting',
             getListTcSelf: 'tieuChi/getListTcSelf',
+            getMeetScoreByClass: 'classMeet/getMeetScoreByClass'
         }),
         async getClassListData(){
             const params = {};
@@ -128,32 +125,16 @@ export default {
             this.classView = _class;
             let data = {
                 id_class: this.classView.id,
-                id_study_year: this.studyYear
+                id_study_time: this.$store.getters['studyTime/getStudyTimeCurrent'].id
             }
-            await this.getNvspPointByStudyYear(data).then(res => this.scoreList = [...res.data]);
+            await this.getMeetScoreByClass(data).then(res => this.scoreList = [...res.data]);
             this.$loading(false);
             this.$nextTick(() => {
                 $('#viewClassMeetScore').modal('show');
             });
             this.viewKey++;
         },
-        async updateClassMeet(hours = 0){
-            Date.prototype.addHours = function(h){
-                this.setHours(this.getHours()+h);
-                return this;
-            }
-            const endTimeMeet = datetimeUtils.convertTimezoneToDatetime(new Date().addHours(hours));
-            this.$loading(true);
-            const data = {
-                id: this.currentStudyTime.id,
-                end_time_class_meet: endTimeMeet
-            }
-            await this.updateFacultyTimeSetting(data);
-            await this.getCurrentStudyTime();
-            this.$loading(false);
-        },
         closeModal(){
-            this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity)
             this.$nextTick(() => {
                 $('#viewClassMeetScore').modal('hide');
             });
@@ -161,10 +142,6 @@ export default {
     },
     async mounted(){
         asyncLoading(this.getClassListData());
-        await this.getStudyTime().then(res => {
-            this.studyTimeList = [...res.data];
-            this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity)
-        })
         await this.getListTcSelf().then(res => this.tcList = [...res.data]);
         this.viewKey++;
     }

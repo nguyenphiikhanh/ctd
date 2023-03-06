@@ -130,7 +130,7 @@ Route::prefix('v1')->group(function(){
         // Điểm đánh giá cá nhân
         Route::get('/class-meet-score/{id_study_time}', 'Auth\ClassMeetScoreController@getClassMeetScore');
         Route::put('/class-meet-score/{id_study_time}/student-person-tc/{id}', 'Auth\ClassMeetScoreController@updatePersonClassMeetScore');
-
+        Route::get('/class-meet-score/class/{id_class}', 'Auth\ClassMeetScoreController@getMeetScoreByClass');
     });
 });
 

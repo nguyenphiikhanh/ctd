@@ -6,6 +6,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\ResponseUtils;
+use App\Models\Classes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -48,6 +49,35 @@ class ClassMeetScoreController extends AppBaseController
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.update',['atribute' => 'điểm rèn luyện']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getMeetScoreByClass($id_class, Request $request){
+        try{
+            $class = Classes::find($id_class);
+            if(!$class){
+                return $this->sendError(__('message.failed.not_exist',['Lớp']));
+                return;
+            }
+            else{
+                $id_study_time = $request->id_study_time;
+                $studentLists = DB::table('users')
+                    ->where('id_class', $id_class)
+                    ->get();
+                foreach($studentLists as $student){
+                    $scoreList = DB::table('student_class_meet_score')
+                        ->where('id_study_time', $id_study_time)
+                        ->where('id_user', $student->id)
+                        ->orderBy('id_tieu_chi')
+                        ->get();
+                    $student->scoreList = $scoreList;
+                }
+                return $this->sendResponse($studentLists, __('message.failed.get_list',['atribute' => 'điểm tự đánh giá']));
+            }
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'điểm tự đánh giá']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
