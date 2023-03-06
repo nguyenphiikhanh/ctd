@@ -28,7 +28,7 @@
                         </div>
                         <div class="card card-preview">
                             <div class="text-center mt-3" v-if="!currentStudyTime.end_time_class_meet || new Date(currentStudyTime.end_time_class_meet) < new Date()">
-                                <span>Hiện tại chưa tới thời gian đánh giá.</span>
+                                <span class="text-center">Kỳ đánh giá đã kết thúc hoặc chưa diễn ra.</span>
                             </div>
                             <div class="table-responsive" v-else>
                                 <table class="table table-bordered">
