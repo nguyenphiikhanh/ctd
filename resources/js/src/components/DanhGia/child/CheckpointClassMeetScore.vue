@@ -13,65 +13,60 @@
                     <div class="col-12 overflow-table">
                         <table style="width: auto;" class="table table-bordered" cellspacing="0">
                         <tbody>
-                            <template>
+                            <template v-for="(user, userIndex) in userScoreListClone">
                             <tr style="height: 35px;">
                                 <td style="height: 140px; width: 243px;" rowspan="4">
-                                    <p><strong>Nguyễn Trọng Kh&aacute;nh(695105064)</strong></p>
+                                    <p><strong>{{ user.ho + ' ' + user.ten + `(${user.username})` }}</strong></p>
                                 </td>
-                                <td style="height: 35px; width: 371px; text-align: center;" colspan="3">
-                                    <p><strong>Ti&ecirc;u ch&iacute; 1</strong></p>
+                                <template v-for="(score, scoreIndex) in user.scoreList">
+                                    <td style="height: 35px; width: 371px; text-align: center;" colspan="3">
+                                    <p><strong>Ti&ecirc;u ch&iacute; {{ scoreIndex + 1 }}</strong></p>
                                 </td>
-                                <td style="height: 35px; width: 371px; text-align: center;" colspan="3">
-                                    <p><strong>Ti&ecirc;u ch&iacute; 1</strong></p>
-                                </td>
+                                </template>
                             </tr>
                             <tr style="height: 35px;">
-                                <td style="height: 35px; width: 371px; text-align: center;" colspan="3">
+                                <template v-for="(score, scoreIndex) in user.scoreList">
+                                    <td style="height: 35px; width: 371px; text-align: center;" colspan="3">
                                     <p><strong>Điểm đ&aacute;nh gi&aacute; của</strong></p>
                                 </td>
-                                <td style="height: 35px; width: 371px; text-align: center;" colspan="3">
-                                    <p><strong>Điểm đ&aacute;nh gi&aacute; của</strong></p>
-                                </td>
+                                </template>
                             </tr>
                             <tr style="height: 35px;">
-                                <td style="height: 35px; width: 66px; text-align: center;">
-                                    <p>SV</p>
-                                </td>
-                                <td style="height: 35px; width: 66px; text-align: center;">
-                                    <p>Lớp</p>
-                                </td>
-                                <td style="height: 35px; width: 239px; text-align: center;">
-                                    <p>CVHT</p>
-                                </td>
-                                <td style="height: 35px; width: 66px; text-align: center;">
-                                    <p>SV</p>
-                                </td>
-                                <td style="height: 35px; width: 66px; text-align: center;">
-                                    <p>Lớp</p>
-                                </td>
-                                <td style="height: 35px; width: 239px; text-align: center;">
-                                    <p>CVHT</p>
-                                </td>
+                                <template v-for="(score, scoreIndex) in user.scoreList">
+                                    <td style="height: 35px; width: 66px; text-align: center;">
+                                        <p>SV</p>
+                                    </td>
+                                    <td style="height: 35px; width: 66px; text-align: center;">
+                                        <p>Lớp</p>
+                                    </td>
+                                    <td style="height: 35px; width: 239px; text-align: center;">
+                                        <p>CVHT</p>
+                                    </td>
+                                </template>
                             </tr>
                             <tr style="height: 35px;">
+                                <template v-for="(score, scoreIndex) in user.scoreList">
                                 <td style="height: 35px; width: 66px; text-align: center;">
-                                    <p><strong><em>&nbsp;</em></strong></p>
+                                    <p>{{ score.self_score }}</p>
                                 </td>
                                 <td style="height: 35px; width: 66px; text-align: center;">
-                                    <p><strong><em>&nbsp;</em></strong></p>
+                                    <p>{{ score.cbl_score  }}</p>
                                 </td>
                                 <td style="height: 35px; width: 239px; text-align: center;">
-                                    <p><strong><em>&nbsp;</em></strong></p>
+                                    <div class="form-group">
+                                        <div class="form-control-wrap number-spinner-wrap">
+                                            <button @click="decrement(userIndex, scoreIndex, Number(score.max_score) === score.max_score && score.max_score % 1 !== 0 ? 0.5 : 1 )" class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>
+                                            <input type="number" class="form-control number-spinner"
+                                            :id="`score-spin-${userIndex + scoreIndex + 1}`"
+                                            :min="0"
+                                            :max="score.max_score"
+                                            v-model="score.cvht_score"
+                                            @change="updateValue(userIndex, scoreIndex, $event.target.value)">
+                                            <button @click="increment(userIndex, scoreIndex, Number(score.max_score) === score.max_score && score.max_score % 1 !== 0 ? 0.5 : 1 )" class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td style="height: 35px; width: 66px; text-align: center;">
-                                    <p><strong><em>&nbsp;</em></strong></p>
-                                </td>
-                                <td style="height: 35px; width: 66px; text-align: center;">
-                                    <p><strong><em>&nbsp;</em></strong></p>
-                                </td>
-                                <td style="height: 35px; width: 239px; text-align: center;">
-                                    <p><strong><em>&nbsp;</em></strong></p>
-                                </td>
+                                </template>
                             </tr>
                             </template>
                         </tbody>
@@ -95,7 +90,7 @@ import { mapActions } from 'vuex';
 import ViewTcList from './ViewTcList.vue';
 export default {
     props:{
-        scoreList: {type: Array },
+        userScoreList: {type: Array },
         classView: {type:Object},
         tcList: {type: Array},
     },
@@ -105,7 +100,7 @@ export default {
     data(){
         return{
             awating: false,
-            scoreListShow: this.scoreList,
+            userScoreListClone: [],
         }
     },
     methods:{
@@ -117,12 +112,46 @@ export default {
                 $('#viewTcList').modal('show');
             });
         },
+        async updateValue(userIndex, scoreIndex, score){
+            let scores = this.userScoreListClone[userIndex].scoreList;
+            let originScore = scores[scoreIndex];
+            if(score < 0 || score > originScore.max_score){
+                this.$swal.fire(
+                'Điểm không hợp lệ!',
+                '',
+                'error'
+                )
+            } else {
+                originScore.cvht_score = score;
+                const data = {
+                    id_study_time: originScore.id_study_time,
+                    id_tieu_chi: originScore.id_tieu_chi,
+                    score: score
+                }
+                console.log(data);
+                // await this.updatePersonClassMeetScore(data);
+            }
+        },
+        async increment(userIndex, scoreIndex, step) {
+            let scores = this.userScoreListClone[userIndex].scoreList;
+            let originScore = scores[scoreIndex];
+            originScore.cvht_score = Number(originScore.cvht_score) == Number(originScore.max_score) ?
+            Number(originScore.cvht_score) : +originScore.cvht_score + step;
+            await this.updateValue(userIndex, scoreIndex, originScore.cvht_score)
+        },
+        async decrement(userIndex, scoreIndex, step) {
+            let scores = this.userScoreListClone[userIndex].scoreList;
+            let originScore = scores[scoreIndex];
+            originScore.cvht_score = originScore.cvht_score == 0 ? 0 : +originScore.cvht_score - step;
+            await this.updateValue(userIndex, scoreIndex, originScore.cvht_score);
+        },
         closeModal(){
             this.$emit('closeModal');
         },
     },
-    computed: {
-    },
+    mounted(){
+        this.userScoreListClone = JSON.parse(JSON.stringify(this.userScoreList));
+    }
 };
 </script>
 

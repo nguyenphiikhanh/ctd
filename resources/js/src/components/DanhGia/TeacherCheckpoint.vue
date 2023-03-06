@@ -62,7 +62,7 @@
                             </div>
                         </div><!-- .card -->
                     </div><!-- nk-block -->
-                    <CheckpointClassMeetScore :class-view="classView" :score-list="scoreList"
+                    <CheckpointClassMeetScore :class-view="classView" :user-score-list="userScoreList"
                      :key="viewKey" :tc-list="tcList"
                      @closeModal="closeModal()"/>
                 </div>
@@ -92,7 +92,7 @@ export default {
                 id_term: null,
                 id_user_cvht: null,
             },
-            scoreList: [],
+            userScoreList: [],
             studyTimeList: [],
             studyTime: null,
             viewKey: 1,
@@ -127,7 +127,7 @@ export default {
                 id_class: this.classView.id,
                 id_study_time: this.$store.getters['studyTime/getStudyTimeCurrent'].id
             }
-            await this.getMeetScoreByClass(data).then(res => this.scoreList = [...res.data]);
+            await this.getMeetScoreByClass(data).then(res => this.userScoreList = [...res.data]);
             this.$loading(false);
             this.$nextTick(() => {
                 $('#viewClassMeetScore').modal('show');

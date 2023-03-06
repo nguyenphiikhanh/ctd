@@ -74,7 +74,6 @@
 </template>
 
 <script>
-import { watch } from 'vue';
 import { mapActions } from 'vuex';
 import datetimeUtils from "../../helpers/utils/datetimeUtils";
 export default {
