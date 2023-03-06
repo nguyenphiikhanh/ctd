@@ -62,6 +62,17 @@
                                         </td>
                                         <td>{{tc.note}}</td>
                                     </tr>
+                                    <tr>
+                                        <th scope="row" colspan="3">
+                                            <div class="text-center">Tổng điểm</div>
+                                        </th>
+                                        <th scope="row">
+                                            <div class="text-center">
+                                                <strong>{{selfScoreSum}}</strong>
+                                            </div>
+                                        </th>
+                                        <td></td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -88,6 +99,11 @@ export default {
         currentStudyTime(){
             return this.$store.getters['studyTime/getStudyTimeCurrent'];
         },
+        selfScoreSum(){
+            let sum = 0;
+            this.tcList.map(_item => sum += Number(_item.self_score));
+            return sum;
+        }
     },
     methods:{
         ...mapActions({
