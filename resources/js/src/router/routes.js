@@ -247,7 +247,7 @@ const routes = [
         path:"/danh-gia/ca-nhan",
         component: SelfCheckPoint,
         meta:{
-            title: 'Thông báo nhiệm vụ',
+            title: 'Đánh giá cá nhân',
             requiresAuth: true,
             adminAccess: false,
             cblAccess: true,

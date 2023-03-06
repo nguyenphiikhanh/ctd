@@ -155,19 +155,16 @@ export default {
             this.closeModal();
             await asyncLoading(this.getClassListData());
         },
-        changeCvhtSetting(id_user_cvht){
+        changeCvhtSetting(classChoose){
             this.classObject = classChoose;
             this.$nextTick(() => {
                 $('#cvhtSetting').modal('show');
             })
         },
-        async getCvhtName(id_user_cvht){
-            console.log(id_user_cvht);
-            return 'khahzd';
-            // if(!classChoose.id_user_cvht) return '';
-            // const userCvht = this.listUserCvht.find(_item => _item.id == classChoose.id_user_cvht);
-            // console.log(userCvht);
-            // return userCvht.ho + ' ' + userCvht.ten;
+        getCvhtName(id_user_cvht){
+            if(!id_user_cvht) return '';
+            const userCvht = this.listUserCvht.find(_item => _item.id == id_user_cvht);
+            return userCvht.ho + ' ' + userCvht.ten;
         },
         closeModal(){
             this.$nextTick(() => {
