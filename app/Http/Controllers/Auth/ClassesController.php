@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\ResponseUtils;
+use App\Http\Utils\RoleUtils;
 use App\Models\Classes;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -44,7 +45,22 @@ class ClassesController extends AppBaseController
     public function getClasses(Request $request){
         try{
             $user = Auth::user();
-            $classList = DB::table('classes')->where('id_faculty', $user->id_khoa)
+            $classList = [];
+            if($user->role == RoleUtils::ROLE_CVHT){
+                $classList = DB::table('classes')->where('id_faculty', $user->id_khoa)
+                ->leftJoin('terms', 'terms.id', 'classes.id_term')
+                ->leftJoin('class_type', 'class_type.id', 'classes.id_class_type')
+                ->rightJoin('users', 'users.id_class', 'classes.id')
+                ->select('classes.id','classes.id_user_cvht','classes.class_name',
+                 'terms.term_name', 'class_type.type_name',
+                DB::raw("COUNT(users.id) as student_count"))
+                ->where('terms.setting_flg', AppUtils::VALID_VALUE)
+                ->where('classes.id_user_cvht', $user->id)
+                ->groupBy('classes.id','classes.class_name', 'terms.term_name', 'class_type.type_name','classes.id_user_cvht')
+                ->orderBy('class_name')->get();
+            }
+            else{
+                $classList = DB::table('classes')->where('id_faculty', $user->id_khoa)
                 ->leftJoin('terms', 'terms.id', 'classes.id_term')
                 ->leftJoin('class_type', 'class_type.id', 'classes.id_class_type')
                 ->rightJoin('users', 'users.id_class', 'classes.id')
@@ -54,6 +70,7 @@ class ClassesController extends AppBaseController
                 ->where('terms.setting_flg', AppUtils::VALID_VALUE)
                 ->groupBy('classes.id','classes.class_name', 'terms.term_name', 'class_type.type_name','classes.id_user_cvht')
                 ->orderBy('class_name')->get();
+            }
             return $this->sendResponse($classList,__('message.success.get_list',['atribute' => 'lớp']));
         }
         catch(\Exception $e){

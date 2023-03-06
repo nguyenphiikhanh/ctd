@@ -13,7 +13,7 @@ import Assignee from '../components/quanLy/phuTrachNVSP/Assignee';
 import ClassList from "../components/quanLy/diemNVSP/ClassList";
 import ClassMeetScore from '../components/quanLy/diemTuDanhGia/ClassMeetScore';
 import SelfCheckPoint from "../components/DanhGia/SelfCheckPoint";
-import CbTeacherCheckpoint from '../components/DanhGia/CbTeacherCheckpoint';
+import TeacherCheckpoint from '../components/DanhGia/TeacherCheckpoint';
 import Cvht from '../components/quanLy/cvht/Cvht';
 
 const routes = [
@@ -259,14 +259,14 @@ const routes = [
     },
     // Đánh giá họp xét lớp
     {
-        name:"CbTeacherCheckpoint",
-        path:"/danh-gia/lop",
-        component: CbTeacherCheckpoint,
+        name:"TeacherCheckpoint",
+        path:"/gv/danh-gia-lop",
+        component: TeacherCheckpoint,
         meta:{
             title: 'Họp đánh giá lớp',
             requiresAuth: true,
             adminAccess: false,
-            cblAccess: true,
+            cblAccess: false,
             btdAccess: false,
             ptAccess: false,
             studentAccess: false,

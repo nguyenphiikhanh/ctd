@@ -125,7 +125,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role == roles.ROLE_CBL || user.role == roles.ROLE_CVHT" :to="{name: 'CbTeacherCheckpoint'}">
+            <router-link v-if="user.role == roles.ROLE_CVHT" :to="{name: 'TeacherCheckpoint'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>

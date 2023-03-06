@@ -42,7 +42,7 @@ Route::prefix('v1')->group(function(){
             Route::get('/study-terms', 'Auth\StudyTimeController@getStudyTerm');
         });
 
-        // bql Đoàn khoa
+        // bí thư Đoàn khoa
         Route::middleware('role.faculty')->group(function(){
             // khối ngành đào tạo(Sư phạm vs Ngoài sư phạm)
             Route::get('/class-types','Auth\ClassTypeController@index');

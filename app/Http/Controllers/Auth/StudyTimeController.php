@@ -82,7 +82,7 @@ class StudyTimeController extends AppBaseController
         try{
             $user = Auth::user();
             $id_faculty = null;
-            if($user->role == RoleUtils::ROLE_BI_THU_DOAN){
+            if($user->role == RoleUtils::ROLE_BI_THU_DOAN || $user->role == RoleUtils::ROLE_CVHT){
                 $id_faculty = $user->id_khoa;
             }
             else{
