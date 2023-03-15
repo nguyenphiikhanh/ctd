@@ -60,6 +60,7 @@ Route::prefix('v1')->group(function(){
             Route::post('/user/cvht','Auth\UserController@storeUserCvht');
             Route::put('/user/cvht/{id}','Auth\UserController@updateUserCvht');
             // Điểm học tập
+            Route::get('/study-point','Auth\StudyPointController@index');
             Route::post('/study-point','Auth\StudyPointController@store');
         });
 

@@ -5,7 +5,7 @@
                 <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">
                     <em class="icon ni ni-cross"></em>
                 </a>
-                <div class="modal-header"><h5 class="modal-title">Điểm học tập {{classView.class_name}}</h5></div>
+                <div class="modal-header"><h5 class="modal-title">Điểm học tập lớp {{classView.class_name}}</h5></div>
                 <div class="modal-body">
                     <div class="form-group d-flex col-12">
                         <div class="col-6 d-flex">
@@ -26,54 +26,33 @@
                                 Cập nhật</button>
                         </div>
                     </div>
-                    <div v-if="!awating && studyPoints.length > 0" class="col-12 overflow-table">
-                        <table style="width: auto;" class="table table-bordered" cellspacing="0">
+                    <div v-if="!awating && studyPoints.length > 0" class="col-12">
+                        <table class="table table-bordered" cellspacing="0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Mã sinh viên</th>
+                                <th scope="col">Họ và tên</th>
+                                <th scope="col">TBC HT10</th>
+                                <th scope="col">TBC HT4</th>
+                                <th scope="col">Xếp loại thang 4</th>
+                                <th scope="col">Xếp loại thang 10</th>
+                                <th scope="col">Số HP nợ</th>
+                                <th scope="col">Số tín chỉ nợ</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <template v-for="(user, userIndex) in userScoreListClone">
-                            <tr style="height: 35px;">
-                                <td style="height: 140px; width: 243px;" rowspan="4">
-                                    <p><strong>{{ user.ho + ' ' + user.ten + `(${user.username})` }}</strong></p>
-                                </td>
-                                <template v-for="(score, scoreIndex) in user.scoreList">
-                                    <td style="height: 35px; width: 371px; text-align: center;" colspan="3">
-                                    <p><strong>Ti&ecirc;u ch&iacute; {{ scoreIndex + 1 }}</strong></p>
-                                </td>
-                                </template>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
+                                <td>@mdo</td>
                             </tr>
-                            <tr style="height: 35px;">
-                                <template v-for="(score, scoreIndex) in user.scoreList">
-                                    <td style="height: 35px; width: 371px; text-align: center;" colspan="3">
-                                    <p><strong>Điểm đ&aacute;nh gi&aacute; của</strong></p>
-                                </td>
-                                </template>
-                            </tr>
-                            <tr style="height: 35px;">
-                                <template v-for="(score, scoreIndex) in user.scoreList">
-                                    <td style="height: 35px; width: 66px; text-align: center;">
-                                        <p>SV</p>
-                                    </td>
-                                    <td style="height: 35px; width: 66px; text-align: center;">
-                                        <p>Lớp</p>
-                                    </td>
-                                    <td style="height: 35px; width: 239px; text-align: center;">
-                                        <p>CVHT</p>
-                                    </td>
-                                </template>
-                            </tr>
-                            <tr style="height: 35px;">
-                                <template v-for="(score, scoreIndex) in user.scoreList">
-                                <td style="height: 35px; width: 66px; text-align: center;">
-                                    <p>{{ score.self_score }}</p>
-                                </td>
-                                <td style="height: 35px; width: 66px; text-align: center;">
-                                    <p>{{ score.cbl_score  }}</p>
-                                </td>
-                                <td style="height: 35px; width: 66px; text-align: center;">
-                                    <p>{{ score.cvht_score  }}</p>
-                                </td>
-                                </template>
-                            </tr>
-                            </template>
                         </tbody>
                         </table>
                     </div>
@@ -96,7 +75,7 @@
 import { mapActions } from 'vuex';
 export default {
     props:{
-        userScoreList: {type: Array },
+        studyPointList: {type: Array },
         classView: {type:Object},
         studyTimeList: {type: Array}
     },
@@ -106,7 +85,6 @@ export default {
     data(){
         return{
             awating: false,
-            userScoreListClone: [],
             studyTime: null,
             studyPoints: [],
             studyPointFiles: [],
@@ -138,19 +116,12 @@ export default {
             await this.storeStudypoints(formData);
             this.$loading(false);
         },
-        generateUid() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random() * 16 | 0,
-                    v = c == 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        },
         closeModal(){
             this.$emit('closeModal');
         },
     },
     mounted(){
-        this.userScoreListClone = JSON.parse(JSON.stringify(this.userScoreList));
+        this.studyPoints = JSON.parse(JSON.stringify(this.studyPointList));
         this.studyTime = this.$store.getters['studyTime/getStudyTimeCurrent'].id;
     },
     watch:{
@@ -172,16 +143,6 @@ export default {
 <style scoped>
 .mw-98{
     min-width: 98%;
-}
-.overflow-table{
-    overflow: auto;
-    max-width: 100%;
-    max-height: 500px;
-}
-.table-header th{
-    position: sticky;
-    top: 0;
-    background-color: #97dfe8;
 }
 .ml-10px{
     margin-left: 10px;

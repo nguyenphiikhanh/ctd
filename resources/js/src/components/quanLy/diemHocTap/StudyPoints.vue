@@ -50,7 +50,7 @@
                         </div><!-- .card -->
                         <div v-if="classList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
-                    <ViewStudyPoint :user-score-list="userScoreList" :class-view="classView"
+                    <ViewStudyPoint :study-point-list="studyPoints" :class-view="classView"
                      :key="viewKey"
                      :study-time-list="studyTimeList"
                      @closeModal="closeModal()"/>
@@ -80,7 +80,7 @@ export default {
                 id_term: null,
                 id_user_cvht: null,
             },
-            userScoreList: [],
+            studyPoints: [],
             studyTimeList: [],
             studyTime: null,
             viewKey: 1,
@@ -92,7 +92,7 @@ export default {
         ...mapActions({
             getClasses: 'classes/getClasses',
             getStudyTime: 'studyTime/getStudyTime',
-            getMeetScoreByClass: 'classMeet/getMeetScoreByClass'
+            getStudyPoints: 'classMeet/getMeetScoreByClass'
         }),
         async getClassListData(){
             const params = {};
@@ -108,7 +108,7 @@ export default {
                 id_class: this.classView.id,
                 id_study_time: this.$store.getters['studyTime/getStudyTimeCurrent'].id
             }
-            await this.getMeetScoreByClass(data).then(res => this.userScoreList = [...res.data]);
+            await this.getStudyPoints(data).then(res => this.studyPoints = [...res.data]);
             this.$loading(false);
             this.$nextTick(() => {
                 $('#viewClassMeetScore').modal('show');
