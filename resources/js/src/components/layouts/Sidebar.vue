@@ -67,7 +67,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'Cvht'}">
+            <router-link v-if="user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'Cvht'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
@@ -75,11 +75,19 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'Lop'}">
+            <router-link v-if="user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'Lop'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
                         <span class="nk-menu-text">Quản lý lớp</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+            <router-link v-if="user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'Cvht'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
+                        <span class="nk-menu-text">Điểm học tập</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>

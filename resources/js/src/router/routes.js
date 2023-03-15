@@ -33,6 +33,7 @@ const routes = [
             ptAccess: true,
             studentAccess: true,
             cvAccess: true,
+            facultyMasterAccess: true,
         }
     },
 
@@ -50,6 +51,7 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: false,
+            facultyMasterAccess: false,
         }
     },
     //khoa
@@ -66,6 +68,7 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: false,
+            facultyMasterAccess: false,
         }
     },
     // Năm học
@@ -82,6 +85,7 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: false,
+            facultyMasterAccess: false,
         }
     },
     // kì học
@@ -98,6 +102,7 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: false,
+            facultyMasterAccess: false,
         }
     },
 
@@ -115,6 +120,7 @@ const routes = [
             ptAccess: true,
             studentAccess: false,
             cvAccess: false,
+            facultyMasterAccess: false,
         }
     },
     {
@@ -130,6 +136,7 @@ const routes = [
             ptAccess: true,
             studentAccess: false,
             cvAccess: false,
+            facultyMasterAccess: false,
         }
     },
     //quản lý người phụ trách
@@ -145,6 +152,7 @@ const routes = [
             btdAccess: true,
             studentAccess: false,
             cvAccess: false,
+            facultyMasterAccess: false,
         }
     },
         //quản lý cố vấn học tập
@@ -157,9 +165,10 @@ const routes = [
                 requiresAuth: true,
                 adminAccess: false,
                 cblAccess: false,
-                btdAccess: true,
+                btdAccess: false,
                 studentAccess: false,
                 cvAccess: false,
+                facultyMasterAccess: true,
             }
         },
        // lớp
@@ -172,10 +181,11 @@ const routes = [
             requiresAuth: true,
             adminAccess: false,
             cblAccess: false,
-            btdAccess: true,
+            btdAccess: false,
             ptAccess: false,
             studentAccess: false,
             cvAccess: false,
+            facultyMasterAccess: true,
         }
     },
     // sinh viên
@@ -188,10 +198,11 @@ const routes = [
             requiresAuth: true,
             adminAccess: false,
             cblAccess: false,
-            btdAccess: true,
+            btdAccess: false,
             ptAccess: false,
             studentAccess: false,
             cvAccess: false,
+            facultyMasterAccess: true,
         }
     },
     // Điểm rèn luyện tuần NVSP

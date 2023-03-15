@@ -6,4 +6,5 @@ export default {
     ROLE_SINH_VIEN: 5,
     ROLE_LOP_TRUONG: 6,
     ROLE_PHU_TRACH_NVSP: 7,
+    ROLE_QUAN_LY_KHOA: 8
 }

@@ -160,11 +160,11 @@ class UserController extends AppBaseController
                 'ten' => $ten,
             ]);
 
-            return $this->sendResponse('', __('message.success.create',['atribute' => 'cố vấn học tập']));
+            return $this->sendResponse('', __('message.success.update',['atribute' => 'cố vấn học tập']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.create',['atribute' => 'cố vấn học tập']), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->sendError(__('message.failed.update',['atribute' => 'cố vấn học tập']), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
     /**
