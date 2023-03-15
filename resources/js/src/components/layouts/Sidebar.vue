@@ -83,7 +83,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'Cvht'}">
+            <router-link v-if="user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'StudyPoints'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>

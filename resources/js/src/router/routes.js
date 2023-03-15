@@ -15,8 +15,9 @@ import ClassMeetScore from '../components/quanLy/diemTuDanhGia/ClassMeetScore';
 import SelfCheckPoint from "../components/DanhGia/SelfCheckPoint";
 import TeacherCheckpoint from '../components/DanhGia/TeacherCheckpoint';
 import Cvht from '../components/quanLy/cvht/Cvht';
-import CbCheckpoint from "../components/DanhGia/CbCheckpoint";
 import cbCheckpoint from "../components/DanhGia/CbCheckpoint";
+import StudyPoints from '../components/quanLy/diemHocTap/StudyPoints';
+
 
 const routes = [
     // dashboard
@@ -205,6 +206,23 @@ const routes = [
             facultyMasterAccess: true,
         }
     },
+    // Điểm học tập
+    {
+        name:"StudyPoints",
+        path:"/quan-ly/diem-hoc-tap",
+        component: StudyPoints,
+        meta:{
+            title: 'Quản lý Điểm học tập',
+            requiresAuth: true,
+            adminAccess: true,
+            cblAccess: false,
+            btdAccess: false,
+            ptAccess: false,
+            studentAccess: false,
+            cvAccess: false,
+            facultyMasterAccess: true,
+        }
+    },
     // Điểm rèn luyện tuần NVSP
     {
         name:"NvspPoint",
@@ -219,6 +237,7 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: true,
+            facultyMasterAccess: false,
         }
     },
     // Điểm họp xét lớp
@@ -235,6 +254,7 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: false,
+            facultyMasterAccess: false,
         }
     },
 
@@ -252,6 +272,7 @@ const routes = [
             ptAccess: false,
             studentAccess: true,
             cvAccess: false,
+            facultyMasterAccess: false,
         }
     },
     // Đánh giá cá nhân
@@ -268,6 +289,7 @@ const routes = [
             ptAccess: false,
             studentAccess: true,
             cvAccess: false,
+            facultyMasterAccess: false,
         }
     },
     // Đánh giá họp xét lớp
@@ -284,6 +306,7 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: true,
+            facultyMasterAccess: false,
         }
     },
     {
@@ -299,6 +322,7 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: false,
+            facultyMasterAccess: false,
         }
     },
 
@@ -315,6 +339,7 @@ const routes = [
             btdAccess: false,
             ptAccess: false,
             studentAccess: false,
+            facultyMasterAccess: false,
         }
     },
 ];
