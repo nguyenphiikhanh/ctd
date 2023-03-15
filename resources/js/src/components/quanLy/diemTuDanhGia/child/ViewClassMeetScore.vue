@@ -7,10 +7,18 @@
                 </a>
                 <div class="modal-header"><h5 class="modal-title">Điểm đánh giá cá nhân lớp {{classView.class_name}}</h5></div>
                 <div class="modal-body">
-                    <div class="form-group d-flex justify-content-start col-10">
-                        <button @click="viewTcList()" class="btn btn-outline-success end_item">Xem tiêu chí đánh giá</button>
+                    <div class="form-group d-flex col-12">
+                        <div class="col-6 d-flex">
+                            <label class="col-form-label col-2">Chọn kỳ học</label>
+                            <select class="form-control w-50" v-model="studyTime">
+                                <option v-for="(time, index) in studyTimeList" :key="index" :value="time.id">{{time.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-6 d-flex justify-content-end">
+                            <button @click="viewTcList()" class="btn btn-outline-success">Xem tiêu chí đánh giá</button>
+                        </div>
                     </div>
-                    <div class="col-12 overflow-table">
+                    <div v-if="!awating && validScoreList" class="col-12 overflow-table">
                         <table style="width: auto;" class="table table-bordered" cellspacing="0">
                         <tbody>
                             <template v-for="(user, userIndex) in userScoreListClone">
@@ -65,6 +73,9 @@
                 <p v-if="awating" class="text-center">
                     Đang lấy dữ liệu điểm...
                 </p>
+                <p v-if="!awating && !validScoreList" class="text-center">
+                    Không có dữ liệu.
+                </p>
                 <div class="modal-footer d-flex justify-content-center">
                     <button @click="closeModal()" class="btn btn-primary">Đóng</button>
                 </div>
@@ -82,6 +93,7 @@ export default {
         userScoreList: {type: Array },
         classView: {type:Object},
         tcList: {type: Array},
+        studyTimeList: {type: Array}
     },
     components:{
         ViewTcList,
@@ -90,11 +102,21 @@ export default {
         return{
             awating: false,
             userScoreListClone: [],
+            studyTime: null,
+        }
+    },
+    computed:{
+        validScoreList(){
+            if(this.userScoreListClone.length > 0){
+                const scores = this.userScoreListClone[0];
+                return scores.scoreList.length > 0;
+            }
+            else return false;
         }
     },
     methods:{
         ...mapActions({
-            updatePersonClassMeetScore: 'classMeet/updatePersonClassMeetScore',
+            getMeetScoreByClass: 'classMeet/getMeetScoreByClass'
         }),
         viewTcList(){
             this.$nextTick(() => {
@@ -114,6 +136,20 @@ export default {
     },
     mounted(){
         this.userScoreListClone = JSON.parse(JSON.stringify(this.userScoreList));
+        this.studyTime = this.$store.getters['studyTime/getStudyTimeCurrent'].id;
+    },
+    watch:{
+        async studyTime(val){
+            this.awating = true;
+            if(this.classView.id){
+                const data = {
+                    id_class: this.classView.id,
+                    id_study_time: val
+                }
+                await this.getMeetScoreByClass(data).then(res => this.userScoreListClone = [...res.data]);
+            }
+            this.awating = false;
+        }
     }
 };
 </script>

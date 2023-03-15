@@ -81,7 +81,7 @@ class ClassMeetScoreController extends AppBaseController
         try{
             $class = Classes::find($id_class);
             if(!$class){
-                return $this->sendError(__('message.failed.not_exist',['Lớp']));
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'Lớp']));
                 return;
             }
             else{

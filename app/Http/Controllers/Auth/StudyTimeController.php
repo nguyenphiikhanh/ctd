@@ -26,7 +26,7 @@ class StudyTimeController extends AppBaseController
     {
         //
         try{
-            $studyTimes = StudyTime::select('study_times.start_time','study_times.end_time','study_times.status',
+            $studyTimes = StudyTime::select('study_times.id', 'study_times.start_time','study_times.end_time','study_times.status',
                             DB::raw("CONCAT(study_terms.name,' - năm học ',study_years.year_name) as name"))
                             ->leftJoin('study_years', 'study_years.id', 'study_times.id_study_year')
                             ->leftJoin('study_terms', 'study_terms.id', 'study_times.id_study_term')
@@ -84,6 +84,9 @@ class StudyTimeController extends AppBaseController
             $id_faculty = null;
             if($user->role == RoleUtils::ROLE_BI_THU_DOAN || $user->role == RoleUtils::ROLE_CVHT){
                 $id_faculty = $user->id_khoa;
+            }
+            elseif($user->role == RoleUtils::ROLE_AMIN){
+                $id_faculty = null;
             }
             else{
                 $faculty = DB::table('users')

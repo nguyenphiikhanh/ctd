@@ -85,6 +85,7 @@
                     </div><!-- nk-block -->
                     <ViewClassMeetScore :user-score-list="userScoreList" :class-view="classView"
                      :key="viewKey" :tc-list="tcList"
+                     :study-time-list="studyTimeList"
                      @closeModal="closeModal()"/>
                 </div>
             </div>
