@@ -12,4 +12,12 @@ export default {
         }
         return http.get(`points/nvsp`, {params : data});
     },
+
+    storeStudypoints(data){
+        return http.post('/study-point', data,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+        });
+    }
 }

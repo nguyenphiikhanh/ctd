@@ -19,7 +19,9 @@
                             <button @click="$refs.studyPointFile.click()" class="btn btn-lg btn-info">
                                 <em class="icon ni ni-upload"></em>
                                 {{ fileTitle }}</button>
-                            <button class="btn btn-lg btn-success ml-10px" v-if="validUpload">
+                            <button class="btn btn-lg btn-success ml-10px"
+                             v-if="validUpload"
+                             @click="storeStudyPoints()">
                                 <em class="icon ni ni-send-alt"></em>
                                 Cập nhật</button>
                         </div>
@@ -120,10 +122,21 @@ export default {
     },
     methods:{
         ...mapActions({
-            getMeetScoreByClass: 'classMeet/getMeetScoreByClass'
+            getMeetScoreByClass: 'classMeet/getMeetScoreByClass',
+            storeStudypoints: 'points/storeStudypoints',
         }),
         uploadStudyPoint(studyPointFiles){
             this.studyPointFiles = [...studyPointFiles];
+        },
+        async storeStudyPoints(){
+            this.$nextTick(() => {
+                $('#viewClassMeetScore').modal('hide');
+            });
+            this.$loading(true);
+            let formData = new FormData();
+            formData.append('file', this.studyPointFiles[0]);
+            await this.storeStudypoints(formData);
+            this.$loading(false);
         },
         generateUid() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

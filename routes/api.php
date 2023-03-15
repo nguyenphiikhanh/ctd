@@ -59,7 +59,8 @@ Route::prefix('v1')->group(function(){
             Route::get('/user/cvht','Auth\UserController@getUserCvht');
             Route::post('/user/cvht','Auth\UserController@storeUserCvht');
             Route::put('/user/cvht/{id}','Auth\UserController@updateUserCvht');
-
+            // Điểm học tập
+            Route::post('/study-point','Auth\StudyPointController@store');
         });
 
         // bí thư Liên Đoàn khoa
