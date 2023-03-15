@@ -8,85 +8,112 @@
                 <div class="modal-header"><h5 class="modal-title">Điểm đánh giá cá nhân lớp {{classView.class_name}}</h5></div>
                 <div class="modal-body">
                     <div class="form-group d-flex justify-content-start col-10">
-                        <label class="col-form-label col-1">Chọn kỳ học</label>
-                        <select class="form-control w-20" v-model="studyTime">
-                            <option v-for="(time, index) in studyTimeList" :key="index" :value="time.id">{{time.name}}</option>
-                        </select>
-                        <button class="btn btn-outline-success end_item">Xem tiêu chí đánh giá</button>
+                        <button @click="viewTcList()" class="btn btn-outline-success end_item">Xem tiêu chí đánh giá</button>
                     </div>
                     <div class="col-12 overflow-table">
-                        <table class="table table-bordered table-responsive table-responsive-sm">
-                            <thead class="table-header">
-                            <tr>
-                                <th scope="col" colspan="2"></th>
-                                <!-- <th v-for="(tc,i) in tcList" :key="i">{{ tc.name }}</th> -->
-                                <th v-for="(tc,i) in tcList" :key="i">{{ `Tiêu chí ${i+1}` }}</th>
+                        <table style="width: auto;" class="table table-bordered" cellspacing="0">
+                        <tbody>
+                            <template v-for="(user, userIndex) in userScoreListClone">
+                            <tr style="height: 35px;">
+                                <td style="height: 140px; width: 243px;" rowspan="4">
+                                    <p><strong>{{ user.ho + ' ' + user.ten + `(${user.username})` }}</strong></p>
+                                </td>
+                                <template v-for="(score, scoreIndex) in user.scoreList">
+                                    <td style="height: 35px; width: 371px; text-align: center;" colspan="3">
+                                    <p><strong>Ti&ecirc;u ch&iacute; {{ scoreIndex + 1 }}</strong></p>
+                                </td>
+                                </template>
                             </tr>
-                            </thead>
-                            <tbody v-if="!awating">
-                            <tr v-for="(item,index) in tcList" :key="index+1">
-                                <th scope="row" colspan="2">Nguyễn Phi Khánh(695105064)</th>
-                                <td v-for="(tc,i) in tcList" :key="i">Khanhdz</td>
+                            <tr style="height: 35px;">
+                                <template v-for="(score, scoreIndex) in user.scoreList">
+                                    <td style="height: 35px; width: 371px; text-align: center;" colspan="3">
+                                    <p><strong>Điểm đ&aacute;nh gi&aacute; của</strong></p>
+                                </td>
+                                </template>
                             </tr>
-                            </tbody>
+                            <tr style="height: 35px;">
+                                <template v-for="(score, scoreIndex) in user.scoreList">
+                                    <td style="height: 35px; width: 66px; text-align: center;">
+                                        <p>SV</p>
+                                    </td>
+                                    <td style="height: 35px; width: 66px; text-align: center;">
+                                        <p>Lớp</p>
+                                    </td>
+                                    <td style="height: 35px; width: 239px; text-align: center;">
+                                        <p>CVHT</p>
+                                    </td>
+                                </template>
+                            </tr>
+                            <tr style="height: 35px;">
+                                <template v-for="(score, scoreIndex) in user.scoreList">
+                                <td style="height: 35px; width: 66px; text-align: center;">
+                                    <p>{{ score.self_score }}</p>
+                                </td>
+                                <td style="height: 35px; width: 66px; text-align: center;">
+                                    <p>{{ score.cbl_score  }}</p>
+                                </td>
+                                <td style="height: 35px; width: 66px; text-align: center;">
+                                    <p>{{ score.cvht_score  }}</p>
+                                </td>
+                                </template>
+                            </tr>
+                            </template>
+                        </tbody>
                         </table>
                     </div>
                 </div>
                 <p v-if="awating" class="text-center">
                     Đang lấy dữ liệu điểm...
                 </p>
-                <p v-if="scoreListShow.length == 0 && !awating" class="text-center">
-                    Không có dữ liệu.
-                </p>
                 <div class="modal-footer d-flex justify-content-center">
                     <button @click="closeModal()" class="btn btn-primary">Đóng</button>
                 </div>
             </div>
+            <ViewTcList :tcList="tcList"/>
         </div>
     </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import ViewTcList from './ViewTcList.vue';
 export default {
     props:{
-        scoreList: {type: Array },
+        userScoreList: {type: Array },
         classView: {type:Object},
-        studyTimeList: {type: Array},
         tcList: {type: Array},
+    },
+    components:{
+        ViewTcList,
     },
     data(){
         return{
             awating: false,
-            studyTimeListShow: [],
-            scoreListShow: this.scoreList,
-            studyTime: null,
+            userScoreListClone: [],
         }
     },
     methods:{
         ...mapActions({
-            getNvspPointByStudyYear: "points/getNvspPointByStudyYear"
+            updatePersonClassMeetScore: 'classMeet/updatePersonClassMeetScore',
         }),
+        viewTcList(){
+            this.$nextTick(() => {
+                $('#viewTcList').modal('show');
+            });
+        },
+        generateUid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0,
+                    v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        },
         closeModal(){
-            this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity);
             this.$emit('closeModal');
         },
     },
-    computed: {
-    },
-    watch:{
-        async studyTime(val){
-            this.awating = true;
-            let data = {
-                id_class: this.classView.id,
-                id_study_year: val
-            }
-            await this.getNvspPointByStudyYear(data).then(res => this.scoreListShow = [...res.data]);
-            this.awating = false;
-        }
-    },
-    mounted() {
-        this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity).id;
+    mounted(){
+        this.userScoreListClone = JSON.parse(JSON.stringify(this.userScoreList));
     }
 };
 </script>

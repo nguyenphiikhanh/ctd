@@ -83,7 +83,7 @@
                         </div><!-- .card -->
                         <div v-if="classList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
-                    <ViewClassMeetScore :study-time-list="studyTimeList" :class-view="classView" :score-list="scoreList"
+                    <ViewClassMeetScore :user-score-list="userScoreList" :class-view="classView"
                      :key="viewKey" :tc-list="tcList"
                      @closeModal="closeModal()"/>
                 </div>
@@ -113,7 +113,7 @@ export default {
                 id_term: null,
                 id_user_cvht: null,
             },
-            scoreList: [],
+            userScoreList: [],
             studyTimeList: [],
             studyTime: null,
             viewKey: 1,
@@ -132,10 +132,10 @@ export default {
         ...mapActions({
             getClasses: 'classes/getClasses',
             getStudyTime: 'studyTime/getStudyTime',
-            getNvspPointByStudyYear: "points/getNvspPointByStudyYear",
             getCurrentStudyTime: 'studyTime/getCurrentStudyTime',
             updateFacultyTimeSetting: 'studyTime/updateFacultyTimeSetting',
             getListTcSelf: 'tieuChi/getListTcSelf',
+            getMeetScoreByClass: 'classMeet/getMeetScoreByClass'
         }),
         async getClassListData(){
             const params = {};
@@ -149,9 +149,9 @@ export default {
             this.classView = _class;
             let data = {
                 id_class: this.classView.id,
-                id_study_year: this.studyYear
+                id_study_time: this.$store.getters['studyTime/getStudyTimeCurrent'].id
             }
-            await this.getNvspPointByStudyYear(data).then(res => this.scoreList = [...res.data]);
+            await this.getMeetScoreByClass(data).then(res => this.userScoreList = [...res.data]);
             this.$loading(false);
             this.$nextTick(() => {
                 $('#viewClassMeetScore').modal('show');
