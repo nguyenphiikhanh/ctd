@@ -92,7 +92,7 @@ export default {
         ...mapActions({
             getClasses: 'classes/getClasses',
             getStudyTime: 'studyTime/getStudyTime',
-            getStudyPoints: 'classMeet/getMeetScoreByClass'
+            getStudyPoints: 'points/getStudyPoints'
         }),
         async getClassListData(){
             const params = {};

@@ -20,9 +20,24 @@ class StudyPointController extends AppBaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        try{
+            $id_study_time = $request->get('id_study_time');
+            $id_class = $request->get('id_class');
+            $studyPoints = DB::table('users')
+                ->leftJoin('study_points', 'users.id', 'study_points.id_user')
+                ->select(DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"), 'study_points.*')
+                ->where('users.id_class', $id_class)
+                ->where('study_points.id_study_time', $id_study_time)
+                ->get();
+            return $this->sendResponse($studyPoints, __('message.success.get_list',['atribute' => 'điểm học tập']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'điểm học tập']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

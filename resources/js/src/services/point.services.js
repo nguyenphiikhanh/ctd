@@ -19,5 +19,9 @@ export default {
                 'Content-Type': 'multipart/form-data'
             },
         });
+    },
+
+    getStudyPoints(data){
+        return http.get('/study-point', {params: data});
     }
 }

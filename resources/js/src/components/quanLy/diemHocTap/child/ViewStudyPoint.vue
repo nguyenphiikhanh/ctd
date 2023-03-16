@@ -27,7 +27,7 @@
                         </div>
                     </div>
                     <div v-if="!awating && studyPoints.length > 0" class="col-12">
-                        <table class="table table-bordered" cellspacing="0">
+                        <table class="table table-bordered">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">STT</th>
@@ -132,7 +132,7 @@ export default {
                     id_class: this.classView.id,
                     id_study_time: val
                 }
-                await this.getMeetScoreByClass(data).then(res => this.userScoreListClone = [...res.data]);
+                // await this.getMeetScoreByClass(data).then(res => this.userScoreListClone = [...res.data]);
             }
             this.awating = false;
         }
