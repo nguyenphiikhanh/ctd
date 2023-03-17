@@ -288,13 +288,16 @@ export default {
                 })
         },
         joinTypeConvert(act){
-            if(act.level == this.actLevel.TOA_DAM){
-                return '(Tọa đàm NVSP)';
-            } else if(act.join_type == this.joinType.THI_NHOM){
-                return '(Thi theo nhóm)';
-            } else if(act.join_type == this.joinType.THI_CA_NHAN){
-                return '(Thi cá nhân)'
+            if(act.id_activity == this.loai_hoat_dong.HOAT_DONG_NVSP){
+                if(act.level == this.actLevel.TOA_DAM){
+                    return '(Tọa đàm NVSP)';
+                } else if(act.join_type == this.joinType.THI_NHOM){
+                    return '(Thi theo nhóm)';
+                } else if(act.join_type == this.joinType.THI_CA_NHAN){
+                    return '(Thi cá nhân)'
+                }
             }
+            else return '';
         }
     },
     async mounted() {
