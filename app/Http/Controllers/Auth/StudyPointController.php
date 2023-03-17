@@ -28,7 +28,7 @@ class StudyPointController extends AppBaseController
             $id_class = $request->get('id_class');
             $studyPoints = DB::table('users')
                 ->leftJoin('study_points', 'users.id', 'study_points.id_user')
-                ->select(DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"), 'study_points.*')
+                ->select('users.username',DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"), 'study_points.*')
                 ->where('users.id_class', $id_class)
                 ->where('study_points.id_study_time', $id_study_time)
                 ->get();

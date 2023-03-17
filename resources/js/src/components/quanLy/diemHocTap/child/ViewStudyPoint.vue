@@ -42,16 +42,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
-                                <td>@mdo</td>
+                            <tr v-for="(point, index) in studyPointList" :key="index">
+                                <th scope="row">{{ index + 1 }}</th>
+                                <td>{{ point.username }}</td>
+                                <td>{{ point.fullname }}</td>
+                                <td>{{ point.ten_level_avg.toFixed(2) }}</td>
+                                <td>{{ point.four_level_avg.toFixed(2) }}</td>
+                                <td>{{ point.four_level_evaluate }}</td>
+                                <td>{{ point.ten_level_evaluate }}</td>
+                                <td>{{ point.object_in_debt }}</td>
+                                <td>{{ point.credit_in_debt }}</td>
                             </tr>
                         </tbody>
                         </table>
