@@ -83,7 +83,7 @@
                                             class="btn btn-sm btn-primary"><em class="icon ni ni-list"></em>Danh sách</button>
                                             <button @click="showUserNckh(_item)"
                                             v-if="_item.id_activity == loai_hoat_dong.HOAT_DONG_NCKH && _item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN"
-                                            class="btn btn-sm btn-warning"><em class="icon ni ni-list"></em>Sửa danh sách</button>
+                                            class="btn btn-sm btn-warning"><em class="icon ni ni-edit"></em>Sửa danh sách</button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -98,7 +98,7 @@
                 <UpdateAssignee :assignees="assignees" :child-act="child_act_view"
                 @onSave="getChildActList(activity, current_tab, true)"
                 @closeModal="closeModal()"/>
-                <UpdateUserNckh :user-list="user_acts" @closeModal="closeModal()"/>
+                <UpdateUserNckh :child-act="child_act_view" :user-list="user_acts" @closeModal="closeModal()" :key="key"/>
             </div>
         </div>
     </div>
@@ -213,6 +213,7 @@ export default {
                 .finally(() => this.$loading(false));
         },
         async showUserNckh(child_act){
+            this.child_act_view = child_act;
             this.$loading(true);
             const reqs = {
                     id_faculty: this.user.id_khoa,
@@ -224,6 +225,7 @@ export default {
             await this.getStudentByFaculty(reqs)
                 .then(res => {
                     this.user_acts = [...res.data];
+                    this.key++
                     this.$nextTick(() => {
                         $('#showUserNckh').modal('show');
                     });

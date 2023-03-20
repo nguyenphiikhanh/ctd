@@ -73,5 +73,9 @@ export default {
 
     updateUserForwarded(id, data){
         return http.put(`/activities-details/${id}/users`, data);
+    },
+
+    getListUserNckh(id_child_activity){
+        return http.get(`/child-activity/${id_child_activity}/user-activities`);
     }
 }

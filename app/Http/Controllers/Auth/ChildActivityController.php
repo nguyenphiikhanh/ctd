@@ -753,4 +753,18 @@ class ChildActivityController extends AppBaseController
             return $this->sendError(__('message.failed.update',['atribute' => 'hoạt động']), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function getUserActivities($id_child_activity){
+        try{
+            $userActs = DB::table('user_activities')
+                ->leftJoin('activities_details', 'activities_details.id' ,'user_activities.id_activities_details')
+                ->where('activities_details.id_child_activity', $id_child_activity)
+                ->pluck('user_activities.id_user');
+            return $this->sendResponse($userActs, __('message.success.get_list',['atribute' => 'người dự thi']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'người dự thi']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

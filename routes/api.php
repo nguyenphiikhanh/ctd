@@ -72,6 +72,7 @@ Route::prefix('v1')->group(function(){
             Route::post('/child-activities','Auth\ChildActivityController@store');
             Route::put('/child_activities/{id}','Auth\ChildActivityController@update');
             Route::put('/child-activity/{id}/change-assignee','Auth\ChildActivityController@changeAssigneeSetting');
+            Route::get('/child-activity/{id}/user-activities','Auth\ChildActivityController@getUserActivities');
             //update giải thưởng
             Route::put('/user-activity/{id}/update','Auth\ChildActivityController@awardUpdate');
             // Phụ trách phần thi

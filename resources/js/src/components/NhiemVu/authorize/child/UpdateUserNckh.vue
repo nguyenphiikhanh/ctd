@@ -28,6 +28,7 @@
             </p>
           <div class="modal-footer d-flex justify-content-center">
               <button v-if="user_selected.length > 0" @click="onSave()" class="btn btn-primary">Cập nhật</button>
+              <button @click="closeModal()" class="btn btn-secondary">Đóng</button>
           </div>
         </div>
       </div>
@@ -35,19 +36,31 @@
   </template>
 
   <script>
+import { mapActions } from 'vuex';
+import constants from '../../../../constants';
   export default {
       props:{
-          userList: {type: Array, default: []}
+          userList: {type: Array, default: []},
+          childAct: {type: Object, default: {}},
       },
       data(){
           return{
               user_selected: [],
-              searchText: ''
+              searchText: '',
+              userListClone: [],
           }
       },
       methods:{
+        ...mapActions({
+            getListUserNckh: "activity/getListUserNckh",
+        }),
           closeModal(){
-              this.$emit('closeModal');
+            this.user_selected = [];
+            this.searchText = '';
+            this.$nextTick(() => {
+                $('#showUserNckh').modal('hide');
+            });
+            this.$emit('closeModal');
           },
           onSave(){
             this.$emit("saved", this.user_selected);
@@ -56,13 +69,23 @@
       computed:{
         studentRescources(){
             if(this.searchText){
-                return this.userList.filter((item)=>{
+                return this.userListClone.filter((item)=>{
                     return this.searchText.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v))
                 })
             }
-            else return this.userList;
+            else return this.userListClone;
         },
       },
+      async mounted(){
+        this.userListClone = JSON.parse(JSON.stringify(this.userList));
+        if(this.childAct.id){
+            await this.getListUserNckh(this.childAct.id).then(res => this.user_selected = [...res.data]);
+            this.user_selected.map(id => {
+                let userSelected = this.userListClone.find(user => user.id == id);
+                userSelected.chooseFlg = constants.BOOL_VALUE.VALID_VALUE;
+            });
+        }
+      }
   };
   </script>
 
