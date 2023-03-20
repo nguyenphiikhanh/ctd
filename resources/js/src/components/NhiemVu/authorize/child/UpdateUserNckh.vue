@@ -53,6 +53,7 @@ import constants from '../../../../constants';
       methods:{
         ...mapActions({
             getListUserNckh: "activity/getListUserNckh",
+            updateUserNckh: "activity/updateUserNckh",
         }),
           closeModal(){
             this.user_selected = [];
@@ -62,8 +63,21 @@ import constants from '../../../../constants';
             });
             this.$emit('closeModal');
           },
-          onSave(){
-            this.$emit("saved", this.user_selected);
+          async onSave(){
+            this.$nextTick(() => {
+                $('#showUserNckh').modal('hide');
+            });
+            this.$loading(true);
+            const uniqueUserSelected = this.user_selected.filter((value, index, self) => {
+                return self.indexOf(value) === index;
+                });
+            const data = {
+                id_child_activity: this.childAct.id,
+                user_ids: uniqueUserSelected,
+            }
+            await this.updateUserNckh(data);
+            this.$loading(false);
+            this.closeModal();
           }
       },
       computed:{

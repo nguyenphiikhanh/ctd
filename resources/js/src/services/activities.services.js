@@ -77,5 +77,9 @@ export default {
 
     getListUserNckh(id_child_activity){
         return http.get(`/child-activity/${id_child_activity}/user-activities`);
+    },
+
+    updateUserNckh(id_child_activity, data){
+        return http.put(`/child-activity/${id_child_activity}/user-activities`, data);
     }
 }

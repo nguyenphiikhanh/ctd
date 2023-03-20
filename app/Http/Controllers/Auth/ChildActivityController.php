@@ -767,4 +767,44 @@ class ChildActivityController extends AppBaseController
             return $this->sendError(__('message.failed.get_list',['atribute' => 'người dự thi']), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function updateUserNckh(Request $request, $id_child_activity){
+        try{
+            $user_ids = $request->get('user_ids', []);
+            $act_detail = DB::table('activities_details')
+                    ->where('id_child_activity', $id_child_activity)
+                    ->first();
+            if(!$act_detail){
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'hoạt động']), Response::HTTP_UNPROCESSABLE_ENTITY);
+                return;
+            }
+            DB::connection('mysql')->transaction(function() use($user_ids, $act_detail, $id_child_activity){
+                DB::table('user_receive_activities')
+                    ->where('id_child_activity', $id_child_activity)
+                    ->delete();
+                    Log::debug($user_ids);
+                DB::table('user_activities')
+                    ->where('id_activities_details', $act_detail->id)
+                    ->delete();
+                foreach($user_ids as $id_user){
+                    DB::table('user_receive_activities')->insert([
+                        'id_user' => $id_user,
+                        'id_child_activity' => $id_child_activity,
+                        'child_activity_type' => AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU,
+                        'created_by' => Auth::user()->id,
+                    ]);
+                    DB::table('user_activities')->insert([
+                        'id_user' => $id_user,
+                        'id_activities_details' => $act_detail->id,
+                        'created_by' => Auth::user()->id,
+                    ]);
+                }
+            });
+            return $this->sendResponse('',__('message.success.update', ['atribute' => 'người dự thi']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'người dự thi']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }
