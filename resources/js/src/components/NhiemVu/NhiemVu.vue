@@ -81,6 +81,9 @@
                                             <button @click="showUserActivityList(_item.id)"
                                             v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN || _item.child_activity_type == action.TB_GUI_DS_THAM_GIA"
                                             class="btn btn-sm btn-primary"><em class="icon ni ni-list"></em>Danh sách</button>
+                                            <button @click="showUserNckh(_item)"
+                                            v-if="_item.id_activity == loai_hoat_dong.HOAT_DONG_NCKH && _item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN"
+                                            class="btn btn-sm btn-warning"><em class="icon ni ni-list"></em>Sửa danh sách</button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -95,6 +98,7 @@
                 <UpdateAssignee :assignees="assignees" :child-act="child_act_view"
                 @onSave="getChildActList(activity, current_tab, true)"
                 @closeModal="closeModal()"/>
+                <UpdateUserNckh :user-list="user_acts" @closeModal="closeModal()"/>
             </div>
         </div>
     </div>
@@ -104,15 +108,18 @@
 
 import {mapActions} from "vuex";
 import constants from "../../constants";
+import datetimeUtils from "../../helpers/utils/datetimeUtils";
 import ViewChildActivity from "./authorize/child/ViewChildActivity.vue";
 import ViewUserActivity from "./authorize/child/ViewUserActivity.vue";
 import UpdateAssignee from './authorize/phuTrach/UpdateAssignee.vue';
+import UpdateUserNckh from "./authorize/child/UpdateUserNckh.vue";
 
 export default {
     components:{
         ViewChildActivity,
         ViewUserActivity,
         UpdateAssignee,
+        UpdateUserNckh,
     },
     data(){
         return{
@@ -153,6 +160,7 @@ export default {
             getUserActivities: "activity/getUserActivities",
             getAssignee: 'userModule/getAssignees',
             nvspCreatePoint: 'points/nvspCreatePoint',
+            getStudentByFaculty: 'student/getStudentByFaculty',
         }),
         async getChildActList(activity = this.loai_hoat_dong.HOAT_DONG_NCKH, current_tab = null, reGet = false){
             if(this.current_tab == current_tab && !reGet) return;
@@ -189,6 +197,7 @@ export default {
             this.$nextTick(() => {
                 $('#viewChildAct').modal('hide');
                 $('#viewUserAct').modal('hide');
+                $('#showUserNckh').modal('hide');
                 $('#assigneeSetting').modal('hide');
             });
         },
@@ -199,6 +208,24 @@ export default {
                     this.user_acts = [...res.data];
                     this.$nextTick(() => {
                         $('#viewUserAct').modal('show');
+                    });
+                })
+                .finally(() => this.$loading(false));
+        },
+        async showUserNckh(child_act){
+            this.$loading(true);
+            const reqs = {
+                    id_faculty: this.user.id_khoa,
+                    params:{
+                        start_time: datetimeUtils.convertTimezoneToDatetime(child_act.start_time),
+                        end_time: datetimeUtils.convertTimezoneToDatetime(child_act.end_time)
+                    }
+                };
+            await this.getStudentByFaculty(reqs)
+                .then(res => {
+                    this.user_acts = [...res.data];
+                    this.$nextTick(() => {
+                        $('#showUserNckh').modal('show');
                     });
                 })
                 .finally(() => this.$loading(false));
