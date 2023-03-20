@@ -782,7 +782,6 @@ class ChildActivityController extends AppBaseController
                 DB::table('user_receive_activities')
                     ->where('id_child_activity', $id_child_activity)
                     ->delete();
-                    Log::debug($user_ids);
                 DB::table('user_activities')
                     ->where('id_activities_details', $act_detail->id)
                     ->delete();
