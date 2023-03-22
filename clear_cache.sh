@@ -1,4 +1,5 @@
-echo "Cong Tac Doan - Production Environment Deploying..."
+echo "He thong Ho tro diem ren luyen - Truong Dai hoc Su pham Ha Noi"
+echo "Production building version..."
 
 echo "pulling from origin..."
 git fetch --all && git reset --hard origin/CONGTACDOAN-deployment && git pull
@@ -6,11 +7,8 @@ git fetch --all && git reset --hard origin/CONGTACDOAN-deployment && git pull
 echo "Database migrating..."
 php artisan migrate
 
-echo "production UI building..."
+echo "production bundle asset building..."
 npm run prod
 
 echo "optimizing..."
 php artisan optimize:clear
-
-echo "Changing Owner"
-sudo chown -R www:www /www/wwwroot/kltn.nguyenphikhanh.dev/
