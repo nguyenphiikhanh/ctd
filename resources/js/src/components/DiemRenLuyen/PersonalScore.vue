@@ -31,7 +31,9 @@
                                     <tr>
                                         <th scope="col">STT</th>
                                         <th scope="col">Nội dung đánh giá</th>
-                                        <th scope="col">Điểm</th>
+                                        <th scope="col">Điểm tối đa</th>
+                                        <th scope="col">Điểm đạt được</th>
+                                        <th scope="col">Trạng thái</th>
                                         <th scope="col">Ghi chú</th>
                                         <th scope="col">Hoạt động</th>
                                     </tr>
@@ -40,9 +42,11 @@
                                     <tr v-for="(tc, index) in tcList" :key="index">
                                         <th scope="row">{{index+1}}</th>
                                         <td>{{tc.name}}</td>
-                                        <td>{{tc.cvht_score}}</td>
+                                        <td><div class="text-center">{{tc.max_score}}</div></td>
+                                        <td><div class="text-center">{{tc.score}}</div></td>
+                                        <td :class="scoreStatusClassText(tc)">{{scoreStatusText(tc)}}</td>
                                         <td class="text-center">{{tc.note}}</td>
-                                        <td class="text-center"><button class="btn btn-primary">Gửi minh chứng</button></td>
+                                        <td class="text-center"><button v-if="canUploadProoves(tc)" class="btn btn-primary">Gửi minh chứng</button></td>
                                     </tr>
                                     <tr>
                                         <th scope="row" colspan="3">
@@ -50,7 +54,7 @@
                                         </th>
                                         <th scope="row">
                                             <div class="text-center">
-                                                <strong>{{selfScoreSum}}</strong>
+                                                <strong>{{scoreSum}}</strong>
                                             </div>
                                         </th>
                                         <td></td>
@@ -69,64 +73,71 @@
 <script>
 import { mapActions } from 'vuex';
 import datetimeUtils from "../../helpers/utils/datetimeUtils";
+import constants from '../../constants';
 export default {
     components:{
     },
     data(){
         return {
-            tcList: []
+            tcList: [],
         }
     },
     computed:{
         currentStudyTime(){
             return this.$store.getters['studyTime/getStudyTimeCurrent'];
         },
-        selfScoreSum(){
+        scoreSum(){
             let sum = 0;
-            this.tcList.map(_item => sum += Number(_item.self_score));
+            this.tcList.map(_item => sum += Number(_item.score));
             return sum;
-        }
+        },
     },
     methods:{
         ...mapActions({
             getCurrentStudyTime: 'studyTime/getCurrentStudyTime',
-            getClassMeetScore: 'classMeet/getClassMeetScore',
-            updatePersonClassMeetScore: 'classMeet/updatePersonClassMeetScore',
+            getPersonalScore: 'personalScore/getPersonalScore',
         }),
-        async updateValue(index, score){
-            if(score < 0 || score > this.tcList[index].max_score){
-                this.$swal.fire(
-                'Điểm không hợp lệ!',
-                '',
-                'error'
-                )
-            } else {
-                this.tcList[index].self_score = score;
-                const data = {
-                    id_study_time: this.tcList[index].id_study_time,
-                    id_tieu_chi: this.tcList[index].id_tieu_chi,
-                    score: score,
-                    person_flg: true
-                }
-                await this.updatePersonClassMeetScore(data);
-            }
-        },
-        async increment(index, step) {
-            this.tcList[index].self_score = Number(this.tcList[index].self_score) == Number(this.tcList[index].max_score) ?
-            Number(this.tcList[index].self_score) : +this.tcList[index].self_score + step;
-            await this.updateValue(index, this.tcList[index].self_score)
-        },
-        async decrement(index, step) {
-            this.tcList[index].self_score = this.tcList[index].self_score == 0 ? 0 : +this.tcList[index].self_score - step;
-            await this.updateValue(index, this.tcList[index].self_score);
-        },
         convertVnTime(time){
             return time ? datetimeUtils.dateTimeVnFormat(time) : null;
         },
+        scoreStatusText(tc){
+            const status = constants.status;
+            switch(tc.status){
+                case status.SCORE_CHO_DUYET:
+                    return 'Chờ duyệt minh chứng';
+                    break;
+                case status.SCORE_KHONG_DUYET:
+                    return 'Minh chứng không được duyệt';
+                    break;
+                case status.SCORE_HOAN_THANH:
+                    return 'Đã hoàn thành';
+                    break;
+                default: return 'Chưa có điểm';
+            }
+        },
+        scoreStatusClassText(tc){
+            const status = constants.status;
+            switch(tc.status){
+                case status.SCORE_CHO_DUYET:
+                    return 'text-info';
+                    break;
+                case status.SCORE_KHONG_DUYET:
+                    return 'text-danger';
+                    break;
+                case status.SCORE_HOAN_THANH:
+                    return 'text-primary';
+                    break;
+                default: return 'text-warning';
+            }
+        },
+        canUploadProoves(tc){
+            const tieuChi_uploads = constants.tieuChi.TIEU_CHI_UPLOADS;
+            return tieuChi_uploads.includes(tc.id_tieu_chi);
+        }
     },
     async mounted(){
         this.$loading(true);
-        await this.getClassMeetScore(this.currentStudyTime.id).then(res => this.tcList = [...res.data]);
+        await this.getPersonalScore().then(res => this.tcList = [...res.data]);;
         this.$loading(false);
     },
 }

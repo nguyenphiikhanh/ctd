@@ -52,4 +52,10 @@ namespace App\Http\Utils;
     const GIAI_BA = 3;
     const GIAI_KHUYEN_KHICH = 4;
 
+    // trạng thái điểm rèn luyện
+    const SCORE_CHUA_CO_DIEM = 0;
+    const SCORE_CHO_DUYET = 1;
+    const SCORE_KHONG_DUYET = 2;
+    const SCORE_HOAN_THANH = 3;
+
  }
