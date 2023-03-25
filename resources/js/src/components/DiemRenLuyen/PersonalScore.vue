@@ -46,7 +46,10 @@
                                         <td><div class="text-center">{{tc.score}}</div></td>
                                         <td :class="scoreStatusClassText(tc)">{{scoreStatusText(tc)}}</td>
                                         <td class="text-center">{{tc.note}}</td>
-                                        <td class="text-center"><button v-if="canUploadProoves(tc)" class="btn btn-primary">Gửi minh chứng</button></td>
+                                        <td class="text-center">
+                                            <button v-if="canUploadProoves(tc)" @click="uploadProofPopup(tc)"
+                                            class="btn btn-primary">Gửi minh chứng</button>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th scope="row" colspan="3">
@@ -63,6 +66,7 @@
                                 </table>
                             </div>
                         </div><!-- .card -->
+                        <UploadModal :tcInfo="tcInfo" />
                     </div><!-- nk-block -->
                 </div>
             </div>
@@ -74,12 +78,15 @@
 import { mapActions } from 'vuex';
 import datetimeUtils from "../../helpers/utils/datetimeUtils";
 import constants from '../../constants';
+import UploadModal from './child/UploadModal.vue';
 export default {
     components:{
+        UploadModal
     },
     data(){
         return {
             tcList: [],
+            tcInfo: {},
         }
     },
     computed:{
@@ -136,6 +143,13 @@ export default {
                 const tieuChi_uploads = constants.tieuChi.TIEU_CHI_UPLOADS;
                 return tieuChi_uploads.includes(tc.id_tieu_chi);
             }
+        },
+        uploadProofPopup(tcInfo){
+            this.$nextTick(() => {
+                this.$nextTick(() => {
+                    $('#uploadModal').modal('show');
+                });
+            })
         }
     },
     async mounted(){
