@@ -17,6 +17,7 @@ import TeacherCheckpoint from '../components/DanhGia/TeacherCheckpoint';
 import Cvht from '../components/quanLy/cvht/Cvht';
 import cbCheckpoint from "../components/DanhGia/CbCheckpoint";
 import StudyPoints from '../components/quanLy/diemHocTap/StudyPoints';
+import PersonalScore from "../components/DiemRenLuyen/PersonalScore";
 
 
 const routes = [
@@ -321,6 +322,23 @@ const routes = [
             btdAccess: false,
             ptAccess: false,
             studentAccess: false,
+            cvAccess: false,
+            facultyMasterAccess: false,
+        }
+    },
+    // Xem điểm rèn luyện
+    {
+        name:"PersonalScore",
+        path:"/xem-diem-ren-luyen",
+        component: PersonalScore,
+        meta:{
+            title: 'Xem điểm rèn luyện',
+            requiresAuth: true,
+            adminAccess: false,
+            cblAccess: true,
+            btdAccess: false,
+            ptAccess: false,
+            studentAccess: true,
             cvAccess: false,
             facultyMasterAccess: false,
         }

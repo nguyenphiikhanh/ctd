@@ -133,6 +133,14 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
+            <router-link v-if="user.role == roles.ROLE_LOP_TRUONG || user.role == roles.ROLE_CBL || user.role == roles.ROLE_SINH_VIEN" :to="{name: 'PersonalScore'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-eye-fill"></em></span>
+                        <span class="nk-menu-text">Xem điểm rèn luyện</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
             <router-link v-if="user.role == roles.ROLE_CVHT" :to="{name: 'TeacherCheckpoint'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
