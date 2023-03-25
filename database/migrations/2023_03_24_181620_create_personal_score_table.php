@@ -16,7 +16,9 @@ class CreatePersonalScoreTable extends Migration
         Schema::create('personal_score', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('id_study_time');
+            $table->unsignedBigInteger('id_user');
             $table->unsignedInteger('id_tieu_chi');
+            $table->unsignedFloat('score');
             $table->timestamps();
         });
     }

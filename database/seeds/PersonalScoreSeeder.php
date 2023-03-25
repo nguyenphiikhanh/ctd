@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class PersonalScoreSeeder extends Seeder
 {
@@ -12,5 +13,6 @@ class PersonalScoreSeeder extends Seeder
     public function run()
     {
         //
+        $current = DB::table('study_times')->latest('id')->first();
     }
 }
