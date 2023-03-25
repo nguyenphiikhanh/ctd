@@ -21,7 +21,7 @@
                     <div class="nk-block nk-block-lg">
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
-                                <h5 class="nk-block-title">Đánh giá</h5>
+                                <h5 class="nk-block-title">Điểm rèn luyện</h5>
                             </div>
                         </div>
                         <div class="card card-preview">
@@ -119,20 +119,23 @@ export default {
             const status = constants.status;
             switch(tc.status){
                 case status.SCORE_CHO_DUYET:
-                    return 'text-info';
+                    return 'text-primary';
                     break;
                 case status.SCORE_KHONG_DUYET:
                     return 'text-danger';
                     break;
                 case status.SCORE_HOAN_THANH:
-                    return 'text-primary';
+                    return 'text-success';
                     break;
                 default: return 'text-warning';
             }
         },
         canUploadProoves(tc){
-            const tieuChi_uploads = constants.tieuChi.TIEU_CHI_UPLOADS;
-            return tieuChi_uploads.includes(tc.id_tieu_chi);
+            if(!this.currentStudyTime.end_time_class_meet || new Date(this.currentStudyTime.end_time_class_meet) < new Date()) return false;
+            else{
+                const tieuChi_uploads = constants.tieuChi.TIEU_CHI_UPLOADS;
+                return tieuChi_uploads.includes(tc.id_tieu_chi);
+            }
         }
     },
     async mounted(){
