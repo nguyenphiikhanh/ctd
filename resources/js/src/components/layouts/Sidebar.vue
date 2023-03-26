@@ -125,6 +125,14 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
+            <router-link v-if="user.role == roles.ROLE_LOP_TRUONG || user.role == roles.ROLE_CBL" :to="{name: 'ProofConfirm'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-check-c"></em></span>
+                        <span class="nk-menu-text">Duyệt minh chứng</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
             <router-link v-if="user.role == roles.ROLE_LOP_TRUONG || user.role == roles.ROLE_CBL || user.role == roles.ROLE_SINH_VIEN" :to="{name: 'PersonalCheckpoint'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">

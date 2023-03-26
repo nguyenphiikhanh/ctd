@@ -11,5 +11,13 @@ export default {
                 'Content-Type': 'multipart/form-data'
             },
         });
-    }
+    },
+
+    getTcProoves(){
+      return http.get('/personal-score/proof');
+    },
+
+    getListUserConfirm(tc_id){
+        return http.get(`/personal-score/confirm/${tc_id}`);
+    },
 }

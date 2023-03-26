@@ -20,17 +20,17 @@
                             </div><!-- .nk-block-head-content -->
                         </div><!-- .nk-block-between -->
                     </div><!-- .nk-block-head -->
-                    <div class="nk-block nk-block-lg">
+                    <div class="text-center mt-3" v-if="!currentStudyTime.end_time_class_meet || new Date(currentStudyTime.end_time_class_meet) < new Date()">
+                        <span class="text-center">Kỳ đánh giá đã kết thúc hoặc chưa diễn ra.</span>
+                    </div>
+                    <div class="nk-block nk-block-lg" v-else>
                         <div class="nk-block-head">
                             <div class="nk-block-head-content">
                                 <h5 class="nk-block-title">Danh sách lớp cố vấn</h5>
                             </div>
                         </div>
                         <div class="card card-preview">
-                            <div class="text-center mt-3" v-if="!currentStudyTime.end_time_class_meet || new Date(currentStudyTime.end_time_class_meet) < new Date()">
-                                <span class="text-center">Kỳ đánh giá đã kết thúc hoặc chưa diễn ra.</span>
-                            </div>
-                            <div class="table-responsive" v-else>
+                            <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                     <tr>

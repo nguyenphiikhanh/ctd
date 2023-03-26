@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Traits\UploadFileTrait;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\ResponseUtils;
+use App\Http\Utils\RoleUtils;
+use App\Http\Utils\TcUtils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -56,6 +58,56 @@ class PersonalScoreController extends AppBaseController
         catch(\Exception $e){
             Log::debug($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.update',['atribute' => 'minh chứng']));
+        }
+    }
+
+    public function getTcProoves(){
+        try{
+            $user = Auth::user();
+            $listTc = DB::table('tieu_chi')
+                ->whereIn('id', TcUtils::TIEU_CHI_UPLOADS)
+                ->orderBy('id')
+                ->get();
+            $current = DB::table('study_times')->latest('id')->first();
+            foreach($listTc as $tc){
+                $waitListCount = DB::table('personal_score')
+                    ->leftJoin('users', 'users.id', 'personal_score.id_user')
+                    ->where('id_study_time', $current->id)
+                    ->where('id_tieu_chi', $tc->id)
+                    ->where('status', AppUtils::SCORE_CHO_DUYET)
+                    ->where('users.role', '!=' , $user->role == RoleUtils::ROLE_CBL ? RoleUtils::ROLE_CBL : RoleUtils::ROLE_LOP_TRUONG)
+                    ->count();
+                $tc->wait_count =  $waitListCount;
+            }
+            return $this->sendResponse($listTc, __('message.success.get_list',['atribute' => 'tiêu chí']));
+        }
+        catch(\Exception $e){
+            Log::debug($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'tiêu chí']));
+        }
+    }
+
+    public function getListUserConfirm($id){
+        try{
+            $user = Auth::user();
+            $current = DB::table('study_times')->latest('id')->first();
+            $listUserCf = DB::table('personal_score')
+            ->leftJoin('users', 'users.id', 'personal_score.id_user')
+            ->select('personal_score.*','users.username', DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"))
+            ->where('id_study_time', $current->id)
+            ->where('id_tieu_chi', $id)
+            ->where('status', AppUtils::SCORE_CHO_DUYET)
+            ->where('users.role', '!=' , $user->role == RoleUtils::ROLE_CBL ? RoleUtils::ROLE_CBL : RoleUtils::ROLE_LOP_TRUONG)
+            ->get();
+            foreach($listUserCf as $user){
+                $prooves = DB::table('personal_score_prooves')->where('id_personal_score', $user->id)->get();
+                $user->prooves = $prooves;
+            }
+            return $this->sendResponse($listUserCf, __('message.success.get_list',['atribute' => 'tiêu chí']));
+        }
+        catch(\Exception $e){
+            Log::debug($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'tiêu chí']));
         }
     }
 }

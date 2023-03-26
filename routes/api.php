@@ -107,6 +107,8 @@ Route::prefix('v1')->group(function(){
             //Điểm rèn luyện
             Route::get('/personal-score', 'Auth\PersonalScoreController@index');
             Route::post('/personal-score/proof', 'Auth\PersonalScoreController@sendProof');
+            Route::get('/personal-score/proof', 'Auth\PersonalScoreController@getTcProoves');
+            Route::get('/personal-score/confirm/{id}', 'Auth\PersonalScoreController@getListUserConfirm');
         });
 
 
