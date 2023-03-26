@@ -45,7 +45,7 @@
 
 import {mapActions} from "vuex";
 import ViewProof from "./ViewProof";
-
+import constants from "../../../constants";
 export default {
     components:{
         ViewProof
@@ -62,12 +62,21 @@ export default {
     methods:{
         ...mapActions({
             uploadProoves: 'personalScore/sendProof',
+            confirmTcProoves: 'personalScore/confirmTcProoves'
         }),
         onViewProof(prooves){
             this.prooves = prooves;
             this.$nextTick( () => {
                 $('#viewProofModal').modal('show');
             });
+        },
+        async onConfirmProof(userObj, confirmFlg = true){
+            const status = constants.status;
+            let data = {
+                id: this.tcId,
+                status: confirmFlg ? status.SCORE_HOAN_THANH : status.SCORE_KHONG_DUYET
+            }
+            await this.confirmTcProoves(data).then(() => this.$emit('confirmed',this.tcId));
         },
         closeProofModal(){
             this.$nextTick(() => {
