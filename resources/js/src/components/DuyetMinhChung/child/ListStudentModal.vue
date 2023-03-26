@@ -24,7 +24,7 @@
                                 <td><span>{{user.fullname}}</span></td>
                                 <td :class="`d-flex justify-content-start`">
                                     <div>
-                                        <button class="btn btn-sm btn-info ml-auto" @click="onViewProof(user)">Xem minh chứng</button>
+                                        <button class="btn btn-sm btn-info ml-auto" @click="onViewProof(user.prooves)">Xem minh chứng</button>
                                         <button class="btn btn-sm btn-success" @click="onConfirmProof(user)">Duyệt</button>
                                         <button class="btn btn-sm btn-danger" @click="onConfirmProof(user, false)">Từ chối</button>
                                     </div>
@@ -33,6 +33,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <ViewProof :prooves="prooves" @onClose="closeProofModal()"/>
                     <div class="d-flex justify-content-center"><button @click="closeModal()" class="btn btn-outline-secondary">Đóng</button></div>
                 </div>
             </div>
@@ -43,8 +44,12 @@
 <script>
 
 import {mapActions} from "vuex";
+import ViewProof from "./ViewProof";
 
 export default {
+    components:{
+        ViewProof
+    },
     props:{
         tcId: {type: Number, default: null},
         listUser: {type: Array, default: []},
@@ -62,6 +67,11 @@ export default {
             this.prooves = prooves;
             this.$nextTick( () => {
                 $('#viewProofModal').modal('show');
+            });
+        },
+        closeProofModal(){
+            this.$nextTick(() => {
+                $('#viewProofModal').modal('hide');
             });
         },
         closeModal(){
