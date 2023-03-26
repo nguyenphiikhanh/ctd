@@ -13,8 +13,8 @@ export default {
             })
     },
 
-    createStudyTime({commit, dispatch}, data){
-        return studyTimeService.createStudyTime(data)
+    sendProof({commit, dispatch}, data){
+        return personalScoreServices.sendProof(data)
             .then(response => {
                 dispatch('alert/alertSuccess',response.data.message, { root: true })
             })

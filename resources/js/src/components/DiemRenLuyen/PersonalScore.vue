@@ -23,6 +23,9 @@
                             <div class="nk-block-head-content">
                                 <h5 class="nk-block-title">Điểm rèn luyện</h5>
                             </div>
+                            <div class="nk-block-head-content">
+                                <button class="btn btn-lg btn-outline-success">Xem quy định đánh giá</button>
+                            </div>
                         </div>
                         <div class="card card-preview">
                             <div class="table-responsive">
@@ -48,7 +51,7 @@
                                         <td class="text-center">{{tc.note}}</td>
                                         <td class="text-center">
                                             <button v-if="canUploadProoves(tc)" @click="uploadProofPopup(tc)"
-                                            class="btn btn-primary">Gửi minh chứng</button>
+                                            :class="scoreButtonClassText(tc)">{{ proofButtonText(tc) }}</button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -66,7 +69,7 @@
                                 </table>
                             </div>
                         </div><!-- .card -->
-                        <UploadModal :tcInfo="tcInfo" />
+                        <UploadModal :tcInfo="tcInfo" @proofUploaded="proofUploaded()"/>
                     </div><!-- nk-block -->
                 </div>
             </div>
@@ -138,23 +141,48 @@ export default {
             }
         },
         canUploadProoves(tc){
+            const status = constants.status;
             if(!this.currentStudyTime.end_time_class_meet || new Date(this.currentStudyTime.end_time_class_meet) < new Date()) return false;
-            else{
-                const tieuChi_uploads = constants.tieuChi.TIEU_CHI_UPLOADS;
-                return tieuChi_uploads.includes(tc.id_tieu_chi);
+            if(tc.status == status.SCORE_HOAN_THANH) return false;
+            const tieuChi_uploads = constants.tieuChi.TIEU_CHI_UPLOADS;
+            return tieuChi_uploads.includes(tc.id_tieu_chi);
+        },
+        scoreButtonClassText(tc){
+            const status = constants.status;
+            switch(tc.status){
+                case status.SCORE_CHO_DUYET:
+                    return 'btn btn-primary';
+                    break;
+                case status.SCORE_KHONG_DUYET:
+                    return 'btn btn-danger';
+                    break;
+                case status.SCORE_HOAN_THANH:
+                    return 'btn btn-success';
+                    break;
+                default: return 'btn btn-warning';
             }
         },
+        proofButtonText(tc){
+            const status = constants.status;
+            return  tc.status == status.SCORE_CHUA_CO_DIEM ? 'Gửi minh chứng' : 'Gửi lại minh chứng';
+        },
         uploadProofPopup(tcInfo){
+            this.tcInfo = tcInfo;
             this.$nextTick(() => {
                 this.$nextTick(() => {
                     $('#uploadModal').modal('show');
                 });
             })
+        },
+        async proofUploaded(){
+            this.$loading(true);
+            await this.getPersonalScore().then(res => this.tcList = [...res.data]);
+            this.$loading(false);
         }
     },
     async mounted(){
         this.$loading(true);
-        await this.getPersonalScore().then(res => this.tcList = [...res.data]);;
+        await this.getPersonalScore().then(res => this.tcList = [...res.data]);
         this.$loading(false);
     },
 }

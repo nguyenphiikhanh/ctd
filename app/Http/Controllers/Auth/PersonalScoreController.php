@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
+use App\Http\Traits\UploadFileTrait;
+use App\Http\Utils\AppUtils;
 use App\Http\Utils\ResponseUtils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,13 +35,27 @@ class PersonalScoreController extends AppBaseController
         }
     }
 
-    public function update(Request $request){
+    use UploadFileTrait;
+    public function sendProof(Request $request){
         try{
-
+            $id = $request->get('id');
+            $files = $request->file('files', []);
+            Log::debug($files);
+            DB::connection('mysql')->transaction(function () use($id, $files){
+                if($id){
+                    DB::table('personal_score')
+                        ->where('id', $id)
+                        ->update([
+                            'status' => AppUtils::SCORE_CHO_DUYET
+                        ]);
+                    $this->storageMultipleFile($files, 'personal_score_prooves', 'id_personal_score', $id, 'personal_score_prooves');
+                }
+            });
+            return $this->sendResponse('', __('message.success.update',['atribute' => 'minh chứng']));
         }
         catch(\Exception $e){
             Log::debug($e->getMessage(). $e->getTraceAsString());
-            return $this->sendError(__('message.failed.update',['atribute' => 'điểm rèn luyện']));
+            return $this->sendError(__('message.failed.update',['atribute' => 'minh chứng']));
         }
     }
 }

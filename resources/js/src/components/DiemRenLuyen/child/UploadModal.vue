@@ -7,15 +7,17 @@
                 </a>
                 <div class="modal-header"><h5 class="modal-title">Gửi minh chứng</h5></div>
                 <div class="modal-body">
-                    <p class="mt-3 h5">Chọn minh chứng gửi lên và chờ xét duyệt, vui lòng chỉ chọn file ảnh có định dạng .jpg/.jpeg./png</p>
+                    <p class="mt-3 text-info">Chọn minh chứng gửi lên và chờ xét duyệt, vui lòng chỉ chọn file ảnh có định dạng .jpg/.jpeg./png</p>
                     <div class="col-12 d-flex justify-content-center" >
                         <input type="file" ref="proof" class="d-none" @change="uploadProof($event.target.files)" multiple accept=".png, .jpg, .jpeg">
-                        <button class="btn btn-lg btn-outline-success"
+                        <button class="btn btn-lg btn-outline-success mr-2"
                                 @click="$refs.proof.click()">
                             <em class="icon ni ni-upload"></em>{{ proofContent }}
                         </button>
+                    </div>
+                    <div class="d-flex justify-content-center mt-2">
                         <button v-if="prooves.length" @click="sendProof()"
-                                class="btn btn-lg btn-primary ml-2">Gửi
+                                class="btn btn-lg btn-primary">Gửi
                         </button>
                     </div>
                 </div>
@@ -25,6 +27,8 @@
 </template>
 
 <script>
+
+import {mapActions} from "vuex";
 
 export default {
     props:{
@@ -36,6 +40,9 @@ export default {
         }
     },
     methods:{
+        ...mapActions({
+            uploadProoves: 'personalScore/sendProof',
+        }),
         uploadProof(proofFiles){
             this.prooves = [...proofFiles];
             const validFileExtensions = ['image/png','image/jpeg','image/jpg'];
@@ -58,15 +65,13 @@ export default {
                 $('#uploadModal').modal('hide');
             })
             this.$loading(true);
-            // let formData = new FormData();
-            // formData.append("id", this.notifyInfo.id);
-            // formData.append("id_child_activity", this.notifyInfo.id_child_activity);
-            // formData.append("child_activity_type", this.notifyInfo.child_activity_type);
-            // for(let i = 0; i < this.proof.length; i++){
-            //     let file = this.proof[i];
-            //     formData.append('files[' + i + ']', file);
-            // }
-            // await this.storeProof(formData);
+            const formData = new FormData();
+            formData.append('id', this.tcInfo.id);
+            for(let i = 0; i < this.prooves.length; i++){
+                let file = this.prooves[i];
+                formData.append('files[' + i + ']', file);
+            }
+            await this.uploadProoves(formData);
             this.closeModal();
             this.$loading(false);
             this.$emit('proofUploaded');
