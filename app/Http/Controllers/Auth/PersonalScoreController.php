@@ -110,4 +110,29 @@ class PersonalScoreController extends AppBaseController
             return $this->sendError(__('message.failed.get_list',['atribute' => 'tiêu chí']));
         }
     }
+
+    public function confirmTcProoves(Request $request, $id){
+        try{
+            $status = $request->get('status');
+            if($status == AppUtils::SCORE_HOAN_THANH){
+                DB::table('personal_score')
+                    ->where('id', $id)
+                    ->update([
+                        'score' => DB::raw('max_score'),
+                        'status' => AppUtils::SCORE_HOAN_THANH
+                    ]);
+            } else{
+                DB::table('personal_score')
+                ->where('id', $id)
+                ->update([
+                    'status' => AppUtils::SCORE_KHONG_DUYET
+                ]);
+            }
+            return $this->sendResponse('', __('message.success.update', ['atribute' => 'điểm rèn luyện']));
+        }
+        catch(\Exception $e){
+            Log::debug($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'điểm rèn luyện']));
+        }
+    }
 }

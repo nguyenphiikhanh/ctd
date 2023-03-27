@@ -109,6 +109,7 @@ Route::prefix('v1')->group(function(){
             Route::post('/personal-score/proof', 'Auth\PersonalScoreController@sendProof');
             Route::get('/personal-score/proof', 'Auth\PersonalScoreController@getTcProoves');
             Route::get('/personal-score/confirm/{id}', 'Auth\PersonalScoreController@getListUserConfirm');
+            Route::put('/personal-score/confirm-prooves/{id}', 'Auth\PersonalScoreController@confirmTcProoves');
         });
 
 

@@ -164,7 +164,7 @@ export default {
         },
         proofButtonText(tc){
             const status = constants.status;
-            return  tc.status == status.SCORE_CHUA_CO_DIEM ? 'Gửi minh chứng' : 'Gửi lại minh chứng';
+            return  tc.status == status.SCORE_CHUA_CO_DIEM ? 'Gửi minh chứng' : 'Gửi lại';
         },
         uploadProofPopup(tcInfo){
             this.tcInfo = tcInfo;

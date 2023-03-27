@@ -55,7 +55,7 @@
                                 </table>
                             </div>
                         </div><!-- .card -->
-                        <ListStudentModal :tc-id="tcId" :listUser="listUser"/>
+                        <ListStudentModal :tc-id="tcId" :listUser="listUser" @confirmed="onConfirmed"/>
                     </div><!-- nk-block -->
                 </div>
             </div>
@@ -101,6 +101,16 @@ export default {
             this.$nextTick(() => {
                 $('#userListConfirm').modal('show');
             })
+        },
+        async onConfirmed(id){
+            this.listUser = this.listUser.filter(_item => _item.id != id);
+            await this.getTcProoves().then(res => this.tcList = [...res.data]);
+            await this.getListUserConfirm(this.tcId).then(res => this.listUser = [...res.data]);
+            if(!this.listUser.length){
+                this.$nextTick(() => {
+                    $('#userListConfirm').modal('hide');
+                })
+            }
         }
     },
     async mounted(){

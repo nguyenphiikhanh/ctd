@@ -7,7 +7,8 @@
                 </a>
                 <div class="modal-header"><h5 class="modal-title">Gửi minh chứng</h5></div>
                 <div class="modal-body">
-                    <div class="col-12">
+                    <div v-if="!listUser.length" class="text-center mb-3">Không có dữ liệu xét duyệt</div>
+                    <div class="col-12" v-else>
                         <table class="table table-bordered">
                             <thead>
                             <tr>
@@ -18,16 +19,17 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(user, index) in listUser">
+                            <tr v-for="(user, index) in listUser" :key="index">
                                 <th scope="row"><span>{{index+1}}</span></th>
                                 <td><span>{{user.username}}</span></td>
                                 <td><span>{{user.fullname}}</span></td>
                                 <td :class="`d-flex justify-content-start`">
-                                    <div>
+                                    <div v-if="waiting == false">
                                         <button class="btn btn-sm btn-info ml-auto" @click="onViewProof(user.prooves)">Xem minh chứng</button>
                                         <button class="btn btn-sm btn-success" @click="onConfirmProof(user)">Duyệt</button>
                                         <button class="btn btn-sm btn-danger" @click="onConfirmProof(user, false)">Từ chối</button>
                                     </div>
+                                    <div v-else class="text-center">Đang cập nhật...</div>
                                 </td>
                             </tr>
                             </tbody>
@@ -56,7 +58,8 @@ export default {
     },
     data(){
         return {
-            prooves: []
+            prooves: [],
+            waiting: false,
         }
     },
     methods:{
@@ -70,13 +73,16 @@ export default {
                 $('#viewProofModal').modal('show');
             });
         },
-        async onConfirmProof(userObj, confirmFlg = true){
+        async onConfirmProof(user, confirmFlg = true){
+            this.waiting = true;
             const status = constants.status;
             let data = {
-                id: this.tcId,
+                id: user.id,
                 status: confirmFlg ? status.SCORE_HOAN_THANH : status.SCORE_KHONG_DUYET
             }
-            await this.confirmTcProoves(data).then(() => this.$emit('confirmed',this.tcId));
+            await this.confirmTcProoves(data);
+            await this.$emit('confirmed', user.id);
+            this.waiting = false;
         },
         closeProofModal(){
             this.$nextTick(() => {
