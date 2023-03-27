@@ -103,6 +103,13 @@ Route::prefix('v1')->group(function(){
             Route::get('/checkList-activities','Auth\ChildActivityController@getActivitiesForCheckList');
             Route::get('/checkList-activities-users/{activity_details_id}','Auth\ChildActivityController@getUserForCheckList');
             Route::put('/checkList-for-user/{id_user}/{act_id}','Auth\ChildActivityController@updateUserCheckList');
+
+            //Điểm rèn luyện
+            Route::get('/personal-score', 'Auth\PersonalScoreController@index');
+            Route::post('/personal-score/proof', 'Auth\PersonalScoreController@sendProof');
+            Route::get('/personal-score/proof', 'Auth\PersonalScoreController@getTcProoves');
+            Route::get('/personal-score/confirm/{id}', 'Auth\PersonalScoreController@getListUserConfirm');
+            Route::put('/personal-score/confirm-prooves/{id}', 'Auth\PersonalScoreController@confirmTcProoves');
         });
 
 

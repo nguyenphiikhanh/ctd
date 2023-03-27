@@ -17,7 +17,8 @@ import TeacherCheckpoint from '../components/DanhGia/TeacherCheckpoint';
 import Cvht from '../components/quanLy/cvht/Cvht';
 import cbCheckpoint from "../components/DanhGia/CbCheckpoint";
 import StudyPoints from '../components/quanLy/diemHocTap/StudyPoints';
-
+import PersonalScore from "../components/DiemRenLuyen/PersonalScore";
+import MinhChung from "../components/DuyetMinhChung/MinhChung";
 
 const routes = [
     // dashboard
@@ -315,6 +316,40 @@ const routes = [
         component: cbCheckpoint,
         meta:{
             title: 'Họp đánh giá lớp',
+            requiresAuth: true,
+            adminAccess: false,
+            cblAccess: true,
+            btdAccess: false,
+            ptAccess: false,
+            studentAccess: false,
+            cvAccess: false,
+            facultyMasterAccess: false,
+        }
+    },
+    // Xem điểm rèn luyện
+    {
+        name:"PersonalScore",
+        path:"/xem-diem-ren-luyen",
+        component: PersonalScore,
+        meta:{
+            title: 'Xem điểm rèn luyện',
+            requiresAuth: true,
+            adminAccess: false,
+            cblAccess: true,
+            btdAccess: false,
+            ptAccess: false,
+            studentAccess: true,
+            cvAccess: false,
+            facultyMasterAccess: false,
+        }
+    },
+    // Duyệt minh chứng ngoài
+    {
+        name:"ProofConfirm",
+        path:"/duyet-minh-chung",
+        component: MinhChung,
+        meta:{
+            title: 'Xét duyệt minh chứng',
             requiresAuth: true,
             adminAccess: false,
             cblAccess: true,

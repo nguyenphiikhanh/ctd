@@ -2,6 +2,7 @@ import status from "./status";
 import roles from "./roles";
 import awards from "./awards";
 import timeReopen from './timeRepopen';
+import tieuChi from "./tieuChi";
 
 export default {
     LOAI_HOAT_DONG:{
@@ -38,5 +39,6 @@ export default {
     status,
     roles,
     awards,
-    timeReopen
+    timeReopen,
+    tieuChi,
 }

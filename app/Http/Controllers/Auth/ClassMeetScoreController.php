@@ -51,13 +51,23 @@ class ClassMeetScoreController extends AppBaseController
             }
             else{ //danh gia lop
                 if($user->role == RoleUtils::ROLE_CVHT){ // điểm cvht chấm
-                    DB::table('student_class_meet_score')
-                    ->where('id_study_time', $id_study_time)
-                    ->where('id_tieu_chi', $id_tieu_chi)
-                    ->where('id_user', $id_user)
-                    ->update([
-                        'cvht_score' => $score
-                    ]);
+                    DB::connection('mysql')->transaction(function() use($id_study_time, $id_tieu_chi, $id_user, $score){
+                        DB::table('student_class_meet_score')
+                        ->where('id_study_time', $id_study_time)
+                        ->where('id_tieu_chi', $id_tieu_chi)
+                        ->where('id_user', $id_user)
+                        ->update([
+                            'cvht_score' => $score
+                        ]);
+                        DB::table('personal_score')
+                        ->where('id_study_time', $id_study_time)
+                        ->where('id_tieu_chi', $id_tieu_chi)
+                        ->where('id_user', $id_user)
+                        ->update([
+                            'score' => $score,
+                            'status' => AppUtils::SCORE_HOAN_THANH
+                        ]);
+                    });
                 }
                 else{ // điểm cbl chấm
                     DB::table('student_class_meet_score')

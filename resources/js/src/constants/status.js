@@ -5,4 +5,10 @@ export default{
     STATUS_TU_CHOI: 7,
     STATUS_DUYET: 8,
     STATUS_CHO_DUYET: 9,
+
+    // personal score
+    SCORE_CHUA_CO_DIEM: 0,
+    SCORE_CHO_DUYET: 1,
+    SCORE_KHONG_DUYET: 2,
+    SCORE_HOAN_THANH: 3,
 }
