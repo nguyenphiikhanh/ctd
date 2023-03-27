@@ -33,6 +33,10 @@ class PersonalScoreController extends AppBaseController
             foreach($data as $field){
                 $field->score = (float) $field->score;
                 $field->max_score = (float) $field->max_score;
+                $field->status = (int) $field->status;
+                $field->id_study_time = (int) $field->id_study_time;
+                $field->id_tieu_chi = (int) $field->id_tieu_chi;
+                $field->id_user = (int) $field->id_user;
             }
             return $this->sendResponse($data, __('message.success.get_list',['atribute' => 'điểm rèn luyện']));
         }
@@ -83,6 +87,7 @@ class PersonalScoreController extends AppBaseController
                     ->where('users.role', '!=' , $user->role == RoleUtils::ROLE_CBL ? RoleUtils::ROLE_CBL : RoleUtils::ROLE_LOP_TRUONG)
                     ->count();
                 $tc->wait_count =  $waitListCount;
+                $tc->max_score = (float) $tc->max_score;
             }
             return $this->sendResponse($listTc, __('message.success.get_list',['atribute' => 'tiêu chí']));
         }
