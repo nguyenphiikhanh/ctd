@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\AssigneeRequest;
+use App\Http\Requests\CvhtRequest;
 use App\Http\Utils\RoleUtils;
 use App\User;
 use Illuminate\Http\Request;
@@ -91,6 +92,79 @@ class UserController extends AppBaseController
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.create',['atribute' => 'phụ trách']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getUserCvht(){
+        try{
+            $user = Auth::user();
+            $assignees = DB::table('users')
+                ->select('id','username', 'email', 'ho', 'ten')
+                ->where('role', RoleUtils::ROLE_CVHT)
+                ->where('id_khoa', $user->id_khoa)
+                ->get();
+            return $this->sendResponse($assignees, __('message.success.get_list',['atribute' => 'cố vấn học tập']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'cố vấn học tập']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function storeUserCvht(CvhtRequest $request){
+        try{
+            $user = Auth::user();
+            $ho = $request->get('ho');
+            $ten = $request->get('ten');
+            $username = $request->get('username');
+            $email = $request->get('email');
+            $password = $request->get('password');
+
+            DB::table('users')->insert([
+                'username' => $username,
+                'password' => Hash::make($password),
+                'id_khoa' => $user->id_khoa,
+                'email' => $email,
+                'ho' => $ho,
+                'ten' => $ten,
+                'role' => RoleUtils::ROLE_CVHT,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            return $this->sendResponse('', __('message.success.create',['atribute' => 'cố vấn học tập']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.create',['atribute' => 'cố vấn học tập']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function updateUserCvht(CvhtRequest $request, $id){
+        try{
+            $assignee = User::find($id);
+            if(!$assignee){
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'cố vấn học tập']), Response::HTTP_UNPROCESSABLE_ENTITY);
+                return;
+            }
+
+            $ho = $request->get('ho');
+            $ten = $request->get('ten');
+            $username = $request->get('username');
+            $email = $request->get('email');
+
+            $assignee->update([
+                'username' => $username,
+                'email' => $email,
+                'ho' => $ho,
+                'ten' => $ten,
+            ]);
+
+            return $this->sendResponse('', __('message.success.update',['atribute' => 'cố vấn học tập']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'cố vấn học tập']), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
     /**

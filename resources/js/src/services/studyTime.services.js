@@ -16,5 +16,13 @@ export default {
 
     updateStudyTime(id, data){
         return http.put(`study-times/${id}`, data);
+    },
+
+    getCurrentStudyTime(){
+        return http.get('/study-times/current');
+    },
+
+    updateFacultyTimeSetting(id, data){
+        return http.put(`study-times/${id}/faculty-setting`, data);
     }
 }

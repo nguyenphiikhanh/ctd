@@ -11,5 +11,17 @@ export default {
             id_study_year: id_study_year
         }
         return http.get(`points/nvsp`, {params : data});
+    },
+
+    storeStudypoints(data){
+        return http.post('/study-point', data,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+        });
+    },
+
+    getStudyPoints(data){
+        return http.get('/study-point', {params: data});
     }
 }

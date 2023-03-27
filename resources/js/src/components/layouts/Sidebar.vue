@@ -55,7 +55,7 @@
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
-                        <span class="nk-menu-text">Nhiệm vụ</span>
+                        <span class="nk-menu-text">Nhiệm vụ & thông báo</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
@@ -67,7 +67,15 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'Lop'}">
+            <router-link v-if="user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'Cvht'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
+                        <span class="nk-menu-text">Cố vấn học tập</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+            <router-link v-if="user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'Lop'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
@@ -75,11 +83,27 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
+            <router-link v-if="user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'StudyPoints'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
+                        <span class="nk-menu-text">Điểm học tập</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
             <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'NvspPoint'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
-                        <span class="nk-menu-text">Quản lý điểm NVSP</span>
+                        <span class="nk-menu-text">Xem điểm tuần NVSP</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'ClassMeetScore'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
+                        <span class="nk-menu-text">Xem đánh giá lớp</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
@@ -88,7 +112,8 @@
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-bell-fill"></em></span>
-                        <span class="nk-menu-text">Thông báo nhiệm vụ</span><span class="nk-menu-badge">{{$store.getters['activity/activityReceiveCount']}}</span>
+                        <span class="nk-menu-text">Nhiệm vụ & thông báo</span>
+                        <span class="nk-menu-badge">{{$store.getters['activity/activityReceiveCount']}}</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
@@ -97,6 +122,46 @@
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-list-check"></em></span>
                         <span class="nk-menu-text">Điểm danh hoạt động</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+            <router-link v-if="user.role == roles.ROLE_LOP_TRUONG || user.role == roles.ROLE_CBL" :to="{name: 'ProofConfirm'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-check-c"></em></span>
+                        <span class="nk-menu-text">Duyệt minh chứng</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+            <router-link v-if="user.role == roles.ROLE_LOP_TRUONG || user.role == roles.ROLE_CBL || user.role == roles.ROLE_SINH_VIEN" :to="{name: 'PersonalCheckpoint'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-pen2"></em></span>
+                        <span class="nk-menu-text">Đánh giá cá nhân</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+            <router-link v-if="user.role == roles.ROLE_LOP_TRUONG || user.role == roles.ROLE_CBL || user.role == roles.ROLE_SINH_VIEN" :to="{name: 'PersonalScore'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-eye-fill"></em></span>
+                        <span class="nk-menu-text">Xem điểm rèn luyện</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+            <router-link v-if="user.role == roles.ROLE_CVHT" :to="{name: 'TeacherCheckpoint'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                        <span class="nk-menu-text">Họp đánh giá lớp</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+            <router-link v-if="user.role == roles.ROLE_CBL" :to="{name: 'CbCheckpoint'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                        <span class="nk-menu-text">Họp đánh giá lớp</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
@@ -112,6 +177,7 @@ export default {
     methods:{
       ...mapActions({
           getNotifyList: 'activity/getActivitiesReceive',
+          getCurrentStudyTime: 'studyTime/getCurrentStudyTime'
       }),
     },
     computed:{
@@ -124,6 +190,7 @@ export default {
     },
     async mounted() {
         await asyncLoading(this.getNotifyList());
+        await this.getCurrentStudyTime();
     }
 }
 </script>

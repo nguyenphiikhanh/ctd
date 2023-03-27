@@ -73,7 +73,6 @@ export default {
                 id: act.id,
                 id_user_assignee: this.id_user,
             }
-            console.log(data);
             await this.changeAssigneeSetting(data);
             this.$loading(false);
             this.id_user = null;

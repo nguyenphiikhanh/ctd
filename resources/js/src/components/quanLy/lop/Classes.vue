@@ -41,6 +41,7 @@
                                         <th scope="col">Khối</th>
                                         <th scope="col">Khóa đào tạo</th>
                                         <th scope="col">Số lượng sinh viên</th>
+                                        <th scope="col">Cố vấn học tập</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -51,6 +52,13 @@
                                         <td>{{_item.type_name}}</td>
                                         <td>{{_item.term_name}}</td>
                                         <td>{{_item.student_count}}</td>
+                                        <th scope="col">
+                                            <span v-if="!_item.id_user_cvht" class="text-info">Chưa có</span>
+                                            <span v-else class="text-primary">{{ getCvhtName(_item.id_user_cvht) }}</span>
+                                            <button @click="changeCvhtSetting(_item)" class="btn btn-sm btn-warning">
+                                                <em class="icon ni ni-repeat"></em>
+                                            </button>
+                                        </th>
                                         <td class="d-flex justify-content-end">
                                             <div>
                                             <router-link :to="`lop-${_item.id}/danh-sach-sinh-vien`" target="_blank">
@@ -69,6 +77,11 @@
                     </div><!-- nk-block -->
                     <create-or-update-dialog :createFlg="createFlg" :terms="terms" :classTypes="classTypes" :classObject="classObject"
                      @onSave="onSave" @closeModal="closeModal()" @changeObject="changeObject"/>
+                     <SettingCvht :class-choose="classObject"
+                                    :key="viewKey"
+                                    :cvhts="listUserCvht"
+                                    @closeModal="closeModal()"
+                                    @onSave="getClassListData()"/>
                 </div>
             </div>
         </div>
@@ -79,9 +92,11 @@
 import { asyncLoading } from 'vuejs-loading-plugin';
 import { mapActions } from 'vuex';
 import createOrUpdateDialog from './child/CreateOrUpdateClass.vue';
+import SettingCvht from './child/SettingCvht.vue';
 export default {
     components:{
         createOrUpdateDialog,
+        SettingCvht
     },
     data(){
         return{
@@ -97,6 +112,8 @@ export default {
                 id_user_cvht: null,
             },
             terms: [],
+            listUserCvht: [],
+            viewKey: 0,
         }
     },
     methods:{
@@ -104,7 +121,8 @@ export default {
             getClasses: 'classes/getClasses',
             getClassTypes: 'classes/getClassTypes',
             getTermList: 'khoaDaoTao/getTermList',
-            createClass: 'classes/createClass'
+            createClass: 'classes/createClass',
+            getCvht: 'userModule/getCvhts'
         }),
         async getClassListData(){
             const params = {};
@@ -137,21 +155,35 @@ export default {
             this.closeModal();
             await asyncLoading(this.getClassListData());
         },
+        changeCvhtSetting(classChoose){
+            this.classObject = classChoose;
+            this.$nextTick(() => {
+                $('#cvhtSetting').modal('show');
+            })
+        },
+        getCvhtName(id_user_cvht){
+            if(!id_user_cvht) return '';
+            const userCvht = this.listUserCvht.find(_item => _item.id == id_user_cvht);
+            return userCvht.ho + ' ' + userCvht.ten;
+        },
         closeModal(){
             this.$nextTick(() => {
                 this.createFlg = true;
                 this.tenKhoa = '';
                 $('#createOrUpdateDialog').modal('hide');
+                $('#cvhtSetting').modal('hide');
             });
         },
     },
-    mounted(){
+    async mounted(){
         asyncLoading(this.getClassTypes().then(res => this.classTypes = [...res.data]));
         asyncLoading(this.getClassListData());
         const data = {
             getAllFlg: true
         }
         asyncLoading(this.getTermList(data).then(res => this.terms = [...res.data]));
+        await this.getCvht().then(res => this.listUserCvht = [...res.data])
+        this.viewKey++;
     }
 }
 </script>

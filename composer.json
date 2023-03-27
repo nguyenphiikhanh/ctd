@@ -18,6 +18,7 @@
         "laravel/passport": "*",
         "laravel/tinker": "^2.5",
         "laravel/ui": "*",
+        "maatwebsite/excel": "^3.1",
         "unisharp/laravel-filemanager": "^2.5"
     },
     "require-dev": {

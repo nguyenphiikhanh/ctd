@@ -18,7 +18,6 @@
                                 <th scope="col">Họ tên</th>
                                 <th scope="col">Trạng thái điểm danh</th>
                                 <th scope="col">Ghi chú</th>
-                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -39,6 +38,7 @@
                                     <span v-if="canUpdate(user) && authUser.id != user.id && (user.status == statuses.STATUS_TU_CHOI)" class="text-danger">Không duyệt minh chứng</span>
                                 </td>
                                 <td>
+                                    <span v-if="!canUpdate(user)" class="text-success">Đã hoàn thành</span>
                                     <input v-if="canUpdate(user) && authUser.id != user.id" v-model="user.note" @keyup.enter="$event.target.blur()" @blur="onUpdateStatus(user)" class="form-control" placeholder="Ghi chú">
                                     <input v-if="!canUpdate(user) || authUser.id == user.id" class="form-control" disabled placeholder="Không thể cập nhật">
                                 </td>

@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
 
             // TieuChiBigTypeSeeder::class,
             // LoaiTieuChiSeeder::class,
-            // TieuChiSeeder::class,
+            TieuChiSeeder::class,
             // StudyTermSeeder::class,
         ]);
     }

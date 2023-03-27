@@ -52,7 +52,7 @@
                         </ul>
                         <div class="card card-preview">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table table-bordered">
                                     <thead class="p-3">
                                     <tr>
                                         <th scope="col">STT</th>
@@ -68,14 +68,22 @@
                                         <th scope="row">{{ index + 1 }}</th>
                                         <td>{{_item.name}}</td>
                                         <td><span>{{ activity_type(_item.id_activity) }}</span></td>
-                                        <td><span>{{ requirement(_item.id_activity, _item.child_activity_type) }}</span></td>
+                                        <td><span>{{ requirement(_item.id_activity, _item.child_activity_type) }}
+                                            <small class="text-danger">{{ joinTypeConvert(_item) }}</small></span></td>
                                         <td v-if="activity == loai_hoat_dong.HOAT_DONG_NVSP">
                                             <span :class="_item.id_user_assignee ? 'text-primary' : 'text-warning'">{{ _item.id_user_assignee ? _item.user_assign_name : 'Chưa có'}}</span>
-                                            <button v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN && user.role == roles.ROLE_BI_THU_DOAN" @click="changeAssignee(_item)" class="btn btn-sm btn-warning"><em class="ni ni-repeat"></em></button>
+                                            <button v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN && user.role == roles.ROLE_BI_THU_DOAN"
+                                             @click="changeAssignee(_item)"
+                                             class="btn btn-sm btn-warning"><em class="ni ni-repeat"></em></button>
                                         </td>
                                         <td>
-                                            <button @click="viewAct(_item)" class="btn btn-sm btn-info">Chi tiết</button>
-                                            <button @click="showUserActivityList(_item.id)" v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN" class="btn btn-sm btn-primary">Danh sách</button>
+                                            <button @click="viewAct(_item)" class="btn btn-sm btn-info"><em class="icon ni ni-eye"></em>Chi tiết</button>
+                                            <button @click="showUserActivityList(_item.id)"
+                                            v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN || _item.child_activity_type == action.TB_GUI_DS_THAM_GIA"
+                                            class="btn btn-sm btn-primary"><em class="icon ni ni-list"></em>Danh sách</button>
+                                            <button @click="showUserNckh(_item)"
+                                            v-if="_item.id_activity == loai_hoat_dong.HOAT_DONG_NCKH && _item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN"
+                                            class="btn btn-sm btn-warning"><em class="icon ni ni-edit"></em>Sửa danh sách</button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -90,6 +98,7 @@
                 <UpdateAssignee :assignees="assignees" :child-act="child_act_view"
                 @onSave="getChildActList(activity, current_tab, true)"
                 @closeModal="closeModal()"/>
+                <UpdateUserNckh :child-act="child_act_view" :user-list="user_acts" @closeModal="closeModal()" :key="key"/>
             </div>
         </div>
     </div>
@@ -99,15 +108,18 @@
 
 import {mapActions} from "vuex";
 import constants from "../../constants";
+import datetimeUtils from "../../helpers/utils/datetimeUtils";
 import ViewChildActivity from "./authorize/child/ViewChildActivity.vue";
 import ViewUserActivity from "./authorize/child/ViewUserActivity.vue";
 import UpdateAssignee from './authorize/phuTrach/UpdateAssignee.vue';
+import UpdateUserNckh from "./authorize/child/UpdateUserNckh.vue";
 
 export default {
     components:{
         ViewChildActivity,
         ViewUserActivity,
         UpdateAssignee,
+        UpdateUserNckh,
     },
     data(){
         return{
@@ -134,6 +146,12 @@ export default {
         },
         user(){
             return this.$store.getters['auth/user'];
+        },
+        actLevel(){
+            return constants.LEVEL;
+        },
+        joinType(){
+            return constants.HINH_THUC_THI;
         }
     },
     methods:{
@@ -142,6 +160,7 @@ export default {
             getUserActivities: "activity/getUserActivities",
             getAssignee: 'userModule/getAssignees',
             nvspCreatePoint: 'points/nvspCreatePoint',
+            getStudentByFaculty: 'student/getStudentByFaculty',
         }),
         async getChildActList(activity = this.loai_hoat_dong.HOAT_DONG_NCKH, current_tab = null, reGet = false){
             if(this.current_tab == current_tab && !reGet) return;
@@ -178,6 +197,7 @@ export default {
             this.$nextTick(() => {
                 $('#viewChildAct').modal('hide');
                 $('#viewUserAct').modal('hide');
+                $('#showUserNckh').modal('hide');
                 $('#assigneeSetting').modal('hide');
             });
         },
@@ -188,6 +208,26 @@ export default {
                     this.user_acts = [...res.data];
                     this.$nextTick(() => {
                         $('#viewUserAct').modal('show');
+                    });
+                })
+                .finally(() => this.$loading(false));
+        },
+        async showUserNckh(child_act){
+            this.child_act_view = child_act;
+            this.$loading(true);
+            const reqs = {
+                    id_faculty: this.user.id_khoa,
+                    params:{
+                        start_time: datetimeUtils.convertTimezoneToDatetime(child_act.start_time),
+                        end_time: datetimeUtils.convertTimezoneToDatetime(child_act.end_time)
+                    }
+                };
+            await this.getStudentByFaculty(reqs)
+                .then(res => {
+                    this.user_acts = [...res.data];
+                    this.key++
+                    this.$nextTick(() => {
+                        $('#showUserNckh').modal('show');
                     });
                 })
                 .finally(() => this.$loading(false));
@@ -214,10 +254,10 @@ export default {
                             return 'Tiểu ban';
                             break;
                         case this.action.TB_GUI_DS_THAM_DU:
-                            return 'Gửi danh sách dự thi';
+                            return 'Danh sách dự thi';
                             break;
                         case this.action.TB_GUI_DS_THAM_GIA:
-                            return 'Gửi danh sách tham gia';
+                            return 'Danh sách có mặt tham dự';
                             break;
                         case this.action.THONG_BA0_KHONG_PHAN_HOI:
                             return 'Thông báo';
@@ -227,13 +267,13 @@ export default {
                 case this.loai_hoat_dong.HOAT_DONG_NVSP:
                     switch (child_activity_type) {
                         case this.action.PHAN_THI_OR_TIEU_BAN:
-                            return 'Phần thi';
+                            return 'Hoạt động';
                             break;
                         case this.action.TB_GUI_DS_THAM_DU:
-                            return 'Gửi danh sách dự thi';
+                            return 'Danh sách dự thi';
                             break;
                         case this.action.TB_GUI_DS_THAM_GIA:
-                            return 'Gửi danh sách tham gia';
+                            return 'Danh sách có mặt tham dự';
                             break;
                         case this.action.THONG_BA0_KHONG_PHAN_HOI:
                             return 'Thông báo';
@@ -246,10 +286,10 @@ export default {
                             return 'Hoạt động';
                             break;
                         case this.action.TB_GUI_DS_THAM_DU:
-                            return 'Gửi danh sách dự thi';
+                            return 'Danh sách dự thi';
                             break;
                         case this.action.TB_GUI_DS_THAM_GIA:
-                            return 'Gửi danh sách tham gia';
+                            return 'Danh sách có mặt tham dự';
                             break;
                         case this.action.THONG_BA0_KHONG_PHAN_HOI:
                             return 'Thông báo';
@@ -276,6 +316,18 @@ export default {
                     }
                 })
         },
+        joinTypeConvert(act){
+            if(act.id_activity == this.loai_hoat_dong.HOAT_DONG_NVSP){
+                if(act.level == this.actLevel.TOA_DAM){
+                    return '(Tọa đàm NVSP)';
+                } else if(act.join_type == this.joinType.THI_NHOM){
+                    return '(Thi theo nhóm)';
+                } else if(act.join_type == this.joinType.THI_CA_NHAN){
+                    return '(Thi cá nhân)'
+                }
+            }
+            else return '';
+        }
     },
     async mounted() {
         this.$loading(true);

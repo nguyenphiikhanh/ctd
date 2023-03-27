@@ -38,7 +38,9 @@
                                         <td>{{_item.student_count}}</td>
                                         <td class="d-flex justify-content-end">
                                             <div>
-                                                <button @click="showPopup(_item)" class="btn btn-sm btn-primary">Xem điểm rèn luyện Nghiệp vụ Sư phạm</button>
+                                                <button @click="showPopup(_item)" class="btn btn-sm btn-primary">
+                                                    <em class="icon ni ni-eye"></em>Xem điểm rèn luyện Nghiệp vụ Sư phạm
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>

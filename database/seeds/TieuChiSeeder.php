@@ -19,7 +19,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Đi học đầy đủ, đúng giờ',
                 'max_score' => 3,
                 'id_loai_tieu_chi' => 1,
-                'type' => 1
+                'type' => 1,
+                'note' => '(-1 điểm/ 1 lần vắng không phép, -2 điểm/ 3 buổi đi muộn'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -37,7 +38,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Có tham gia nghiên cứu khoa học',
                 'max_score' => 1.5,
                 'id_loai_tieu_chi' => 2,
-                'type' => null
+                'type' => null,
+                'note' => '(+1,5 có đề tài được báo cáo)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -46,7 +48,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Đạt giải nghiên cứu khoa học',
                 'max_score' => 0.5,
                 'id_loai_tieu_chi' => 2,
-                'type' => null
+                'type' => null,
+                'note' => '(+0,5 được giải NCKH)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -55,7 +58,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Có tham gia các câu lạc bộ học thuật, ngoại khóa',
                 'max_score' => 1.5,
                 'id_loai_tieu_chi' => 2,
-                'type' => null
+                'type' => null,
+                'note' => '(+1,5 tham gia 1 CLB, ngoại khóa)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -64,7 +68,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Nhận được giấy khen hoạt động ngoại khóa và các câu lạc bộ',
                 'max_score' => 0.5,
                 'id_loai_tieu_chi' => 1,
-                'type' => null
+                'type' => null,
+                'note' => '(+0,5 nhận giấy khen ngoại khóa, CLB)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -73,7 +78,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Tham gia đầy đủ các buổi thi',
                 'max_score' => 1,
                 'id_loai_tieu_chi' => 3,
-                'type' => 1
+                'type' => 1,
+                'note' => '(-1 điểm / vắng thi)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -91,7 +97,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Tham gia đầy đủ các buổi rèn luyện NVSP',
                 'max_score' => 1,
                 'id_loai_tieu_chi' => 3,
-                'type' => 1
+                'type' => 1,
+                'note' => '(-1 điểm / vắng 1 buổi)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -100,7 +107,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Tham dự thi NVSP cấp khoa, trường',
                 'max_score' => 1,
                 'id_loai_tieu_chi' => 3,
-                'type' => null
+                'type' => null,
+                'note' => '(+1 điểm/ tham gia 1 thi NVSP cấp khoa, cấp trường'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -109,7 +117,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Đạt giải nhất, nhì, ba trong các cuộc thi từ cấp khoa trở lên',
                 'max_score' => 1,
                 'id_loai_tieu_chi' => 3,
-                'type' => null
+                'type' => null,
+                'note' => '(+1 điểm/ đạt giải thừ 3 trở lên)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -172,7 +181,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Vi phạm quy chế thi bị trừ:',
                 'max_score' => 0,
                 'id_loai_tieu_chi' => 6,
-                'type' => 3
+                'type' => 3,
+                'note' => 'Khiển trách: (-10 điểm/ vi phạm); Cảnh cáo: (-15 điểm/ vi phạm); Đình chỉ thi: (-25 điểm/ vi phạm)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -181,7 +191,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Vi phạm quy chế công tác học sinh sinh viên bị trừ:',
                 'max_score' => 0,
                 'id_loai_tieu_chi' => 6,
-                'type' => 3
+                'type' => 3,
+                'note' => 'Khiển trách: (-10 điểm/ vi phạm); Cánh cáo: (-15 điểm/ vi phạm); Đình chỉ học tập: (-25 điểm/ vi phạm)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -217,7 +228,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Tham gia đầy đủ, đạt yêu cầu “Tuần sinh hoạt công dân sinh viên” (đánh giá chung cho cả 2 học kỳ trong năm học)',
                 'max_score' => 3,
                 'id_loai_tieu_chi' => 8,
-                'type' => null
+                'type' => null,
+                'note' => '(-1 điểm/ vắng)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -226,7 +238,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Có ý thức tham gia đầy đủ, nghiêm túc hoạt động rèn luyện về chính trị, xã hội, văn hóa, văn nghệ, thể thao do Nhà trường, Đoàn, Hội tổ chức điều động (vắng 1 lần không có phép bị trừ 1 điểm)',
                 'max_score' => 3,
                 'id_loai_tieu_chi' => 8,
-                'type' => null
+                'type' => null,
+                'note' => '(-1 điểm/ vắng)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -244,7 +257,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Tham gia các hoạt động văn hóa, văn nghệ, thể dục – thể thao đạt giải nhất, nhì , ba',
                 'max_score' => 2,
                 'id_loai_tieu_chi' => 8,
-                'type' => null
+                'type' => null,
+                'note' => '(+2 điểm / đạt giải)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -307,7 +321,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Có ý thức chấp hành tốt chính sách, pháp luật của Nhà nước',
                 'max_score' => 1.5,
                 'id_loai_tieu_chi' => 11,
-                'type' => 4
+                'type' => 4,
+                'note' => 'Không vi phạm: (1,5); Vi phạm 1 lần: (- 2 điểm); Vi phạm 2 lần trở lên: (Trừ toàn bộ điểm tiêu chí)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -352,7 +367,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Có ý thức chấp hành, tham gia tuyên truyền các quy định về bảo đảm an toàn giao thông và “văn hóa giao thông”',
                 'max_score' => 1,
                 'id_loai_tieu_chi' => 11,
-                'type' => null
+                'type' => null,
+                'note' => '(-1 điểm/ vi phạm)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(
@@ -424,7 +440,8 @@ class TieuChiSeeder extends Seeder
                 'name' => 'Tham gia đầy đủ các công tác đoàn thể xã hội do Nhà trường, Đoàn Thanh niên, Hội Sinh viên trường phát động',
                 'max_score' => 2,
                 'id_loai_tieu_chi' => 14,
-                'type' => 1
+                'type' => 1,
+                'note' => '(Trừ 2/ vắng 1 nhiệm vụ đoàn)'
             ]
         );
         DB::table('tieu_chi')->updateOrInsert(

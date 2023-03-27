@@ -61,5 +61,25 @@ export default {
 
     changeAssigneeSetting(id, data){
         return http.put(`/child-activity/${id}/change-assignee`, data);
+    },
+
+    fetchUserForwarded(id, data){
+        const params = {
+            child_activity_type: data.child_activity_type,
+            team_flg: data.team_flg
+        }
+        return http.get(`/activities-details/${id}/users`, {params: params});
+    },
+
+    updateUserForwarded(id, data){
+        return http.put(`/activities-details/${id}/users`, data);
+    },
+
+    getListUserNckh(id_child_activity){
+        return http.get(`/child-activity/${id_child_activity}/user-activities`);
+    },
+
+    updateUserNckh(id_child_activity, data){
+        return http.put(`/child-activity/${id_child_activity}/user-activities`, data);
     }
 }

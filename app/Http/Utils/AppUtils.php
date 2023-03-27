@@ -8,6 +8,9 @@ namespace App\Http\Utils;
  */
 
  class AppUtils{
+    // Bản ghi phân trang
+    const ITEM_PER_PAGE = 15;
+
    // Loại nhiệm vụ(activities)
    const HOAT_DONG_NCKH = 1;
    const HOAT_DONG_NVSP = 2;
@@ -48,5 +51,11 @@ namespace App\Http\Utils;
     const GIAI_NHI = 2;
     const GIAI_BA = 3;
     const GIAI_KHUYEN_KHICH = 4;
+
+    // trạng thái điểm rèn luyện
+    const SCORE_CHUA_CO_DIEM = 0;
+    const SCORE_CHO_DUYET = 1;
+    const SCORE_KHONG_DUYET = 2;
+    const SCORE_HOAN_THANH = 3;
 
  }

@@ -32,11 +32,19 @@ router.beforeEach((to, from, next) => {
             router.push({name: "Home"});
         }
 
+        if (to.matched.some(record => !record.meta.facultyMasterAccess) && role == roles.ROLE_QUAN_LY_KHOA) { // block faculty master middleware
+            router.push({name: "Home"});
+        }
+
         if (to.matched.some(record => !record.meta.cblAccess) && (role == roles.ROLE_LOP_TRUONG || role == roles.ROLE_CBL)) { // block cbl middleware
             router.push({name: "Home"});
         }
 
         if (to.matched.some(record => !record.meta.ptAccess) && role == roles.ROLE_PHU_TRACH_NVSP) { // block pt middleware
+            router.push({name: "Home"});
+        }
+
+        if (to.matched.some(record => !record.meta.studentAccess) && role == roles.ROLE_SINH_VIEN) { // block student middleware
             router.push({name: "Home"});
         }
     }

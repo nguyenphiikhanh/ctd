@@ -108,7 +108,11 @@ export default {
             for(let i = 0; i < this.proof.length; i++){
                 let file = this.proof[i];
                 if(!validFileExtensions.includes(file.type)){
-                    alert('Vui lòng chỉ chọn tệp ảnh có định dạng .png/.jpeg/.jpg');
+                    this.$swal.fire(
+                        'Vui lòng chỉ chọn tệp ảnh có định dạng .png/.jpeg/.jpg!',
+                        '',
+                        'error'
+                        )
                     this.proof = [];
                     this.$refs.proof.value = null;
                     break;

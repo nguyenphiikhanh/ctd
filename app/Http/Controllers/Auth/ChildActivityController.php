@@ -29,7 +29,8 @@ class ChildActivityController extends AppBaseController
             $id_activity = $request->get('id_activity');
             $child_activities = DB::table('child_activities')
                 ->leftJoin('users', 'users.id', 'child_activities.id_user_assignee')
-                ->select('child_activities.*', DB::raw("CONCAT(users.ho,' ',users.ten) as user_assign_name"))
+                ->leftJoin('activities_details', 'activities_details.id_child_activity', 'child_activities.id')
+                ->select('child_activities.*', DB::raw("CONCAT(users.ho,' ',users.ten) as user_assign_name"), 'activities_details.join_type', 'activities_details.level')
                 ->where('id_activity', $id_activity)
                 ->orderByDesc('child_activities.created_at');
                 if($user->role == RoleUtils::ROLE_PHU_TRACH_NVSP){
@@ -183,10 +184,12 @@ class ChildActivityController extends AppBaseController
             $user = Auth::user();
             $actRecriveList = DB::table('user_receive_activities')->where('id_user', $user->id)
                 ->leftJoin('child_activities', 'child_activities.id','user_receive_activities.id_child_activity')
+                ->leftJoin('activities_details', 'activities_details.id', 'user_receive_activities.id_activities_details_assign')
                 ->select(
                     'user_receive_activities.*', 'child_activities.name as name',
                     'child_activities.created_at as created_at', 'child_activities.details as details',
                     'child_activities.start_time as start_time', 'child_activities.end_time as end_time',
+                    'activities_details.level', 'activities_details.join_type'
                 )
                 ->get();
             foreach($actRecriveList as $act){
@@ -251,69 +254,100 @@ class ChildActivityController extends AppBaseController
             $assignTo = $request->get('assignTo');
             $readonlyFlg = $request->get('readonlyFlg');
             $small_role_details = $request->get('small_role_details');
-            DB::connection('mysql')->beginTransaction();
-            $notiFromCbl = DB::table('user_receive_activities')
-            ->join('child_activities','child_activities.id', 'user_receive_activities.id_child_activity')
-            ->select('user_receive_activities.*','child_activities.child_activity_type as child_activity_type')
-            ->where('user_receive_activities.id',$id)->where('id_user', $user->id)->first();
-            if($readonlyFlg){  // thông báo không phản hồi
-                foreach($assignTo as $student_id){
-                    if($student_id != $user->id){  // ko cần gửi thông báo cho chính mình
-                        DB::table('user_receive_activities')->insert([
-                            'created_by' => $user->id,
-                            'id_child_activity' => $notiFromCbl->id_child_activity,
-                            'child_activity_type' => AppUtils::THONG_BA0_KHONG_PHAN_HOI,
-                            'id_user' => $student_id,
-                            'small_role_details' => $small_role_details,
-                            'status' => AppUtils::STATUS_HOAN_THANH,
-                            'created_at' => now()
-                        ]);
-                    }
-                }
-            }
-            else{ // thông báo có phản hồi
+            $team_flg = $request->get('team_flg');
+            $teams = $request->get('teams');
+            DB::connection('mysql')->transaction(function() use ($user, $assignTo, $readonlyFlg, $small_role_details, $team_flg, $teams, $id){
+                $notiFromCbl = DB::table('user_receive_activities')
+                ->join('child_activities','child_activities.id', 'user_receive_activities.id_child_activity')
+                ->select('user_receive_activities.*','child_activities.child_activity_type as child_activity_type')
+                ->where('user_receive_activities.id',$id)->where('id_user', $user->id)->first();
                 $action_flg = AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU;
                 if($notiFromCbl->child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
                     $action_flg = AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA;
                 }
                 $act_detail = DB::table('activities_details')->where('id', $notiFromCbl->id_activities_details_assign)->first();
-                foreach($assignTo as $student_id){
-                    DB::table('user_receive_activities')->insert([
-                        'created_by' => $user->id,
-                        'id_child_activity' => $act_detail->id_child_activity,
-                        'child_activity_type' => $action_flg,
-                        'id_user' => $student_id,
-                        'small_role_details' => $small_role_details,
-                        'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
-                        'created_at' => now()
-                    ]);
-
-                    if($notiFromCbl->child_activity_type == AppUtils::TB_GUI_DS_THAM_DU){
-                        DB::table('user_activities')->insert([
-                            'id_activities_details' => $act_detail->id,
-                            'id_user' => $student_id,
-                            'created_by' => $user->id,
-                            'created_at' => now()
-                        ]);
-                    } else {
-                        DB::table('user_join_activities')->insert([
+                if($team_flg){
+                    foreach($teams as $team){
+                        $teamId = DB::table('user_activities_teams')->insertGetId([
                             'id_activities_details' => $notiFromCbl->id_activities_details_assign,
-                            'id_user' => $student_id,
-                            'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
-                            'created_by' => $user->id,
-                            'created_at' => now()
+                            'team_name' => $team['team_name'],
+                            'id_class' => $user->id_class,
                         ]);
+                        foreach($team['members'] as $member){
+                            DB::table('user_activities')->insert([
+                                'id_activities_details' => $notiFromCbl->id_activities_details_assign,
+                                'id_user' => $member['id'],
+                                'created_by' => $user->id,
+                                'created_at' => now(),
+                                'id_user_activities_teams' => $teamId
+                            ]);
+
+                            DB::table('user_receive_activities')->insert([
+                                'created_by' => $user->id,
+                                'id_child_activity' => $act_detail->id_child_activity,
+                                'child_activity_type' => $action_flg,
+                                'id_user' => $member['id'],
+                                'small_role_details' => $small_role_details,
+                                'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                                'created_at' => now()
+                            ]);
+                        }
                     }
                 }
-            }
-            DB::table('user_receive_activities')->where('id',$id)->update([
-                'status' => AppUtils::STATUS_HOAN_THANH,
-            ]);
-            DB::commit();
+                else{
+                    if($readonlyFlg){  // thông báo không phản hồi
+                        foreach($assignTo as $student_id){
+                            if($student_id != $user->id){  // ko cần gửi thông báo cho chính mình
+                                DB::table('user_receive_activities')->insert([
+                                    'created_by' => $user->id,
+                                    'id_child_activity' => $notiFromCbl->id_child_activity,
+                                    'child_activity_type' => AppUtils::THONG_BA0_KHONG_PHAN_HOI,
+                                    'id_user' => $student_id,
+                                    'small_role_details' => $small_role_details,
+                                    'status' => AppUtils::STATUS_HOAN_THANH,
+                                    'created_at' => now()
+                                ]);
+                            }
+                        }
+                    }
+                    else{ // thông báo có phản hồi
+                        foreach($assignTo as $student_id){
+                            DB::table('user_receive_activities')->insert([
+                                'created_by' => $user->id,
+                                'id_child_activity' => $act_detail->id_child_activity,
+                                'child_activity_type' => $action_flg,
+                                'id_user' => $student_id,
+                                'small_role_details' => $small_role_details,
+                                'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                                'created_at' => now()
+                            ]);
+
+                            if($notiFromCbl->child_activity_type == AppUtils::TB_GUI_DS_THAM_DU){
+                                DB::table('user_activities')->insert([
+                                    'id_activities_details' => $act_detail->id,
+                                    'id_user' => $student_id,
+                                    'created_by' => $user->id,
+                                    'created_at' => now()
+                                ]);
+                            } else {
+                                DB::table('user_join_activities')->insert([
+                                    'id_activities_details' => $notiFromCbl->id_activities_details_assign,
+                                    'id_user' => $student_id,
+                                    'status' => AppUtils::STATUS_CHUA_HOAN_THANH,
+                                    'created_by' => $user->id,
+                                    'created_at' => now()
+                                ]);
+                            }
+                        }
+                    }
+                }
+                DB::table('user_receive_activities')->where('id',$id)->update([
+                    'status' => AppUtils::STATUS_HOAN_THANH,
+                ]);
+            });
             return $this->sendResponse('',__('message.success.forward'));
         }
         catch(\Exception $e){
-            DB::rollBack();
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.forward'),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -434,62 +468,61 @@ class ChildActivityController extends AppBaseController
                 return;
             }
             $userUpdate = null;
-            DB::connection('mysql')->beginTransaction();
-            if($child_activity_type
-            && ($child_activity_type == AppUtils::TB_GUI_DS_THAM_DU || $child_activity_type == AppUtils::PHAN_THI_OR_TIEU_BAN)){
-                $userUpdate = DB::table('user_activities')
-                    ->where('id_user', $user_id)
-                    ->where('id_activities_details',$activity_details_id)->first();
-            }
-            if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
-                $userUpdate = DB::table('user_join_activities')
-                    ->where('id_user', $user_id)
-                    ->where('id_activities_details',$activity_details_id)->first();
-            }
-
-            if(!$userUpdate){
-                return $this->sendError(__('message.failed.not_exist',['attibute' => 'Bản ghi điểm danh']),Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
-            else{
-                if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
-                    DB::table('user_join_activities')
-                        ->where('id_user', $user_id)
-                        ->where('id_activities_details',$activity_details_id)
-                        ->update([
-                            'status' => $status,
-                            'note' => $note
-                        ]);
-                    DB::table('user_receive_activities')
-                    ->where('id_user',$user_id)
-                    ->where('id_child_activity', $act_detail->id_child_activity)
-                    ->where('child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA)
-                    ->update([
-                        'status' => $status
-                    ]);
-                }
-
+            DB::connection('mysql')->transaction(function() use ($child_activity_type, $status, $note, $act_detail, $userUpdate, $user_id, $activity_details_id){
                 if($child_activity_type
                 && ($child_activity_type == AppUtils::TB_GUI_DS_THAM_DU || $child_activity_type == AppUtils::PHAN_THI_OR_TIEU_BAN)){
-                    DB::table('user_activities')
+                    $userUpdate = DB::table('user_activities')
                         ->where('id_user', $user_id)
-                        ->where('id_activities_details',$activity_details_id)
-                        ->update([
-                            'note' => $note
-                        ]);
-                    DB::table('user_receive_activities')
-                    ->where('id_user',$user_id)
-                    ->where('id_child_activity', $act_detail->id_child_activity)
-                    ->where('child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU)
-                    ->update([
-                        'status' => $status
-                    ]);
+                        ->where('id_activities_details',$activity_details_id)->first();
                 }
-                DB::commit();
-                return $this->sendResponse('',__('message.success.update',['atribute' => 'điểm danh']));
-            }
+                if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
+                    $userUpdate = DB::table('user_join_activities')
+                        ->where('id_user', $user_id)
+                        ->where('id_activities_details',$activity_details_id)->first();
+                }
+
+                if(!$userUpdate){
+                    return $this->sendError(__('message.failed.not_exist',['attibute' => 'Bản ghi điểm danh']),Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
+                else{
+                    if($child_activity_type && $child_activity_type == AppUtils::TB_GUI_DS_THAM_GIA){
+                        DB::table('user_join_activities')
+                            ->where('id_user', $user_id)
+                            ->where('id_activities_details',$activity_details_id)
+                            ->update([
+                                'status' => $status,
+                                'note' => $note
+                            ]);
+                        DB::table('user_receive_activities')
+                        ->where('id_user',$user_id)
+                        ->where('id_child_activity', $act_detail->id_child_activity)
+                        ->where('child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA)
+                        ->update([
+                            'status' => $status
+                        ]);
+                    }
+
+                    if($child_activity_type
+                    && ($child_activity_type == AppUtils::TB_GUI_DS_THAM_DU || $child_activity_type == AppUtils::PHAN_THI_OR_TIEU_BAN)){
+                        DB::table('user_activities')
+                            ->where('id_user', $user_id)
+                            ->where('id_activities_details',$activity_details_id)
+                            ->update([
+                                'note' => $note
+                            ]);
+                        DB::table('user_receive_activities')
+                        ->where('id_user',$user_id)
+                        ->where('id_child_activity', $act_detail->id_child_activity)
+                        ->where('child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU)
+                        ->update([
+                            'status' => $status
+                        ]);
+                    }
+                    return $this->sendResponse('',__('message.success.update',['atribute' => 'điểm danh']));
+                }
+            });
         }
         catch(\Exception $e){
-            DB::rollBack();
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.update',['atribute' => 'điểm danh']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -504,8 +537,8 @@ class ChildActivityController extends AppBaseController
             $id_child_activity = $request->id_child_activity;
             $child_activity_type = $request->child_activity_type;
             $act_details = DB::table('activities_details')->where('id_child_activity', $id_child_activity)->first();
-            DB::connection('mysql')->beginTransaction();
-            DB::table('user_receive_activities')
+            DB::connection('mysql')->transaction(function() use($user, $id, $files, $child_activity_type, $act_details, $id_child_activity){
+                DB::table('user_receive_activities')
                 ->where('id', $id)
                 ->where('id_child_activity', $id_child_activity)
                 ->where('id_user', $user->id)
@@ -531,11 +564,10 @@ class ChildActivityController extends AppBaseController
                     ->first();
                     $this->storageMultipleFile($files, 'user_join_activity_prooves', 'id_user_join_activities' , $user_join_act->id, 'join_proof');
             }
-            DB::commit();
+            });
             return $this->sendResponse('',__('message.success.create',['atribute' => 'minh chứng']));
         }
         catch(\Exception $e){
-            DB::rollBack();
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.create',['atribute' => 'minh chứng']),Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -585,6 +617,7 @@ class ChildActivityController extends AppBaseController
                 ->join('activities_details', 'activities_details.id_child_activity', 'child_activities.id')
                 ->leftJoin('user_activities','user_activities.id_activities_details', 'activities_details.id')
                 ->join('users', 'user_activities.id_user', 'users.id')
+                ->leftJoin('user_activities_teams','user_activities_teams.id', 'user_activities.id_user_activities_teams')
                 ->leftJoin('user_receive_activities',function($leftJoin) use($id_child_act){
                     $leftJoin->on('user_receive_activities.id_child_activity', '=', 'child_activities.id');
                     $leftJoin->on('user_receive_activities.id_user', '=', 'user_activities.id_user');
@@ -595,9 +628,11 @@ class ChildActivityController extends AppBaseController
                 'classes.class_name',
                 'user_receive_activities.status as status',
                 'user_activities.id as id_user_activity',
-                'user_activities.award as award')
+                'user_activities.award as award',
+                'user_activities_teams.team_name')
                 ->where('child_activities.id', $id_child_act)
                 ->orderBy('classes.class_name')
+                ->orderBy('user_activities_teams.team_name')
                 ->get();
 
             return $this->sendResponse($userActs, __('message.success.get_list',['atribute' => 'người dự thi']));
@@ -716,6 +751,59 @@ class ChildActivityController extends AppBaseController
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.update',['atribute' => 'hoạt động']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getUserActivities($id_child_activity){
+        try{
+            $userActs = DB::table('user_activities')
+                ->leftJoin('activities_details', 'activities_details.id' ,'user_activities.id_activities_details')
+                ->where('activities_details.id_child_activity', $id_child_activity)
+                ->pluck('user_activities.id_user');
+            return $this->sendResponse($userActs, __('message.success.get_list',['atribute' => 'người dự thi']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'người dự thi']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function updateUserNckh(Request $request, $id_child_activity){
+        try{
+            $user_ids = $request->get('user_ids', []);
+            $act_detail = DB::table('activities_details')
+                    ->where('id_child_activity', $id_child_activity)
+                    ->first();
+            if(!$act_detail){
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'hoạt động']), Response::HTTP_UNPROCESSABLE_ENTITY);
+                return;
+            }
+            DB::connection('mysql')->transaction(function() use($user_ids, $act_detail, $id_child_activity){
+                DB::table('user_receive_activities')
+                    ->where('id_child_activity', $id_child_activity)
+                    ->delete();
+                DB::table('user_activities')
+                    ->where('id_activities_details', $act_detail->id)
+                    ->delete();
+                foreach($user_ids as $id_user){
+                    DB::table('user_receive_activities')->insert([
+                        'id_user' => $id_user,
+                        'id_child_activity' => $id_child_activity,
+                        'child_activity_type' => AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU,
+                        'created_by' => Auth::user()->id,
+                    ]);
+                    DB::table('user_activities')->insert([
+                        'id_user' => $id_user,
+                        'id_activities_details' => $act_detail->id,
+                        'created_by' => Auth::user()->id,
+                    ]);
+                }
+            });
+            return $this->sendResponse('',__('message.success.update', ['atribute' => 'người dự thi']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'người dự thi']), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

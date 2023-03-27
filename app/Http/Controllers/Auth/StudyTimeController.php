@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Utils\ResponseUtils;
+use App\Http\Utils\RoleUtils;
+use App\Http\Utils\TcUtils;
+use App\Models\Faculty;
 use App\Models\StudyTime;
 use App\Models\StudyYear;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -22,7 +26,7 @@ class StudyTimeController extends AppBaseController
     {
         //
         try{
-            $studyTimes = StudyTime::select('study_times.start_time','study_times.end_time','study_times.status',
+            $studyTimes = StudyTime::select('study_times.id', 'study_times.start_time','study_times.end_time','study_times.status',
                             DB::raw("CONCAT(study_terms.name,' - năm học ',study_years.year_name) as name"))
                             ->leftJoin('study_years', 'study_years.id', 'study_times.id_study_year')
                             ->leftJoin('study_terms', 'study_terms.id', 'study_times.id_study_term')
@@ -71,6 +75,91 @@ class StudyTimeController extends AppBaseController
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.create',['atribute' => 'kỳ học']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getCurrentStudyTimeFacultySettings(){
+        try{
+            $user = Auth::user();
+            $id_faculty = null;
+            if($user->role == RoleUtils::ROLE_BI_THU_DOAN
+            || $user->role == RoleUtils::ROLE_CVHT
+            || $user->role == RoleUtils::ROLE_QUAN_LY_KHOA){
+                $id_faculty = $user->id_khoa;
+            }
+            elseif($user->role == RoleUtils::ROLE_AMIN){
+                $id_faculty = null;
+            }
+            else{
+                $faculty = DB::table('users')
+                    ->join('classes','classes.id', 'users.id_class')
+                    ->join('faculties', 'faculties.id', 'classes.id_faculty')
+                    ->where('users.id', $user->id)
+                    ->first();
+                $id_faculty = $faculty->id;
+            }
+            $studyTimeCurrent = DB::table('study_times')
+                ->join('study_years', 'study_years.id', 'study_times.id_study_year')
+                ->join('study_terms', 'study_terms.id', 'study_times.id_study_term')
+                ->leftJoin('class_meet_faculty_settings', function($leftJoin) use ($id_faculty){
+                    $leftJoin->on('class_meet_faculty_settings.id_study_time','study_times.id')
+                        ->where('id_faculty', $id_faculty);
+                })
+                ->select('study_times.id','study_years.year_name', 'study_terms.name','class_meet_faculty_settings.end_time_class_meet')
+                ->latest('study_times.id')
+                ->first();
+            return $this->sendResponse($studyTimeCurrent, __('message.success.show',['atribute' => 'kỳ học']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.show',['atribute' => 'kỳ học']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function createOrUpdateFalcultyClassMeetSettings(Request $request, $id_study_time){
+        try{
+            $user = Auth::user();
+            $setting = DB::table('class_meet_faculty_settings')
+                ->where('id_faculty', $user->id_khoa)
+                ->where('id_study_time', $id_study_time)
+                ->first();
+            DB::connection('mysql')->transaction(function() use ($user, $setting, $request, $id_study_time){
+                if(!$setting){
+                    $studentIds = DB::table('users')
+                        ->join('classes', 'classes.id', 'users.id_class')
+                        ->join('faculties','faculties.id', 'classes.id_faculty')
+                        ->where('faculties.id', $user->id_khoa)
+                        ->where('users.role', RoleUtils::ROLE_CBL)
+                        ->orWhere('users.role', RoleUtils::ROLE_SINHVIEN)
+                        ->orWhere('users.role', RoleUtils::ROLE_LOP_TRUONG)
+                        ->pluck('users.id');
+                    foreach($studentIds as $id){
+                        $createData = [];
+                        $tcIds = TcUtils::TIEU_CHI_HOP_XET_IDS;
+                        foreach($tcIds as $tcId){
+                            $createData[] = [
+                                'id_study_time' => $id_study_time,
+                                'id_tieu_chi' => $tcId,
+                                'id_user' => $id
+                            ];
+                        }
+                        DB::table('student_class_meet_score')->insert($createData);
+                    }
+                }
+                $end_time_class_meet = $request->get('end_time_class_meet');
+                DB::table('class_meet_faculty_settings')
+                    ->updateOrInsert(
+                        ['id_faculty' => $user->id_khoa, 'id_study_time' => $id_study_time],
+                        [
+                            'end_time_class_meet' => $end_time_class_meet,
+                        ]
+                    );
+            });
+            return $this->sendResponse('', __('message.success.update',['atribute' => 'kỳ đánh giá']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'kỳ đánh giá']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

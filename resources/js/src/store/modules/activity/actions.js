@@ -172,4 +172,52 @@ export default {
                 } else dispatch("alert/alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
             })
     },
+
+    fetchUserForwarded({commit, dispatch}, data){
+        return activitiesServices.fetchUserForwarded(data.id, data)
+            .then(response => {
+                return Promise.resolve(response.data);
+            })
+            .catch((error) => {
+                if (error.errors && Object.values(error.errors).length > 0) {
+                    dispatch("alert/alertError", Object.values(error.errors)[0][0], { root: true });
+                } else dispatch("alert/alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
+            })
+    },
+
+    updateUserForwarded({commit, dispatch}, data){
+        return activitiesServices.updateUserForwarded(data.id, data)
+            .then(response => {
+                dispatch('alert/alertSuccess',response.data.message, { root: true })
+            })
+            .catch((error) => {
+                if (error.errors && Object.values(error.errors).length > 0) {
+                    dispatch("alert/alertError", Object.values(error.errors)[0][0], { root: true });
+                } else dispatch("alert/alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
+            })
+    },
+
+    getListUserNckh({commit, dispatch}, id_child_activity){
+        return activitiesServices.getListUserNckh(id_child_activity)
+            .then(response => {
+                return Promise.resolve(response.data);
+            })
+            .catch((error) => {
+                if (error.errors && Object.values(error.errors).length > 0) {
+                    dispatch("alert/alertError", Object.values(error.errors)[0][0], { root: true });
+                } else dispatch("alert/alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
+            })
+    },
+
+    updateUserNckh({commit, dispatch}, data){
+        return activitiesServices.updateUserNckh(data.id_child_activity, data)
+            .then(response => {
+                dispatch('alert/alertSuccess',response.data.message, { root: true })
+            })
+            .catch((error) => {
+                if (error.errors && Object.values(error.errors).length > 0) {
+                    dispatch("alert/alertError", Object.values(error.errors)[0][0], { root: true });
+                } else dispatch("alert/alertError", typeof error.message == 'object' ? error.message[0] : error.message, { root: true });
+            })
+    },
 }

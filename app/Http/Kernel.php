@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'role.admin' => \App\Http\Middleware\AdminCheck::class,
         'role.faculty' => \App\Http\Middleware\FacultyCheck::class,
         'role.cbOrStudent' => \App\Http\Middleware\StudentCheck::class,
+        'role.facultyMaster' => \App\Http\Middleware\FacultyMasterCheck::class,
     ];
 }
