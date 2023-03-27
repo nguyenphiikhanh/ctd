@@ -51,7 +51,7 @@
                                                 <small class="text-primary">{{ joinTypeConvert(_item) }}</small></span>
                                             <span v-if="_item.child_activity_type == action.TB_GUI_DS_THAM_GIA">Gửi danh sách có mặt tham dự</span>
                                         </td>
-                                        <td class="d-flex justify-content-end">
+                                        <td class="d-flex justify-content-start">
                                             <div>
                                                 <button @click="viewNotify(_item)" class="btn btn-sm btn-info mr-2"><em class="ni ni-eye"></em>Xem chi tiết</button>
                                                 <button v-if="canForward(_item, user.role)"

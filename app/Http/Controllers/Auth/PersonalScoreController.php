@@ -9,6 +9,7 @@ use App\Http\Utils\AppUtils;
 use App\Http\Utils\ResponseUtils;
 use App\Http\Utils\RoleUtils;
 use App\Http\Utils\TcUtils;
+use App\Models\PersonalScore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,8 +23,8 @@ class PersonalScoreController extends AppBaseController
         try{
             $user = Auth::user();
             $current = DB::table('study_times')->latest('id')->first();
-            $data = DB::table('tieu_chi')
-                ->leftJoin('personal_score', 'tieu_chi.id', 'personal_score.id_tieu_chi')
+            $data = PersonalScore::query()
+                ->rightJoin('tieu_chi', 'tieu_chi.id', 'personal_score.id_tieu_chi')
                 ->select('personal_score.*','tieu_chi.name', 'tieu_chi.note')
                 ->where('personal_score.id_study_time', $current->id)
                 ->where('personal_score.id_user', $user->id)
@@ -70,7 +71,7 @@ class PersonalScoreController extends AppBaseController
                 ->get();
             $current = DB::table('study_times')->latest('id')->first();
             foreach($listTc as $tc){
-                $waitListCount = DB::table('personal_score')
+                $waitListCount = PersonalScore::query()
                     ->leftJoin('users', 'users.id', 'personal_score.id_user')
                     ->where('id_study_time', $current->id)
                     ->where('id_tieu_chi', $tc->id)
