@@ -26,6 +26,12 @@ class ClassMeetScoreController extends AppBaseController
                 ->where('id_user', $user->id)
                 ->orderBy('id_tieu_chi')
                 ->get();
+            foreach($userScores as $score){
+                $score->cbl_score = (float) $score->cbl_score;
+                $score->cvht_score = (float) $score->cvht_score;
+                $score->max_score = (float) $score->max_score;
+                $score->self_score = (float) $score->self_score;
+            }
             return $this->sendResponse($userScores, __('message.success.get_list',['atribute' => 'điểm rèn luyện']));
         }
         catch(\Exception $e){
@@ -107,6 +113,12 @@ class ClassMeetScoreController extends AppBaseController
                         ->where('id_user', $student->id)
                         ->orderBy('id_tieu_chi')
                         ->get();
+                    foreach($scoreList as $score){
+                        $score->cbl_score = (float) $score->cbl_score;
+                        $score->cvht_score = (float) $score->cvht_score;
+                        $score->max_score = (float) $score->max_score;
+                        $score->self_score = (float) $score->self_score;
+                    }
                     $student->scoreList = $scoreList;
                 }
                 return $this->sendResponse($studentLists, __('message.failed.get_list',['atribute' => 'điểm tự đánh giá']));

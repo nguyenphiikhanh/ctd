@@ -30,6 +30,10 @@ class PersonalScoreController extends AppBaseController
                 ->where('personal_score.id_user', $user->id)
                 ->orderBy('personal_score.id_tieu_chi')
                 ->get();
+            foreach($data as $field){
+                $field->score = (float) $field->score;
+                $field->max_score = (float) $field->max_score;
+            }
             return $this->sendResponse($data, __('message.success.get_list',['atribute' => 'điểm rèn luyện']));
         }
         catch(\Exception $e){
