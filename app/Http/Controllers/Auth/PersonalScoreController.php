@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AppBaseController;
-use App\Http\Controllers\Controller;
 use App\Http\Traits\UploadFileTrait;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\ResponseUtils;
@@ -14,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class PersonalScoreController extends AppBaseController
 {
@@ -85,6 +83,7 @@ class PersonalScoreController extends AppBaseController
                     ->where('id_tieu_chi', $tc->id)
                     ->where('status', AppUtils::SCORE_CHO_DUYET)
                     ->where('users.role', '!=' , $user->role == RoleUtils::ROLE_CBL ? RoleUtils::ROLE_CBL : RoleUtils::ROLE_LOP_TRUONG)
+                    ->where('users.id_class', $user->id_class)
                     ->count();
                 $tc->wait_count =  $waitListCount;
                 $tc->max_score = (float) $tc->max_score;
@@ -108,6 +107,7 @@ class PersonalScoreController extends AppBaseController
             ->where('id_tieu_chi', $id)
             ->where('status', AppUtils::SCORE_CHO_DUYET)
             ->where('users.role', '!=' , $user->role == RoleUtils::ROLE_CBL ? RoleUtils::ROLE_CBL : RoleUtils::ROLE_LOP_TRUONG)
+            ->where('users.id_class', $user->id_class)
             ->get();
             foreach($listUserCf as $user){
                 $prooves = DB::table('personal_score_prooves')->where('id_personal_score', $user->id)->get();
