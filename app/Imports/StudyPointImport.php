@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudyPointImport implements ToCollection, WithHeadingRow
 {
@@ -31,8 +32,8 @@ class StudyPointImport implements ToCollection, WithHeadingRow
                     $import['id_study_time'] = $last_study_time->id;
                     $import['ten_level_avg'] = $row['tbc_ht10'];
                     $import['four_level_avg'] = $row['tbc_ht4'];
-                    $import['ten_level_evaluate'] = $row['xep_loai_thang_10'];
-                    $import['four_level_evaluate'] = $row['xep_loai_thang_4'];
+                    $import['ten_level_evaluate'] = $row['xep_loai_thang_10'] ?? 'Không xếp loại';
+                    $import['four_level_evaluate'] = $row['xep_loai_thang_4'] ?? 'Không xếp loại';
                     $import['credit_in_debt'] = $row['so_tin_chi_no'];
                     $import['object_in_debt'] = $row['so_hp_no'];
                     $import['tong_so_tin_dang_ky'] = $row['tong_so_tin_dang_ky'];
@@ -41,12 +42,13 @@ class StudyPointImport implements ToCollection, WithHeadingRow
                         $import
                     );
                     $score = 1.5;
-                    $reExamPercent = $import['credit_in_debt'] / $import['tong_so_tin_dang_ky'] * 100;
+                    $reExamPercent = 20;
+                    if($import['tong_so_tin_dang_ky'] != 0) $reExamPercent = $import['credit_in_debt'] / $import['tong_so_tin_dang_ky'] * 100;
                     if($reExamPercent < 10){  // số tín chỉ thi lại < 10%
                         $score = 1;
                     }elseif($reExamPercent >= 10 && $reExamPercent < 20){ // số tín chỉ thi lại < 20%
                         $score = 0.5;
-                    } elseif($reExamPercent >= 20){ // số tín chỉ thi lại từ 20% trở lên
+                    } elseif($reExamPercent >= 20 || $import['four_level_avg'] == 0){ // số tín chỉ thi lại từ 20% trở lên hoặc TBC = 0
                         $score = 0;
                     }
                     DB::table('personal_score') //update điểm tiêu chí thi lại(8)

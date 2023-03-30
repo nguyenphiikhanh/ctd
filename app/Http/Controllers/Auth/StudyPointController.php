@@ -60,13 +60,8 @@ class StudyPointController extends AppBaseController
         //
         try{
             $file = $request->file('file');
-            $import = Excel::import(new StudyPointImport, $file);
-            if($import){
-                return $this->sendResponse('', __('message.success.update',['atribute' => 'điểm học tập']));
-            }
-            else{
-                return $this->sendError(__('message.failed.update',['atribute' => 'điểm học tập']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
-            }
+            Excel::import(new StudyPointImport, $file);
+            return $this->sendResponse('', __('message.success.update',['atribute' => 'điểm học tập']));
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
