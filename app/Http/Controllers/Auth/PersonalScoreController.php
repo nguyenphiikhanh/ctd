@@ -39,7 +39,7 @@ class PersonalScoreController extends AppBaseController
             return $this->sendResponse($data, __('message.success.get_list',['atribute' => 'điểm rèn luyện']));
         }
         catch(\Exception $e){
-            Log::debug($e->getMessage(). $e->getTraceAsString());
+            Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.get_list',['atribute' => 'điểm rèn luyện']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -49,7 +49,6 @@ class PersonalScoreController extends AppBaseController
         try{
             $id = $request->get('id');
             $files = $request->file('files', []);
-            Log::debug($files);
             DB::connection('mysql')->transaction(function () use($id, $files){
                 if($id){
                     DB::table('personal_score')
@@ -63,7 +62,7 @@ class PersonalScoreController extends AppBaseController
             return $this->sendResponse('', __('message.success.update',['atribute' => 'minh chứng']));
         }
         catch(\Exception $e){
-            Log::debug($e->getMessage(). $e->getTraceAsString());
+            Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.update',['atribute' => 'minh chứng']));
         }
     }
@@ -91,7 +90,7 @@ class PersonalScoreController extends AppBaseController
             return $this->sendResponse($listTc, __('message.success.get_list',['atribute' => 'tiêu chí']));
         }
         catch(\Exception $e){
-            Log::debug($e->getMessage(). $e->getTraceAsString());
+            Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.get_list',['atribute' => 'tiêu chí']));
         }
     }
@@ -116,7 +115,7 @@ class PersonalScoreController extends AppBaseController
             return $this->sendResponse($listUserCf, __('message.success.get_list',['atribute' => 'tiêu chí']));
         }
         catch(\Exception $e){
-            Log::debug($e->getMessage(). $e->getTraceAsString());
+            Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.get_list',['atribute' => 'tiêu chí']));
         }
     }
@@ -141,7 +140,7 @@ class PersonalScoreController extends AppBaseController
             return $this->sendResponse('', __('message.success.update', ['atribute' => 'điểm rèn luyện']));
         }
         catch(\Exception $e){
-            Log::debug($e->getMessage(). $e->getTraceAsString());
+            Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.update',['atribute' => 'điểm rèn luyện']));
         }
     }
