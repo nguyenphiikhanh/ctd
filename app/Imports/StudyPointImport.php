@@ -2,6 +2,8 @@
 
 namespace App\Imports;
 
+use App\Http\Utils\AppUtils;
+use App\Http\Utils\TcUtils;
 use App\Models\StudyTime;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -33,10 +35,44 @@ class StudyPointImport implements ToCollection, WithHeadingRow
                     $import['four_level_evaluate'] = $row['xep_loai_thang_4'];
                     $import['credit_in_debt'] = $row['so_tin_chi_no'];
                     $import['object_in_debt'] = $row['so_hp_no'];
+                    $import['tong_so_tin_dang_ky'] = $row['tong_so_tin_dang_ky'];
                     DB::table('study_points')->updateOrInsert(
                         ['id_user' => $import['id_user'], 'id_study_time' => $import['id_study_time']],
                         $import
                     );
+                    $score = 1.5;
+                    $reExamPercent = $import['credit_in_debt'] / $import['tong_so_tin_dang_ky'] * 100;
+                    if($reExamPercent < 10){  // số tín chỉ thi lại < 10%
+                        $score = 1;
+                    }elseif($reExamPercent >= 10 && $reExamPercent < 20){ // số tín chỉ thi lại < 20%
+                        $score = 0.5;
+                    } elseif($reExamPercent >= 20){ // số tín chỉ thi lại từ 20% trở lên
+                        $score = 0;
+                    }
+                    DB::table('personal_score') //update điểm tiêu chí thi lại(8)
+                        ->where('id_study_time', $last_study_time->id)
+                        ->where('id_user', $user->id)
+                        ->where('id_tieu_chi', TcUtils::TIEU_CHI_THI_LAI)
+                        ->update([
+                            'status' => AppUtils::SCORE_HOAN_THANH,
+                            'score' => $score,
+                        ]);
+                    $tbc_score = 2.5;
+                    if($import['four_level_avg'] >= 3.2 && $import['four_level_avg'] <= 3.59){ // điểm TBC
+                        $tbc_score = 1.5;
+                    } elseif($import['four_level_avg'] >= 2.5 && $import['four_level_avg'] <= 3.19){
+                        $tbc_score = 1;
+                    } elseif($import['four_level_avg'] < 2.5){
+                        $tbc_score = 0;
+                    }
+                    DB::table('personal_score') //update điểm tiêu chí TBC (13)
+                    ->where('id_study_time', $last_study_time->id)
+                    ->where('id_user', $user->id)
+                    ->where('id_tieu_chi', TcUtils::TIEU_CHI_TBC)
+                    ->update([
+                        'status' => AppUtils::SCORE_HOAN_THANH,
+                        'score' => $tbc_score,
+                    ]);
                 }
             });
             return true;
