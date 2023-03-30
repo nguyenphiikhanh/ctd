@@ -42,13 +42,16 @@ class StudyPointImport implements ToCollection, WithHeadingRow
                         $import
                     );
                     $score = 1.5;
-                    $reExamPercent = 20;
-                    if($import['tong_so_tin_dang_ky'] != 0) $reExamPercent = $import['credit_in_debt'] / $import['tong_so_tin_dang_ky'] * 100;
-                    if($reExamPercent < 10){  // số tín chỉ thi lại < 10%
-                        $score = 1;
-                    }elseif($reExamPercent >= 10 && $reExamPercent < 20){ // số tín chỉ thi lại < 20%
-                        $score = 0.5;
-                    } elseif($reExamPercent >= 20 || $import['four_level_avg'] == 0){ // số tín chỉ thi lại từ 20% trở lên hoặc TBC = 0
+                    if($import['tong_so_tin_dang_ky'] != 0 && $import['credit_in_debt'] != 0){
+                        $reExamPercent = $import['credit_in_debt'] / $import['tong_so_tin_dang_ky'] * 100;
+                        if($reExamPercent < 10){  // số tín chỉ thi lại < 10%
+                            $score = 1;
+                        }elseif($reExamPercent >= 10 && $reExamPercent < 20){ // số tín chỉ thi lại < 20%
+                            $score = 0.5;
+                        } elseif($reExamPercent >= 20){ // số tín chỉ thi lại từ 20% trở
+                            $score = 0;
+                        }
+                    } elseif($import['tong_so_tin_dang_ky'] == 0 || $import['four_level_avg'] == 0){ // bỏ học
                         $score = 0;
                     }
                     DB::table('personal_score') //update điểm tiêu chí thi lại(8)
