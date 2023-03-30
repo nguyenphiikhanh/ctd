@@ -217,6 +217,14 @@ class PointController extends AppBaseController
                                     'status' => AppUtils::SCORE_HOAN_THANH,
                                     'score' => DB::raw('max_score')
                                 ]);
+                                DB::table('personal_score') //Tham dự thi NVSP cấp khoa, trường =>  hoàn thành
+                                ->where('id_study_time', $current->id)
+                                ->where('id_user', $studentId)
+                                ->where('id_tieu_chi', TcUtils::TIEU_CHI_DU_THI_NVSP)
+                                ->update([
+                                    'status' => AppUtils::SCORE_HOAN_THANH,
+                                    'score' => DB::raw('max_score')
+                                ]);
                             continue;
                         }
                         $secondOrThirdAwards = array_filter($user_activities->toArray(), function($act){
@@ -242,6 +250,14 @@ class PointController extends AppBaseController
                                     'status' => AppUtils::SCORE_HOAN_THANH,
                                     'score' => DB::raw('max_score')
                                 ]);
+                                DB::table('personal_score') //Tham dự thi NVSP cấp khoa, trường =>  hoàn thành
+                                    ->where('id_study_time', $current->id)
+                                    ->where('id_user', $studentId)
+                                    ->where('id_tieu_chi', TcUtils::TIEU_CHI_DU_THI_NVSP)
+                                    ->update([
+                                        'status' => AppUtils::SCORE_HOAN_THANH,
+                                        'score' => DB::raw('max_score')
+                                    ]);
                             continue;
                         }
                         DB::table('nvsp_points')->insert([ // tham gia thi đầy đủ
