@@ -259,6 +259,13 @@ class PointController extends AppBaseController
                                 'status' => AppUtils::SCORE_HOAN_THANH,
                                 'score' => DB::raw('max_score')
                             ]);
+                        DB::table('personal_score') //Đạt giải nhất, nhì, ba trong các cuộc thi từ cấp khoa trở lên => không có điểm
+                            ->where('id_study_time', $current->id)
+                            ->where('id_user', $studentId)
+                            ->where('id_tieu_chi', TcUtils::TIEU_CHI_GIAI_NVSP)
+                            ->update([
+                                'status' => AppUtils::SCORE_HOAN_THANH,
+                            ]);
                     }
                 }
             });
