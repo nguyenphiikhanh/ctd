@@ -2,7 +2,7 @@
     <div class="modal fade modal-lg" tabindex="-1" data-bs-backdrop="static" id="viewClassMeetScore">
         <div class="modal-dialog modal-dialog-top mw-98" role="document">
             <div class="modal-content">
-                <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">
+                <a @click="closeModal()" href="#" class="close">
                     <em class="icon ni ni-cross"></em>
                 </a>
                 <div class="modal-header"><h5 class="modal-title">Điểm học tập lớp {{classView.class_name}}</h5></div>

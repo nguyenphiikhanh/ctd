@@ -74,8 +74,8 @@ class StudyPointImport implements ToCollection, WithHeadingRow
                         'score' => $tbc_score,
                     ]);
                 }
+                return true;
             });
-            return true;
         }
         catch(\Exception $e){
             return false;

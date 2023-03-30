@@ -32,6 +32,15 @@ class StudyPointController extends AppBaseController
                 ->where('users.id_class', $id_class)
                 ->where('study_points.id_study_time', $id_study_time)
                 ->get();
+            foreach($studyPoints as $point){
+                $point->credit_in_debt = (int) $point->credit_in_debt;
+                $point->id = (int) $point->id;
+                $point->id_study_time = (int) $point->id_study_time;
+                $point->id_user = (int) $point->id_user;
+                $point->object_in_debt = (int) $point->object_in_debt;
+                $point->four_level_avg = (float) $point->four_level_avg;
+                $point->ten_level_avg = (float) $point->ten_level_avg;
+            }
             return $this->sendResponse($studyPoints, __('message.success.get_list',['atribute' => 'điểm học tập']));
         }
         catch(\Exception $e){
