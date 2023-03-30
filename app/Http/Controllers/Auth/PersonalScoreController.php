@@ -124,12 +124,12 @@ class PersonalScoreController extends AppBaseController
     public function confirmTcProoves(Request $request, $id){
         try{
             $status = $request->get('status');
-            if($status == AppUtils::SCORE_HOAN_THANH){
+            if($status == AppUtils::SCORE_DUYET){
                 DB::table('personal_score')
                     ->where('id', $id)
                     ->update([
                         'score' => DB::raw('max_score'),
-                        'status' => AppUtils::SCORE_HOAN_THANH
+                        'status' => AppUtils::SCORE_DUYET
                     ]);
             } else{
                 DB::table('personal_score')

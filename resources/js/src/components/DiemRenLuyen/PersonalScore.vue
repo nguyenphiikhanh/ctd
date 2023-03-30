@@ -120,7 +120,10 @@ export default {
                     return 'Minh chứng không được duyệt';
                     break;
                 case status.SCORE_HOAN_THANH:
-                    return 'Đã hoàn thành';
+                    return 'Đã đánh giá';
+                    break;
+                case status.SCORE_DUYET:
+                    return 'Đã duyệt';
                     break;
                 default: return 'Chưa có điểm';
             }
@@ -135,6 +138,9 @@ export default {
                     return 'text-danger';
                     break;
                 case status.SCORE_HOAN_THANH:
+                    return 'text-success';
+                    break;
+                case status.SCORE_DUYET:
                     return 'text-success';
                     break;
                 default: return 'text-warning';

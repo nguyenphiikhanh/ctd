@@ -11,4 +11,5 @@ export default{
     SCORE_CHO_DUYET: 1,
     SCORE_KHONG_DUYET: 2,
     SCORE_HOAN_THANH: 3,
+    SCORE_DUYET: 4,
 }

@@ -57,5 +57,5 @@ namespace App\Http\Utils;
     const SCORE_CHO_DUYET = 1;
     const SCORE_KHONG_DUYET = 2;
     const SCORE_HOAN_THANH = 3;
-
+    const SCORE_DUYET = 4;
  }

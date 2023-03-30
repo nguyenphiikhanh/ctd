@@ -78,7 +78,7 @@ export default {
             const status = constants.status;
             let data = {
                 id: user.id,
-                status: confirmFlg ? status.SCORE_HOAN_THANH : status.SCORE_KHONG_DUYET
+                status: confirmFlg ? status.SCORE_DUYET : status.SCORE_KHONG_DUYET
             }
             await this.confirmTcProoves(data);
             await this.$emit('confirmed', user.id);
