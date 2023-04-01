@@ -34,12 +34,18 @@
                                 <td class="text-center">{{_item.sum_score}}</td>
                                 <td>{{_item.rank}}</td>
                                 <td>
-                                   <div class="d-flex justify-content-center">
-                                       <input class="form-control w-50 text-center" type="number" max="100" min="0" :readonly="true" :value="_item.last_score">
-                                       <span><em class="icon ni ni-edit btn"></em></span>
-                                   </div>
+                                    <div class="d-flex justify-content-center">
+                                        <input class="form-control w-50 text-center"
+                                               type="number" max="100" min="0" ref="score_last_item"
+                                               @change="changeLastScore(_item)"
+                                               v-model="_item.last_score">
+                                    </div>
                                 </td>
-                                <td>{{_item.note}}</td>
+                                <td>
+                                    <div class="d-flex justify-content-center">
+                                        <input class="form-control w-75 text-center" @blur="changeLastScore(_item)" v-model="_item.note">
+                                    </div>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -71,14 +77,25 @@ export default {
         return{
             awating: false,
             studyTimeListShow: [],
-            scoreListShow: this.scoreList,
+            scoreListShow: [],
             studyTime: null,
         }
     },
     methods:{
         ...mapActions({
             getScoreByClass: "points/getScoreByClass",
+            updateLastScore: 'points/updateLastScore'
         }),
+        async changeLastScore(item){
+            await this.updateLastScore(item);
+            let data = {
+                id_class: this.classView.id,
+                id_study_time: this.studyTime,
+            }
+            if(data.id_class){
+                await this.getScoreByClass(data).then(res => this.scoreListShow = [...res.data]);
+            }
+        },
         closeModal(){
             this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity);
             this.$emit('closeModal');
@@ -89,12 +106,14 @@ export default {
     watch:{
         async studyTime(val){
             this.awating = true;
+            this.studyTime = val;
             let data = {
                 id_class: this.classView.id,
-                id_study_time: val
+                id_study_time: this.studyTime,
             }
             if(data.id_class){
                 await this.getScoreByClass(data).then(res => this.scoreListShow = [...res.data]);
+                this.scoreListShow.map(_item => _item.editFlg = false);
             }
             this.awating = false;
         }

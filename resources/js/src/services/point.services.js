@@ -27,5 +27,9 @@ export default {
 
     getScoreByClass(id_class, data){
         return http.get(`/last-score/${id_class}`, {params: data});
+    },
+
+    updateLastScore(data){
+        return http.put('/last-score', data);
     }
 }
