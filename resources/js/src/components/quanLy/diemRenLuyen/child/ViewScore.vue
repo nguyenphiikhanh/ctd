@@ -20,7 +20,7 @@
                                 <th scope="col">STT</th>
                                 <th scope="col">Mã sinh viên</th>
                                 <th scope="col">Họ và tên</th>
-                                <th scope="col">Tổng số điểm</th>
+<!--                                <th scope="col">Tổng số điểm</th>-->
                                 <th scope="col">Xếp hạng</th>
                                 <th scope="col">Điểm kết luận</th>
                                 <th scope="col">Ghi chú</th>
@@ -31,7 +31,7 @@
                                 <th scope="row">{{index + 1}}</th>
                                 <td>{{_item.username}}</td>
                                 <td>{{_item.fullname}}</td>
-                                <td class="text-center">{{_item.sum_score}}</td>
+<!--                                <td class="text-center">{{_item.sum_score}}</td>-->
                                 <td>{{_item.rank}}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
