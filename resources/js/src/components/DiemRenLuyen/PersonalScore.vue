@@ -24,7 +24,12 @@
                                 <h5 class="nk-block-title">Điểm rèn luyện</h5>
                             </div>
                             <div class="nk-block-head-content">
-                                <button class="btn btn-lg btn-outline-success">Xem quy định đánh giá</button>
+                                <a class="d-block mb-1" :href="'/file-download/tieu_chi_danh_gia.xlsx'" :download="`tieu_chi_danh_gia.xlsx`">
+                                    <button class="btn btn-success btn-lg">
+                                        <em class="icon ni ni-file"></em>
+                                        Xem quy định đánh giá
+                                    </button>
+                                </a>
                             </div>
                         </div>
                         <div class="card card-preview">
