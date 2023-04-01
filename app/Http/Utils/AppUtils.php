@@ -58,4 +58,11 @@ namespace App\Http\Utils;
     const SCORE_KHONG_DUYET = 2;
     const SCORE_HOAN_THANH = 3;
     const SCORE_DUYET = 4;
+
+    // Xếp loại
+    const RANK_XUAT_SAC = 'Xuất sắc';
+    const RANK_TOT = 'Tốt';
+    const RANK_KHA = 'Khá';
+    const RANK_TRUNG_BINH = 'Trung bình';
+    const RANK_YEU = 'Yếu';
  }
