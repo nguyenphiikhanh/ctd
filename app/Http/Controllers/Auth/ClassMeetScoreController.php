@@ -21,7 +21,7 @@ class ClassMeetScoreController extends AppBaseController
             $user = Auth::user();
             $userScores = DB::table('student_class_meet_score')
                 ->leftJoin('tieu_chi', 'tieu_chi.id', 'student_class_meet_score.id_tieu_chi')
-                ->select('student_class_meet_score.*', 'tieu_chi.name', 'tieu_chi.note', 'tieu_chi.max_score')
+                ->select('student_class_meet_score.*', 'tieu_chi.name', 'tieu_chi.note', 'tieu_chi.max_score', 'tieu_chi.min_score')
                 ->where('id_study_time', $id_study_time)
                 ->where('id_user', $user->id)
                 ->orderBy('id_tieu_chi')
@@ -31,6 +31,7 @@ class ClassMeetScoreController extends AppBaseController
                 $score->cvht_score = (float) $score->cvht_score;
                 $score->max_score = (float) $score->max_score;
                 $score->self_score = (float) $score->self_score;
+                $score->min_score = (float) $score->min_score;
             }
             return $this->sendResponse($userScores, __('message.success.get_list',['atribute' => 'điểm rèn luyện']));
         }
@@ -108,7 +109,7 @@ class ClassMeetScoreController extends AppBaseController
                 foreach($studentLists as $student){
                     $scoreList = DB::table('student_class_meet_score')
                         ->join('tieu_chi', 'tieu_chi.id', 'student_class_meet_score.id_tieu_chi')
-                        ->select('student_class_meet_score.*', 'tieu_chi.max_score')
+                        ->select('student_class_meet_score.*', 'tieu_chi.max_score','tieu_chi.min_score')
                         ->where('id_study_time', $id_study_time)
                         ->where('id_user', $student->id)
                         ->orderBy('id_tieu_chi')
@@ -118,6 +119,7 @@ class ClassMeetScoreController extends AppBaseController
                         $score->cvht_score = (float) $score->cvht_score;
                         $score->max_score = (float) $score->max_score;
                         $score->self_score = (float) $score->self_score;
+                        $score->min_score = (float)  $score->min_score;
                     }
                     $student->scoreList = $scoreList;
                 }

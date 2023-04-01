@@ -91,6 +91,14 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
+            <router-link v-if="user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'StudyPoints'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-eye-fill"></em></span>
+                        <span class="nk-menu-text">Xem điểm rèn luyện</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
             <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'NvspPoint'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">

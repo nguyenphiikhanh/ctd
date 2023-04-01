@@ -52,9 +52,10 @@
                                                     <button @click="decrement(index, Number(tc.max_score) === tc.max_score && tc.max_score % 1 !== 0 ? 0.5 : 1 )" class="btn btn-icon btn-outline-light number-spinner-btn number-minus" data-number="minus"><em class="icon ni ni-minus"></em></button>
                                                     <input type="number" class="form-control number-spinner"
                                                     :id="`score-spin-${index+1}`"
-                                                    :min="0"
+                                                    :min="tc.min_score"
                                                     :max="tc.max_score"
                                                     :value="tc.self_score"
+                                                    :step="tc.min_score < 0 ? 5 : 0"
                                                     @change="updateValue(index, $event.target.value)">
                                                     <button @click="increment(index, Number(tc.max_score) === tc.max_score && tc.max_score % 1 !== 0 ? 0.5 : 1 )" class="btn btn-icon btn-outline-light number-spinner-btn number-plus" data-number="plus"><em class="icon ni ni-plus"></em></button>
                                                 </div>

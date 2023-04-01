@@ -93,7 +93,7 @@ class ChildActivityController extends AppBaseController
                         $parChildAct = ChildActivity::find($actDetail->id_child_activity);
                     }
                 };
-                $latestStudyTime = DB::table('study_times')->latest()->first();
+                $latestStudyTime = DB::table('study_times')->latest('id')->first();
                 $child_act = ChildActivity::create([
                     'name' => $name,
                     'id_activity' => $activity,
