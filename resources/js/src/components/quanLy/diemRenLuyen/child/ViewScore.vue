@@ -31,9 +31,14 @@
                                 <th scope="row">{{index + 1}}</th>
                                 <td>{{_item.username}}</td>
                                 <td>{{_item.fullname}}</td>
-                                <td>{{_item.sum_score}}</td>
+                                <td class="text-center">{{_item.sum_score}}</td>
                                 <td>{{_item.rank}}</td>
-                                <td>{{_item.last_score}}</td>
+                                <td>
+                                   <div class="d-flex justify-content-center">
+                                       <input class="form-control w-50 text-center" type="number" max="100" min="0" :readonly="true" :value="_item.last_score">
+                                       <span><em class="icon ni ni-edit btn"></em></span>
+                                   </div>
+                                </td>
                                 <td>{{_item.note}}</td>
                             </tr>
                             </tbody>
