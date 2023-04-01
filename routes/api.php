@@ -62,6 +62,8 @@ Route::prefix('v1')->group(function(){
             // Điểm học tập
             Route::get('/study-point','Auth\StudyPointController@index');
             Route::post('/study-point','Auth\StudyPointController@store');
+            //  Điểm rèn luyện(form điểm cuối);
+            Route::get('/last-score/{id_class}','Auth\LastScoreController@getLastScoreByClass');
         });
 
         // bí thư Liên Đoàn khoa

@@ -50,7 +50,8 @@
                         </div><!-- .card -->
                         <div v-if="classList.length == 0" class="text-center col-12 mt-5">Không có dữ liệu.</div>
                     </div><!-- nk-block -->
-                    <viewPoint :study-year-list="studyYearList" :class-view="classView" :score-list="scoreList" :key="viewKey" @closeModal="closeModal()"/>
+                    <ViewScore :class-view="classView" :score-list="scoreList" :key="viewKey" :study-time-list="studyTimeList"
+                    @closeModal="closeModal()"/>
                 </div>
             </div>
         </div>
@@ -60,10 +61,10 @@
 <script>
 import { asyncLoading } from 'vuejs-loading-plugin';
 import { mapActions } from 'vuex';
-import viewPoint from "./child/ViewPoint";
+import ViewScore from "./child/ViewScore.vue";
 export default {
     components:{
-        viewPoint,
+        ViewScore,
     },
     data(){
         return{
@@ -77,16 +78,16 @@ export default {
                 id_user_cvht: null,
             },
             scoreList: [],
-            studyYearList: [],
-            studyYear: null,
+            studyTimeList: [],
+            studyTime: null,
             viewKey: 1
         }
     },
     methods:{
         ...mapActions({
             getClasses: 'classes/getClasses',
-            getStudyYear: 'studyYear/getStudyYear',
-            getNvspPointByStudyYear: "points/getNvspPointByStudyYear",
+            getStudyTime: 'studyTime/getStudyTime',
+            getScoreByClass: "points/getScoreByClass",
         }),
         async getClassListData(){
             const params = {};
@@ -97,27 +98,27 @@ export default {
             this.classView = _class;
             let data = {
                 id_class: this.classView.id,
-                id_study_year: this.studyYear
+                id_study_time: this.studyTime
             }
-            await this.getNvspPointByStudyYear(data).then(res => this.scoreList = [...res.data]);
+            await this.getScoreByClass(data).then(res => this.scoreList = [...res.data]);
             this.$loading(false);
             this.$nextTick(() => {
-                $('#viewPoint').modal('show');
+                $('#viewScore').modal('show');
             });
             this.viewKey++;
         },
         closeModal(){
-            this.studyYear = this.studyYearList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity)
+            this.studyYear = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity)
             this.$nextTick(() => {
-                $('#viewPoint').modal('hide');
+                $('#viewScore').modal('hide');
             });
         },
     },
     async mounted(){
         asyncLoading(this.getClassListData());
-        await this.getStudyYear().then(res => {
-            this.studyYearList = [...res.data];
-            this.studyYear = this.studyYearList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity)
+        await this.getStudyTime().then(res => {
+            this.studyTimeList = [...res.data];
+            this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity)
         })
         this.viewKey++;
     }

@@ -23,5 +23,9 @@ export default {
 
     getStudyPoints(data){
         return http.get('/study-point', {params: data});
+    },
+
+    getScoreByClass(id_class, data){
+        return http.get(`/last-score/${id_class}`, {params: data});
     }
 }

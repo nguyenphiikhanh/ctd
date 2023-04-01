@@ -1,16 +1,16 @@
 <template>
-    <div class="modal fade modal-lg" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" id="viewPoint">
+    <div class="modal fade modal-lg" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" id="viewScore">
         <div class="modal-dialog modal-dialog-top mw-70" role="document">
             <div class="modal-content">
-                <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">
+                <a @click="closeModal()" class="close">
                     <em class="icon ni ni-cross"></em>
                 </a>
                 <div class="modal-header"><h5 class="modal-title">Điểm rèn luyện nghiệp vụ Sư phạm lớp {{classView.class_name}}</h5></div>
                 <div class="modal-body">
                     <div class="form-group d-flex justify-content-start">
                         <label class="col-form-label col-1">Chọn năm học</label>
-                        <select class="form-control w-20" v-model="studyYear">
-                            <option v-for="(year, index) in studyYearList" :key="index" :value="year.id">{{year.year_name}}</option>
+                        <select class="form-control w-20" v-model="studyTime">
+                            <option v-for="(time, index) in studyTimeList" :key="index" :value="time.id">{{time.name}}</option>
                         </select>
                     </div>
                     <div class="col-12">
@@ -19,10 +19,10 @@
                             <tr>
                                 <th scope="col">STT</th>
                                 <th scope="col">Mã sinh viên</th>
-                                <th scope="col">Họ tên</th>
-                                <th scope="col">Điểm cụ thể</th>
-                                <th scope="col">Xếp loại</th>
-                                <th scope="col">Hình thức thi</th>
+                                <th scope="col">Họ và tên</th>
+                                <th scope="col">Tổng số điểm</th>
+                                <th scope="col">Xếp hạng</th>
+                                <th scope="col">Điểm kết luận</th>
                                 <th scope="col">Ghi chú</th>
                             </tr>
                             </thead>
@@ -31,9 +31,9 @@
                                 <th scope="row">{{index + 1}}</th>
                                 <td>{{_item.username}}</td>
                                 <td>{{_item.fullname}}</td>
-                                <td>{{_item.level_text}}</td>
-                                <td>{{_item.level}}</td>
-                                <td>{{_item.join_type}}</td>
+                                <td>{{_item.sum_score}}</td>
+                                <td>{{_item.rank}}</td>
+                                <td>{{_item.last_score}}</td>
                                 <td>{{_item.note}}</td>
                             </tr>
                             </tbody>
@@ -60,40 +60,40 @@ export default {
     props:{
         scoreList: {type: Array },
         classView: {type:Object},
-        studyYearList: {type: Array},
+        studyTimeList: {type: Array},
     },
     data(){
         return{
             awating: false,
-            studyYearListShow: [],
+            studyTimeListShow: [],
             scoreListShow: this.scoreList,
-            studyYear: null,
+            studyTime: null,
         }
     },
     methods:{
         ...mapActions({
-            getNvspPointByStudyYear: "points/getNvspPointByStudyYear"
+            getScoreByClass: "points/getScoreByClass",
         }),
         closeModal(){
-            this.studyYear = this.studyYearList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity);
+            this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity);
             this.$emit('closeModal');
         },
     },
     computed: {
     },
     watch:{
-        async studyYear(val){
+        async studyTime(val){
             this.awating = true;
             let data = {
                 id_class: this.classView.id,
-                id_study_year: val
+                id_study_time: val
             }
-            await this.getNvspPointByStudyYear(data).then(res => this.scoreListShow = [...res.data]);
+            await this.getScoreByClass(data).then(res => this.scoreListShow = [...res.data]);
             this.awating = false;
         }
     },
     mounted() {
-        this.studyYear = this.studyYearList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity);
+        this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity);
     }
 };
 </script>
