@@ -88,7 +88,9 @@ export default {
                 id_class: this.classView.id,
                 id_study_time: val
             }
-            await this.getScoreByClass(data).then(res => this.scoreListShow = [...res.data]);
+            if(data.id_class){
+                await this.getScoreByClass(data).then(res => this.scoreListShow = [...res.data]);
+            }
             this.awating = false;
         }
     },
