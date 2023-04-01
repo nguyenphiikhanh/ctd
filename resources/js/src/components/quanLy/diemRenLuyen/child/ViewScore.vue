@@ -37,7 +37,7 @@
                                     <div class="d-flex justify-content-center">
                                         <input class="form-control w-50 text-center"
                                                type="number" max="100" min="0" ref="score_last_item"
-                                               @change="changeLastScore(_item)"
+                                               @change="changeLastScore(_item)" @blur="changeLastScore(_item)"
                                                v-model="_item.last_score">
                                     </div>
                                 </td>
