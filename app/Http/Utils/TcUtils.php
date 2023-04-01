@@ -39,7 +39,7 @@ namespace App\Http\Utils;
         50,
     ];
 
-    const TIEU_CHI_UPLOADS = [6, 26, 27, 28, 29, 30, 32, 36, 37, 39, 44, 48, 49, 51];
+    const TIEU_CHI_UPLOADS = [5, 6, 26, 27, 28, 29, 30, 32, 36, 37, 39, 44, 48, 49, 51];
     const TIEU_CHI_THAM_GIA_NVSP = 9;
     const TIEU_CHI_DU_THI_NVSP = 10;
     const TIEU_CHI_GIAI_NVSP = 11;
