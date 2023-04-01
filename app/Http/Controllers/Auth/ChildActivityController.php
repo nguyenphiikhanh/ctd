@@ -634,7 +634,10 @@ class ChildActivityController extends AppBaseController
                 ->orderBy('classes.class_name')
                 ->orderBy('user_activities_teams.team_name')
                 ->get();
-
+            foreach($userActs as $user){
+                $user->status = (int) $user->status;
+                $user->award = (int) $user->award;
+            }
             return $this->sendResponse($userActs, __('message.success.get_list',['atribute' => 'người dự thi']));
         }
         catch(\Exception $e){
