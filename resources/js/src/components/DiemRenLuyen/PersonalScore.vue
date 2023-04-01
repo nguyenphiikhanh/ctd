@@ -149,7 +149,7 @@ export default {
         canUploadProoves(tc){
             const status = constants.status;
             if(!this.currentStudyTime.end_time_class_meet || new Date(this.currentStudyTime.end_time_class_meet) < new Date()) return false;
-            if(tc.status == status.SCORE_HOAN_THANH || tc.status == status.STATUS_DUYET) return false;
+            if(tc.status == status.SCORE_HOAN_THANH || tc.status == status.SCORE_DUYET) return false;
             const tieuChi_uploads = constants.tieuChi.TIEU_CHI_UPLOADS;
             return tieuChi_uploads.includes(tc.id_tieu_chi);
         },
