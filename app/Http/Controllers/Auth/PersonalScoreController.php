@@ -156,8 +156,7 @@ class PersonalScoreController extends AppBaseController
                 ->get();
             foreach($data as $field){
                 $field->prooves = [];
-                if(in_array($field->id, (array) TcUtils::TIEU_CHI_UPLOADS)){
-                    Log::debug('khanh');
+                if(in_array($field->id_tieu_chi, (array) TcUtils::TIEU_CHI_UPLOADS)){
                     $prooves = DB::table('personal_score_prooves')
                         ->where('id_personal_score', $field->id)
                         ->get();

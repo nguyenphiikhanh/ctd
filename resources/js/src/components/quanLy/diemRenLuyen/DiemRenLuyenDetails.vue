@@ -49,7 +49,8 @@
                                         <td :class="scoreStatusClassText(tc)">{{scoreStatusText(tc)}}</td>
                                         <td class="text-center">{{tc.note}}</td>
                                         <td class="text-center">
-                                            <button v-if="canViewProoves(tc)" class="btn btn-info">Xem minh chứng</button>
+                                            <button v-if="canViewProoves(tc)" class="btn btn-info"
+                                            @click="onViewProof(tc.prooves)">Xem minh chứng</button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -69,6 +70,7 @@
                         </div><!-- .card -->
                     </div><!-- nk-block -->
                 </div>
+                <ViewProof :prooves="prooves" @onClose="closeProofModal()"/>
             </div>
         </div>
     </div>
@@ -77,8 +79,10 @@
 <script>
 import { mapActions } from 'vuex';
 import constants from '../../../constants';
+import ViewProof from "./child/ViewProof.vue";
 export default {
     components:{
+        ViewProof
     },
     data(){
         return{
@@ -87,6 +91,7 @@ export default {
                 ten: '',
             },
             scoreList: [],
+            prooves: [],
         }
     },
     computed:{
@@ -142,6 +147,17 @@ export default {
             if(tc.status != status.SCORE_HOAN_THANH && tc.status != status.SCORE_DUYET) return false;
             const tieuChi_uploads = constants.tieuChi.TIEU_CHI_UPLOADS;
             return tieuChi_uploads.includes(tc.id_tieu_chi);
+        },
+        onViewProof(prooves){
+            this.prooves = prooves;
+            this.$nextTick( () => {
+                $('#viewProofModal').modal('show');
+            });
+        },
+        closeProofModal(){
+            this.$nextTick(() => {
+                $('#viewProofModal').modal('hide');
+            });
         },
     },
     async mounted(){
