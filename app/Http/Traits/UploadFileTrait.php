@@ -24,7 +24,7 @@ trait UploadFileTrait{
             foreach($files as $file){
                 $fileNameOrigin = $file->getClientOriginalName();
                 $fileNameHash = Str::random(16) . '.' . $file->getClientOriginalExtension();
-                $filepath = $file->storeAs('public/' . $fileFolder .'/', $fileNameHash);
+                $filepath = $file->storeAs('public/' . $fileFolder , $fileNameHash);
                 //save file info to database
                 $fileInfo = [
                     'file_name' => $fileNameOrigin,
