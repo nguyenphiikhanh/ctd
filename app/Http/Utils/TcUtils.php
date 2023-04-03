@@ -45,4 +45,7 @@ namespace App\Http\Utils;
     const TIEU_CHI_GIAI_NVSP = 11;
     const TIEU_CHI_THI_LAI = 8;
     const TIEU_CHI_TBC = 13;
+    const TIEU_CHI_NCKH = 3;
+    const TIEU_CHI_NCKH_AWARD = 4;
+    const TIEU_CHI_DOAN = 46;
  }

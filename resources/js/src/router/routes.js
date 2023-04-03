@@ -256,7 +256,7 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: true,
-            facultyMasterAccess: false,
+            facultyMasterAccess: true,
         }
     },
     // Điểm họp xét lớp
@@ -273,7 +273,7 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: false,
-            facultyMasterAccess: false,
+            facultyMasterAccess: true,
         }
     },
 

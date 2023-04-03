@@ -91,7 +91,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'NvspPoint'}">
+            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN || user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'NvspPoint'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
@@ -99,7 +99,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'ClassMeetScore'}">
+            <router-link v-if="user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'ClassMeetScore'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
