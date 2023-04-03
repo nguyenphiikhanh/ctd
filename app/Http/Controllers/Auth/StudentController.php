@@ -182,6 +182,14 @@ class StudentController extends AppBaseController
     public function show($id)
     {
         //
+        try{
+            $student = User::find($id);
+            return $this->sendResponse($student, __('message.success.show',['atribute' => 'sinh viên']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.show',['atribute' => 'sinh viên']), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
