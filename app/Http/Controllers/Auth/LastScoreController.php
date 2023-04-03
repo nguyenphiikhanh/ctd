@@ -29,7 +29,7 @@ class LastScoreController extends AppBaseController
                 ->leftJoin('last_score', 'last_score.id_user', 'users.id')
                 ->select(DB::raw("CONCAT(users.ho,' ', users.ten) as fullname"), 'users.username',
                 'last_score.last_score', 'last_score.sum_score','last_score.note', 'last_score.rank', 'last_score.id')
-                ->orderBy('users.ten')
+                ->orderBy(DB::raw("SUBSTR(users.ten, 1 ,1)"))
                 ->where('last_score.id_study_time', $id_study_time)
                 ->where('users.id_class', $id_class)
                 ->get();
@@ -77,7 +77,7 @@ class LastScoreController extends AppBaseController
             $note = $request->get('note');
             $last_score = $request->get('last_score', 0);
             $rank = 'Chưa xếp loại';
-            if($last_score != 0){
+            // if($last_score != 0){
                 if($last_score >= 90 && $last_score <= 100){
                     $rank = AppUtils::RANK_XUAT_SAC;
                 }elseif($last_score >= 80 && $last_score < 90){
@@ -87,7 +87,7 @@ class LastScoreController extends AppBaseController
                 }elseif($last_score >= 50 && $last_score < 65){
                     $rank = AppUtils::RANK_TRUNG_BINH;
                 }else $rank = AppUtils::RANK_YEU;
-            }
+            // }
             DB::table('last_score')->where('id', $id)->update([
                 'last_score' => $last_score,
                 'note' => $note,
