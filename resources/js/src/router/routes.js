@@ -19,6 +19,7 @@ import cbCheckpoint from "../components/DanhGia/CbCheckpoint";
 import StudyPoints from '../components/quanLy/diemHocTap/StudyPoints';
 import PersonalScore from "../components/DiemRenLuyen/PersonalScore";
 import MinhChung from "../components/DuyetMinhChung/MinhChung";
+import DiemRenLuyen from "../components/quanLy/diemRenLuyen/DiemRenLuyen.vue";
 
 const routes = [
     // dashboard
@@ -215,7 +216,7 @@ const routes = [
         meta:{
             title: 'Quản lý Điểm học tập',
             requiresAuth: true,
-            adminAccess: true,
+            adminAccess: false,
             cblAccess: false,
             btdAccess: false,
             ptAccess: false,
@@ -224,6 +225,23 @@ const routes = [
             facultyMasterAccess: true,
         }
     },
+        // Điểm rèn luyện
+        {
+            name:"DiemRenLuyen",
+            path:"/diem-ren-luyen/view",
+            component: DiemRenLuyen,
+            meta:{
+                title: 'Quản lý Điểm rèn luyện',
+                requiresAuth: true,
+                adminAccess: false,
+                cblAccess: false,
+                btdAccess: false,
+                ptAccess: false,
+                studentAccess: false,
+                cvAccess: true,
+                facultyMasterAccess: true,
+            }
+        },
     // Điểm rèn luyện tuần NVSP
     {
         name:"NvspPoint",
@@ -238,7 +256,7 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: true,
-            facultyMasterAccess: false,
+            facultyMasterAccess: true,
         }
     },
     // Điểm họp xét lớp
@@ -255,7 +273,7 @@ const routes = [
             ptAccess: false,
             studentAccess: false,
             cvAccess: false,
-            facultyMasterAccess: false,
+            facultyMasterAccess: true,
         }
     },
 

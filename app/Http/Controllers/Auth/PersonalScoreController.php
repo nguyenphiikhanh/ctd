@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\AppBaseController;
-use App\Http\Controllers\Controller;
 use App\Http\Traits\UploadFileTrait;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\ResponseUtils;
@@ -14,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class PersonalScoreController extends AppBaseController
 {
@@ -33,11 +31,15 @@ class PersonalScoreController extends AppBaseController
             foreach($data as $field){
                 $field->score = (float) $field->score;
                 $field->max_score = (float) $field->max_score;
+                $field->status = (int) $field->status;
+                $field->id_study_time = (int) $field->id_study_time;
+                $field->id_tieu_chi = (int) $field->id_tieu_chi;
+                $field->id_user = (int) $field->id_user;
             }
             return $this->sendResponse($data, __('message.success.get_list',['atribute' => 'điểm rèn luyện']));
         }
         catch(\Exception $e){
-            Log::debug($e->getMessage(). $e->getTraceAsString());
+            Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.get_list',['atribute' => 'điểm rèn luyện']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -47,7 +49,6 @@ class PersonalScoreController extends AppBaseController
         try{
             $id = $request->get('id');
             $files = $request->file('files', []);
-            Log::debug($files);
             DB::connection('mysql')->transaction(function () use($id, $files){
                 if($id){
                     DB::table('personal_score')
@@ -61,7 +62,7 @@ class PersonalScoreController extends AppBaseController
             return $this->sendResponse('', __('message.success.update',['atribute' => 'minh chứng']));
         }
         catch(\Exception $e){
-            Log::debug($e->getMessage(). $e->getTraceAsString());
+            Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.update',['atribute' => 'minh chứng']));
         }
     }
@@ -81,13 +82,15 @@ class PersonalScoreController extends AppBaseController
                     ->where('id_tieu_chi', $tc->id)
                     ->where('status', AppUtils::SCORE_CHO_DUYET)
                     ->where('users.role', '!=' , $user->role == RoleUtils::ROLE_CBL ? RoleUtils::ROLE_CBL : RoleUtils::ROLE_LOP_TRUONG)
+                    ->where('users.id_class', $user->id_class)
                     ->count();
                 $tc->wait_count =  $waitListCount;
+                $tc->max_score = (float) $tc->max_score;
             }
             return $this->sendResponse($listTc, __('message.success.get_list',['atribute' => 'tiêu chí']));
         }
         catch(\Exception $e){
-            Log::debug($e->getMessage(). $e->getTraceAsString());
+            Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.get_list',['atribute' => 'tiêu chí']));
         }
     }
@@ -103,6 +106,7 @@ class PersonalScoreController extends AppBaseController
             ->where('id_tieu_chi', $id)
             ->where('status', AppUtils::SCORE_CHO_DUYET)
             ->where('users.role', '!=' , $user->role == RoleUtils::ROLE_CBL ? RoleUtils::ROLE_CBL : RoleUtils::ROLE_LOP_TRUONG)
+            ->where('users.id_class', $user->id_class)
             ->get();
             foreach($listUserCf as $user){
                 $prooves = DB::table('personal_score_prooves')->where('id_personal_score', $user->id)->get();
@@ -111,7 +115,7 @@ class PersonalScoreController extends AppBaseController
             return $this->sendResponse($listUserCf, __('message.success.get_list',['atribute' => 'tiêu chí']));
         }
         catch(\Exception $e){
-            Log::debug($e->getMessage(). $e->getTraceAsString());
+            Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.get_list',['atribute' => 'tiêu chí']));
         }
     }
@@ -119,12 +123,12 @@ class PersonalScoreController extends AppBaseController
     public function confirmTcProoves(Request $request, $id){
         try{
             $status = $request->get('status');
-            if($status == AppUtils::SCORE_HOAN_THANH){
+            if($status == AppUtils::SCORE_DUYET){
                 DB::table('personal_score')
                     ->where('id', $id)
                     ->update([
                         'score' => DB::raw('max_score'),
-                        'status' => AppUtils::SCORE_HOAN_THANH
+                        'status' => AppUtils::SCORE_DUYET
                     ]);
             } else{
                 DB::table('personal_score')
@@ -136,7 +140,7 @@ class PersonalScoreController extends AppBaseController
             return $this->sendResponse('', __('message.success.update', ['atribute' => 'điểm rèn luyện']));
         }
         catch(\Exception $e){
-            Log::debug($e->getMessage(). $e->getTraceAsString());
+            Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.update',['atribute' => 'điểm rèn luyện']));
         }
     }

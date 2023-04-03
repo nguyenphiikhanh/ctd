@@ -91,7 +91,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'NvspPoint'}">
+            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN || user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'NvspPoint'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
@@ -99,7 +99,7 @@
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
-            <router-link v-if="user.role == roles.ROLE_BI_THU_DOAN" :to="{name: 'ClassMeetScore'}">
+            <router-link v-if="user.role == roles.ROLE_QUAN_LY_KHOA" :to="{name: 'ClassMeetScore'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-todo-fill"></em></span>
@@ -144,8 +144,8 @@
             <router-link v-if="user.role == roles.ROLE_LOP_TRUONG || user.role == roles.ROLE_CBL || user.role == roles.ROLE_SINH_VIEN" :to="{name: 'PersonalScore'}">
                 <li class="nk-menu-item">
                     <a href="#" class="nk-menu-link">
-                        <span class="nk-menu-icon"><em class="icon ni ni-eye-fill"></em></span>
-                        <span class="nk-menu-text">Xem điểm rèn luyện</span>
+                        <span class="nk-menu-icon"><em class="icon ni ni-pen2"></em></span>
+                        <span class="nk-menu-text">Đánh giá bổ sung</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>
@@ -162,6 +162,14 @@
                     <a href="#" class="nk-menu-link">
                         <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
                         <span class="nk-menu-text">Họp đánh giá lớp</span>
+                    </a>
+                </li><!-- .nk-menu-item -->
+            </router-link>
+            <router-link v-if="user.role == roles.ROLE_QUAN_LY_KHOA || user.role == roles.ROLE_CVHT" :to="{name: 'DiemRenLuyen'}">
+                <li class="nk-menu-item">
+                    <a href="#" class="nk-menu-link">
+                        <span class="nk-menu-icon"><em class="icon ni ni-eye-fill"></em></span>
+                        <span class="nk-menu-text">Xem điểm rèn luyện</span>
                     </a>
                 </li><!-- .nk-menu-item -->
             </router-link>

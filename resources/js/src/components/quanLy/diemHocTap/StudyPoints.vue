@@ -8,6 +8,19 @@
                             <div class="nk-block-head-content">
                                 <h3 class="nk-block-title page-title">Quản lý điểm học tập</h3>
                             </div><!-- .nk-block-head-content -->
+                            <div class="nk-block-head-content">
+                                <div class="d-flex justify-content-end">
+                                    <input type="file" accept=".xlsx, .xls, .xlsm" class="d-none" @change="uploadStudyPoint($event.target.files)" ref="studyPointFile">
+                                    <button @click="$refs.studyPointFile.click()" class="btn btn-lg btn-info">
+                                        <em class="icon ni ni-upload"></em>
+                                        {{ fileTitle }}</button>
+                                    <button class="btn btn-lg btn-success ml-10px"
+                                    v-if="validUpload"
+                                    @click="storeStudyPoints()">
+                                        <em class="icon ni ni-send-alt"></em>
+                                        Cập nhật</button>
+                                </div>
+                            </div><!-- .nk-block-head-content -->
                         </div><!-- .nk-block-between -->
                     </div><!-- .nk-block-head -->
                     <div class="nk-block nk-block-lg">
@@ -84,16 +97,35 @@ export default {
             studyTimeList: [],
             studyTime: null,
             viewKey: 1,
+            studyPointFiles: [],
         }
     },
     computed:{
+        validUpload(){
+            return this.studyPointFiles.length;
+        },
+        fileTitle(){
+            return this.studyPointFiles.length == 0 ? 'Cập nhật điểm' : this.studyPointFiles[0].name;
+        }
     },
     methods:{
         ...mapActions({
             getClasses: 'classes/getClasses',
             getStudyTime: 'studyTime/getStudyTime',
-            getStudyPoints: 'points/getStudyPoints'
+            getStudyPoints: 'points/getStudyPoints',
+            storeStudypoints: 'points/storeStudypoints',
         }),
+        uploadStudyPoint(studyPointFiles){
+            this.studyPointFiles = [...studyPointFiles];
+        },
+        async storeStudyPoints(){
+            this.$loading(true);
+            let formData = new FormData();
+            formData.append('file', this.studyPointFiles[0]);
+            await this.storeStudypoints(formData);
+            this.studyPointFiles = [];
+            this.$loading(false);
+        },
         async getClassListData(){
             const params = {};
             await this.getClasses(params).then(res => this.classList = [...res.data]);
@@ -133,6 +165,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.ml-10px{
+    margin-left: 10px;
+}
 </style>

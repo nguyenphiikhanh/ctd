@@ -24,7 +24,12 @@
                                 <h5 class="nk-block-title">Điểm rèn luyện</h5>
                             </div>
                             <div class="nk-block-head-content">
-                                <button class="btn btn-lg btn-outline-success">Xem quy định đánh giá</button>
+                                <a class="d-block mb-1" :href="'/file-download/tieu_chi_danh_gia.xlsx'" :download="`tieu_chi_danh_gia.xlsx`">
+                                    <button class="btn btn-success btn-lg">
+                                        <em class="icon ni ni-file"></em>
+                                        Xem quy định đánh giá
+                                    </button>
+                                </a>
                             </div>
                         </div>
                         <div class="card card-preview">
@@ -120,7 +125,10 @@ export default {
                     return 'Minh chứng không được duyệt';
                     break;
                 case status.SCORE_HOAN_THANH:
-                    return 'Đã hoàn thành';
+                    return 'Đã đánh giá';
+                    break;
+                case status.SCORE_DUYET:
+                    return 'Đã duyệt';
                     break;
                 default: return 'Chưa có điểm';
             }
@@ -137,13 +145,16 @@ export default {
                 case status.SCORE_HOAN_THANH:
                     return 'text-success';
                     break;
+                case status.SCORE_DUYET:
+                    return 'text-success';
+                    break;
                 default: return 'text-warning';
             }
         },
         canUploadProoves(tc){
             const status = constants.status;
             if(!this.currentStudyTime.end_time_class_meet || new Date(this.currentStudyTime.end_time_class_meet) < new Date()) return false;
-            if(tc.status == status.SCORE_HOAN_THANH) return false;
+            if(tc.status == status.SCORE_HOAN_THANH || tc.status == status.SCORE_DUYET) return false;
             const tieuChi_uploads = constants.tieuChi.TIEU_CHI_UPLOADS;
             return tieuChi_uploads.includes(tc.id_tieu_chi);
         },

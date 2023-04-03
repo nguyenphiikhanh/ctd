@@ -26,8 +26,8 @@ class TermController extends AppBaseController
             $termList = DB::table('terms')
                     ->join('classes', 'classes.id_term', 'terms.id')
                     ->join('users', 'users.id_class', 'classes.id')
-                    ->select('terms.id', 'terms.term_name', DB::raw("COUNT(users.id) as student_count"))
-                    ->groupBy('terms.id', 'terms.term_name');
+                    ->select('terms.setting_flg' ,'terms.id', 'terms.term_name', DB::raw("COUNT(users.id) as student_count"))
+                    ->groupBy('terms.id', 'terms.term_name','terms.setting_flg');
             if($getAllFlg){
                 $termList = $termList->get();
             }

@@ -180,6 +180,7 @@ class TieuChiSeeder extends Seeder
             [
                 'name' => 'Vi phạm quy chế thi bị trừ:',
                 'max_score' => 0,
+                'min_score' => -25,
                 'id_loai_tieu_chi' => 6,
                 'type' => 3,
                 'note' => 'Khiển trách: (-10 điểm/ vi phạm); Cảnh cáo: (-15 điểm/ vi phạm); Đình chỉ thi: (-25 điểm/ vi phạm)'
@@ -189,6 +190,7 @@ class TieuChiSeeder extends Seeder
             ['id' => 19],
             [
                 'name' => 'Vi phạm quy chế công tác học sinh sinh viên bị trừ:',
+                'min_score' => -25,
                 'max_score' => 0,
                 'id_loai_tieu_chi' => 6,
                 'type' => 3,

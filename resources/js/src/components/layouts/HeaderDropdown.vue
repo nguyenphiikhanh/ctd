@@ -27,11 +27,6 @@
                     </div>
                     <div class="dropdown-inner">
                         <ul class="link-list">
-                            <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>Trang cá nhân</span></a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown-inner">
-                        <ul class="link-list">
                             <li><a href="#" @click="logout()"><em class="icon ni ni-signout"></em><span>Đăng xuất</span></a></li>
                         </ul>
                     </div>

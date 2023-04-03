@@ -40,6 +40,12 @@ class ChildActivityController extends AppBaseController
             foreach($child_activities as $child_act){
                 $child_act->files = DB::table('child_activity_files')
                     ->where('id_child_activity', $child_act->id)->get();
+                $child_act->child_activity_type = (int) $child_act->child_activity_type;
+                $child_act->id = (int) $child_act->id;
+                $child_act->id_activity = (int) $child_act->id_activity;
+                $child_act->id_study_time = (int) $child_act->id_study_time;
+                $child_act->id_user_assignee = (int) $child_act->id_user_assignee;
+                $child_act->state_flg = (int) $child_act->state_flg;
             }
             return $this->sendResponse($child_activities, __('message.success.get_list',['atribute' => 'hoạt động']));
         }
@@ -87,7 +93,7 @@ class ChildActivityController extends AppBaseController
                         $parChildAct = ChildActivity::find($actDetail->id_child_activity);
                     }
                 };
-                $latestStudyTime = DB::table('study_times')->latest()->first();
+                $latestStudyTime = DB::table('study_times')->latest('id')->first();
                 $child_act = ChildActivity::create([
                     'name' => $name,
                     'id_activity' => $activity,
@@ -634,7 +640,10 @@ class ChildActivityController extends AppBaseController
                 ->orderBy('classes.class_name')
                 ->orderBy('user_activities_teams.team_name')
                 ->get();
-
+            foreach($userActs as $user){
+                $user->status = (int) $user->status;
+                $user->award = (int) $user->award;
+            }
             return $this->sendResponse($userActs, __('message.success.get_list',['atribute' => 'người dự thi']));
         }
         catch(\Exception $e){

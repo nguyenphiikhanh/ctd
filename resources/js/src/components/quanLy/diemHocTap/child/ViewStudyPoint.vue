@@ -2,7 +2,7 @@
     <div class="modal fade modal-lg" tabindex="-1" data-bs-backdrop="static" id="viewClassMeetScore">
         <div class="modal-dialog modal-dialog-top mw-98" role="document">
             <div class="modal-content">
-                <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">
+                <a @click="closeModal()" href="#" class="close">
                     <em class="icon ni ni-cross"></em>
                 </a>
                 <div class="modal-header"><h5 class="modal-title">Điểm học tập lớp {{classView.class_name}}</h5></div>
@@ -13,17 +13,6 @@
                             <select class="form-control w-50" v-model="studyTime">
                                 <option v-for="(time, index) in studyTimeList" :key="index" :value="time.id">{{time.name}}</option>
                             </select>
-                        </div>
-                        <div class="col-6 d-flex justify-content-end">
-                            <input type="file" accept=".xlsx, .xls, .xlsm" class="d-none" @change="uploadStudyPoint($event.target.files)" ref="studyPointFile">
-                            <button @click="$refs.studyPointFile.click()" class="btn btn-lg btn-info">
-                                <em class="icon ni ni-upload"></em>
-                                {{ fileTitle }}</button>
-                            <button class="btn btn-lg btn-success ml-10px"
-                             v-if="validUpload"
-                             @click="storeStudyPoints()">
-                                <em class="icon ni ni-send-alt"></em>
-                                Cập nhật</button>
                         </div>
                     </div>
                     <div v-if="!awating && studyPoints.length > 0" class="col-12">
@@ -39,6 +28,7 @@
                                 <th scope="col">Xếp loại thang 10</th>
                                 <th scope="col">Số HP nợ</th>
                                 <th scope="col">Số tín chỉ nợ</th>
+                                <th scope="col">Tổng số tín chỉ đăng ký</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,6 +42,7 @@
                                 <td>{{ point.ten_level_evaluate }}</td>
                                 <td>{{ point.object_in_debt }}</td>
                                 <td>{{ point.credit_in_debt }}</td>
+                                <td>{{ point.tong_so_tin_dang_ky }}</td>
                             </tr>
                         </tbody>
                         </table>
@@ -87,35 +78,14 @@ export default {
             awating: false,
             studyTime: null,
             studyPoints: [],
-            studyPointFiles: [],
         }
     },
     computed:{
-        validUpload(){
-            return this.studyPointFiles.length;
-        },
-        fileTitle(){
-            return this.studyPointFiles.length == 0 ? 'Cập nhật điểm' : this.studyPointFiles[0].name;
-        }
     },
     methods:{
         ...mapActions({
             getMeetScoreByClass: 'classMeet/getMeetScoreByClass',
-            storeStudypoints: 'points/storeStudypoints',
         }),
-        uploadStudyPoint(studyPointFiles){
-            this.studyPointFiles = [...studyPointFiles];
-        },
-        async storeStudyPoints(){
-            this.$nextTick(() => {
-                $('#viewClassMeetScore').modal('hide');
-            });
-            this.$loading(true);
-            let formData = new FormData();
-            formData.append('file', this.studyPointFiles[0]);
-            await this.storeStudypoints(formData);
-            this.$loading(false);
-        },
         closeModal(){
             this.$emit('closeModal');
         },
@@ -143,8 +113,5 @@ export default {
 <style scoped>
 .mw-98{
     min-width: 98%;
-}
-.ml-10px{
-    margin-left: 10px;
 }
 </style>

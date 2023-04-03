@@ -2,9 +2,9 @@
     <div class="nk-sidebar-element nk-sidebar-head">
         <div class="nk-sidebar-brand">
             <a href="/" class="logo-link nk-sidebar-logo">
-                <img class="logo-light logo-img" src="{{asset('images/logo.png')}}"  alt="logo">
-                <img class="logo-dark logo-img" src="{{asset('images/logo-dark.png')}}"  alt="logo-dark">
-                <img class="logo-small logo-img logo-img-small" src="{{asset('images/logo-small.png')}}" alt="logo-small">
+                <img class="logo-light logo-img" src="{{asset('images/logo_khoacntt.jpg')}}"  alt="logo">
+                <img class="logo-dark logo-img" src="{{asset('images/logo_khoacntt.jpg')}}"  alt="logo-dark">
+                <img class="logo-small logo-img logo-img-small" src="{{asset('images/logo_khoacntt.jpg')}}" alt="logo-small">
             </a>
         </div>
         <div class="nk-menu-trigger me-n2">

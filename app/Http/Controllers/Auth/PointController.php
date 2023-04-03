@@ -6,6 +6,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\NvspUtils;
 use App\Http\Utils\ResponseUtils;
+use App\Http\Utils\TcUtils;
 use App\Models\NvspPoint;
 use App\Models\StudyTime;
 use Illuminate\Http\Request;
@@ -52,6 +53,7 @@ class PointController extends AppBaseController
                 ->where('terms.setting_flg', AppUtils::VALID_VALUE)
                 ->pluck('users.id');
             DB::connection('mysql')->transaction(function() use ($studentIds, $studyTime){
+                $current = DB::table('study_times')->latest('id')->first();
                 DB::table('study_years')->latest('id')->update([
                     'nvsp_data_stored' => AppUtils::VALID_VALUE,
                 ]);
@@ -65,6 +67,27 @@ class PointController extends AppBaseController
                     ->where('activities_details.level', AppUtils::LEVEL_TOA_DAM)
                     ->where('user_join_activities.id_user', $studentId)
                     ->get();
+                    DB::table('personal_score') //Tham dự thi NVSP cấp khoa, trường =>  đổi trạng thái(chưa cập nhật điểm)
+                        ->where('id_study_time', $current->id)
+                        ->where('id_user', $studentId)
+                        ->where('id_tieu_chi', TcUtils::TIEU_CHI_DU_THI_NVSP)
+                        ->update([
+                            'status' => AppUtils::SCORE_HOAN_THANH,
+                        ]);
+                    DB::table('personal_score') //Tham gia đầy đủ các buổi rèn luyện NVSP =>  đổi trạng thái(chưa cập nhật điểm)
+                        ->where('id_study_time', $current->id)
+                        ->where('id_user', $studentId)
+                        ->where('id_tieu_chi', TcUtils::TIEU_CHI_THAM_GIA_NVSP)
+                        ->update([
+                            'status' => AppUtils::SCORE_HOAN_THANH
+                        ]);
+                    DB::table('personal_score') //Đạt giải nhất, nhì, ba trong các cuộc thi từ cấp khoa trở lên =>  đổi trạng thái(chưa cập nhật điểm)
+                        ->where('id_study_time', $current->id)
+                        ->where('id_user', $studentId)
+                        ->where('id_tieu_chi', TcUtils::TIEU_CHI_GIAI_NVSP)
+                        ->update([
+                            'status' => AppUtils::SCORE_HOAN_THANH,
+                        ]);
                     if(!count($user_join_activities)){ // Không tham gia tọa đàm
                         DB::table('nvsp_points')->insert([
                             'id_study_year' => $studyTime->id_study_year,
@@ -92,7 +115,14 @@ class PointController extends AppBaseController
                         }
                         if(!$statusFlg) continue;
                     }
-
+                    DB::table('personal_score') //Tham gia đầy đủ các buổi rèn luyện NVSP =>  hoàn thành => có điểm
+                        ->where('id_study_time', $current->id)
+                        ->where('id_user', $studentId)
+                        ->where('id_tieu_chi', TcUtils::TIEU_CHI_THAM_GIA_NVSP)
+                        ->update([
+                            'status' => AppUtils::SCORE_HOAN_THANH,
+                            'score' => DB::raw('max_score'),
+                        ]);
                     $user_activities = DB::table('activities_details')
                     ->join('child_activities', 'child_activities.id', 'activities_details.id_child_activity')
                     ->join('user_activities', 'user_activities.id_activities_details', 'activities_details.id')
@@ -132,6 +162,14 @@ class PointController extends AppBaseController
                             ]);
                             continue;
                         }
+                        DB::table('personal_score') //Tham dự thi NVSP cấp khoa, trường =>  hoàn thành
+                            ->where('id_study_time', $current->id)
+                            ->where('id_user', $studentId)
+                            ->where('id_tieu_chi', TcUtils::TIEU_CHI_DU_THI_NVSP)
+                            ->update([
+                                'status' => AppUtils::SCORE_HOAN_THANH,
+                                'score' => DB::raw('max_score')
+                            ]);
                         $schoolJoins = array_filter($user_activities->toArray(), function($act){
                             return $act->level == AppUtils::LEVEL_TRUONG; //dự thi cấp trường
                         });
@@ -164,6 +202,14 @@ class PointController extends AppBaseController
                                 'note' => 'Đạt giải Nhất cấp Khoa',
                                 'join_type' => count($personAwards)  ? 'Thi cá nhân' : 'Thi theo đội',
                             ]);
+                            DB::table('personal_score') //Đạt giải nhất, nhì, ba trong các cuộc thi từ cấp khoa trở lên =>  hoàn thành
+                                ->where('id_study_time', $current->id)
+                                ->where('id_user', $studentId)
+                                ->where('id_tieu_chi', TcUtils::TIEU_CHI_GIAI_NVSP)
+                                ->update([
+                                    'status' => AppUtils::SCORE_HOAN_THANH,
+                                    'score' => DB::raw('max_score')
+                                ]);
                             continue;
                         }
                         $secondOrThirdAwards = array_filter($user_activities->toArray(), function($act){
@@ -181,6 +227,14 @@ class PointController extends AppBaseController
                                 'note' => 'Đạt giải Ba, giải Nhì cấp Khoa',
                                 'join_type' => count($personAwards)  ? 'Thi cá nhân' : 'Thi theo đội',
                             ]);
+                            DB::table('personal_score') //Đạt giải nhất, nhì, ba trong các cuộc thi từ cấp khoa trở lên =>  hoàn thành
+                                ->where('id_study_time', $current->id)
+                                ->where('id_user', $studentId)
+                                ->where('id_tieu_chi', TcUtils::TIEU_CHI_GIAI_NVSP)
+                                ->update([
+                                    'status' => AppUtils::SCORE_HOAN_THANH,
+                                    'score' => DB::raw('max_score')
+                                ]);
                             continue;
                         }
                         DB::table('nvsp_points')->insert([ // tham gia thi đầy đủ
