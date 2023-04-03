@@ -28,13 +28,14 @@ class LastScoreController extends AppBaseController
             $studentScoreList = DB::table('users')
                 ->leftJoin('last_score', 'last_score.id_user', 'users.id')
                 ->select(DB::raw("CONCAT(users.ho,' ', users.ten) as fullname"), 'users.username',
-                'last_score.last_score', 'last_score.sum_score','last_score.note', 'last_score.rank', 'last_score.id')
+                'last_score.last_score', 'last_score.sum_score','last_score.note', 'last_score.rank', 'last_score.id', 'last_score.id_user')
                 ->orderBy(DB::raw("SUBSTR(users.ten, 1 ,1)"))
                 ->where('last_score.id_study_time', $id_study_time)
                 ->where('users.id_class', $id_class)
                 ->get();
             foreach($studentScoreList as $student){
                 $student->id = (int) $student->id;
+                $student->id_user = (int) $student->id_user;
                 $student->last_score = (float) $student->last_score;
                 $student->sum_score = (float) $student->sum_score;
             }

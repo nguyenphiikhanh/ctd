@@ -17,21 +17,20 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th scope="col">STT</th>
-                                <th scope="col">Mã sinh viên</th>
+                                <th scope="col" class="text-center">STT</th>
                                 <th scope="col">Họ và tên</th>
-<!--                                <th scope="col">Tổng số điểm</th>-->
+                                <th scope="col" v-if="user.role == roles.ROLE_CVHT" class="text-center">Tổng số điểm</th>
                                 <th scope="col">Xếp hạng</th>
-                                <th scope="col">Điểm kết luận</th>
-                                <th scope="col">Ghi chú</th>
+                                <th scope="col" class="text-center">Điểm kết luận</th>
+                                <th scope="col" class="text-center">Ghi chú</th>
+                                <th scope="col" class="text-center">Hoạt động</th>
                             </tr>
                             </thead>
                             <tbody v-if="!awating">
                             <tr v-for="(_item, index) in scoreListShow" :key="index">
-                                <th scope="row">{{index + 1}}</th>
-                                <td>{{_item.username}}</td>
+                                <th scope="row" class="text-center">{{index + 1}}</th>
                                 <td>{{_item.fullname}}</td>
-<!--                                <td class="text-center">{{_item.sum_score}}</td>-->
+                                <td v-if="user.role == roles.ROLE_CVHT" class="text-center">{{_item.sum_score}}</td>
                                 <td>{{_item.rank}}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
@@ -44,6 +43,11 @@
                                 <td>
                                     <div class="d-flex justify-content-center">
                                         <input class="form-control w-75 text-center" @blur="changeLastScore(_item)" v-model="_item.note">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center">
+                                        <a :href="`/diem-ren-luyen/view-details/student-${_item.id_user}/time-${studyTime}`" target="_blank" class="text-primary btn hover-underline">Xem chi tiết</a>
                                     </div>
                                 </td>
                             </tr>
@@ -67,6 +71,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import constants from '../../../../constants';
 export default {
     props:{
         scoreList: {type: Array },
@@ -102,6 +107,12 @@ export default {
         },
     },
     computed: {
+        roles(){
+            return constants.roles;
+        },
+        user(){
+            return this.$store.getters['auth/user'];
+        }
     },
     watch:{
         async studyTime(val){
@@ -127,5 +138,8 @@ export default {
 <style scoped>
 .mw-70{
     min-width: 70%;
+}
+.hover-underline:hover{
+    text-decoration: underline;
 }
 </style>
