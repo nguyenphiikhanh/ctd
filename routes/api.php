@@ -137,6 +137,7 @@ Route::prefix('v1')->group(function(){
         Route::put('/class-meet-score/{id_study_time}/student-person-tc/{id}', 'Auth\ClassMeetScoreController@updatePersonClassMeetScore');
         Route::get('/class-meet-score/class/{id_class}', 'Auth\ClassMeetScoreController@getMeetScoreByClass');
         Route::get('/class-meet-score/check-list/{id_class}', 'Auth\ClassMeetScoreController@getMeetScoreStudentCheckList');
+        Route::put('/class-meet-score/check-list-student/{id}', 'Auth\ClassMeetScoreController@updateMeetScoreStudentCheckList');
     });
 });
 

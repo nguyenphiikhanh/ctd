@@ -14,5 +14,8 @@ export default {
     },
     getMeetScoreStudentCheckList(id_class){
         return http.get(`/class-meet-score/check-list/${id_class}`);
+    },
+    updateMeetScoreStudentCheckList(id, data){
+        return http.put(`/class-meet-score/check-list-student/${id}`, data);
     }
 }

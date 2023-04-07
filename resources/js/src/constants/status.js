@@ -12,4 +12,8 @@ export default{
     SCORE_KHONG_DUYET: 2,
     SCORE_HOAN_THANH: 3,
     SCORE_DUYET: 4,
+
+    // họp xet lop
+    HOP_XET_CO_MAT: 1,
+    HOP_XET_VANG_MAT: 0
 }
