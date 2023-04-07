@@ -32,7 +32,8 @@
                                         <td class="d-flex justify-content-start">
                                             <select v-model="_item.class_meet_check" @change="onUpdateStatus(_item)" class="form-control">
                                                 <option :value="statuses.HOP_XET_CO_MAT">Có mặt</option>
-                                                <option :value="statuses.HOP_XET_VANG_MAT">Vắng mặt</option>
+                                                <option :value="statuses.HOP_XET_VANG_MAT_CO_LI_DO">Vắng mặt có lí do</option>
+                                                <option :value="statuses.HOP_XET_VANG_MAT_KHONG_LI_DO">Vắng mặt không lí do</option>
                                             </select>
                                         </td>
                                     </tr>
@@ -93,11 +94,6 @@ export default {
 <style scoped>
 .mw-98{
     min-width: 98%;
-}
-.overflow-table{
-    overflow: auto;
-    max-width: 100%;
-    max-height: 500px;
 }
 .table-header th{
     position: sticky;

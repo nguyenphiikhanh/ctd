@@ -163,16 +163,16 @@ class ClassMeetScoreController extends AppBaseController
     public function updateMeetScoreStudentCheckList($id, Request $request){
         try{
             $status = $request->status;
-            if($status == AppUtils::HOP_XET_VANG_MAT){
+            if($status == AppUtils::HOP_XET_VANG_MAT_KHONG_LI_DO){
                 DB::table('last_score')->where('id', $id)->update([
-                    'class_meet_check' => AppUtils::HOP_XET_VANG_MAT,
+                    'class_meet_check' => AppUtils::HOP_XET_VANG_MAT_KHONG_LI_DO,
                     'last_score' => 0,
-                    'note' => 'Vắng tham gia họp lớp',
+                    'note' => 'Vắng mặt họp xét không lý do.',
                 ]);
             }
             else{
                 DB::table('last_score')->where('id', $id)->update([
-                    'class_meet_check' => AppUtils::HOP_XET_CO_MAT,
+                    'class_meet_check' => $status,
                 ]);
             }
             return $this->sendResponse("", __('message.success.update',['atribute' => 'điểm danh']));

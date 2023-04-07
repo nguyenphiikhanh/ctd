@@ -61,7 +61,8 @@ namespace App\Http\Utils;
 
     // họp xet lop
     const HOP_XET_CO_MAT = 1;
-    const HOP_XET_VANG_MAT = 0;
+    const HOP_XET_VANG_MAT_KHONG_LI_DO = 0;
+    const HOP_XET_VANG_MAT_CO_LI_DO = 2;
 
     // Xếp loại
     const RANK_XUAT_SAC = 'Xuất sắc';

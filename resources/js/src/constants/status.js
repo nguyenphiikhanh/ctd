@@ -15,5 +15,6 @@ export default{
 
     // họp xet lop
     HOP_XET_CO_MAT: 1,
-    HOP_XET_VANG_MAT: 0
+    HOP_XET_VANG_MAT_KHONG_LI_DO: 0,
+    HOP_XET_VANG_MAT_CO_LI_DO: 2
 }
