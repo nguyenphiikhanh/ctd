@@ -1,6 +1,6 @@
 import NhiemVu from "../components/NhiemVu/NhiemVu";
 import GiaoNhiemVu from "../components/NhiemVu/GiaoNhiemVu";
-import AdminDashBoard from "../components/dashboards/AdminDashBoard";
+import DashBoard from "../components/dashboards/AdminDashBoard";
 import Notifications from "../components/NhiemVu/ThongBao/Notifications";
 import CheckList from "../components/diemDanh/CheckList";
 import KhoaDaoTao from "../components/quanLy/KhoaDaoTao/KhoaDaoTao";
@@ -27,7 +27,7 @@ const routes = [
     {
         name:"Home",
         path:"/",
-        component: AdminDashBoard,
+        component: DashBoard,
         meta:{
             title: 'Trang chủ',
             requiresAuth: true,
