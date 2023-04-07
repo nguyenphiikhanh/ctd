@@ -11,5 +11,8 @@ export default {
 
     getMeetScoreByClass(id_class, data){
         return http.get(`/class-meet-score/class/${id_class}`, {params: data});
+    },
+    getMeetScoreStudentCheckList(id_class){
+        return http.get(`/class-meet-score/check-list/${id_class}`);
     }
 }

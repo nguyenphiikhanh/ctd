@@ -8,6 +8,7 @@ use App\Http\Utils\AppUtils;
 use App\Http\Utils\ResponseUtils;
 use App\Http\Utils\RoleUtils;
 use App\Models\Classes;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -123,12 +124,35 @@ class ClassMeetScoreController extends AppBaseController
                     }
                     $student->scoreList = $scoreList;
                 }
-                return $this->sendResponse($studentLists, __('message.failed.get_list',['atribute' => 'điểm tự đánh giá']));
+                return $this->sendResponse($studentLists, __('message.success.get_list',['atribute' => 'điểm tự đánh giá']));
             }
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.get_list',['atribute' => 'điểm tự đánh giá']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getMeetScoreStudentCheckList($id_class){
+        try{
+
+            $students = User::join('last_score', 'last_score.id_user', 'users.id')
+                ->where('users.role', RoleUtils::ROLE_CBL)
+                ->orWhere('users.role', RoleUtils::ROLE_LOP_TRUONG)
+                ->orWhere('users.role', RoleUtils::ROLE_SINHVIEN)
+                ->where('users.id_class', $id_class)
+                ->select('last_score.id', 'last_score.class_meet_check', 'users.username',
+                DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"))
+                ->get();
+            foreach($students as $student){
+                $student->id = (int) $student->id;
+                $student->class_meet_check = (int) $student->class_meet_check;
+            }
+            return $this->sendResponse($students, __('message.success.get_list',['atribute' => 'sinh viên']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'sinh viên']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
