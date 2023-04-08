@@ -1,6 +1,6 @@
 import NhiemVu from "../components/NhiemVu/NhiemVu";
 import GiaoNhiemVu from "../components/NhiemVu/GiaoNhiemVu";
-import DashBoard from "../components/dashboards/AdminDashBoard";
+import DashBoard from "../components/dashboards/DashBoard";
 import Notifications from "../components/NhiemVu/ThongBao/Notifications";
 import CheckList from "../components/diemDanh/CheckList";
 import KhoaDaoTao from "../components/quanLy/KhoaDaoTao/KhoaDaoTao";
