@@ -28,17 +28,25 @@ class LastScoreController extends AppBaseController
             $studentScoreList = DB::table('users')
                 ->leftJoin('last_score', 'last_score.id_user', 'users.id')
                 ->select(DB::raw("CONCAT(users.ho,' ', users.ten) as fullname"), 'users.username',
-                'last_score.last_score', 'last_score.sum_score','last_score.note', 'last_score.rank', 'last_score.id', 'last_score.id_user')
-                ->orderBy(DB::raw("SUBSTR(users.ten, 1 ,1)"))
+                'last_score.last_score','last_score.note', 'last_score.rank', 'last_score.id', 'last_score.id_user')
+                ->orderByRaw("SUBSTRING(users.ten, 1 ,1) ASC")
                 ->where('last_score.id_study_time', $id_study_time)
                 ->where('users.id_class', $id_class)
                 ->get();
-            foreach($studentScoreList as $student){
-                $student->id = (int) $student->id;
-                $student->id_user = (int) $student->id_user;
-                $student->last_score = (float) $student->last_score;
-                $student->sum_score = (float) $student->sum_score;
-            }
+            DB::connection('mysql')->transaction(function() use($studentScoreList, $id_study_time){
+                foreach($studentScoreList as $student){
+                    $sum_score = DB::table('personal_score')
+                        ->select(DB::raw("SUM(score) as sum_score"))
+                        ->where('id_study_time', $id_study_time)
+                        ->where('id_user', $student->id_user)
+                        ->groupBy('id_study_time', 'id_user')
+                        ->first();
+                    $student->id = (int) $student->id;
+                    $student->id_user = (int) $student->id_user;
+                    $student->last_score = (float) $student->last_score;
+                    $student->sum_score = (float) $sum_score->sum_score ?? 0;
+                }
+            });
             return $this->sendResponse($studentScoreList,__('message.success.get_list',['atribute' => 'điểm rèn luyện']));
         }
         catch(\Exception $e){
