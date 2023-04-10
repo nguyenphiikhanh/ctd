@@ -55,7 +55,7 @@ export default {
     },
     beforeCreate() {
         if(this.$store.getters['auth/isAuthenticated']){
-            location.href = '/'
+            location.href = '/trang-chu'
         };
     },
 }
