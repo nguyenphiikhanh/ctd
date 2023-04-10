@@ -24,7 +24,7 @@ use function PHPUnit\Framework\returnSelf;
         switch($roleFlg){
             case self::ROLE_AMIN: return 'Admin';
             break;
-            case self::ROLE_BI_THU_DOAN: return 'Bí thư Liên chi Đoàn';
+            case self::ROLE_BI_THU_DOAN: return 'Trợ lí hoạt động';
             break;
             case self::ROLE_QUAN_LY_KHOA: return 'Quản lý khoa';
             break;

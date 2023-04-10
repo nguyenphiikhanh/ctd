@@ -31,5 +31,9 @@ export default {
 
     updateLastScore(data){
         return http.put('/last-score', data);
+    },
+
+    getStudentLastScore(id_student, id_study_time){
+        return http.get(`/personal-score/student/${id_student}/time/${id_study_time}`);
     }
 }

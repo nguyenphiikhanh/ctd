@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SpaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', [SpaController::class, 'intro'])->name('intro');
 Route::get('/dang-nhap', [AuthController::class, 'index'])->name('login');
 
 Route::get('/{any?}', 'SpaController@index')->where('any', '^(?!nova|admin|horizon).*$');

@@ -8,6 +8,7 @@ use App\Http\Utils\AppUtils;
 use App\Http\Utils\ResponseUtils;
 use App\Http\Utils\RoleUtils;
 use App\Models\Classes;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -114,7 +115,7 @@ class ClassMeetScoreController extends AppBaseController
                         ->where('id_user', $student->id)
                         ->orderBy('id_tieu_chi')
                         ->get();
-                    foreach($scoreList as $score){
+                    foreach($scoreList as $index => $score){
                         $score->cbl_score = (float) $score->cbl_score;
                         $score->cvht_score = (float) $score->cvht_score;
                         $score->max_score = (float) $score->max_score;
@@ -123,12 +124,62 @@ class ClassMeetScoreController extends AppBaseController
                     }
                     $student->scoreList = $scoreList;
                 }
-                return $this->sendResponse($studentLists, __('message.failed.get_list',['atribute' => 'điểm tự đánh giá']));
+                return $this->sendResponse($studentLists, __('message.success.get_list',['atribute' => 'điểm tự đánh giá']));
             }
         }
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.get_list',['atribute' => 'điểm tự đánh giá']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getMeetScoreStudentCheckList($id_class){
+        try{
+            $current = DB::table('study_times')->latest('id')->first();
+            $students = User::query()->leftJoin('last_score', 'last_score.id_user', 'users.id')
+                ->where(function($query){
+                    $query->where('users.role', RoleUtils::ROLE_CBL)
+                        ->orWhere('users.role', RoleUtils::ROLE_LOP_TRUONG)
+                        ->orWhere('users.role', RoleUtils::ROLE_SINHVIEN);
+                    })
+                ->where('users.id_class', $id_class)
+                ->where('last_score.id_study_time', $current->id)
+                ->select('last_score.id', 'last_score.class_meet_check', 'users.username',
+                DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"))
+                ->orderBy(DB::raw("SUBSTR(users.ten, 1 , 1)"))
+                ->get();
+            foreach($students as $student){
+                $student->id = (int) $student->id;
+                $student->class_meet_check = (int) $student->class_meet_check;
+            }
+            return $this->sendResponse($students, __('message.success.get_list',['atribute' => 'sinh viên']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'sinh viên']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function updateMeetScoreStudentCheckList($id, Request $request){
+        try{
+            $status = $request->status;
+            if($status == AppUtils::HOP_XET_VANG_MAT_KHONG_LI_DO){
+                DB::table('last_score')->where('id', $id)->update([
+                    'class_meet_check' => AppUtils::HOP_XET_VANG_MAT_KHONG_LI_DO,
+                    'last_score' => 0,
+                    'note' => 'Vắng mặt họp xét không lý do.',
+                ]);
+            }
+            else{
+                DB::table('last_score')->where('id', $id)->update([
+                    'class_meet_check' => $status,
+                ]);
+            }
+            return $this->sendResponse("", __('message.success.update',['atribute' => 'điểm danh']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.update',['atribute' => 'điểm danh họp lớp']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

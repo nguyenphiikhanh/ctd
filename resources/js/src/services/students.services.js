@@ -19,5 +19,9 @@ export default {
 
     getStudentByFaculty(id_faculty, params = null){
         return http.get(`/student/faculty/${id_faculty}`, {params: params});
+    },
+
+    getStudentInfo(id){
+        return http.get(`/student/${id}`);
     }
 }

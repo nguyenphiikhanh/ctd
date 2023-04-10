@@ -51,6 +51,9 @@
                                         <td>{{_item.student_count}}</td>
                                         <td class="d-flex justify-content-end">
                                             <div>
+                                                <button @click="showStudentList(_item)" class="btn btn-sm btn-warning">
+                                                    <em class="icon ni ni-clipboad-check"></em>Điểm danh
+                                                </button>
                                                 <button @click="showPopup(_item)" class="btn btn-sm btn-primary">
                                                     <em class="icon ni ni-check-round-cut"></em>Đánh giá
                                                 </button>
@@ -65,6 +68,8 @@
                     <CheckpointClassMeetScore :class-view="classView" :user-score-list="userScoreList"
                      :key="viewKey" :tc-list="tcList"
                      @closeModal="closeModal()"/>
+                     <CheckListStudent :class-view="classView" :student-list="studentList" :key="checkListKey"
+                     @closeModal="closeModal()"/>
                 </div>
             </div>
         </div>
@@ -76,10 +81,12 @@ import { asyncLoading } from 'vuejs-loading-plugin';
 import { mapActions } from 'vuex';
 import CheckpointClassMeetScore from "./child/CheckpointClassMeetScore.vue";
 import constants from '../../constants';
+import CheckListStudent from './child/CheckListStudent.vue';
 import datetimeUtils from '../../helpers/utils/datetimeUtils';
 export default {
     components:{
         CheckpointClassMeetScore,
+        CheckListStudent
     },
     data(){
         return{
@@ -93,9 +100,11 @@ export default {
                 id_user_cvht: null,
             },
             userScoreList: [],
+            studentList: [],
             studyTimeList: [],
             studyTime: null,
             viewKey: 1,
+            checkListKey: 999,
             tcList: [],
         }
     },
@@ -108,7 +117,8 @@ export default {
         ...mapActions({
             getClasses: 'classes/getClasses',
             getListTcSelf: 'tieuChi/getListTcSelf',
-            getMeetScoreByClass: 'classMeet/getMeetScoreByClass'
+            getMeetScoreByClass: 'classMeet/getMeetScoreByClass',
+            getStudentCheckList: 'classMeet/getMeetScoreStudentCheckList',
         }),
         async getClassListData(){
             const params = {};
@@ -131,9 +141,22 @@ export default {
             });
             this.viewKey++;
         },
+        async showStudentList(_class){
+            this.$loading(true);
+            this.classView = _class;
+            await this.getStudentCheckList(_class.id).then(res => this.studentList = [...res.data]);
+            this.$loading(false);
+            this.checkListKey++;
+            this.$nextTick(() => {
+                $('#checkListStudent').modal('show');
+            });
+        },
         closeModal(){
             this.$nextTick(() => {
                 $('#viewClassMeetScore').modal('hide');
+            });
+            this.$nextTick(() => {
+                $('#checkListStudent').modal('hide');
             });
         },
     },

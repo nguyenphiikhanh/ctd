@@ -4,7 +4,7 @@ export default {
     login({commit, dispatch}, data){
         const token = localStorage.getItem('token');
         if(token){
-            location.href = '/';
+            location.href = '/trang-chu';
         }
         return authServices.login(data)
             .then(response => {
@@ -12,7 +12,7 @@ export default {
                 commit('SET_USER_AUTH',data.user);
                 commit('SET_TOKEN',data.access_token);
                 localStorage.setItem('token', data.access_token);
-                location.href = '/';
+                location.href = '/trang-chu';
             })
             .catch((error) => {
                 if (error.errors && Object.values(error.errors).length > 0) {

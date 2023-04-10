@@ -55,6 +55,7 @@ Route::prefix('v1')->group(function(){
             Route::put('/student/cbSetting','Auth\StudentController@updateCbSetting');
             Route::put('/student/{id}','Auth\StudentController@update');
             Route::get('/student/faculty/{id}','Auth\StudentController@getStudentByFaculty');
+            Route::get('/student/{id}','Auth\StudentController@show');
             // Cố vấn học tập
             Route::get('/user/cvht','Auth\UserController@getUserCvht');
             Route::post('/user/cvht','Auth\UserController@storeUserCvht');
@@ -113,6 +114,7 @@ Route::prefix('v1')->group(function(){
             Route::get('/personal-score/proof', 'Auth\PersonalScoreController@getTcProoves');
             Route::get('/personal-score/confirm/{id}', 'Auth\PersonalScoreController@getListUserConfirm');
             Route::put('/personal-score/confirm-prooves/{id}', 'Auth\PersonalScoreController@confirmTcProoves');
+            Route::get('/personal-score/student/{id_student}/time/{id_study_time}','Auth\PersonalScoreController@getStudentPersonalScore');
         });
 
 
@@ -134,6 +136,8 @@ Route::prefix('v1')->group(function(){
         Route::get('/class-meet-score/{id_study_time}', 'Auth\ClassMeetScoreController@getClassMeetScore');
         Route::put('/class-meet-score/{id_study_time}/student-person-tc/{id}', 'Auth\ClassMeetScoreController@updatePersonClassMeetScore');
         Route::get('/class-meet-score/class/{id_class}', 'Auth\ClassMeetScoreController@getMeetScoreByClass');
+        Route::get('/class-meet-score/check-list/{id_class}', 'Auth\ClassMeetScoreController@getMeetScoreStudentCheckList');
+        Route::put('/class-meet-score/check-list-student/{id}', 'Auth\ClassMeetScoreController@updateMeetScoreStudentCheckList');
     });
 });
 

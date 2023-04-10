@@ -84,7 +84,8 @@ class StudyTimeController extends AppBaseController
             $id_faculty = null;
             if($user->role == RoleUtils::ROLE_BI_THU_DOAN
             || $user->role == RoleUtils::ROLE_CVHT
-            || $user->role == RoleUtils::ROLE_QUAN_LY_KHOA){
+            || $user->role == RoleUtils::ROLE_QUAN_LY_KHOA
+            || $user->role == RoleUtils::ROLE_PHU_TRACH_NVSP){
                 $id_faculty = $user->id_khoa;
             }
             elseif($user->role == RoleUtils::ROLE_AMIN){

@@ -144,4 +144,36 @@ class PersonalScoreController extends AppBaseController
             return $this->sendError(__('message.failed.update',['atribute' => 'điểm rèn luyện']));
         }
     }
+
+    public function getStudentPersonalScore($id_student, $id_study_time){
+        try{
+            $data = PersonalScore::query()
+                ->rightJoin('tieu_chi', 'tieu_chi.id', 'personal_score.id_tieu_chi')
+                ->select('personal_score.*','tieu_chi.name', 'tieu_chi.note')
+                ->where('personal_score.id_study_time', $id_study_time)
+                ->where('personal_score.id_user', $id_student)
+                ->orderBy('personal_score.id_tieu_chi')
+                ->get();
+            foreach($data as $field){
+                $field->prooves = [];
+                if(in_array($field->id_tieu_chi, (array) TcUtils::TIEU_CHI_UPLOADS)){
+                    $prooves = DB::table('personal_score_prooves')
+                        ->where('id_personal_score', $field->id)
+                        ->get();
+                    $field->prooves = $prooves;
+                }
+                $field->score = (float) $field->score;
+                $field->max_score = (float) $field->max_score;
+                $field->status = (int) $field->status;
+                $field->id_study_time = (int) $field->id_study_time;
+                $field->id_tieu_chi = (int) $field->id_tieu_chi;
+                $field->id_user = (int) $field->id_user;
+            }
+            return $this->sendResponse($data, __('message.success.get_list',['atribute' => 'điểm rèn luyện']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'điểm rèn luyện']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -1,6 +1,6 @@
 import NhiemVu from "../components/NhiemVu/NhiemVu";
 import GiaoNhiemVu from "../components/NhiemVu/GiaoNhiemVu";
-import AdminDashBoard from "../components/dashboards/AdminDashBoard";
+import DashBoard from "../components/dashboards/DashBoard";
 import Notifications from "../components/NhiemVu/ThongBao/Notifications";
 import CheckList from "../components/diemDanh/CheckList";
 import KhoaDaoTao from "../components/quanLy/KhoaDaoTao/KhoaDaoTao";
@@ -20,13 +20,14 @@ import StudyPoints from '../components/quanLy/diemHocTap/StudyPoints';
 import PersonalScore from "../components/DiemRenLuyen/PersonalScore";
 import MinhChung from "../components/DuyetMinhChung/MinhChung";
 import DiemRenLuyen from "../components/quanLy/diemRenLuyen/DiemRenLuyen.vue";
+import DiemRenLuyenDetails from "../components/quanLy/diemRenLuyen/DiemRenLuyenDetails.vue";
 
 const routes = [
     // dashboard
     {
         name:"Home",
-        path:"/",
-        component: AdminDashBoard,
+        path:"/trang-chu",
+        component: DashBoard,
         meta:{
             title: 'Trang chủ',
             requiresAuth: true,
@@ -225,23 +226,40 @@ const routes = [
             facultyMasterAccess: true,
         }
     },
-        // Điểm rèn luyện
-        {
-            name:"DiemRenLuyen",
-            path:"/diem-ren-luyen/view",
-            component: DiemRenLuyen,
-            meta:{
-                title: 'Quản lý Điểm rèn luyện',
-                requiresAuth: true,
-                adminAccess: false,
-                cblAccess: false,
-                btdAccess: false,
-                ptAccess: false,
-                studentAccess: false,
-                cvAccess: true,
-                facultyMasterAccess: true,
-            }
-        },
+    // Điểm rèn luyện
+    {
+        name:"DiemRenLuyen",
+        path:"/diem-ren-luyen/view",
+        component: DiemRenLuyen,
+        meta:{
+            title: 'Quản lý Điểm rèn luyện',
+            requiresAuth: true,
+            adminAccess: false,
+            cblAccess: false,
+            btdAccess: false,
+            ptAccess: false,
+            studentAccess: false,
+            cvAccess: true,
+            facultyMasterAccess: true,
+        }
+    },
+    // Điểm rèn luyện(chi tiết)
+    {
+    name:"DiemRenLuyenDetails",
+    path:"/diem-ren-luyen/view-details/student-:id_student/time-:id_study_time",
+    component: DiemRenLuyenDetails,
+    meta:{
+        title: 'Xem điểm rèn luyện',
+        requiresAuth: true,
+        adminAccess: false,
+        cblAccess: false,
+        btdAccess: false,
+        ptAccess: false,
+        studentAccess: false,
+        cvAccess: true,
+        facultyMasterAccess: true,
+    }
+},
     // Điểm rèn luyện tuần NVSP
     {
         name:"NvspPoint",
