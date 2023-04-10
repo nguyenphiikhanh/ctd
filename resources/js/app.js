@@ -8,6 +8,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+Vue.component('Intro', require('./src/components/Intro.vue').default);
 Vue.component('Login', require('./src/components/Login.vue').default);
 Vue.component('header-dropdown', require('./src/components/layouts/HeaderDropdown.vue').default);
 Vue.component('Sidebar', require('./src/components/layouts/Sidebar.vue').default);

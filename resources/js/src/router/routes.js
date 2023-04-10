@@ -26,7 +26,7 @@ const routes = [
     // dashboard
     {
         name:"Home",
-        path:"/",
+        path:"/trang-chu",
         component: DashBoard,
         meta:{
             title: 'Trang chủ',
