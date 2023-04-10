@@ -40,8 +40,8 @@
                                         <th scope="col">STT</th>
                                         <th scope="col">Học kì</th>
                                         <th scope="col">Thời gian bắt đầu</th>
-                                        <th scope="col">Thời gian kết thúc</th>
-                                        <th scope="col">Xét điểm rèn luyện</th>
+                                        <!-- <th scope="col">Thời gian kết thúc</th> -->
+                                        <!-- <th scope="col">Xét điểm rèn luyện</th> -->
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -51,17 +51,16 @@
                                         <td>{{_item.name}}</td>
                                         <td>{{time_convert(_item.start_time)}}</td>
                                         <td>{{time_convert(_item.end_time)}}</td>
-                                        <td>
+                                        <!-- <td>
                                             <span :class="_item.status == status.INVALID_VALUE ? 'text-warning' : 'text-success'">
                                                 {{ _item.status == status.INVALID_VALUE ? 'Chưa xét duyệt' : 'Đã xét duyệt' }}
                                             </span>
-                                        </td>
-                                        <td class="d-flex justify-content-end">
+                                        </td> -->
+                                        <!-- <td class="d-flex justify-content-end">
                                             <div>
-<!--                                                <button @click="showPopup(false, _item)" class="btn btn-sm btn-info">Sửa</button>-->
                                                 <button class="btn btn-sm btn-info">Xét điểm rèn luyện</button>
                                             </div>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                     </tbody>
                                 </table>

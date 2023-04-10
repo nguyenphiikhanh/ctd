@@ -238,8 +238,6 @@ export default {
         },
         viewNotify(item){
             this.child_act_info = {...item};
-            this.child_act_info.start_time = this.child_act_info.start_time ? datetimeUtils.dateTimeVnFormat(item.start_time) : '';
-            this.child_act_info.end_time = this.child_act_info.end_time ? datetimeUtils.dateTimeVnFormat(item.end_time) : '';
             this.$nextTick(() => {
                 $('#viewNotification').modal('show');
             });

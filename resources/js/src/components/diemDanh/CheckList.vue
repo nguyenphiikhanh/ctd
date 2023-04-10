@@ -42,7 +42,9 @@
                                         <td>
                                             <span>{{ convertDateTime(_item.start_time) }} đến {{ convertDateTime(_item.end_time) }}</span>
                                         </td>
-                                        <td><span class="mx-auto my-auto badge-dim bg-success">Đang diễn ra</span></td>
+                                        <td>
+                                            <span class="mx-auto my-auto badge-dim bg-success">Đang diễn ra</span>
+                                        </td>
                                         <td>
                                             <button @click="showUserCheckList(_item)" class="btn btn-sm btn-primary">Điểm danh</button>
                                         </td>
