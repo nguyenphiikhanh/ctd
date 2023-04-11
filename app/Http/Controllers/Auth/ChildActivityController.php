@@ -8,11 +8,14 @@ use App\Http\Requests\UpdateChildActivityRequest;
 use App\Http\Traits\UploadFileTrait;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\RoleUtils;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+
+use function PHPSTORM_META\type;
 
 class ChildActivityController extends AppBaseController
 {
@@ -225,6 +228,14 @@ class ChildActivityController extends AppBaseController
                 $attackFiles = DB::table('child_activity_files')->where('id_child_activity', $act->id_child_activity)->get();
                 $act->files = $attackFiles;
             }
+            $compare = function($a, $b) {
+                $datetimeA = new DateTime($a->created_at);
+                $datetimeB = new DateTime($b->created_at);
+                return $datetimeB <=> $datetimeA;
+            };
+            $actRecriveList = json_decode(json_encode($actRecriveList, true));
+            Log::debug(gettype($actRecriveList));
+            usort($actRecriveList, $compare);
             return $this->sendResponse($actRecriveList,__('message.success.get_list',['atribute' => 'nhiệm vụ và thông báo']));
         }
         catch(\Exception $e){
