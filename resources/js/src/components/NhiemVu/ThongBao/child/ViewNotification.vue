@@ -2,7 +2,7 @@
     <div class="modal fade modal-lg" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" id="viewNotification">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <a @click="closeModal()" href="#" class="close">
+                <a @click="closeModal()" class="close">
                     <em class="icon ni ni-cross"></em>
                 </a>
                 <div class="modal-header"><h5 class="modal-title">Thông tin nhiệm vụ</h5></div>

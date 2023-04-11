@@ -43,10 +43,11 @@
                                             <span>{{ convertDateTime(_item.start_time) }} đến {{ convertDateTime(_item.end_time) }}</span>
                                         </td>
                                         <td>
-                                            <span class="mx-auto my-auto badge-dim bg-success">Đang diễn ra</span>
+                                            <span v-if="validCheckList(_item)" class="mx-auto my-auto badge-dim bg-success">Đang diễn ra</span>
+                                            <span v-else class="mx-auto my-auto badge-dim bg-danger">Đã kết thúc</span>
                                         </td>
                                         <td>
-                                            <button @click="showUserCheckList(_item)" class="btn btn-sm btn-primary">Điểm danh</button>
+                                            <button v-if="validCheckList(_item)" @click="showUserCheckList(_item)" class="btn btn-sm btn-primary">Điểm danh</button>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -124,7 +125,11 @@ export default {
                     break;
                 default: return 'Hoạt động khác';
             }
-        }
+        },
+        validCheckList(_item){
+            let deadlineUpload = datetimeUtils.addOneDay(_item.end_time);
+            return deadlineUpload > new Date();
+        },
     },
     computed:{
         act(){

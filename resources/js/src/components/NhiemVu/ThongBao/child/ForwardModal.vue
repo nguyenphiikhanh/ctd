@@ -2,7 +2,7 @@
   <div class="modal fade" tabindex="-1" data-bs-backdrop="static" id="forwardModal">
     <div class="modal-dialog modal-dialog-top modal-dialog-scrollable" role="document">
       <div class="modal-content">
-        <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">
+        <a @click="closeModal()" class="close" data-dismiss="modal" aria-label="Close">
           <em class="icon ni ni-cross"></em>
         </a>
         <div class="modal-header"><h5 class="modal-title">{{modalTitle}}</h5></div>
