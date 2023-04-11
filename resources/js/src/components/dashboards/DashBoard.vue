@@ -11,7 +11,7 @@
                     </div><!-- .nk-block-head -->
                     <div class="nk-block nk-block-lg">
                         <div class="card card-preview">
-                            <img src="../../../../../public/images/home.jpg" alt="">
+                            <img :src="'/images/home.jpg'" alt="">
                         </div><!-- .card -->
                     </div><!-- nk-block -->
                 </div>
