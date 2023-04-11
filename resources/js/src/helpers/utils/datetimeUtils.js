@@ -51,7 +51,6 @@ export default{
         dateAdd.setMonth(0);
         dateAdd.setDate(1);
         }
-        console.log('dateAdd', dateAdd);
         return dateAdd;
     }
 }

@@ -154,7 +154,6 @@ export default {
         },
         canUploadProof(){
             let deadlineUpload = datetimeUtils.addOneDay(this.notifyInfo.end_time);
-            console.log(deadlineUpload);
             return (this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA
             || this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_DU)
             && (this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH ||
