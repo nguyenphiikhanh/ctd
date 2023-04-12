@@ -55,6 +55,10 @@ export default {
         return http.get(`/child-activity/${id}/users`);
     },
 
+    getUserJoinActivities(id){
+        return http.get(`/child-activity/${id}/users/join`);
+    },
+
     updateUserActivityAward(id, data){
         return http.put(`/user-activity/${id}/update`, data);
     },

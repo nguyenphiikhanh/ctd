@@ -100,6 +100,8 @@ Route::prefix('v1')->group(function(){
             //Hoạt động
             Route::get('/activities','Auth\ActivityController@index');
             Route::get('/child-activities','Auth\ChildActivityController@index');
+            // danh sách user tham dự có mặt
+            Route::get('/child-activity/{id}/users/join','Auth\ChildActivityController@getUserJoinActivity');
             Route::post('/child-activities','Auth\ChildActivityController@store');
             Route::put('/child_activities/{id}','Auth\ChildActivityController@update');
             Route::put('/child-activity/{id}/change-assignee','Auth\ChildActivityController@changeAssigneeSetting');
@@ -126,6 +128,7 @@ Route::prefix('v1')->group(function(){
         Route::get('/terms','Auth\TermController@index');
         // danh sách user dự thi(phần thi NVSP hoặc tiểu ban NCKH)
         Route::get('/child-activity/{id}/users','Auth\ChildActivityController@getUserActivity');
+
         // hoạt động
         Route::get('/receive-activities','Auth\ChildActivityController@getActivitiesReceive');
         // kì học
