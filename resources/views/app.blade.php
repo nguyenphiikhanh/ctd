@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Cong tac doan Thanh nien truong DHSP Hanoi.">
     <!-- Fav Icon  -->
-    <link rel="shortcut icon" href="{{asset('images/favicon.png')}}">
+    <link rel="shortcut icon" href="{{asset('images/favicon.ico')}}">
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{asset('assets/css/dashlite.css')}}">
     <link id="skin-default" rel="stylesheet" href="{{asset('assets/css/theme.css')}}">
@@ -15,7 +15,7 @@
     @yield('css')
 </head>
 
-<body class="nk-body bg-lighter npc-default has-sidebar ">
+<body class="nk-body bg-lighter npc-default has-sidebar">
     <div id="app">
         <div class="nk-app-root">
             <!-- main @s -->
