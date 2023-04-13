@@ -34,6 +34,7 @@ trait UploadFileTrait{
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
+                $file->move('storage/' . $fileFolder , $fileNameHash);
                 DB::table($table)->insert($fileInfo);
                 //
             }
