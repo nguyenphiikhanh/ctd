@@ -7,11 +7,15 @@
                 </a>
                 <div class="modal-header"><h5 class="modal-title">Điểm rèn luyện nghiệp vụ Sư phạm lớp {{classView.class_name}}</h5></div>
                 <div class="modal-body">
-                    <div class="form-group d-flex justify-content-start">
+                    <div class="form-group d-flex">
                         <label class="col-form-label col-1">Chọn năm học</label>
-                        <select class="form-control w-20" v-model="studyTime">
+                        <select class="form-control w-33" v-model="studyTime">
                             <option v-for="(time, index) in studyTimeList" :key="index" :value="time.id">{{time.name}}</option>
                         </select>
+                        <div class="col-7 d-flex justify-content-end align-items-center">
+                            <button :disabled="!scoreListShow.length" @click="exportData()"
+                                    class="btn btn-primary btn-sm"><em class="icon ni ni-file-xls"></em>Xuất kết quả</button>
+                        </div>
                     </div>
                     <div class="col-12">
                         <table class="table table-bordered">
@@ -72,6 +76,7 @@
 <script>
 import { mapActions } from 'vuex';
 import constants from '../../../../constants';
+import Exceljs from 'exceljs';
 export default {
     props:{
         scoreList: {type: Array },
@@ -100,6 +105,37 @@ export default {
             if(data.id_class){
                 await this.getScoreByClass(data).then(res => this.scoreListShow = [...res.data]);
             }
+        },
+        exportData(){
+            const workbook = new Exceljs.Workbook();
+            const worksheet = workbook.addWorksheet('Sheet1');
+            worksheet.columns = [
+                { header: 'STT', key: 'stt', width: 20 },
+                { header: 'Họ và tên', key: 'fullname', width: 40 },
+                { header: 'Tổng số điểm', key: 'sum_score', width: 10 },
+                { header: 'Xếp hạng', key: 'rank', width: 30 },
+                { header: 'Điểm kết luận', key: 'last_score', width: 10 },
+                { header: 'Ghi chú', key: 'note', width: 50 },
+            ];
+            this.scoreListShow.map((_item, index) => {
+                worksheet.addRow({
+                    stt: index + 1,
+                    fullname: _item.fullname,
+                    sum_score: _item.sum_score,
+                    rank: _item.rank,
+                    last_score: _item.last_score,
+                    note: _item.note,
+                });
+            });
+            workbook.xlsx.writeBuffer().then((buffer) => {
+                const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `kq-diem-ren-luyen-${this.classView.class_name}.xlsx`; // file name
+                link.click();
+                URL.revokeObjectURL(url);
+            });
         },
         closeModal(){
             this.studyTime = this.studyTimeList.reduce((max, obj) => obj.id > max ? obj.id : max, -Infinity);
@@ -141,5 +177,8 @@ export default {
 }
 .hover-underline:hover{
     text-decoration: underline;
+}
+.w-33{
+    width: 33.333333333%;
 }
 </style>
