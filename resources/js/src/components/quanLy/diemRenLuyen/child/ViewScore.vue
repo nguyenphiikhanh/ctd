@@ -13,6 +13,8 @@
                             <option v-for="(time, index) in studyTimeList" :key="index" :value="time.id">{{time.name}}</option>
                         </select>
                         <div class="col-7 d-flex justify-content-end align-items-center">
+                            <button :disabled="!scoreListShow.length" @click="viewReportData()"
+                                    class="btn btn-warning text-secondary btn-sm mr-cus-3"><em class="icon ni ni-file-xls"></em>Xem biên bản</button>
                             <button :disabled="!scoreListShow.length" @click="exportData()"
                                     class="btn btn-primary btn-sm"><em class="icon ni ni-file-xls"></em>Xuất kết quả</button>
                         </div>
@@ -68,6 +70,7 @@
                 <div class="modal-footer d-flex justify-content-center">
                     <button @click="closeModal()" class="btn btn-primary">Đóng</button>
                 </div>
+                <ViewReport :class-view="classView" :data-report="dataReport" :study-time="studyTimeProps"/>
             </div>
         </div>
     </div>
@@ -77,7 +80,9 @@
 import { mapActions } from 'vuex';
 import constants from '../../../../constants';
 import Exceljs from 'exceljs';
+import ViewReport from "./ViewReport";
 export default {
+    components:{ViewReport},
     props:{
         scoreList: {type: Array },
         classView: {type:Object},
@@ -89,6 +94,14 @@ export default {
             studyTimeListShow: [],
             scoreListShow: [],
             studyTime: null,
+            dataReport: {
+                cvht: null,
+                cbl: null,
+                lt: null,
+                student_list: [],
+                student_submited: null,
+                student_unsubmited: [],
+            }
         }
     },
     methods:{
@@ -105,6 +118,11 @@ export default {
             if(data.id_class){
                 await this.getScoreByClass(data).then(res => this.scoreListShow = [...res.data]);
             }
+        },
+        async viewReportData(){
+            this.$nextTick(() => {
+                $("#viewReport").modal('show');
+            })
         },
         exportData(){
             const workbook = new Exceljs.Workbook();
@@ -148,6 +166,10 @@ export default {
         },
         user(){
             return this.$store.getters['auth/user'];
+        },
+        studyTimeProps(){
+            const stdTime = this.studyTimeList.find(item => item.id == this.studyTime);
+            return stdTime;
         }
     },
     watch:{
@@ -177,6 +199,9 @@ export default {
 }
 .hover-underline:hover{
     text-decoration: underline;
+}
+.mr-cus-3{
+    margin-right: 3em;
 }
 .w-33{
     width: 33.333333333%;
