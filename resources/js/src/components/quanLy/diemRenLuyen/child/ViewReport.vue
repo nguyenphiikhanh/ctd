@@ -10,7 +10,7 @@
                     <div class="form-group d-flex justify-content-end align-items-center">
                         <button @click="exportPDF()"
                          class="btn btn-primary btn-sm">
-                            <em class="icon ni ni-file-pdf"></em>Xuất biên bản</button>
+                         <em class="icon ni ni-file-download"></em>Xuất biên bản</button>
                     </div>
                     <div class="col-12 px-5 pt-3" ref="reportContent">
                         <div class="text-center">
