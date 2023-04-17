@@ -62,6 +62,7 @@ class LastScoreController extends AppBaseController
             $cvht = DB::table('classes')
                 ->join('users', 'users.id', 'classes.id_user_cvht')
                 ->select(DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"))
+                ->where('classes.id', $id_class)
                 ->first();
             $user_uncheck = DB::table('users')
                 ->join('last_score', 'last_score.id_user', 'users.id')

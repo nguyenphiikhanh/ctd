@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade modal-lg" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" id="viewReport">
-        <div class="modal-dialog modal-dialog-top mw-80 fs-10" role="document">
+        <div class="modal-dialog modal-dialog-top mw-80 fs-10" id="report-data" role="document">
             <div class="modal-content">
                 <a @click="closeModal()" class="close">
                     <em class="icon ni ni-cross"></em>
@@ -8,9 +8,11 @@
                 <div class="modal-header"><h5 class="modal-title">Biên bản điểm rèn luyện lớp {{ classView.class_name }}</h5></div>
                 <div class="modal-body p-5">
                     <div class="form-group d-flex justify-content-end align-items-center">
-                        <button class="btn btn-primary btn-sm"><em class="icon ni ni-file-pdf"></em>Xuất biên bản</button>
+                        <button @click="exportPDF()"
+                         class="btn btn-primary btn-sm">
+                            <em class="icon ni ni-file-pdf"></em>Xuất biên bản</button>
                     </div>
-                    <div class="col-12">
+                    <div class="col-12 px-5 pt-3" ref="reportContent">
                         <div class="text-center">
                             <span class="h4"><b>BIÊN BẢN HỌP LỚP ĐÁNH GIÁ KẾT QUẢ RÈN LUYỆN</b></span>
                             <p>{{studyTime.name}}</p>
@@ -166,6 +168,7 @@
 <script>
 import constants from '../../../../constants';
 import { originLevel, exceptOneLevel } from '../../../../helpers/utils/levelUtil';
+import html2pdf from "html2pdf.js";
 export default {
     props:{
         classView: {type:Object},
@@ -187,6 +190,15 @@ export default {
         },
         convertExecptOneLevel(score){
             return exceptOneLevel(Number(score));
+        },
+        exportPDF(){
+            const options = {
+                filename: `bien-ban-${this.classView.class_name}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {},
+                jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+            }
+            html2pdf().set(options).from(this.$refs.reportContent).save()
         },
         closeModal(){
             this.$nextTick(() => {
