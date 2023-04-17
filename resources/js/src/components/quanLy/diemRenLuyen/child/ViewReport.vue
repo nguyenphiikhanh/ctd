@@ -18,11 +18,11 @@
                         <div class="mt-3">
                             <p>Nội dung: Họp đánh giá kết quả điểm rèn luyện</p>
                             <p><b>I. Thành phần:</b></p>
-                            <p>1. Cố vấn học tập (chủ tọa): </p>
-                            <p>2. Thư ký (sinh viên): </p>
-                            <p>3. Đại diện Ban cán sự lớp: </p>
+                            <p>1. Cố vấn học tập (chủ tọa): {{ dataReport.cvht }}</p>
+                            <p>2. Thư ký (sinh viên): {{ dataReport.cbl }}</p>
+                            <p>3. Đại diện Ban cán sự lớp: {{ dataReport.lt }}</p>
                             <p>4. Tình hình sinh viên tham dự họp: </p>
-                            <p>4.1. Tổng số: 29 ,Có mặt: 21 ,Vắng mặt: 8</p>
+                            <p>4.1. Tổng số: {{ dataReport.student_list.length }} ,Có mặt: {{ dataReport.check_count }} ,Vắng mặt: {{ dataReport.uncheck_count }}</p>
                             <p>4.2.Danh sách sinh viên vắng mặt:</p>
                             <div class="col-12 d-flex justify-content-center">
                                 <table class="table table-bordered">
@@ -36,38 +36,36 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <th scope="row" class="text-center">1</th>
-                                        <td class="text-center">Phạm Phúc Kiên</td>
-                                        <td class="text-center">695105068</td>
-                                        <td class="text-center"></td>
-                                        <td class="text-center">X</td>
+                                    <tr v-for="(user, index) in dataReport.student_uncheck" :key="index">
+                                        <th scope="row" class="text-center">{{ index + 1 }}</th>
+                                        <td class="text-center">{{ user.fullname }}</td>
+                                        <td class="text-center">{{ user.username }}</td>
+                                        <td class="text-center">{{ Number(user.class_meet_check) == status.HOP_XET_VANG_MAT_CO_LI_DO ? 'x' : '' }}</td>
+                                        <td class="text-center">{{ Number(user.class_meet_check) == status.HOP_XET_VANG_MAT_KHONG_LI_DO ? 'x' : '' }}</td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="mt-2">
                                 <p><b>II. Kết quả đánh giá:</b></p>
-                                <p>1. Tổng số sinh viên nộp phiếu đánh giá kết quả rèn luyện: 27</p>
-                                <p>2. Tổng số sinh viên không nộp phiếu đánh giá kết quả rèn luyện sẽ bị xếp loại kém (đạt điểm không): 1, gồm những sinh viên có tên sau:</p>
+                                <p>1. Tổng số sinh viên nộp phiếu đánh giá kết quả rèn luyện: {{ dataReport.student_submited_count }}</p>
+                                <p>2. Tổng số sinh viên không nộp phiếu đánh giá kết quả rèn luyện sẽ bị xếp loại kém (đạt điểm không): {{ dataReport.student_unsubmited.length }}, gồm những sinh viên có tên sau:</p>
                                 <div class="col-12 d-flex justify-content-center">
                                     <table class="table table-bordered">
                                         <thead>
                                         <tr>
                                             <th scope="col" class="text-center">STT</th>
                                             <th scope="col" class="text-center">Họ và tên</th>
-                                            <th scope="col" class="text-center">Mã số SV</th>
-                                            <th scope="col" class="text-center">Vắng mặt có phép</th>
-                                            <th scope="col" class="text-center">Vắng mặt không phép</th>
+                                            <th scope="col" class="text-center">Mã số sinh viên</th>
+                                            <th scope="col" class="text-center">Ghi chú</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th scope="row" class="text-center">1</th>
-                                            <td class="text-center">Phạm Phúc Kiên</td>
-                                            <td class="text-center">695105068</td>
+                                        <tr v-for="(user, index) in dataReport.student_unsubmited" :key="index">
+                                            <th scope="row" class="text-center">{{ index + 1 }}</th>
+                                            <td class="text-center">{{ user.fullname }}</td>
+                                            <td class="text-center">{{ user.username }}</td>
                                             <td class="text-center"></td>
-                                            <td class="text-center">X</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -80,17 +78,17 @@
                                             <th scope="col" class="text-center">STT</th>
                                             <th scope="col" class="text-center">Họ và tên</th>
                                             <th scope="col" class="text-center">Mã số SV</th>
-                                            <th scope="col" class="text-center">Vắng mặt có phép</th>
-                                            <th scope="col" class="text-center">Vắng mặt không phép</th>
+                                            <th scope="col" class="text-center">Xếp loại trước khi bị hạ</th>
+                                            <th scope="col" class="text-center">Xếp loại sau khi bị hạ(trừ 1 bậc)</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th scope="row" class="text-center">1</th>
-                                            <td class="text-center">Phạm Phúc Kiên</td>
-                                            <td class="text-center">695105068</td>
-                                            <td class="text-center"></td>
-                                            <td class="text-center">X</td>
+                                        <tr v-for="(user, index) in dataReport.student_uncheck_no_reason" :key="index">
+                                            <th scope="row" class="text-center">{{ index + 1 }}</th>
+                                            <td class="text-center">{{ user.fullname }}</td>
+                                            <td class="text-center">{{ user.username }}</td>
+                                            <td class="text-center">{{ convertOriginLevel(user.sum_score) }}</td>
+                                            <td class="text-center">{{ convertExecptOneLevel(user.sum_score) }}</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -112,8 +110,43 @@
                                             <th scope="row" class="text-center">1</th>
                                             <td class="text-center">Từ 90 đến 100 điểm</td>
                                             <td class="text-center">Xuất sắc</td>
-                                            <td class="text-center">6</td>
-                                            <td class="text-center">20,69%</td>
+                                            <td class="text-center">{{ dataReport.rare_xs.count }}</td>
+                                            <td class="text-center">{{ Number(dataReport.rare_xs.percent).toFixed(2) }}%</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="text-center">2</th>
+                                            <td class="text-center">Từ 80 đến dưới 90 điểm</td>
+                                            <td class="text-center">Tốt</td>
+                                            <td class="text-center">{{ dataReport.rare_t.count }}</td>
+                                            <td class="text-center">{{ Number(dataReport.rare_t.percent).toFixed(2) }}%</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="text-center">3</th>
+                                            <td class="text-center">Từ 65 đến dưới 80 điểm</td>
+                                            <td class="text-center">Khá</td>
+                                            <td class="text-center">{{ dataReport.rare_k.count }}</td>
+                                            <td class="text-center">{{ Number(dataReport.rare_k.percent).toFixed(2) }}%</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="text-center">4</th>
+                                            <td class="text-center">Từ 50 đến dưới 65 điểm</td>
+                                            <td class="text-center">Trung bình</td>
+                                            <td class="text-center">{{ dataReport.rare_tb.count }}</td>
+                                            <td class="text-center">{{ Number(dataReport.rare_tb.percent).toFixed(2) }}%</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="text-center">5</th>
+                                            <td class="text-center">Từ 35 đến dưới 50d điểm</td>
+                                            <td class="text-center">Yếu</td>
+                                            <td class="text-center">{{ dataReport.rare_y.count }}</td>
+                                            <td class="text-center">{{ Number(dataReport.rare_y.percent).toFixed(2) }}%</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" class="text-center">6</th>
+                                            <td class="text-center">Dưới 35 điểm</td>
+                                            <td class="text-center">Kém</td>
+                                            <td class="text-center">{{ dataReport.rare_kem.count }}</td>
+                                            <td class="text-center">{{ Number(dataReport.rare_kem.percent).toFixed(2) }}%</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -131,6 +164,8 @@
 </template>
 
 <script>
+import constants from '../../../../constants';
+import { originLevel, exceptOneLevel } from '../../../../helpers/utils/levelUtil';
 export default {
     props:{
         classView: {type:Object},
@@ -141,7 +176,18 @@ export default {
         return{
         }
     },
+    computed:{
+        status(){
+            return constants.status;
+        }
+    },
     methods:{
+        convertOriginLevel(score){
+            return originLevel(Number(score));
+        },
+        convertExecptOneLevel(score){
+            return exceptOneLevel(Number(score));
+        },
         closeModal(){
             this.$nextTick(() => {
                 $("#viewReport").modal('hide');

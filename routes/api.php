@@ -93,6 +93,8 @@ Route::prefix('v1')->group(function(){
             //  Điểm rèn luyện(form điểm cuối);
             Route::get('/last-score/{id_class}','Auth\LastScoreController@getLastScoreByClass');
             Route::put('/last-score','Auth\LastScoreController@updateLastScore');
+            // Biên bản họp
+            Route::get('/last-score/report/{id_student}/time/{id_study_time}','Auth\LastScoreController@getReportData');
         });
 
         // bí thư Liên Đoàn khoa

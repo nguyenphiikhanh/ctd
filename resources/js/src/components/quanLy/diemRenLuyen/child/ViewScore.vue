@@ -81,6 +81,7 @@ import { mapActions } from 'vuex';
 import constants from '../../../../constants';
 import Exceljs from 'exceljs';
 import ViewReport from "./ViewReport";
+import status from '../../../../constants/status';
 export default {
     components:{ViewReport},
     props:{
@@ -99,15 +100,42 @@ export default {
                 cbl: null,
                 lt: null,
                 student_list: [],
-                student_submited: null,
+                student_submited_count: 0,
                 student_unsubmited: [],
+                student_uncheck: [],
+                student_uncheck_no_reason: [],
+                rare_xs: {
+                    count: 0,
+                    percent: 0
+                },
+                rare_t: {
+                    count: 0,
+                    percent: 0
+                },
+                rare_k: {
+                    count: 0,
+                    percent: 0
+                },
+                rare_tb: {
+                    count: 0,
+                    percent: 0
+                },
+                rare_y: {
+                    count: 0,
+                    percent: 0
+                },
+                rare_kem: {
+                    count: 0,
+                    percent: 0
+                },
             }
         }
     },
     methods:{
         ...mapActions({
             getScoreByClass: "points/getScoreByClass",
-            updateLastScore: 'points/updateLastScore'
+            updateLastScore: 'points/updateLastScore',
+            getReportData: 'points/getReportData',
         }),
         async changeLastScore(item){
             await this.updateLastScore(item);
@@ -120,6 +148,65 @@ export default {
             }
         },
         async viewReportData(){
+            let data = {
+                id_class: this.classView.id,
+                id_study_time: this.studyTime,
+            }
+            await this.getReportData(data).then(res => {
+                const resData = {...res.data};
+                this.dataReport.cvht = resData.cvht;
+                const cbl = resData.student_list.find(user => Number(user.role) == this.roles.ROLE_CBL);
+                this.dataReport.cbl = cbl.fullname;
+                const lt = resData.student_list.find(user => Number(user.role) == this.roles.ROLE_LOP_TRUONG);
+                this.dataReport.lt = lt.fullname;
+                this.dataReport.student_list = resData.student_list;
+                this.dataReport.student_uncheck = resData.user_uncheck;
+                this.dataReport.student_uncheck_no_reason = resData.user_uncheck.filter(_item => Number(_item.class_meet_check) == status.HOP_XET_VANG_MAT_KHONG_LI_DO);
+                this.dataReport.check_count = resData.student_list.length - resData.user_uncheck.length;
+                this.dataReport.uncheck_count = this.dataReport.student_uncheck.length
+                this.dataReport.student_unsubmited = resData.student_unsubmited;
+                this.dataReport.student_submited_count = resData.student_list.length - resData.student_unsubmited.length;
+                //xs
+                const level_xs = resData.score_data.filter(item => Number(item.last_score) >= 90 && Number(item.last_score) <= 100);
+                this.dataReport.rare_xs = {
+                    count: level_xs.length,
+                    percent: level_xs.length / resData.score_data.length * 100,
+                }
+                //tot
+                const level_t = resData.score_data.filter(item => Number(item.last_score) >= 80 && Number(item.last_score) < 90);
+                this.dataReport.rare_t = {
+                    count: level_t.length,
+                    percent: level_t.length / resData.score_data.length * 100,
+                }
+
+                //kha
+                const level_k = resData.score_data.filter(item => Number(item.last_score) >= 65 && Number(item.last_score) < 80);
+                this.dataReport.rare_k = {
+                    count: level_k.length,
+                    percent: level_k.length / resData.score_data.length * 100,
+                }
+
+                //trung binh
+                const level_tb = resData.score_data.filter(item => Number(item.last_score) >= 50 && Number(item.last_score) < 65);
+                this.dataReport.rare_tb = {
+                    count: level_tb.length,
+                    percent: level_tb.length / resData.score_data.length * 100,
+                }
+
+                //yeu
+                const level_y = resData.score_data.filter(item => Number(item.last_score) >= 35 && Number(item.last_score) < 50);
+                this.dataReport.rare_y = {
+                    count: level_y.length,
+                    percent: level_y.length / resData.score_data.length * 100,
+                }
+
+                //yeu
+                const level_kem = resData.score_data.filter(item => Number(item.last_score) < 35);
+                this.dataReport.rare_kem = {
+                    count: level_kem.length,
+                    percent: level_kem.length / resData.score_data.length * 100,
+                }
+            });
             this.$nextTick(() => {
                 $("#viewReport").modal('show');
             })

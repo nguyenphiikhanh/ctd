@@ -6,6 +6,7 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\ResponseUtils;
+use App\Http\Utils\RoleUtils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -52,6 +53,72 @@ class LastScoreController extends AppBaseController
         catch(\Exception $e){
             Log::error($e->getMessage(). $e->getTraceAsString());
             return $this->sendError(__('message.failed.get_list',['atribute' => 'điểm rèn luyện']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getReportData($id_class, $id_study_time){
+        try{
+            $dataReports = (object)[];
+            $cvht = DB::table('classes')
+                ->join('users', 'users.id', 'classes.id_user_cvht')
+                ->select(DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"))
+                ->first();
+            $user_uncheck = DB::table('users')
+                ->join('last_score', 'last_score.id_user', 'users.id')
+                ->leftJoin('classes', 'classes.id', 'users.id_class')
+                ->select('users.id', DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"), 'users.username',
+                'last_score.class_meet_check')
+                ->where('classes.id', $id_class)
+                ->where('last_score.id_study_time', $id_study_time)
+                ->where('last_score.class_meet_check', '!=' , AppUtils::VALID_VALUE)
+                ->get();
+            foreach($user_uncheck as $user){
+                $sum_score = DB::table('personal_score')
+                    ->where('id_user', $user->id)
+                    ->where('id_study_time', $id_study_time)
+                    ->select(DB::raw("SUM(score) as sum_score"))
+                    ->groupBy('id_study_time', 'id_user')
+                    ->first();
+                $user->sum_score = $sum_score->sum_score;
+            }
+            $student_list = DB::table('users')
+                ->leftJoin('classes', 'classes.id', 'users.id_class')
+                ->select(DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"), 'users.username', 'users.role')
+                ->where(function($q){
+                    $q->where( 'users.role', RoleUtils::ROLE_CBL)
+                        ->orWhere('users.role', RoleUtils::ROLE_LOP_TRUONG)
+                        ->orWhere('users.role', RoleUtils::ROLE_SINHVIEN);
+                    })
+                ->where('classes.id', $id_class)
+                ->get();
+            $student_unsubmited = DB::table('users')
+                ->join('student_class_meet_score', 'student_class_meet_score.id_user', 'users.id')
+                ->leftJoin('classes', 'classes.id', 'users.id_class')
+                ->select(DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"), 'users.username',
+                DB::raw("SUM(student_class_meet_score.self_score) as sum_score"))
+                ->where('classes.id', $id_class)
+                ->where('student_class_meet_score.id_study_time', $id_study_time)
+                ->groupBy('student_class_meet_score.id_study_time', 'student_class_meet_score.id_user',
+                'users.ho','users.ten', 'users.username')
+                ->havingRaw("SUM(student_class_meet_score.self_score) = ?", array(0))
+                ->get();
+            $score_data = DB::table('users')
+                ->join('last_score', 'last_score.id_user', 'users.id')
+                ->leftJoin('classes', 'classes.id', 'users.id_class')
+                ->select('last_score.*')
+                ->where('classes.id', $id_class)
+                ->where('last_score.id_study_time', $id_study_time)
+                ->get();
+            $dataReports->cvht = $cvht->fullname;
+            $dataReports->student_list = $student_list;
+            $dataReports->user_uncheck = $user_uncheck;
+            $dataReports->student_unsubmited = $student_unsubmited;
+            $dataReports->score_data = $score_data;
+            return $this->sendResponse($dataReports, __('message.success.get_list',['atribute' => 'báo cáo']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'báo cáo']), ResponseUtils::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
