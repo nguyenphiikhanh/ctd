@@ -163,7 +163,9 @@ class LastScoreController extends AppBaseController
                     $rank = AppUtils::RANK_KHA;
                 }elseif($last_score >= 50 && $last_score < 65){
                     $rank = AppUtils::RANK_TRUNG_BINH;
-                }else $rank = AppUtils::RANK_YEU;
+                }elseif($last_score >= 35 && $last_score < 50){
+                    $rank = AppUtils::RANK_YEU;
+                }else $rank = AppUtils::RANK_KEM;
             // }
             DB::table('last_score')->where('id', $id)->update([
                 'last_score' => $last_score,

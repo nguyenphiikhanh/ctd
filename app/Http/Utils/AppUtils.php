@@ -70,4 +70,5 @@ namespace App\Http\Utils;
     const RANK_KHA = 'Khá';
     const RANK_TRUNG_BINH = 'Trung bình';
     const RANK_YEU = 'Yếu';
+    const RANK_KEM = 'Kém';
  }
