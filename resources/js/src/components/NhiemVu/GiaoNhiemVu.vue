@@ -254,8 +254,7 @@ export default {
         },
         isValid(){
             if(this.hoat_dong_choose == this.loai_hoat_dong.HOAT_DONG_NCKH && this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){
-                return this.activity_create.ten_hoat_dong && this.doi_tuong_students.length > 0
-                && this.activity_create.start_time && this.activity_create.end_time;
+                return this.activity_create.ten_hoat_dong && this.activity_create.start_time && this.activity_create.end_time;
             }
             else{
                 if(this.thao_tac == this.hoat_dong.PHAN_THI_OR_TIEU_BAN){

@@ -79,10 +79,13 @@
                                         <td>
                                             <button @click="viewAct(_item)" class="btn btn-sm btn-info"><em class="icon ni ni-eye"></em>Chi tiết</button>
                                             <button @click="showUserActivityList(_item.id)"
-                                            v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN || _item.child_activity_type == action.TB_GUI_DS_THAM_GIA"
-                                            class="btn btn-sm btn-primary"><em class="icon ni ni-list"></em>Danh sách</button>
+                                            v-if="_item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN"
+                                            class="btn btn-sm btn-primary"><em class="icon ni ni-list"></em>Xem danh sách</button>
+                                            <button @click="showUserJoinActivityList(_item)"
+                                                    v-if="_item.child_activity_type == action.TB_GUI_DS_THAM_GIA"
+                                                    class="btn btn-sm btn-primary"><em class="icon ni ni-list"></em>Xem danh sách</button>
                                             <button @click="showUserNckh(_item)"
-                                            v-if="_item.id_activity == loai_hoat_dong.HOAT_DONG_NCKH && _item.child_activity_type == action.PHAN_THI_OR_TIEU_BAN"
+                                            v-if="canUpdateUserAct(_item)"
                                             class="btn btn-sm btn-warning"><em class="icon ni ni-edit"></em>Sửa danh sách</button>
                                         </td>
                                     </tr>
@@ -95,6 +98,7 @@
                 </div>
                 <ViewChildActivity :childActInfo="child_act_view" @onUpdate="onUpdateChildActivity()" @closeModal="closeModal()"/>
                 <ViewUserActivity :user-list="user_acts" @closeModal="closeModal()"/>
+                <ViewUserJoinAct :user-list="user_acts" @closeModal="closeModal()"/>
                 <UpdateAssignee :assignees="assignees" :child-act="child_act_view"
                 @onSave="getChildActList(activity, current_tab, true)"
                 @closeModal="closeModal()"/>
@@ -113,6 +117,7 @@ import ViewChildActivity from "./authorize/child/ViewChildActivity.vue";
 import ViewUserActivity from "./authorize/child/ViewUserActivity.vue";
 import UpdateAssignee from './authorize/phuTrach/UpdateAssignee.vue';
 import UpdateUserNckh from "./authorize/child/UpdateUserNckh.vue";
+import ViewUserJoinAct from "./authorize/child/ViewUserJoinAct";
 
 export default {
     components:{
@@ -120,6 +125,7 @@ export default {
         ViewUserActivity,
         UpdateAssignee,
         UpdateUserNckh,
+        ViewUserJoinAct
     },
     data(){
         return{
@@ -158,6 +164,7 @@ export default {
         ...mapActions({
             getChildActivities: "activity/getChildActivities",
             getUserActivities: "activity/getUserActivities",
+            getUserJoinActivities: "activity/getUserJoinActivities",
             getAssignee: 'userModule/getAssignees',
             nvspCreatePoint: 'points/nvspCreatePoint',
             getStudentByFaculty: 'student/getStudentByFaculty',
@@ -197,6 +204,7 @@ export default {
             this.$nextTick(() => {
                 $('#viewChildAct').modal('hide');
                 $('#viewUserAct').modal('hide');
+                $('#viewUserJoinAct').modal('hide');
                 $('#showUserNckh').modal('hide');
                 $('#assigneeSetting').modal('hide');
             });
@@ -211,6 +219,22 @@ export default {
                     });
                 })
                 .finally(() => this.$loading(false));
+        },
+        async showUserJoinActivityList(act){
+            this.$loading(true);
+            await this.getUserJoinActivities(act.id_child_activity_assign)
+                .then(res => {
+                    this.user_acts = [...res.data];
+                    this.$nextTick(() => {
+                        $('#viewUserJoinAct').modal('show');
+                    });
+                })
+                .finally(() => this.$loading(false));
+        },
+        canUpdateUserAct(_item){
+            let deadlineUpload = new Date(_item.end_time);
+            return _item.id_activity == this.loai_hoat_dong.HOAT_DONG_NCKH && _item.child_activity_type == this.action.PHAN_THI_OR_TIEU_BAN
+                && deadlineUpload > new Date();
         },
         async showUserNckh(child_act){
             this.child_act_view = child_act;
@@ -254,10 +278,10 @@ export default {
                             return 'Tiểu ban';
                             break;
                         case this.action.TB_GUI_DS_THAM_DU:
-                            return 'Danh sách dự thi';
+                            return 'Gửi danh sách dự thi';
                             break;
                         case this.action.TB_GUI_DS_THAM_GIA:
-                            return 'Danh sách có mặt tham dự';
+                            return 'Gửi danh sách có mặt tham dự';
                             break;
                         case this.action.THONG_BA0_KHONG_PHAN_HOI:
                             return 'Thông báo';
@@ -270,10 +294,10 @@ export default {
                             return 'Hoạt động';
                             break;
                         case this.action.TB_GUI_DS_THAM_DU:
-                            return 'Danh sách dự thi';
+                            return 'Gửi danh sách dự thi';
                             break;
                         case this.action.TB_GUI_DS_THAM_GIA:
-                            return 'Danh sách có mặt tham dự';
+                            return 'Gửi danh sách có mặt tham dự';
                             break;
                         case this.action.THONG_BA0_KHONG_PHAN_HOI:
                             return 'Thông báo';
@@ -286,19 +310,16 @@ export default {
                             return 'Hoạt động';
                             break;
                         case this.action.TB_GUI_DS_THAM_DU:
-                            return 'Danh sách dự thi';
+                            return 'Gửi danh sách dự thi';
                             break;
                         case this.action.TB_GUI_DS_THAM_GIA:
-                            return 'Danh sách có mặt tham dự';
+                            return 'Gửi danh sách có mặt tham dự';
                             break;
                         case this.action.THONG_BA0_KHONG_PHAN_HOI:
                             return 'Thông báo';
                             break;
                     }
             }
-        },
-        statusText(child_act){
-
         },
         confirmCollectPoint(){
             this.$swal.fire({

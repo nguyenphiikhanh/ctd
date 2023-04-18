@@ -2,7 +2,7 @@
     <div class="modal fade modal-lg" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" id="viewUserAct">
         <div class="modal-dialog modal-dialog-top mw-50" role="document">
             <div class="modal-content">
-                <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">
+                <a @click="closeModal()" class="close">
                     <em class="icon ni ni-cross"></em>
                 </a>
                 <div class="modal-header"><h5 class="modal-title">Danh sách dự thi</h5></div>

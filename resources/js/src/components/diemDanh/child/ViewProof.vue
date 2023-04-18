@@ -2,7 +2,7 @@
     <div class="modal fade modal-lg" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static" id="viewProofModal">
         <div class="modal-dialog modal-dialog-top mw-80" role="document">
             <div class="modal-content mh-90">
-                <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">
+                <a @click="closeModal()" class="close">
                     <em class="icon ni ni-cross"></em>
                 </a>
                 <div class="modal-header"><h5 class="modal-title">Xem minh chứng</h5></div>

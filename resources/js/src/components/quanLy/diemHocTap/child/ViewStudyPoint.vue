@@ -20,29 +20,29 @@
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">STT</th>
-                                <th scope="col">Mã sinh viên</th>
+                                <!-- <th scope="col">Mã sinh viên</th> -->
                                 <th scope="col">Họ và tên</th>
                                 <th scope="col">TBC HT10</th>
                                 <th scope="col">TBC HT4</th>
                                 <th scope="col">Xếp loại thang 4</th>
                                 <th scope="col">Xếp loại thang 10</th>
-                                <th scope="col">Số HP nợ</th>
+                                <!-- <th scope="col">Số HP nợ</th> -->
                                 <th scope="col">Số tín chỉ nợ</th>
-                                <th scope="col">Tổng số tín chỉ đăng ký</th>
+                                <!-- <th scope="col">Tổng số tín chỉ đăng ký</th> -->
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(point, index) in studyPointList" :key="index">
+                            <tr v-for="(point, index) in studyPoints" :key="index">
                                 <th scope="row">{{ index + 1 }}</th>
-                                <td>{{ point.username }}</td>
+                                <!-- <td>{{ point.username }}</td> -->
                                 <td>{{ point.fullname }}</td>
                                 <td>{{ point.ten_level_avg.toFixed(2) }}</td>
                                 <td>{{ point.four_level_avg.toFixed(2) }}</td>
                                 <td>{{ point.four_level_evaluate }}</td>
                                 <td>{{ point.ten_level_evaluate }}</td>
-                                <td>{{ point.object_in_debt }}</td>
+                                <!-- <td>{{ point.object_in_debt }}</td> -->
                                 <td>{{ point.credit_in_debt }}</td>
-                                <td>{{ point.tong_so_tin_dang_ky }}</td>
+                                <!-- <td>{{ point.tong_so_tin_dang_ky }}</td> -->
                             </tr>
                         </tbody>
                         </table>
@@ -84,7 +84,7 @@ export default {
     },
     methods:{
         ...mapActions({
-            getMeetScoreByClass: 'classMeet/getMeetScoreByClass',
+            getStudyPoints: 'points/getStudyPoints',
         }),
         closeModal(){
             this.$emit('closeModal');
@@ -102,7 +102,7 @@ export default {
                     id_class: this.classView.id,
                     id_study_time: val
                 }
-                // await this.getMeetScoreByClass(data).then(res => this.userScoreListClone = [...res.data]);
+                await this.getStudyPoints(data).then(res => this.studyPoints = [...res.data]);
             }
             this.awating = false;
         }

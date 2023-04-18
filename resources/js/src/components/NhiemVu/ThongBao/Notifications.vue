@@ -61,8 +61,7 @@
                                                 || _item.child_activity_type == action.TB_GUI_DS_THAM_GIA
                                                 || _item.child_activity_type == action.TB_GUI_DS_THAM_DU
                                                     ? 'Chọn danh sách' : 'Chuyển tiếp'}}</button>
-                                                <button v-if="_item.status == status.STATUS_HOAN_THANH && user.role == role.ROLE_CBL
-                                                && (_item.child_activity_type == action.TB_GUI_DS_THAM_GIA || _item.child_activity_type == action.TB_GUI_DS_THAM_DU)"
+                                                <button v-if="validEditList(_item)"
                                                 @click="editUserJoin(_item, _item.child_activity_type == action.THONG_BA0_KHONG_PHAN_HOI)"
                                                 class="btn btn-sm btn-warning mr-2"><em class="ni ni-edit"></em>Chỉnh sửa</button>
                                             </div>
@@ -173,6 +172,12 @@ export default {
             }
             else return false;
         },
+        validEditList(_item){
+            let deadlineUpload = new Date(_item.end_time);
+            return _item.status == this.status.STATUS_HOAN_THANH && this.user.role == this.role.ROLE_CBL
+            && (_item.child_activity_type == this.action.TB_GUI_DS_THAM_GIA || _item.child_activity_type == this.action.TB_GUI_DS_THAM_DU)
+            && deadlineUpload > new Date();
+        },
         async getActivitiesReceive(){
             await this.getActReceive().then(res => this.notiList = res.data);
         },
@@ -238,8 +243,6 @@ export default {
         },
         viewNotify(item){
             this.child_act_info = {...item};
-            this.child_act_info.start_time = this.child_act_info.start_time ? datetimeUtils.dateTimeVnFormat(item.start_time) : '';
-            this.child_act_info.end_time = this.child_act_info.end_time ? datetimeUtils.dateTimeVnFormat(item.end_time) : '';
             this.$nextTick(() => {
                 $('#viewNotification').modal('show');
             });

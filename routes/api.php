@@ -21,6 +21,33 @@ Route::prefix('v1')->group(function(){
     Route::middleware('auth:api')->group(function () {
         //logout
         Route::post('/logout', [AuthController::class, 'logout']);
+
+            Route::middleware('role.cbOrStudent')->group(function(){
+            //sinh vien
+            Route::get('/student/class','Auth\StudentController@getStudentbyCanbolop');
+            // hoạt động
+            Route::post('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');
+            Route::get('/child-activity-responsiable','Auth\ChildActivityController@getActivityResponsiable');
+            // người dự thi, tham gia hoạt động
+            Route::get('/activities-details/{id}/users','Auth\ActivityDetailController@getUser');
+            Route::put('/activities-details/{id}/users','Auth\ActivityDetailController@updateUser');
+            //minh chứng
+            Route::get('/prooves','Auth\ChildActivityController@getProoves');
+            Route::post('/proof/store','Auth\ChildActivityController@storeProof'); // upload minh chứng
+            //điểm danh
+            Route::get('/checkList-activities','Auth\ChildActivityController@getActivitiesForCheckList');
+            Route::get('/checkList-activities-users/{activity_details_id}','Auth\ChildActivityController@getUserForCheckList');
+            Route::put('/checkList-for-user/{id_user}/{act_id}','Auth\ChildActivityController@updateUserCheckList');
+
+            //Điểm rèn luyện
+            Route::get('/personal-score', 'Auth\PersonalScoreController@index');
+            Route::post('/personal-score/proof', 'Auth\PersonalScoreController@sendProof');
+            Route::get('/personal-score/proof', 'Auth\PersonalScoreController@getTcProoves');
+            Route::get('/personal-score/confirm/{id}', 'Auth\PersonalScoreController@getListUserConfirm');
+            Route::put('/personal-score/confirm-prooves/{id}', 'Auth\PersonalScoreController@confirmTcProoves');
+            Route::get('/personal-score/student/{id_student}/time/{id_study_time}','Auth\PersonalScoreController@getStudentPersonalScore');
+        });
+
         // admin
         Route::middleware('role.admin')->group(function(){
             //khóa đào tạo
@@ -66,6 +93,8 @@ Route::prefix('v1')->group(function(){
             //  Điểm rèn luyện(form điểm cuối);
             Route::get('/last-score/{id_class}','Auth\LastScoreController@getLastScoreByClass');
             Route::put('/last-score','Auth\LastScoreController@updateLastScore');
+            // Biên bản họp
+            Route::get('/last-score/report/{id_student}/time/{id_study_time}','Auth\LastScoreController@getReportData');
         });
 
         // bí thư Liên Đoàn khoa
@@ -73,6 +102,8 @@ Route::prefix('v1')->group(function(){
             //Hoạt động
             Route::get('/activities','Auth\ActivityController@index');
             Route::get('/child-activities','Auth\ChildActivityController@index');
+            // danh sách user tham dự có mặt
+            Route::get('/child-activity/{id}/users/join','Auth\ChildActivityController@getUserJoinActivity');
             Route::post('/child-activities','Auth\ChildActivityController@store');
             Route::put('/child_activities/{id}','Auth\ChildActivityController@update');
             Route::put('/child-activity/{id}/change-assignee','Auth\ChildActivityController@changeAssigneeSetting');
@@ -91,31 +122,6 @@ Route::prefix('v1')->group(function(){
             Route::put('/study-times/{id}/faculty-setting','Auth\StudyTimeController@createOrUpdateFalcultyClassMeetSettings');
         });
 
-        Route::middleware('role.cbOrStudent')->group(function(){
-            //sinh vien
-            Route::get('/student/class','Auth\StudentController@getStudentbyCanbolop');
-            // hoạt động
-            Route::post('/child-activity-forward/{id}','Auth\ChildActivityController@forwardChildActivity');
-            Route::get('/child-activity-responsiable','Auth\ChildActivityController@getActivityResponsiable');
-            // người dự thi, tham gia hoạt động
-            Route::get('/activities-details/{id}/users','Auth\ActivityDetailController@getUser');
-            Route::put('/activities-details/{id}/users','Auth\ActivityDetailController@updateUser');
-            //minh chứng
-            Route::get('/prooves','Auth\ChildActivityController@getProoves');
-            Route::post('/proof/store','Auth\ChildActivityController@storeProof'); // upload minh chứng
-            //điểm danh
-            Route::get('/checkList-activities','Auth\ChildActivityController@getActivitiesForCheckList');
-            Route::get('/checkList-activities-users/{activity_details_id}','Auth\ChildActivityController@getUserForCheckList');
-            Route::put('/checkList-for-user/{id_user}/{act_id}','Auth\ChildActivityController@updateUserCheckList');
-
-            //Điểm rèn luyện
-            Route::get('/personal-score', 'Auth\PersonalScoreController@index');
-            Route::post('/personal-score/proof', 'Auth\PersonalScoreController@sendProof');
-            Route::get('/personal-score/proof', 'Auth\PersonalScoreController@getTcProoves');
-            Route::get('/personal-score/confirm/{id}', 'Auth\PersonalScoreController@getListUserConfirm');
-            Route::put('/personal-score/confirm-prooves/{id}', 'Auth\PersonalScoreController@confirmTcProoves');
-            Route::get('/personal-score/student/{id_student}/time/{id_study_time}','Auth\PersonalScoreController@getStudentPersonalScore');
-        });
 
 
         // Năm học
@@ -124,6 +130,7 @@ Route::prefix('v1')->group(function(){
         Route::get('/terms','Auth\TermController@index');
         // danh sách user dự thi(phần thi NVSP hoặc tiểu ban NCKH)
         Route::get('/child-activity/{id}/users','Auth\ChildActivityController@getUserActivity');
+
         // hoạt động
         Route::get('/receive-activities','Auth\ChildActivityController@getActivitiesReceive');
         // kì học

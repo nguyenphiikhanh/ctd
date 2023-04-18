@@ -35,5 +35,9 @@ export default {
 
     getStudentLastScore(id_student, id_study_time){
         return http.get(`/personal-score/student/${id_student}/time/${id_study_time}`);
-    }
+    },
+
+    getReportData(id_student, id_study_time){
+        return http.get(`/last-score/report/${id_student}/time/${id_study_time}`);
+    },
 }

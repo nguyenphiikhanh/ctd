@@ -5,7 +5,7 @@
                 <a @click="closeModal()" class="close">
                     <em class="icon ni ni-cross"></em>
                 </a>
-                <div class="modal-header"><h5 class="modal-title">Gửi minh chứng</h5></div>
+                <div class="modal-header"><h5 class="modal-title">Duyệt minh chứng</h5></div>
                 <div class="modal-body">
                     <div v-if="!listUser.length" class="text-center mb-3">Không có dữ liệu xét duyệt</div>
                     <div class="col-12" v-else>

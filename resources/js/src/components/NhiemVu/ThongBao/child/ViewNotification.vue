@@ -2,7 +2,7 @@
     <div class="modal fade modal-lg" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" id="viewNotification">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <a @click="closeModal()" href="#" class="close" data-dismiss="modal" aria-label="Close">
+                <a @click="closeModal()" class="close">
                     <em class="icon ni ni-cross"></em>
                 </a>
                 <div class="modal-header"><h5 class="modal-title">Thông tin nhiệm vụ</h5></div>
@@ -10,8 +10,8 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label class="h5 ml-auto col-10">{{notifyInfo.name}}</label>
-                            <label class="form-label">Thời gian bắt đầu:&nbsp;</label><span>{{notifyInfo.start_time}}</span><br>
-                            <label class="form-label">Thời gian kết thúc:&nbsp;</label><span>{{notifyInfo.end_time}}</span>
+                            <label class="form-label">Thời gian bắt đầu:&nbsp;</label><span>{{startTime}}</span><br>
+                            <label class="form-label">Thời gian kết thúc:&nbsp;</label><span>{{endTime}}</span>
                         </div>
                     </div>
                     <div class="col-12 mt-2">
@@ -80,6 +80,7 @@
 <script>
 import { mapActions } from 'vuex';
 import constants from '../../../../constants';
+import datetimeUtils from '../../../../helpers/utils/datetimeUtils';
 export default {
     props:{
         notifyInfo: {
@@ -152,11 +153,13 @@ export default {
             return constants.HOAT_DONG;
         },
         canUploadProof(){
+            let deadlineUpload = datetimeUtils.addOneDay(this.notifyInfo.end_time);
             return (this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_GIA
             || this.notifyInfo.child_activity_type == this.action.THONG_BAO_C0_PHAN_HOI_THAM_DU)
             && (this.notifyInfo.status == this.status.STATUS_CHUA_HOAN_THANH ||
             this.notifyInfo.status == this.status.STATUS_TU_CHOI ||
-            this.notifyInfo.status == this.status.STATUS_VANG_MAT);
+            this.notifyInfo.status == this.status.STATUS_VANG_MAT)
+            && (deadlineUpload > new Date());
         },
         proofContent(){
             if(this.proof.length == 0){
@@ -168,6 +171,12 @@ export default {
                 }
                 else return `${this.proof.length} tệp đính kèm`;
             }
+        },
+        startTime(){
+            return this.notifyInfo.start_time ? datetimeUtils.dateTimeVnFormat(this.notifyInfo.start_time) : '';
+        },
+        endTime(){
+            return this.notifyInfo.end_time ? datetimeUtils.dateTimeVnFormat(this.notifyInfo.end_time) : '';
         }
     }
 };

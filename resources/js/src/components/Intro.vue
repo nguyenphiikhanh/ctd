@@ -2,7 +2,7 @@
 <div class="wrap-content container mt-5">
 		<h2>Hệ thống hỗ trợ đánh giá điểm rèn luyện của sinh viên trường Đại học Sư phạm Hà Nội</h2>
 
-		<p>Liên kết đến trang đăng nhập của hệ thống: <a href="/dang-nhap">Truy cập</a></p>
+		<p>Liên kết đến trang đăng nhập của hệ thống: <a href="/dang-nhap" target="_blank">Truy cập</a></p>
 
 		Tài khoản các tác nhân:
 		<table width="100%" style="margin-top: 12px;">

@@ -8,11 +8,14 @@ use App\Http\Requests\UpdateChildActivityRequest;
 use App\Http\Traits\UploadFileTrait;
 use App\Http\Utils\AppUtils;
 use App\Http\Utils\RoleUtils;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+
+use function PHPSTORM_META\type;
 
 class ChildActivityController extends AppBaseController
 {
@@ -225,6 +228,13 @@ class ChildActivityController extends AppBaseController
                 $attackFiles = DB::table('child_activity_files')->where('id_child_activity', $act->id_child_activity)->get();
                 $act->files = $attackFiles;
             }
+            $compare = function($a, $b) {
+                $datetimeA = new DateTime($a->created_at);
+                $datetimeB = new DateTime($b->created_at);
+                return $datetimeB <=> $datetimeA;
+            };
+            $actRecriveList = json_decode(json_encode($actRecriveList, true));
+            usort($actRecriveList, $compare);
             return $this->sendResponse($actRecriveList,__('message.success.get_list',['atribute' => 'nhiệm vụ và thông báo']));
         }
         catch(\Exception $e){
@@ -624,7 +634,7 @@ class ChildActivityController extends AppBaseController
                 ->leftJoin('user_activities','user_activities.id_activities_details', 'activities_details.id')
                 ->join('users', 'user_activities.id_user', 'users.id')
                 ->leftJoin('user_activities_teams','user_activities_teams.id', 'user_activities.id_user_activities_teams')
-                ->leftJoin('user_receive_activities',function($leftJoin) use($id_child_act){
+                ->leftJoin('user_receive_activities',function($leftJoin){
                     $leftJoin->on('user_receive_activities.id_child_activity', '=', 'child_activities.id');
                     $leftJoin->on('user_receive_activities.id_user', '=', 'user_activities.id_user');
                     $leftJoin->where('user_receive_activities.child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_DU);
@@ -643,6 +653,41 @@ class ChildActivityController extends AppBaseController
             foreach($userActs as $user){
                 $user->status = (int) $user->status;
                 $user->award = (int) $user->award;
+            }
+            return $this->sendResponse($userActs, __('message.success.get_list',['atribute' => 'người dự thi']));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage(). $e->getTraceAsString());
+            return $this->sendError(__('message.failed.get_list',['atribute' => 'người dự thi']),Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function getUserJoinActivity($id_child_act){
+        try{
+            $child_act = DB::table('child_activities')->where('id', $id_child_act)->first();
+            if(!$child_act){
+                return $this->sendError(__('message.failed.not_exist',['attibute' => 'Hoạt động']), Response::HTTP_UNPROCESSABLE_ENTITY);
+                return;
+            }
+            $userActs = DB::table('child_activities')
+                ->join('activities_details', 'activities_details.id_child_activity', 'child_activities.id')
+                ->leftJoin('user_join_activities','user_join_activities.id_activities_details', 'activities_details.id')
+                ->join('users', 'user_join_activities.id_user', 'users.id')
+                ->leftJoin('user_receive_activities',function($leftJoin){
+                    $leftJoin->on('user_receive_activities.id_child_activity', '=', 'child_activities.id');
+                    $leftJoin->on('user_receive_activities.id_user', '=', 'user_join_activities.id_user');
+                    $leftJoin->where('user_receive_activities.child_activity_type', AppUtils::THONG_BAO_C0_PHAN_HOI_THAM_GIA);
+                })
+                ->leftJoin('classes', 'users.id_class', 'classes.id')
+                ->select('users.id', DB::raw("CONCAT(users.ho,' ',users.ten) as fullname"), 'users.username',
+                'classes.class_name',
+                'user_receive_activities.status as status',
+                'user_join_activities.id as id_user_join_activity')
+                ->where('child_activities.id', $id_child_act)
+                ->orderBy('classes.class_name')
+                ->get();
+            foreach($userActs as $user){
+                $user->status = (int) $user->status;
             }
             return $this->sendResponse($userActs, __('message.success.get_list',['atribute' => 'người dự thi']));
         }

@@ -24,6 +24,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "exceljs": "^4.3.0",
+        "html2pdf.js": "^0.10.1",
         "vue-router": "^3.6.5",
         "vue-sweetalert2": "^5.0.5",
         "vue-toastification": "^1.7.14",

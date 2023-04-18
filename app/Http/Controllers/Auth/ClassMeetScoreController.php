@@ -48,14 +48,27 @@ class ClassMeetScoreController extends AppBaseController
             $score = $request->get('score');
             $personFlg = $request->get('person_flg');
             $id_user = $request->get('id_user');
-            if($personFlg){
-                DB::table('student_class_meet_score')
-                ->where('id_study_time', $id_study_time)
-                ->where('id_tieu_chi', $id_tieu_chi)
-                ->where('id_user', $user->id)
-                ->update([
-                    'self_score' => $score
-                ]);
+            if($personFlg){ // điểm sinh viên chấm
+                DB::connection('mysql')->transaction(function() use ($id_study_time, $id_tieu_chi, $id_user, $score, $user){
+                    Log::debug($score);
+                    DB::table('student_class_meet_score')
+                    ->where('id_study_time', $id_study_time)
+                    ->where('id_tieu_chi', $id_tieu_chi)
+                    ->where('id_user', $user->id)
+                    ->update([
+                        'self_score' => $score,
+                        'cbl_score' => $score,
+                        'cvht_score' => $score,
+                    ]);
+                    DB::table('personal_score')
+                    ->where('id_study_time', $id_study_time)
+                    ->where('id_tieu_chi', $id_tieu_chi)
+                    ->where('id_user', $id_user)
+                    ->update([
+                        'score' => $score,
+                        'status' => AppUtils::SCORE_HOAN_THANH
+                    ]);
+                });
             }
             else{ //danh gia lop
                 if($user->role == RoleUtils::ROLE_CVHT){ // điểm cvht chấm
@@ -65,7 +78,7 @@ class ClassMeetScoreController extends AppBaseController
                         ->where('id_tieu_chi', $id_tieu_chi)
                         ->where('id_user', $id_user)
                         ->update([
-                            'cvht_score' => $score
+                            'cvht_score' => $score,
                         ]);
                         DB::table('personal_score')
                         ->where('id_study_time', $id_study_time)
@@ -78,13 +91,24 @@ class ClassMeetScoreController extends AppBaseController
                     });
                 }
                 else{ // điểm cbl chấm
-                    DB::table('student_class_meet_score')
-                    ->where('id_study_time', $id_study_time)
-                    ->where('id_tieu_chi', $id_tieu_chi)
-                    ->where('id_user', $id_user)
-                    ->update([
-                        'cbl_score' => $score
-                    ]);
+                    DB::connection('mysql')->transaction(function() use ($id_study_time, $id_tieu_chi, $id_user, $score){
+                        DB::table('student_class_meet_score')
+                        ->where('id_study_time', $id_study_time)
+                        ->where('id_tieu_chi', $id_tieu_chi)
+                        ->where('id_user', $id_user)
+                        ->update([
+                            'cbl_score' => $score,
+                            'cvht_score' => $score,
+                        ]);
+                        DB::table('personal_score')
+                        ->where('id_study_time', $id_study_time)
+                        ->where('id_tieu_chi', $id_tieu_chi)
+                        ->where('id_user', $id_user)
+                        ->update([
+                            'score' => $score,
+                            'status' => AppUtils::SCORE_HOAN_THANH
+                        ]);
+                    });
                 }
             }
             return $this->sendResponse('', __('message.success.update',['atribute' => 'điểm rèn luyện']));
